@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Penilaian Kinerja Bangunan Gedung Cerdas Tahap Pemanfaatan</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .header {
+            background-color: #0d6efd;
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            color: #0d6efd;
+            border-bottom: 2px solid #0d6efd;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .parameter-group {
+            background-color: #e9ecef;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+        }
+
+        .parameter-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-box {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .point-input {
+            max-width: 80px;
+            text-align: center;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .bgc-classification {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .pratama {
+            color: #dc3545;
+        }
+
+        .madya {
+            color: #fd7e14;
+        }
+
+        .utama {
+            color: #198754;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h1>Kalkulator Penilaian Kinerja BGC Tahap Pemanfaatan</h1>
+                    <p class="lead">Sesuai Surat Edaran Menteri PUPR Nomor 22/SE/M/2024</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h2>Data Bangunan Gedung</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="namaBangunan" class="form-label">Nama Bangunan Gedung</label>
+                                    <input type="text" class="form-control" id="namaBangunan">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="fungsiBangunan" class="form-label">Fungsi Bangunan</label>
+                                    <input type="text" class="form-control" id="fungsiBangunan">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="alamatBangunan" class="form-label">Alamat</label>
+                                    <input type="text" class="form-control" id="alamatBangunan">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="luasBangunan" class="form-label">Luas Bangunan (m²)</label>
+                                    <input type="number" class="form-control" id="luasBangunan">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="jumlahLantai" class="form-label">Jumlah Lantai</label>
+                                    <input type="number" class="form-control" id="jumlahLantai">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Kepemilikan</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="kepemilikan" id="bgn"
+                                            value="BGN">
+                                        <label class="form-check-label" for="bgn">Bangunan Gedung Negara (BGN)</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="kepemilikan" id="nonBgn"
+                                            value="Non BGN">
+                                        <label class="form-check-label" for="nonBgn">Non Bangunan Gedung Negara (Non
+                                            BGN)</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" id="klasifikasiBgnContainer" style="display: none;">
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Klasifikasi BGN</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="klasifikasiBgn"
+                                            id="sederhana" value="Sederhana">
+                                        <label class="form-check-label" for="sederhana">Sederhana</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="klasifikasiBgn"
+                                            id="tidakSederhana" value="Tidak Sederhana">
+                                        <label class="form-check-label" for="tidakSederhana">Tidak Sederhana</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="klasifikasiBgn" id="khusus"
+                                            value="Khusus">
+                                        <label class="form-check-label" for="khusus">Khusus</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" id="klasNonBgnContainer" style="display: none;">
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Klas Bangunan Gedung (Non BGN)</label>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="klasNonBgn"
+                                                    id="klas1a" value="Klas 1a">
+                                                <label class="form-check-label" for="klas1a">Klas 1a</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="klasNonBgn"
+                                                    id="klas1b" value="Klas 1b">
+                                                <label class="form-check-label" for="klas1b">Klas 1b</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="klasNonBgn"
+                                                    id="klas2" value="Klas 2">
+                                                <label class="form-check-label" for="klas2">Klas 2</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="klasNonBgn"
+                                                    id="klas3" value="Klas 3">
+                                                <label class="form-check-label" for="klas3">Klas 3</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="klasNonBgn"
+                                                    id="klas4" value="Klas 4">
+                                                <label class="form-check-label" for="klas4">Klas 4</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="klasNonBgn"
+                                                    id="klas5" value="Klas 5">
+                                                <label class="form-check-label" for="klas5">Klas 5</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="klasNonBgn"
+                                                    id="klas6" value="Klas 6">
+                                                <label class="form-check-label" for="klas6">Klas 6</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="klasNonBgn"
+                                                    id="klas7" value="Klas 7">
+                                                <label class="form-check-label" for="klas7">Klas 7</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="klasNonBgn"
+                                                    id="klas8" value="Klas 8">
+                                                <label class="form-check-label" for="klas8">Klas 8</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="klasNonBgn"
+                                                    id="klas9a" value="Klas 9a">
+                                                <label class="form-check-label" for="klas9a">Klas 9a</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="klasNonBgn"
+                                                    id="klas9b" value="Klas 9b">
+                                                <label class="form-check-label" for="klas9b">Klas 9b</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="klasNonBgn"
+                                                    id="klas10a" value="Klas 10a">
+                                                <label class="form-check-label" for="klas10a">Klas 10a</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="klasNonBgn"
+                                                    id="klas10b" value="Klas 10b">
+                                                <label class="form-check-label" for="klas10b">Klas 10b</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="display: none;">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h2>Implementasi Elemen BGC</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Elemen BGC</th>
+                                        <th>Matriks Implementasi</th>
+                                        <th>Implementasi pada Bangunan</th>
+                                        <th>Terintegrasi dalam BMS</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="elemenBgcTable">
+                                    <!-- Will be filled by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h2>Penilaian Kinerja BGC Tahap Pemanfaatan</h2>
+                    </div>
+                    <div class="card-body">
+                        <!-- Parameter A: Keamanan Siber -->
+                        <div class="parameter-group">
+                            <h3 class="parameter-title">A. Keamanan Siber</h3>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th width="5%">No</th>
+                                            <th width="55%">Kriteria Unjuk Kerja</th>
+                                            <th width="10%">Poin Maks</th>
+                                            <th width="30%">Indikator</th>
+                                            <th width="30%">Klaim Poin</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td rowspan="2">1</td>
+                                            <td rowspan="2">Integritas data yang disimpan di pusat data</td>
+                                            <td rowspan="2">24</td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input point-input" type="checkbox"
+                                                        name="integritas_data" value="12" id="integritas_12">
+                                                    <label class="form-check-label" for="integritas_12">100% data
+                                                        berhasil diverifikasi menggunakan checksum atau hashing</label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div id="displayPoint1" class="point-display">0</div>
+                                                <script>
+                                                    document.getElementById('integritas_12').addEventListener('change', function () {
+                                                        document.getElementById('displayPoint1').textContent = this.checked ? '12' : '0';
+                                                    });
+                                                </script>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input point-input" type="checkbox"
+                                                        name="integritas_data" value="12" id="integritas_12">
+                                                    <label class="form-check-label" for="integritas_12">100% perubahan
+                                                        data atau riwayat versi data terdokumentasi</label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div id="displayPoint1" class="point-display">0</div>
+                                                <script>
+                                                    document.getElementById('integritas_12').addEventListener('change', function () {
+                                                        document.getElementById('displayPoint1').textContent = this.checked ? '12' : '0';
+                                                    });
+                                                </script>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="2" class="text-end"><strong>Subtotal Poin Parameter A</strong>
+                                            </td>
+                                            <td>153</td>
+                                            <td> </td>
+                                            <td id="subtotalA">0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+
+                        <!-- Hasil Total -->
+                        <div class="result-box mt-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4>Ringkasan Penilaian</h4>
+                                    <table class="table table-sm">
+                                        <tbody>
+                                            <tr>
+                                                <td>A. Keamanan Siber</td>
+                                                <td class="text-end" id="displaySubtotalA">0</td>
+                                                <td>/153</td>
+                                            </tr>
+                                            <tr>
+                                                <td>B. Protokol dan Jaringan Komunikasi</td>
+                                                <td class="text-end" id="displaySubtotalB">0</td>
+                                                <td>/171</td>
+                                            </tr>
+                                            <tr>
+                                                <td>C. Integrasi Data dan Sistem</td>
+                                                <td class="text-end" id="displaySubtotalC">0</td>
+                                                <td>/222</td>
+                                            </tr>
+                                            <tr>
+                                                <td>D. Manajemen Operasi</td>
+                                                <td class="text-end" id="displaySubtotalD">0</td>
+                                                <td>/114</td>
+                                            </tr>
+                                            <tr>
+                                                <td>E. Dampak</td>
+                                                <td class="text-end" id="displaySubtotalE">0</td>
+                                                <td>/96</td>
+                                            </tr>
+                                            <tr>
+                                                <td>F. Kemampuan Sistem</td>
+                                                <td class="text-end" id="displaySubtotalF">0</td>
+                                                <td>/768</td>
+                                            </tr>
+                                            <tr class="table-primary">
+                                                <td><strong>Total Poin</strong></td>
+                                                <td class="text-end"><strong id="totalPoin">0</strong></td>
+                                                <td><strong>/1524</strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <h4>Klasifikasi BGC</h4>
+                                    <div class="alert alert-info" id="klasifikasiBgc">
+                                        <div class="bgc-classification">
+                                            <span id="tingkatBgc">-</span>
+                                        </div>
+                                        <small class="text-muted" id="deskripsiTingkat">Silakan lengkapi penilaian untuk
+                                            melihat
+                                            klasifikasi</small>
+                                    </div>
+
+                                    <h5>Kriteria Klasifikasi:</h5>
+                                    <ul class="list-unstyled">
+                                        <li><span class="pratama">■</span> <strong>Pratama:</strong> 40% - 60%</li>
+                                        <li><span class="madya">■</span> <strong>Madya:</strong> 60% - 80%</li>
+                                        <li><span class="utama">■</span> <strong>Utama:</strong> 80% - 100%</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="mt-3">
+                                <button type="button" class="btn btn-primary" onclick="hitungTotal()">Hitung Total
+                                    Poin</button>
+                                <button type="button" class="btn btn-success" onclick="exportPDF()">Export PDF</button>
+                                <button type="button" class="btn btn-secondary" onclick="resetForm()">Reset
+                                    Form</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Data elemen BGC
+        const elemenBgc = [
+            { no: 1, nama: "Sistem Alarm Kebencanaan & Pemberitahuan Massal", matriks: "48" },
+            { no: 2, nama: "Sistem Kamera Pengawas", matriks: "48" },
+            { no: 3, nama: "Sistem Kontrol Akses", matriks: "48" },
+            { no: 4, nama: "Sistem Distribusi Video dan Papan Informasi Digital", matriks: "48" },
+            { no: 5, nama: "Sistem Audio Visual", matriks: "48" },
+            { no: 6, nama: "Sistem Jaringan Akses Kabel dan Antena Terdistribusi", matriks: "48" },
+            { no: 7, nama: "Sistem Kelistrikan", matriks: "48" },
+            { no: 8, nama: "Sistem Pencahayaan", matriks: "48" },
+            { no: 9, nama: "Sistem Pengondisian Udara", matriks: "48" },
+            { no: 10, nama: "Sistem Ventilasi", matriks: "48" },
+            { no: 11, nama: "Sistem Penyediaan Air Minum", matriks: "48" },
+            { no: 12, nama: "Sistem Pengelolaan Air Limbah", matriks: "48" },
+            { no: 13, nama: "Sistem Pengelolaan Sampah", matriks: "48" },
+            { no: 14, nama: "Sistem Transportasi dalam Gedung", matriks: "48" },
+            { no: 15, nama: "Sistem Parkir", matriks: "48" },
+            { no: 16, nama: "Sistem Pengelolaan Utilitas", matriks: "48" }
+        ];
+
+        // Tampilkan kepemilikan berdasarkan pilihan
+        document.querySelectorAll('input[name="kepemilikan"]').forEach(radio => {
+            radio.addEventListener('change', function () {
+                const bgnContainer = document.getElementById('klasifikasiBgnContainer');
+                const nonBgnContainer = document.getElementById('klasNonBgnContainer');
+
+                if (this.value === 'BGN') {
+                    bgnContainer.style.display = 'block';
+                    nonBgnContainer.style.display = 'none';
+                } else {
+                    bgnContainer.style.display = 'none';
+                    nonBgnContainer.style.display = 'block';
+                }
+            });
+        });
+
+        // Isi tabel elemen BGC
+        function populateElemenBgcTable() {
+            const tbody = document.getElementById('elemenBgcTable');
+            tbody.innerHTML = '';
+
+            elemenBgc.forEach(elemen => {
+                const row = `
+                    <tr>
+                        <td>${elemen.no}</td>
+                        <td>${elemen.nama}</td>
+                        <td>${elemen.matriks}</td>
+                        <td>
+                            <select class="form-select">
+                                <option value="">-- Pilih --</option>
+                                <option value="ya">Ya</option>
+                                <option value="tidak">Tidak</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-select">
+                                <option value="">-- Pilih --</option>
+                                <option value="ya">Ya</option>
+                                <option value="tidak">Tidak</option>
+                            </select>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        // Hitung subtotal untuk setiap parameter
+        function hitungSubtotal(parameter) {
+            let total = 0;
+
+            // Dapatkan parameter group yang sama
+            const parameterGroup = document.querySelector(`#subtotal${parameter}`).closest('.parameter-group');
+
+            if (parameter === 'A') {
+                // Parameter A menggunakan checkbox untuk kriteria 1
+                const checkboxes = parameterGroup.querySelectorAll('input[type="checkbox"].point-input:checked');
+                checkboxes.forEach(checkbox => {
+                    total += parseInt(checkbox.value) || 0;
+                });
+
+                // Parameter A juga menggunakan select untuk kriteria lainnya
+                const selects = parameterGroup.querySelectorAll('select.point-input');
+                selects.forEach(select => {
+                    total += parseInt(select.value) || 0;
+                });
+            } else {
+                // Parameter lainnya menggunakan select
+                const parameterSelects = parameterGroup.querySelectorAll('select.point-input');
+                parameterSelects.forEach(select => {
+                    total += parseInt(select.value) || 0;
+                });
+            }
+
+            document.getElementById(`subtotal${parameter}`).textContent = total;
+            if (document.getElementById(`displaySubtotal${parameter}`)) {
+                document.getElementById(`displaySubtotal${parameter}`).textContent = total;
+            }
+
+            return total;
+        }
+
+        // Hitung total semua parameter
+        function hitungTotal() {
+            const subtotalA = hitungSubtotal('A');
+            const subtotalB = hitungSubtotal('B');
+            const subtotalC = hitungSubtotal('C');
+            const subtotalD = hitungSubtotal('D');
+            const subtotalE = hitungSubtotal('E');
+            const subtotalF = hitungSubtotal('F');
+
+            const total = subtotalA + subtotalB + subtotalC + subtotalD + subtotalE + subtotalF;
+            document.getElementById('totalPoin').textContent = total;
+
+            // Tentukan klasifikasi berdasarkan persentase
+            const persentase = (total / 1524) * 100;
+            let tingkat, deskripsi, alertClass;
+
+            if (persentase >= 80) {
+                tingkat = 'Utama';
+                deskripsi = 'Bangunan gedung cerdas dengan kinerja sangat baik (≥80%)';
+                alertClass = 'alert-success';
+            } else if (persentase >= 60) {
+                tingkat = 'Madya';
+                deskripsi = 'Bangunan gedung cerdas dengan kinerja baik (60-79%)';
+                alertClass = 'alert-warning';
+            } else if (persentase >= 40) {
+                tingkat = 'Pratama';
+                deskripsi = 'Bangunan gedung cerdas dengan kinerja dasar (40-59%)';
+                alertClass = 'alert-danger';
+            } else {
+                tingkat = 'Belum Memenuhi';
+                deskripsi = 'Belum memenuhi standar BGC (<40%)';
+                alertClass = 'alert-secondary';
+            }
+
+            document.getElementById('tingkatBgc').textContent = tingkat;
+            document.getElementById('tingkatBgc').className = tingkat.toLowerCase();
+            document.getElementById('deskripsiTingkat').textContent = deskripsi;
+
+            const klasifikasiDiv = document.getElementById('klasifikasiBgc');
+            klasifikasiDiv.className = `alert ${alertClass}`;
+        }
+
+        // Event listener untuk setiap input
+        document.addEventListener('change', function (e) {
+            if (e.target.classList.contains('point-input')) {
+                // Update subtotal otomatis saat ada perubahan
+                setTimeout(() => {
+                    hitungTotal();
+                }, 100);
+            }
+        });
+
+        // Reset form
+        function resetForm() {
+            if (confirm('Apakah Anda yakin ingin mereset semua data?')) {
+                document.querySelectorAll('input, select').forEach(element => {
+                    if (element.type === 'radio' || element.type === 'checkbox') {
+                        element.checked = false;
+                    } else {
+                        element.value = '';
+                    }
+                });
+
+                document.querySelectorAll('[id^="subtotal"], #totalPoin, [id^="displaySubtotal"]').forEach(element => {
+                    element.textContent = '0';
+                });
+
+                document.getElementById('tingkatBgc').textContent = '-';
+                document.getElementById('deskripsiTingkat').textContent = 'Silakan lengkapi penilaian untuk melihat klasifikasi';
+                document.getElementById('klasifikasiBgc').className = 'alert alert-info';
+
+                document.getElementById('klasifikasiBgnContainer').style.display = 'none';
+                document.getElementById('klasNonBgnContainer').style.display = 'none';
+            }
+        }
+
+        // Export PDF (placeholder function)
+        function exportPDF() {
+            alert('Fitur export PDF sedang dalam pengembangan');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function () {
+            populateElemenBgcTable();
+        });
+    </script>
+</body>
+
+</html>
