@@ -326,9 +326,9 @@
                       
                       <!-- Kriteria 2 -->
                       <tr>
-                        <td>2</td>
-                        <td>Redundansi perangkat keras</td>
-                        <td>24</td>
+                        <td rowspan="2">2</td>
+                        <td rowspan="2">Redundansi perangkat keras</td>
+                        <td rowspan="2">24</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -339,6 +339,16 @@
                               <input class="form-check-input" type="radio" name="redundansi_persen" value="12" id="redundansi_100">
                               <label class="form-check-label" for="redundansi_100">100% redundansi perangkat kritikal</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointRedundansiPersen" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="failover" value="0" id="failover_tidak_ada">
                               <label class="form-check-label" for="failover_tidak_ada">Tidak ada informasi mengenai jumlah failover</label>
@@ -354,15 +364,15 @@
                           </div>
                         </td>
                         <td>
-                          <div id="pointRedundansi" class="point-display">0</div>
+                          <div id="pointFailover" class="point-display">0</div>
                         </td>
                       </tr>
                       
                       <!-- Kriteria 3 -->
                       <tr>
-                        <td>3</td>
-                        <td>Analisis event log</td>
-                        <td>24</td>
+                        <td rowspan="2">3</td>
+                        <td rowspan="2">Analisis event log</td>
+                        <td rowspan="2">24</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -377,6 +387,16 @@
                               <input class="form-check-input" type="radio" name="analisis_log" value="12" id="log_realtime">
                               <label class="form-check-label" for="log_realtime">Frekuensi analisis log real-time dengan maksimal setiap 1 menit</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointAnalisisLog" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="deteksi_anomali" value="0" id="anomali_tidak">
                               <label class="form-check-label" for="anomali_tidak">Insiden keamanan tidak dapat dideteksi</label>
@@ -392,7 +412,7 @@
                           </div>
                         </td>
                         <td>
-                          <div id="pointAnalisisLog" class="point-display">0</div>
+                          <div id="pointDeteksiAnomali" class="point-display">0</div>
                         </td>
                       </tr>
                       
@@ -424,9 +444,9 @@
                       
                       <!-- Kriteria 5 -->
                       <tr>
-                        <td>5</td>
-                        <td>Segmentasi jaringan</td>
-                        <td>24</td>
+                        <td rowspan="2">5</td>
+                        <td rowspan="2">Segmentasi jaringan</td>
+                        <td rowspan="2">24</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -437,6 +457,16 @@
                               <input class="form-check-input" type="radio" name="segmentasi_jaringan" value="12" id="segmentasi_cukup">
                               <label class="form-check-label" for="segmentasi_cukup">≥ 3 segment terisolasi</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointSegmentasiJaringan" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="pemantauan_jaringan" value="4" id="pantau_kurang">
                               <label class="form-check-label" for="pantau_kurang">Kurang dari 100% lalu lintas jaringan dipantau</label>
@@ -452,21 +482,31 @@
                           </div>
                         </td>
                         <td>
-                          <div id="pointSegmentasi" class="point-display">0</div>
+                          <div id="pointPemantauanJaringan" class="point-display">0</div>
                         </td>
                       </tr>
                       
                       <!-- Kriteria 6 -->
                       <tr>
-                        <td>6</td>
-                        <td>Enkripsi end-to-end</td>
-                        <td>30</td>
+                        <td rowspan="2">6</td>
+                        <td rowspan="2">Enkripsi end-to-end</td>
+                        <td rowspan="2">30</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="checkbox" name="enkripsi_standar" value="15" id="enkripsi_standar">
                               <label class="form-check-label" for="enkripsi_standar">100% data yang dikirim dienkripsi menggunakan standar enkripsi tertentu</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointEnkripsiStandar" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="checkbox" name="enkripsi_sensitif" value="15" id="enkripsi_sensitif">
                               <label class="form-check-label" for="enkripsi_sensitif">100% komunikasi data sensitif menggunakan enkripsi</label>
@@ -474,15 +514,15 @@
                           </div>
                         </td>
                         <td>
-                          <div id="pointEnkripsi" class="point-display">0</div>
+                          <div id="pointEnkripsiSensitif" class="point-display">0</div>
                         </td>
                       </tr>
                       
                       <!-- Kriteria 7 -->
                       <tr>
-                        <td>7</td>
-                        <td>Sistem kendali akses jaringan</td>
-                        <td>27</td>
+                        <td rowspan="3">7</td>
+                        <td rowspan="3">Sistem kendali akses jaringan</td>
+                        <td rowspan="3">27</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -497,6 +537,16 @@
                               <input class="form-check-input" type="radio" name="autentikasi_berhasil" value="18" id="autentikasi_minimal">
                               <label class="form-check-label" for="autentikasi_minimal">Tingkat keberhasilan autentikasi minimal 98%</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointAutentikasiBerhasil" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="waktu_autentikasi" value="3" id="waktu_lebih">
                               <label class="form-check-label" for="waktu_lebih">Waktu rata-rata autentikasi selalu lebih dari dua detik</label>
@@ -509,6 +559,16 @@
                               <input class="form-check-input" type="radio" name="waktu_autentikasi" value="9" id="waktu_selalu">
                               <label class="form-check-label" for="waktu_selalu">Waktu rata-rata autentikasi selalu kurang dari 2 detik</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointWaktuAutentikasi" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="logging_aktivitas" value="0" id="logging_tidak">
                               <label class="form-check-label" for="logging_tidak">Tidak ada pencatatan aktivitas</label>
@@ -524,7 +584,7 @@
                           </div>
                         </td>
                         <td>
-                          <div id="pointKendaliAkses" class="point-display">0</div>
+                          <div id="pointLoggingAktivitas" class="point-display">0</div>
                         </td>
                       </tr>
                       
@@ -587,9 +647,9 @@
                       
                       <!-- Kriteria 3 -->
                       <tr>
-                        <td>3</td>
-                        <td>Setiap lapisan OSI dipastikan sudah optimal</td>
-                        <td>21</td>
+                        <td rowspan="7">3</td>
+                        <td rowspan="7">Setiap lapisan OSI dipastikan sudah optimal</td>
+                        <td rowspan="7">21</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -604,6 +664,16 @@
                               <input class="form-check-input" type="radio" name="respons_pengiriman" value="3" id="respons_selalu">
                               <label class="form-check-label" for="respons_selalu">Waktu respons pengiriman/permintaan data selalu ≤1 detik</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointResponsPengiriman" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="tingkat_kesalahan" value="0" id="kesalahan_tidak">
                               <label class="form-check-label" for="kesalahan_tidak">Tingkat kesalahan pengiriman frame data tidak dapat diukur</label>
@@ -616,6 +686,16 @@
                               <input class="form-check-input" type="radio" name="tingkat_kesalahan" value="3" id="kesalahan_tinggi">
                               <label class="form-check-label" for="kesalahan_tinggi">Tingkat kesalahan pengiriman frame data ≥99% keberhasilan</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointTingkatKesalahan" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="keberhasilan_paket" value="0" id="paket_tidak">
                               <label class="form-check-label" for="paket_tidak">Tingkat keberhasilan pengiriman paket tidak dapat diukur</label>
@@ -628,6 +708,16 @@
                               <input class="form-check-input" type="radio" name="keberhasilan_paket" value="3" id="paket_tinggi">
                               <label class="form-check-label" for="paket_tinggi">Tingkat keberhasilan pengiriman paket ≥99% keberhasilan</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointKeberhasilanPaket" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="koneksi_tcp" value="0" id="tcp_tidak">
                               <label class="form-check-label" for="tcp_tidak">Tingkat keberhasilan koneksi TCP/UDP tidak dapat diukur</label>
@@ -640,6 +730,16 @@
                               <input class="form-check-input" type="radio" name="koneksi_tcp" value="3" id="tcp_tinggi">
                               <label class="form-check-label" for="tcp_tinggi">Tingkat keberhasilan koneksi TCP/UDP ≥99% keberhasilan</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointKoneksiTcp" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="sesi" value="0" id="sesi_tidak">
                               <label class="form-check-label" for="sesi_tidak">Tingkat keberhasilan pembentukan sesi tidak dapat diukur</label>
@@ -652,6 +752,16 @@
                               <input class="form-check-input" type="radio" name="sesi" value="3" id="sesi_tinggi">
                               <label class="form-check-label" for="sesi_tinggi">Tingkat keberhasilan pembentukan sesi ≥99% keberhasilan</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointSesi" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="enkripsi_dekripsi" value="0" id="enkripsi_tidak">
                               <label class="form-check-label" for="enkripsi_tidak">Tingkat keberhasilan enkripsi-dekripsi data tidak dapat diukur</label>
@@ -664,6 +774,16 @@
                               <input class="form-check-input" type="radio" name="enkripsi_dekripsi" value="3" id="enkripsi_tinggi">
                               <label class="form-check-label" for="enkripsi_tinggi">Tingkat keberhasilan enkripsi-dekripsi data ≥99% keberhasilan</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointEnkripsiDekripsi" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="respons_aplikasi" value="1" id="aplikasi_lebih">
                               <label class="form-check-label" for="aplikasi_lebih">Waktu respons aplikasi selalu lebih dari 1 detik</label>
@@ -679,7 +799,7 @@
                           </div>
                         </td>
                         <td>
-                          <div id="pointLapisanOsi" class="point-display">0</div>
+                          <div id="pointResponsAplikasi" class="point-display">0</div>
                         </td>
                       </tr>
                       
@@ -769,9 +889,9 @@
                       
                       <!-- Kriteria 8 -->
                       <tr>
-                        <td>8</td>
-                        <td>Teknologi 5G (jika digunakan)</td>
-                        <td>24</td>
+                        <td rowspan="2">8</td>
+                        <td rowspan="2">Teknologi 5G (jika digunakan)</td>
+                        <td rowspan="2">24</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -786,6 +906,16 @@
                               <input class="form-check-input" type="radio" name="latensi_5g" value="12" id="latensi_selalu">
                               <label class="form-check-label" for="latensi_selalu">Latensi end-to-end selalu ≤1 ms</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointLatensi5g" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="throughput_5g" value="4" id="throughput_kurang">
                               <label class="form-check-label" for="throughput_kurang">Network slice throughput selalu kurang dari 50 Mbps per user</label>
@@ -801,7 +931,7 @@
                           </div>
                         </td>
                         <td>
-                          <div id="pointTeknologi5g" class="point-display">0</div>
+                          <div id="pointThroughput5g" class="point-display">0</div>
                         </td>
                       </tr>
                       
@@ -833,9 +963,9 @@
                       
                       <!-- Kriteria 10 -->
                       <tr>
-                        <td>10</td>
-                        <td>Koneksi kabel di rak server menggunakan patch panel</td>
-                        <td>24</td>
+                        <td rowspan="2">10</td>
+                        <td rowspan="2">Koneksi kabel di rak server menggunakan patch panel</td>
+                        <td rowspan="2">24</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -850,6 +980,16 @@
                               <input class="form-check-input" type="radio" name="patch_panel" value="12" id="patch_lengkap">
                               <label class="form-check-label" for="patch_lengkap">100% penggunaan patch panel</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointPatchPanel" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="modular_jack" value="0" id="jack_tidak">
                               <label class="form-check-label" for="jack_tidak">Tidak ada penggunaan modular jack female</label>
@@ -865,7 +1005,7 @@
                           </div>
                         </td>
                         <td>
-                          <div id="pointPatchPanel" class="point-display">0</div>
+                          <div id="pointModularJack" class="point-display">0</div>
                         </td>
                       </tr>
                       
@@ -897,9 +1037,9 @@
                       
                       <!-- Kriteria 12 -->
                       <tr>
-                        <td>12</td>
-                        <td>Sistem dapat mengelola QoS dengan baik</td>
-                        <td>18</td>
+                        <td rowspan="6">12</td>
+                        <td rowspan="6">Sistem dapat mengelola QoS dengan baik</td>
+                        <td rowspan="6">18</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -914,6 +1054,16 @@
                               <input class="form-check-input" type="radio" name="bandwidth" value="3" id="bandwidth_optimal">
                               <label class="form-check-label" for="bandwidth_optimal">Tingkat penggunaan bandwidth 70-85%</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointBandwidth" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="respons_paket" value="1" id="paket_lebih">
                               <label class="form-check-label" for="paket_lebih">Waktu respons pengiriman/permintaan paket data selalu lebih dari 100 ms</label>
@@ -926,6 +1076,16 @@
                               <input class="form-check-input" type="radio" name="respons_paket" value="3" id="paket_selalu">
                               <label class="form-check-label" for="paket_selalu">Waktu respons pengiriman/permintaan paket data selalu ≤100 ms</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointResponsPaket" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="kehilangan_paket" value="0" id="hilang_tidak">
                               <label class="form-check-label" for="hilang_tidak">Tingkat kehilangan paket data tidak dapat diukur</label>
@@ -938,6 +1098,16 @@
                               <input class="form-check-input" type="radio" name="kehilangan_paket" value="3" id="hilang_optimal">
                               <label class="form-check-label" for="hilang_optimal">Tingkat kehilangan paket data ≤1%</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointKehilanganPaket" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="variasi_waktu" value="1" id="variasi_lebih">
                               <label class="form-check-label" for="variasi_lebih">Variasi waktu rata-rata pengiriman paket data selalu lebih dari 30 ms</label>
@@ -950,6 +1120,16 @@
                               <input class="form-check-input" type="radio" name="variasi_waktu" value="3" id="variasi_selalu">
                               <label class="form-check-label" for="variasi_selalu">Variasi waktu rata-rata pengiriman paket data selalu ≤30 ms</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointVariasiWaktu" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="prioritasi_data" value="0" id="prioritas_tidak">
                               <label class="form-check-label" for="prioritas_tidak">Tingkat keberhasilan prioritasi data dengan prioritas tinggi tidak dapat diukur</label>
@@ -962,6 +1142,16 @@
                               <input class="form-check-input" type="radio" name="prioritasi_data" value="3" id="prioritas_optimal">
                               <label class="form-check-label" for="prioritas_optimal">Tingkat keberhasilan prioritasi data dengan prioritas tinggi 100%</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointPrioritasiData" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="efisiensi_alokasi" value="0" id="alokasi_tidak">
                               <label class="form-check-label" for="alokasi_tidak">Tingkat efisiensi alokasi sumber daya jaringan tidak dapat diukur</label>
@@ -977,7 +1167,7 @@
                           </div>
                         </td>
                         <td>
-                          <div id="pointQoS" class="point-display">0</div>
+                          <div id="pointEfisiensiAlokasi" class="point-display">0</div>
                         </td>
                       </tr>
                       
@@ -1008,9 +1198,9 @@
                     <tbody>
                       <!-- Kriteria 1 -->
                       <tr>
-                        <td>1</td>
-                        <td>Integrasi dengan Building Management System (BMS)</td>
-                        <td>39</td>
+                        <td rowspan="3">1</td>
+                        <td rowspan="3">Integrasi dengan Building Management System (BMS)</td>
+                        <td rowspan="3">39</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -1025,10 +1215,30 @@
                               <input class="form-check-input" type="radio" name="sinkronisasi_bms" value="15" id="sinkron_realtime">
                               <label class="form-check-label" for="sinkron_realtime">Frekuensi sinkronisasi data dengan BMS selalu realtime atau setiap ≤60 detik</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointSinkronisasiBms" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="checkbox" name="monitoring_bms" value="12" id="monitoring_bms">
                               <label class="form-check-label" for="monitoring_bms">100% kelengkapan monitoring data di BMS</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointMonitoringBms" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="checkbox" name="kompatibilitas_bms" value="12" id="kompatibilitas_bms">
                               <label class="form-check-label" for="kompatibilitas_bms">100% kompatibilitas dengan standar dan format data yang diterima BMS</label>
@@ -1036,7 +1246,7 @@
                           </div>
                         </td>
                         <td>
-                          <div id="pointIntegrasiBms" class="point-display">0</div>
+                          <div id="pointKompatibilitasBms" class="point-display">0</div>
                         </td>
                       </tr>
                       
@@ -1068,15 +1278,25 @@
                       
                       <!-- Kriteria 3 -->
                       <tr>
-                        <td>3</td>
-                        <td>Integritas data di seluruh sistem</td>
-                        <td>39</td>
+                        <td rowspan="2">3</td>
+                        <td rowspan="2">Integritas data di seluruh sistem</td>
+                        <td rowspan="2">39</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="checkbox" name="konsistensi_data" value="19.5" id="konsistensi_data">
                               <label class="form-check-label" for="konsistensi_data">100% konsistensi data yang dipertukarkan atau diakses di seluruh sistem</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointKonsistensiData" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="checkbox" name="kepatuhan_data" value="19.5" id="kepatuhan_data">
                               <label class="form-check-label" for="kepatuhan_data">100% kepatuhan terhadap standar data dan format yang disepakati</label>
@@ -1084,7 +1304,7 @@
                           </div>
                         </td>
                         <td>
-                          <div id="pointIntegritasData" class="point-display">0</div>
+                          <div id="pointKepatuhanData" class="point-display">0</div>
                         </td>
                       </tr>
                       
@@ -1193,19 +1413,39 @@
                     <tbody>
                       <!-- Kriteria 1 -->
                       <tr>
-                        <td>1</td>
-                        <td>Perencanaan pengelolaan sistem cerdas</td>
-                        <td>30</td>
+                        <td rowspan="3">1</td>
+                        <td rowspan="3">Perencanaan pengelolaan sistem cerdas</td>
+                        <td rowspan="3">30</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="checkbox" name="kebijakan" value="12" id="kebijakan">
                               <label class="form-check-label" for="kebijakan">Tersedia kebijakan yang telah disusun sebagai landasan pengelolaan sistem cerdas</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointKebijakan" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="checkbox" name="tugas_tanggungjawab" value="9" id="tugas_tanggungjawab">
                               <label class="form-check-label" for="tugas_tanggungjawab">Tersedia rincian tugas dan tanggung jawab spesifik yang telah disusun</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointTugasTanggungJawab" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="checkbox" name="prosedur" value="9" id="prosedur">
                               <label class="form-check-label" for="prosedur">Tersedia prosedur yang telah disusun untuk operasional sistem cerdas</label>
@@ -1213,15 +1453,15 @@
                           </div>
                         </td>
                         <td>
-                          <div id="pointPerencanaan" class="point-display">0</div>
+                          <div id="pointProsedur" class="point-display">0</div>
                         </td>
                       </tr>
                       
                       <!-- Kriteria 2 -->
                       <tr>
-                        <td>2</td>
-                        <td>Pengorganisasian pengelolaan sistem cerdas</td>
-                        <td>30</td>
+                        <td rowspan="2">2</td>
+                        <td rowspan="2">Pengorganisasian pengelolaan sistem cerdas</td>
+                        <td rowspan="2">30</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -1236,6 +1476,16 @@
                               <input class="form-check-input" type="radio" name="pemenuhan_posisi" value="15" id="posisi_lengkap">
                               <label class="form-check-label" for="posisi_lengkap">100% pemenuhan posisi/roles yang diperlukan</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointPemenuhanPosisi" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="kompetensi" value="0" id="kompetensi_tidak">
                               <label class="form-check-label" for="kompetensi_tidak">Kompetensi pengelola sistem tidak terpenuhi</label>
@@ -1251,7 +1501,7 @@
                           </div>
                         </td>
                         <td>
-                          <div id="pointPengorganisasian" class="point-display">0</div>
+                          <div id="pointKompetensi" class="point-display">0</div>
                         </td>
                       </tr>
                       
@@ -1435,11 +1685,11 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <!-- Kriteria 1 -->
+                      <!-- Kriteria 1.1 -->
                       <tr>
-                        <td>1</td>
-                        <td>Sistem Alarm Kebencanaan dan Pemberitahuan Massal</td>
-                        <td>48</td>
+                        <td rowspan="3">1</td>
+                        <td rowspan="3">Sistem Alarm Kebencanaan dan Pemberitahuan Massal</td>
+                        <td rowspan="3">48</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -1454,32 +1704,59 @@
                               <input class="form-check-input" type="radio" name="deteksi_bencana" value="18" id="deteksi_cepat">
                               <label class="form-check-label" for="deteksi_cepat">Waktu deteksi bencana selalu ≤10 detik</label>
                             </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" name="pemantauan_komponen" value="15" id="pemantauan_komponen">
-                              <label class="form-check-label" for="pemantauan_komponen">100% komponen utama sistem dapat dipantau status keberjalanannya secara jarak jauh</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" name="pelaporan_otomatis" value="15" id="pelaporan_otomatis">
-                              <label class="form-check-label" for="pelaporan_otomatis">Pelaporan otomatis ke layanan darurat</label>
-                            </div>
                           </div>
                         </td>
                         <td>
-                          <div id="pointAlarmBencana" class="point-display">0</div>
+                          <div id="pointDeteksiBencana" class="point-display">0</div>
                         </td>
                       </tr>
                       
-                      <!-- Kriteria 2 -->
+                      <!-- Kriteria 1.2 -->
                       <tr>
-                        <td>2</td>
-                        <td>Sistem Kamera Pengawas</td>
-                        <td>48</td>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="pemantauan_komponen" value="15" id="pemantauan_komponen">
+                            <label class="form-check-label" for="pemantauan_komponen">100% komponen utama sistem dapat dipantau status keberjalanannya secara jarak jauh</label>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointPemantauanKomponen" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 1.3 -->
+                      <tr>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="pelaporan_otomatis" value="15" id="pelaporan_otomatis">
+                            <label class="form-check-label" for="pelaporan_otomatis">Pelaporan otomatis ke layanan darurat</label>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointPelaporanOtomatis" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 2.1 -->
+                      <tr>
+                        <td rowspan="6">2</td>
+                        <td rowspan="6">Sistem Kamera Pengawas</td>
+                        <td rowspan="6">48</td>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="enkripsi_dvr" value="3" id="enkripsi_dvr">
+                            <label class="form-check-label" for="enkripsi_dvr">100% data yang terenkripsi pada DVR/NVR</label>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointEnkripsiDVR" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 2.2 -->
+                      <tr>
                         <td>
                           <div class="radio-group">
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" name="enkripsi_dvr" value="3" id="enkripsi_dvr">
-                              <label class="form-check-label" for="enkripsi_dvr">100% data yang terenkripsi pada DVR/NVR</label>
-                            </div>
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="streaming_video" value="1" id="streaming_lambat">
                               <label class="form-check-label" for="streaming_lambat">Waktu pengiriman paket video selalu lebih dari 5 detik</label>
@@ -1492,6 +1769,17 @@
                               <input class="form-check-input" type="radio" name="streaming_video" value="3" id="streaming_realtime">
                               <label class="form-check-label" for="streaming_realtime">Waktu pengiriman paket video selalu ≤5 detik</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointStreamingVideo" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 2.3 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="resolusi_kamera" value="1" id="resolusi_rendah">
                               <label class="form-check-label" for="resolusi_rendah">Semua kamera kurang dari 720p</label>
@@ -1504,6 +1792,17 @@
                               <input class="form-check-input" type="radio" name="resolusi_kamera" value="3" id="resolusi_tinggi">
                               <label class="form-check-label" for="resolusi_tinggi">Semua kamera ≥720p</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointResolusiKamera" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 2.4 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="deteksi_gerakan" value="0" id="gerakan_tidak">
                               <label class="form-check-label" for="gerakan_tidak">Akurasi deteksi gerakan tidak dapat diukur</label>
@@ -1516,6 +1815,17 @@
                               <input class="form-check-input" type="radio" name="deteksi_gerakan" value="3" id="gerakan_tinggi">
                               <label class="form-check-label" for="gerakan_tinggi">Akurasi deteksi gerakan ≥50%</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointDeteksiGerakan" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 2.5 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="deteksi_objek" value="0" id="objek_tidak">
                               <label class="form-check-label" for="objek_tidak">Akurasi deteksi objek tidak dapat diukur</label>
@@ -1528,6 +1838,17 @@
                               <input class="form-check-input" type="radio" name="deteksi_objek" value="3" id="objek_tinggi">
                               <label class="form-check-label" for="objek_tinggi">Akurasi deteksi objek ≥50%</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointDeteksiObjek" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 2.6 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="perekaman_otomatis" value="0" id="rekam_tidak">
                               <label class="form-check-label" for="rekam_tidak">Perekaman otomatis tidak dapat diukur</label>
@@ -1543,41 +1864,63 @@
                           </div>
                         </td>
                         <td>
-                          <div id="pointKameraPengawas" class="point-display">0</div>
+                          <div id="pointPerekamanOtomatis" class="point-display">0</div>
                         </td>
                       </tr>
                       
-                      <!-- Kriteria 3 -->
+                      <!-- Kriteria 3.1 -->
                       <tr>
-                        <td>3</td>
-                        <td>Sistem Kontrol Akses</td>
-                        <td>48</td>
+                        <td rowspan="6">3</td>
+                        <td rowspan="6">Sistem Kontrol Akses</td>
+                        <td rowspan="6">48</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="fluktuasi_tegangan" value="2" id="tegangan_lebih">
-                              <label class="form-check-label" for="tegangan_lebih">Fluktuasi tegangan selalu melebihi ±5%</label>
+                              <input class="form-check-input" type="radio" name="waktu_respons_akses" value="2" id="respons_akses_lambat">
+                              <label class="form-check-label" for="respons_akses_lambat">Waktu respons kontrol akses selalu lebih dari 3 detik</label>
                             </div>
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="fluktuasi_tegangan" value="4" id="tegangan_kadang">
-                              <label class="form-check-label" for="tegangan_kadang">Fluktuasi tegangan kadang-kadang ±5%</label>
+                              <input class="form-check-input" type="radio" name="waktu_respons_akses" value="4" id="respons_akses_kadang">
+                              <label class="form-check-label" for="respons_akses_kadang">Waktu respons kontrol akses kadang-kadang ≤3 detik</label>
                             </div>
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="fluktuasi_tegangan" value="6" id="tegangan_optimal">
-                              <label class="form-check-label" for="tegangan_optimal">Fluktuasi tegangan selalu ±5%</label>
+                              <input class="form-check-input" type="radio" name="waktu_respons_akses" value="8" id="respons_akses_cepat">
+                              <label class="form-check-label" for="respons_akses_cepat">Waktu respons kontrol akses selalu ≤3 detik</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointWaktuResponsAkses" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 3.2 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="akurasi_verifikasi" value="0" id="verifikasi_tidak">
+                              <label class="form-check-label" for="verifikasi_tidak">Akurasi verifikasi identitas tidak dapat diukur</label>
                             </div>
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="waktu_aktif" value="0" id="aktif_tidak">
-                              <label class="form-check-label" for="aktif_tidak">Persentase waktu aktif perangkat tidak dapat diukur</label>
+                              <input class="form-check-input" type="radio" name="akurasi_verifikasi" value="2" id="verifikasi_kurang">
+                              <label class="form-check-label" for="verifikasi_kurang">Akurasi verifikasi identitas kurang dari 99%</label>
                             </div>
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="waktu_aktif" value="2" id="aktif_kurang">
-                              <label class="form-check-label" for="aktif_kurang">Persentase waktu aktif perangkat kurang dari 99,9%</label>
+                              <input class="form-check-input" type="radio" name="akurasi_verifikasi" value="8" id="verifikasi_tinggi">
+                              <label class="form-check-label" for="verifikasi_tinggi">Akurasi verifikasi identitas ≥99%</label>
                             </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="waktu_aktif" value="6" id="aktif_optimal">
-                              <label class="form-check-label" for="aktif_optimal">Persentase waktu aktif perangkat ≥99,9%</label>
-                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointAkurasiVerifikasi" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 3.3 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="antipassback" value="0" id="passback_tidak">
                               <label class="form-check-label" for="passback_tidak">Fitur antipassback tidak dapat diukur</label>
@@ -1587,57 +1930,90 @@
                               <label class="form-check-label" for="passback_ada">Lebih dari 0 pengguna melakukan passback</label>
                             </div>
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="antipassback" value="9" id="passback_optimal">
+                              <input class="form-check-input" type="radio" name="antipassback" value="8" id="passback_optimal">
                               <label class="form-check-label" for="passback_optimal">0 pengguna melakukan passback</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointAntipassback" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 3.4 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="pengaturan_akses" value="0" id="akses_tidak">
                               <label class="form-check-label" for="akses_tidak">Pengaturan akses tidak dapat diukur</label>
                             </div>
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="pengaturan_akses" value="3" id="akses_ada">
-                              <label class="form-check-label" for="akses_ada">Lebih dari 0 kendala dalam pengaturan akses</label>
+                              <label class="form-check-label" for="akses_ada">Pengaturan akses tersedia tapi tidak optimal</label>
                             </div>
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="pengaturan_akses" value="9" id="akses_optimal">
-                              <label class="form-check-label" for="akses_optimal">0 kendala dalam pengaturan akses</label>
+                              <input class="form-check-input" type="radio" name="pengaturan_akses" value="8" id="akses_optimal">
+                              <label class="form-check-label" for="akses_optimal">Pengaturan akses berdasarkan zona, waktu, dan peran</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointPengaturanAkses" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 3.5 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="perhitungan_penghuni" value="0" id="penghuni_tidak">
                               <label class="form-check-label" for="penghuni_tidak">Perhitungan penghuni tidak dapat diukur</label>
                             </div>
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="perhitungan_penghuni" value="3" id="penghuni_kurang">
-                              <label class="form-check-label" for="penghuni_kurang">Perhitungan penghuni kurang dari 100% tersedia</label>
+                              <input class="form-check-input" type="radio" name="perhitungan_penghuni" value="2" id="penghuni_kurang">
+                              <label class="form-check-label" for="penghuni_kurang">Akurasi perhitungan penghuni kurang dari 95%</label>
                             </div>
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="perhitungan_penghuni" value="9" id="penghuni_lengkap">
-                              <label class="form-check-label" for="penghuni_lengkap">Perhitungan penghuni 100% tersedia</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="deaktivasi_kredensial" value="0" id="kredensial_tidak">
-                              <label class="form-check-label" for="kredensial_tidak">Deaktivasi kredensial tidak dapat diukur</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="deaktivasi_kredensial" value="3" id="kredensial_ada">
-                              <label class="form-check-label" for="kredensial_ada">Lebih dari 0 kendala dalam deaktivasi kredensial</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="deaktivasi_kredensial" value="9" id="kredensial_optimal">
-                              <label class="form-check-label" for="kredensial_optimal">0 kendala dalam deaktivasi kredensial</label>
+                              <input class="form-check-input" type="radio" name="perhitungan_penghuni" value="8" id="penghuni_akurat">
+                              <label class="form-check-label" for="penghuni_akurat">Akurasi perhitungan penghuni ≥95%</label>
                             </div>
                           </div>
                         </td>
                         <td>
-                          <div id="pointKontrolAkses" class="point-display">0</div>
+                          <div id="pointPerhitunganPenghuni" class="point-display">0</div>
                         </td>
                       </tr>
                       
-                      <!-- Kriteria 4 -->
+                      <!-- Kriteria 3.6 -->
                       <tr>
-                        <td>4</td>
-                        <td>Sistem Digital Distribusi Video dan Papan Informasi</td>
-                        <td>48</td>
+                        <td>
+                          <div class="radio-group">
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="deaktivasi_kredensial" value="3" id="deaktivasi_lambat">
+                              <label class="form-check-label" for="deaktivasi_lambat">Waktu deaktivasi kredensial selalu lebih dari 1 menit</label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="deaktivasi_kredensial" value="6" id="deaktivasi_kadang">
+                              <label class="form-check-label" for="deaktivasi_kadang">Waktu deaktivasi kredensial kadang-kadang ≤1 menit</label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="deaktivasi_kredensial" value="8" id="deaktivasi_cepat">
+                              <label class="form-check-label" for="deaktivasi_cepat">Waktu deaktivasi kredensial selalu ≤1 menit</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointDeaktivasiKredensial" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 4.1 -->
+                      <tr>
+                        <td rowspan="7">4</td>
+                        <td rowspan="7">Sistem Digital Distribusi Video dan Papan Informasi</td>
+                        <td rowspan="7">48</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -1652,90 +2028,156 @@
                               <input class="form-check-input" type="radio" name="kualitas_video" value="6" id="kualitas_tinggi">
                               <label class="form-check-label" for="kualitas_tinggi">Kualitas visual ≥95% kesamaan</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointKualitasVideo" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 4.2 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="kompatibilitas_format" value="0" id="format_tidak">
-                              <label class="form-check-label" for="format_tidak">Kompatibilitas format file tidak dapat diukur</label>
+                              <input class="form-check-input" type="radio" name="kompatibilitas_format" value="2" id="format_terbatas">
+                              <label class="form-check-label" for="format_terbatas">Kompatibilitas format video terbatas</label>
                             </div>
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="kompatibilitas_format" value="2" id="format_kurang">
-                              <label class="form-check-label" for="format_kurang">Kompatibilitas format file kurang dari 100%</label>
+                              <input class="form-check-input" type="radio" name="kompatibilitas_format" value="4" id="format_sedang">
+                              <label class="form-check-label" for="format_sedang">Kompatibilitas format video sedang</label>
                             </div>
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="kompatibilitas_format" value="6" id="format_lengkap">
-                              <label class="form-check-label" for="format_lengkap">Kompatibilitas format file 100%</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="protokol_terbuka" value="2" id="protokol_lebih">
-                              <label class="form-check-label" for="protokol_lebih">Waktu pengiriman data multimedia selalu lebih dari 0,1 detik</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="protokol_terbuka" value="4" id="protokol_kadang">
-                              <label class="form-check-label" for="protokol_kadang">Waktu pengiriman data multimedia kadang-kadang ≤0,1 detik</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="protokol_terbuka" value="6" id="protokol_selalu">
-                              <label class="form-check-label" for="protokol_selalu">Waktu pengiriman data multimedia selalu ≤0,1 detik</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="jumlah_data" value="2" id="data_kurang">
-                              <label class="form-check-label" for="data_kurang">Jumlah data yang berhasil dikirimkan selalu kurang dari 5 Mbps</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="jumlah_data" value="4" id="data_kadang">
-                              <label class="form-check-label" for="data_kadang">Jumlah data yang berhasil dikirimkan kadang-kadang ≥5 Mbps</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="jumlah_data" value="6" id="data_selalu">
-                              <label class="form-check-label" for="data_selalu">Jumlah data yang berhasil dikirimkan selalu ≥5 Mbps</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="penjadwalan_streaming" value="0" id="streaming_tidak">
-                              <label class="form-check-label" for="streaming_tidak">Penjadwalan dan streaming on demand tidak dapat diukur</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="penjadwalan_streaming" value="4" id="streaming_kurang">
-                              <label class="form-check-label" for="streaming_kurang">Penjadwalan dan streaming on demand kurang dari 100% keberhasilan</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="penjadwalan_streaming" value="12" id="streaming_lengkap">
-                              <label class="form-check-label" for="streaming_lengkap">Penjadwalan dan streaming on demand 100% keberhasilan</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="poe_aktif" value="0" id="poe_aktif_tidak">
-                              <label class="form-check-label" for="poe_aktif_tidak">Tidak ada perangkat aktif yang mendukung PoE</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="poe_aktif" value="2" id="poe_aktif_kurang">
-                              <label class="form-check-label" for="poe_aktif_kurang">Kurang dari 90% perangkat aktif mendukung PoE</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="poe_aktif" value="6" id="poe_aktif_lengkap">
-                              <label class="form-check-label" for="poe_aktif_lengkap">≥90% perangkat aktif mendukung PoE</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="poe_pasif" value="0" id="poe_pasif_tidak">
-                              <label class="form-check-label" for="poe_pasif_tidak">Tidak ada perangkat pasif yang mendukung PoE</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="poe_pasif" value="2" id="poe_pasif_kurang">
-                              <label class="form-check-label" for="poe_pasif_kurang">Kurang dari 100% perangkat pasif mendukung PoE</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="poe_pasif" value="6" id="poe_pasif_lengkap">
-                              <label class="form-check-label" for="poe_pasif_lengkap">100% perangkat pasif mendukung PoE</label>
+                              <label class="form-check-label" for="format_lengkap">Kompatibilitas format video lengkap</label>
                             </div>
                           </div>
                         </td>
                         <td>
-                          <div id="pointDigitalVideo" class="point-display">0</div>
+                          <div id="pointKompatibilitasFormat" class="point-display">0</div>
                         </td>
                       </tr>
                       
-                      <!-- Kriteria 5 -->
+                      <!-- Kriteria 4.3 -->
                       <tr>
-                        <td>5</td>
-                        <td>Sistem Audio Visual</td>
-                        <td>48</td>
+                        <td>
+                          <div class="radio-group">
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="protokol_terbuka" value="2" id="protokol_proprietary">
+                              <label class="form-check-label" for="protokol_proprietary">Menggunakan protokol proprietary</label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="protokol_terbuka" value="4" id="protokol_sebagian">
+                              <label class="form-check-label" for="protokol_sebagian">Sebagian menggunakan protokol terbuka</label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="protokol_terbuka" value="6" id="protokol_terbuka_full">
+                              <label class="form-check-label" for="protokol_terbuka_full">100% menggunakan protokol terbuka</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointProtokolTerbuka" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 4.4 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="jumlah_data" value="2" id="data_terbatas">
+                              <label class="form-check-label" for="data_terbatas">Jumlah data yang dapat ditampilkan terbatas</label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="jumlah_data" value="4" id="data_sedang">
+                              <label class="form-check-label" for="data_sedang">Jumlah data yang dapat ditampilkan sedang</label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="jumlah_data" value="6" id="data_banyak">
+                              <label class="form-check-label" for="data_banyak">Jumlah data yang dapat ditampilkan sangat banyak</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointJumlahData" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 4.5 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="penjadwalan_streaming" value="2" id="jadwal_manual">
+                              <label class="form-check-label" for="jadwal_manual">Penjadwalan streaming manual</label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="penjadwalan_streaming" value="4" id="jadwal_sebagian">
+                              <label class="form-check-label" for="jadwal_sebagian">Penjadwalan streaming sebagian otomatis</label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="penjadwalan_streaming" value="6" id="jadwal_otomatis">
+                              <label class="form-check-label" for="jadwal_otomatis">Penjadwalan streaming otomatis penuh</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointPenjadwalanStreaming" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 4.6 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="poe_aktif" value="0" id="poe_aktif_tidak">
+                              <label class="form-check-label" for="poe_aktif_tidak">PoE perangkat aktif tidak dapat diukur</label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="poe_aktif" value="3" id="poe_aktif_sebagian">
+                              <label class="form-check-label" for="poe_aktif_sebagian">Sebagian perangkat aktif mendukung PoE</label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="poe_aktif" value="6" id="poe_aktif_full">
+                              <label class="form-check-label" for="poe_aktif_full">Semua perangkat aktif mendukung PoE</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointPoeAktif" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 4.7 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="poe_pasif" value="0" id="poe_pasif_tidak">
+                              <label class="form-check-label" for="poe_pasif_tidak">PoE perangkat pasif tidak dapat diukur</label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="poe_pasif" value="3" id="poe_pasif_sebagian">
+                              <label class="form-check-label" for="poe_pasif_sebagian">Sebagian perangkat pasif mendukung PoE</label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="poe_pasif" value="6" id="poe_pasif_full">
+                              <label class="form-check-label" for="poe_pasif_full">Semua perangkat pasif mendukung PoE</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointPoePasif" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 5.1 -->
+                      <tr>
+                        <td rowspan="3">5</td>
+                        <td rowspan="3">Sistem Audio Visual</td>
+                        <td rowspan="3">48</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -1750,6 +2192,17 @@
                               <input class="form-check-input" type="radio" name="pemantauan_audio" value="24" id="audio_lengkap">
                               <label class="form-check-label" for="audio_lengkap">100% komponen audio visual dapat dipantau secara real-time</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointPemantauanAudio" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 5.2 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="poe_audio_aktif" value="0" id="poe_audio_aktif_tidak">
                               <label class="form-check-label" for="poe_audio_aktif_tidak">Tidak ada perangkat aktif audio yang mendukung PoE</label>
@@ -1762,6 +2215,17 @@
                               <input class="form-check-input" type="radio" name="poe_audio_aktif" value="12" id="poe_audio_aktif_lengkap">
                               <label class="form-check-label" for="poe_audio_aktif_lengkap">≥90% perangkat aktif audio mendukung PoE</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointPoeAudioAktif" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 5.3 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="poe_audio_pasif" value="0" id="poe_audio_pasif_tidak">
                               <label class="form-check-label" for="poe_audio_pasif_tidak">Tidak ada perangkat pasif audio yang mendukung PoE</label>
@@ -1777,37 +2241,48 @@
                           </div>
                         </td>
                         <td>
-                          <div id="pointAudioVisual" class="point-display">0</div>
+                          <div id="pointPoeAudioPasif" class="point-display">0</div>
                         </td>
                       </tr>
                       
-                      <!-- Kriteria 6 -->
+                      <!-- Kriteria 6.1 -->
                       <tr>
-                        <td>6</td>
-                        <td>Sistem Jaringan Akses Kabel dan Antena Terdistribusi</td>
-                        <td>48</td>
+                        <td rowspan="2">6</td>
+                        <td rowspan="2">Sistem Jaringan Akses Kabel dan Antena Terdistribusi</td>
+                        <td rowspan="2">48</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="checkbox" name="triple_play" value="24" id="triple_play">
-                              <label class="form-check-label" for="triple_play">100% status perangkat triple play termonitor dalam perangkat lunak manajemen</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" name="fitur_tambahan" value="24" id="fitur_tambahan">
-                              <label class="form-check-label" for="fitur_tambahan">100% fitur tambahan berjalan secara waktu-nyata</label>
+                              <label class="form-check-label" for="triple_play">Triple play services tersedia (voice, video, data)</label>
                             </div>
                           </div>
                         </td>
                         <td>
-                          <div id="pointJaringanAkses" class="point-display">0</div>
+                          <div id="pointTriplePlay" class="point-display">0</div>
                         </td>
                       </tr>
                       
-                      <!-- Kriteria 7 -->
+                      <!-- Kriteria 6.2 -->
                       <tr>
-                        <td>7</td>
-                        <td>Sistem Kelistrikan</td>
-                        <td>48</td>
+                        <td>
+                          <div class="radio-group">
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" name="sinyal_distribusi" value="24" id="sinyal_distribusi">
+                              <label class="form-check-label" for="sinyal_distribusi">Sinyal dapat didistribusikan ke semua area dengan kualitas optimal</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointSinyalDistribusi" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 7.1 -->
+                      <tr>
+                        <td rowspan="5">7</td>
+                        <td rowspan="5">Sistem Kelistrikan</td>
+                        <td rowspan="5">48</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -1818,6 +2293,17 @@
                               <input class="form-check-input" type="radio" name="akurasi_pengukuran" value="12" id="pengukuran_tinggi">
                               <label class="form-check-label" for="pengukuran_tinggi">Akurasi pengukuran energi ≥99%</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointAkurasiPengukuran" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 7.2 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="kontrol_otomatis" value="4" id="kontrol_kurang">
                               <label class="form-check-label" for="kontrol_kurang">Akurasi kontrol otomatis kurang dari 95%</label>
@@ -1826,10 +2312,30 @@
                               <input class="form-check-input" type="radio" name="kontrol_otomatis" value="12" id="kontrol_tinggi">
                               <label class="form-check-label" for="kontrol_tinggi">Akurasi kontrol otomatis ≥95%</label>
                             </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" name="laporan_energi" value="12" id="laporan_energi">
-                              <label class="form-check-label" for="laporan_energi">100% data tren, pola konsumsi, dan peluang penghematan energi tersedia</label>
-                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointKontrolOtomatis" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 7.3 -->
+                      <tr>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="laporan_energi" value="12" id="laporan_energi">
+                            <label class="form-check-label" for="laporan_energi">100% data tren, pola konsumsi, dan peluang penghematan energi tersedia</label>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointLaporanEnergi" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 7.4 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="demand_response" value="0" id="response_tidak">
                               <label class="form-check-label" for="response_tidak">Demand response tidak dapat diukur</label>
@@ -1842,6 +2348,17 @@
                               <input class="form-check-input" type="radio" name="demand_response" value="9" id="response_tinggi">
                               <label class="form-check-label" for="response_tinggi">Pengurangan konsumsi energi ≥10%</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointDemandResponse" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 7.5 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="alarm_anomali" value="0" id="alarm_tidak">
                               <label class="form-check-label" for="alarm_tidak">Alarm anomali tidak dapat diukur</label>
@@ -1857,15 +2374,15 @@
                           </div>
                         </td>
                         <td>
-                          <div id="pointKelistrikan" class="point-display">0</div>
+                          <div id="pointAlarmAnomali" class="point-display">0</div>
                         </td>
                       </tr>
                       
-                      <!-- Kriteria 8 -->
+                      <!-- Kriteria 8.1 -->
                       <tr>
-                        <td>8</td>
-                        <td>Sistem Pencahayaan</td>
-                        <td>48</td>
+                        <td rowspan="3">8</td>
+                        <td rowspan="3">Sistem Pencahayaan</td>
+                        <td rowspan="3">48</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -1873,25 +2390,61 @@
                               <label class="form-check-label" for="pencahayaan_tidak">Uptime sistem pencahayaan tidak dapat diukur</label>
                             </div>
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="uptime_pencahayaan" value="16" id="pencahayaan_kurang">
+                              <input class="form-check-input" type="radio" name="uptime_pencahayaan" value="6" id="pencahayaan_kurang">
                               <label class="form-check-label" for="pencahayaan_kurang">Uptime sistem pencahayaan kurang dari 99,5%</label>
                             </div>
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="uptime_pencahayaan" value="48" id="pencahayaan_tinggi">
+                              <input class="form-check-input" type="radio" name="uptime_pencahayaan" value="16" id="pencahayaan_tinggi">
                               <label class="form-check-label" for="pencahayaan_tinggi">Uptime sistem pencahayaan ≥99,5%</label>
                             </div>
                           </div>
                         </td>
                         <td>
-                          <div id="pointPencahayaan" class="point-display">0</div>
+                          <div id="pointUptimePencahayaan" class="point-display">0</div>
                         </td>
                       </tr>
                       
-                      <!-- Kriteria 9 -->
+                      <!-- Kriteria 8.2 -->
                       <tr>
-                        <td>9</td>
-                        <td>Sistem Pengondisian Udara</td>
-                        <td>48</td>
+                        <td>
+                          <div class="radio-group">
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="kontrol_otomatis_pencahayaan" value="0" id="kontrol_pencahayaan_tidak">
+                              <label class="form-check-label" for="kontrol_pencahayaan_tidak">Kontrol otomatis pencahayaan tidak dapat diukur</label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="kontrol_otomatis_pencahayaan" value="5" id="kontrol_pencahayaan_kurang">
+                              <label class="form-check-label" for="kontrol_pencahayaan_kurang">Akurasi kontrol otomatis pencahayaan kurang dari 95%</label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="kontrol_otomatis_pencahayaan" value="16" id="kontrol_pencahayaan_tinggi">
+                              <label class="form-check-label" for="kontrol_pencahayaan_tinggi">Akurasi kontrol otomatis pencahayaan ≥95%</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointKontrolOtomatisPencahayaan" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 8.3 -->
+                      <tr>
+                        <td>
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="pemantauan_pencahayaan" value="16" id="pemantauan_pencahayaan">
+                            <label class="form-check-label" for="pemantauan_pencahayaan">100% komponen pencahayaan dapat dipantau secara real-time</label>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointPemantauanPencahayaan" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 9.1 -->
+                      <tr>
+                        <td rowspan="1">9</td>
+                        <td rowspan="1">Sistem Pengondisian Udara</td>
+                        <td rowspan="1">48</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -1913,11 +2466,11 @@
                         </td>
                       </tr>
                       
-                      <!-- Kriteria 10 -->
+                      <!-- Kriteria 10.1 -->
                       <tr>
-                        <td>10</td>
-                        <td>Sistem Ventilasi</td>
-                        <td>48</td>
+                        <td rowspan="4">10</td>
+                        <td rowspan="4">Sistem Ventilasi</td>
+                        <td rowspan="4">48</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -1932,6 +2485,17 @@
                               <input class="form-check-input" type="radio" name="respons_ventilasi" value="12" id="ventilasi_cepat">
                               <label class="form-check-label" for="ventilasi_cepat">Waktu respons sistem ventilasi selalu ≤30 detik</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointResponsVentilasi" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 10.2 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="deteksi_udara_luar" value="0" id="udara_tidak">
                               <label class="form-check-label" for="udara_tidak">Deteksi kualitas udara luar tidak dapat diukur</label>
@@ -1944,6 +2508,17 @@
                               <input class="form-check-input" type="radio" name="deteksi_udara_luar" value="12" id="udara_tinggi">
                               <label class="form-check-label" for="udara_tinggi">Akurasi deteksi kualitas udara luar ≥98%</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointDeteksiUdaraLuar" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 10.3 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="kontrol_otomatis_ventilasi" value="0" id="kontrol_ventilasi_tidak">
                               <label class="form-check-label" for="kontrol_ventilasi_tidak">Kontrol otomatis ventilasi tidak dapat diukur</label>
@@ -1956,6 +2531,17 @@
                               <input class="form-check-input" type="radio" name="kontrol_otomatis_ventilasi" value="12" id="kontrol_ventilasi_tinggi">
                               <label class="form-check-label" for="kontrol_ventilasi_tinggi">Akurasi kontrol otomatis ventilasi ≥95%</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointKontrolOtomatisVentilasi" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 10.4 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="prediksi_ventilasi" value="0" id="prediksi_tidak">
                               <label class="form-check-label" for="prediksi_tidak">Prediksi perubahan kualitas udara tidak dapat diukur</label>
@@ -1971,21 +2557,32 @@
                           </div>
                         </td>
                         <td>
-                          <div id="pointVentilasi" class="point-display">0</div>
+                          <div id="pointPrediksiVentilasi" class="point-display">0</div>
                         </td>
                       </tr>
                       
-                      <!-- Kriteria 11 -->
+                      <!-- Kriteria 11.1 -->
                       <tr>
-                        <td>11</td>
-                        <td>Sistem Penyediaan Air Minum</td>
-                        <td>48</td>
+                        <td rowspan="8">11</td>
+                        <td rowspan="8">Sistem Penyediaan Air Minum</td>
+                        <td rowspan="8">48</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="checkbox" name="meter_air" value="9" id="meter_air">
                               <label class="form-check-label" for="meter_air">Meter air cerdas dengan akurasi ≥95%</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointMeterAir" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 11.2 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="deteksi_kebocoran" value="3" id="kebocoran_lambat">
                               <label class="form-check-label" for="kebocoran_lambat">Waktu deteksi kebocoran selalu lebih dari 1 jam</label>
@@ -1998,6 +2595,17 @@
                               <input class="form-check-input" type="radio" name="deteksi_kebocoran" value="9" id="kebocoran_cepat">
                               <label class="form-check-label" for="kebocoran_cepat">Waktu deteksi kebocoran selalu ≤1 jam</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointDeteksiKebocoran" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 11.3 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="respons_debit" value="2" id="debit_lambat">
                               <label class="form-check-label" for="debit_lambat">Waktu respons perubahan debit dan tekanan air selalu lebih dari 5 detik</label>
@@ -2010,10 +2618,32 @@
                               <input class="form-check-input" type="radio" name="respons_debit" value="6" id="debit_cepat">
                               <label class="form-check-label" for="debit_cepat">Waktu respons perubahan debit dan tekanan air selalu ≤5 detik</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointResponsDebit" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 11.4 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="checkbox" name="pembersihan_otomatis" value="6" id="pembersihan_otomatis">
                               <label class="form-check-label" for="pembersihan_otomatis">Automated cleaning dengan tingkat kesesuaian waktu 100%</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointPembersihanOtomatis" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 11.5 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="respons_katup" value="2" id="katup_lambat">
                               <label class="form-check-label" for="katup_lambat">Waktu respons katup cerdas selalu lebih dari 5 detik</label>
@@ -2026,6 +2656,17 @@
                               <input class="form-check-input" type="radio" name="respons_katup" value="6" id="katup_cepat">
                               <label class="form-check-label" for="katup_cepat">Waktu respons katup cerdas selalu ≤5 detik</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointResponsKatup" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 11.6 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="pemantauan_kualitas" value="2" id="kualitas_kurang">
                               <label class="form-check-label" for="kualitas_kurang">Kurang dari 100% parameter kualitas air terpantau</label>
@@ -2038,30 +2679,64 @@
                               <input class="form-check-input" type="radio" name="pemantauan_kualitas" value="6" id="kualitas_lengkap">
                               <label class="form-check-label" for="kualitas_lengkap">100% parameter kualitas air selalu terpantau secara waktu-nyata</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointPemantauanKualitasAir" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 11.7 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="deteksi_kebocoran_air" value="0" id="deteksi_kebocoran_tidak">
-                              <label class="form-check-label" for="deteksi_kebocoran_tidak">Deteksi kebocoran air tidak dapat diukur</label>
+                              <input class="form-check-input" type="radio" name="deteksi_kontaminasi" value="2" id="kontaminasi_kurang">
+                              <label class="form-check-label" for="kontaminasi_kurang">Akurasi deteksi kontaminasi kurang dari 95%</label>
                             </div>
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="deteksi_kebocoran_air" value="2" id="deteksi_kebocoran_kurang">
-                              <label class="form-check-label" for="deteksi_kebocoran_kurang">Deteksi kebocoran air kurang dari 95% keberhasilan</label>
+                              <input class="form-check-input" type="radio" name="deteksi_kontaminasi" value="4" id="kontaminasi_kadang">
+                              <label class="form-check-label" for="kontaminasi_kadang">Akurasi deteksi kontaminasi kadang-kadang ≥95%</label>
                             </div>
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="deteksi_kebocoran_air" value="6" id="deteksi_kebocoran_tinggi">
-                              <label class="form-check-label" for="deteksi_kebocoran_tinggi">Deteksi kebocoran air ≥95% keberhasilan</label>
+                              <input class="form-check-input" type="radio" name="deteksi_kontaminasi" value="6" id="kontaminasi_tinggi">
+                              <label class="form-check-label" for="kontaminasi_tinggi">Akurasi deteksi kontaminasi selalu ≥95%</label>
                             </div>
                           </div>
                         </td>
                         <td>
-                          <div id="pointAirMinum" class="point-display">0</div>
+                          <div id="pointDeteksiKontaminasi" class="point-display">0</div>
                         </td>
                       </tr>
                       
-                      <!-- Kriteria 12 -->
+                      <!-- Kriteria 11.8 -->
                       <tr>
-                        <td>12</td>
-                        <td>Sistem Pengelolaan Air Limbah</td>
-                        <td>48</td>
+                        <td>
+                          <div class="radio-group">
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="optimisasi_distribusi" value="0" id="optimisasi_tidak">
+                              <label class="form-check-label" for="optimisasi_tidak">Optimisasi distribusi air tidak dapat diukur</label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="optimisasi_distribusi" value="2" id="optimisasi_kurang">
+                              <label class="form-check-label" for="optimisasi_kurang">Efisiensi optimisasi distribusi air kurang dari 95%</label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="optimisasi_distribusi" value="6" id="optimisasi_tinggi">
+                              <label class="form-check-label" for="optimisasi_tinggi">Efisiensi optimisasi distribusi air ≥95%</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointOptimisasiDistribusi" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 12.1 -->
+                      <tr>
+                        <td rowspan="6">12</td>
+                        <td rowspan="6">Sistem Pengelolaan Air Limbah</td>
+                        <td rowspan="6">48</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -2076,6 +2751,17 @@
                               <input class="form-check-input" type="radio" name="respons_volume" value="6" id="volume_cepat">
                               <label class="form-check-label" for="volume_cepat">Waktu respons terhadap perubahan volume air limbah selalu ≤3 detik</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointResponsVolume" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 12.2 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="akurasi_ketinggian" value="2" id="ketinggian_lebih">
                               <label class="form-check-label" for="ketinggian_lebih">Akurasi pengukuran ketinggian muka air limbah selalu melebihi ±5%</label>
@@ -2088,6 +2774,17 @@
                               <input class="form-check-input" type="radio" name="akurasi_ketinggian" value="6" id="ketinggian_optimal">
                               <label class="form-check-label" for="ketinggian_optimal">Akurasi pengukuran ketinggian muka air limbah selalu ≤5%</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointAkurasiKetinggian" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 12.3 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="penggelontoran" value="4" id="penggelontoran_lambat">
                               <label class="form-check-label" for="penggelontoran_lambat">Waktu respons penggelontoran otomatis selalu lebih dari 5 menit</label>
@@ -2100,6 +2797,17 @@
                               <input class="form-check-input" type="radio" name="penggelontoran" value="12" id="penggelontoran_cepat">
                               <label class="form-check-label" for="penggelontoran_cepat">Waktu respons penggelontoran otomatis selalu ≤5 menit</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointPenggelontoran" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 12.4 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="respons_kebocoran" value="4" id="kebocoran_lambat_limbah">
                               <label class="form-check-label" for="kebocoran_lambat_limbah">Waktu respons deteksi kebocoran selalu lebih dari 3 detik</label>
@@ -2112,6 +2820,40 @@
                               <input class="form-check-input" type="radio" name="respons_kebocoran" value="12" id="kebocoran_cepat_limbah">
                               <label class="form-check-label" for="kebocoran_cepat_limbah">Waktu respons deteksi kebocoran selalu ≤3 detik</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointResponsKebocoranLimbah" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 12.5 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="sistem_overflow" value="4" id="overflow_lambat">
+                              <label class="form-check-label" for="overflow_lambat">Waktu deteksi overflow selalu lebih dari 30 detik</label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="sistem_overflow" value="8" id="overflow_kadang">
+                              <label class="form-check-label" for="overflow_kadang">Waktu deteksi overflow kadang-kadang ≤30 detik</label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="sistem_overflow" value="12" id="overflow_cepat">
+                              <label class="form-check-label" for="overflow_cepat">Waktu deteksi overflow selalu ≤30 detik</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointSistemOverflow" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 12.6 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="pemantauan_kualitas_limbah" value="4" id="kualitas_limbah_lambat">
                               <label class="form-check-label" for="kualitas_limbah_lambat">Waktu pemantauan kualitas air limbah selalu lebih dari 30 detik</label>
@@ -2127,15 +2869,15 @@
                           </div>
                         </td>
                         <td>
-                          <div id="pointAirLimbah" class="point-display">0</div>
+                          <div id="pointPemantauanKualitasLimbah" class="point-display">0</div>
                         </td>
                       </tr>
                       
-                      <!-- Kriteria 13 -->
+                      <!-- Kriteria 13.1 -->
                       <tr>
-                        <td>13</td>
-                        <td>Sistem Pengelolaan Sampah</td>
-                        <td>48</td>
+                        <td rowspan="2">13</td>
+                        <td rowspan="2">Sistem Pengelolaan Sampah</td>
+                        <td rowspan="2">48</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -2150,6 +2892,17 @@
                               <input class="form-check-input" type="radio" name="akurasi_sensor" value="24" id="sensor_tinggi">
                               <label class="form-check-label" for="sensor_tinggi">Akurasi sensor smart bin ≥95%</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointAkurasiSensor" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 13.2 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="jaringan_iot" value="8" id="iot_kurang">
                               <label class="form-check-label" for="iot_kurang">Penggunaan Wi-Fi atau LPWAN untuk perangkat IoT kurang dari 100%</label>
@@ -2165,15 +2918,15 @@
                           </div>
                         </td>
                         <td>
-                          <div id="pointPengelolaanSampah" class="point-display">0</div>
+                          <div id="pointJaringanIot" class="point-display">0</div>
                         </td>
                       </tr>
                       
-                      <!-- Kriteria 14 -->
+                      <!-- Kriteria 14.1 -->
                       <tr>
-                        <td>14</td>
-                        <td>Sistem Transportasi dalam Gedung</td>
-                        <td>48</td>
+                        <td rowspan="8">14</td>
+                        <td rowspan="8">Sistem Transportasi dalam Gedung</td>
+                        <td rowspan="8">48</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -2188,6 +2941,17 @@
                               <input class="form-check-input" type="radio" name="informasi_lift" value="6" id="lift_tinggi">
                               <label class="form-check-label" for="lift_tinggi">Ketersediaan informasi pada layar lift ≥99,9%</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointInformasiLift" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 14.2 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="respons_bantuan" value="2" id="bantuan_lambat">
                               <label class="form-check-label" for="bantuan_lambat">Waktu respons TAS terhadap permintaan bantuan darurat selalu lebih dari 30 detik</label>
@@ -2200,6 +2964,17 @@
                               <input class="form-check-input" type="radio" name="respons_bantuan" value="6" id="bantuan_cepat">
                               <label class="form-check-label" for="bantuan_cepat">Waktu respons TAS terhadap permintaan bantuan darurat selalu ≤30 detik</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointResponsBantuan" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 14.3 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="pengaturan_operasional" value="3" id="operasional_lambat">
                               <label class="form-check-label" for="operasional_lambat">Waktu respons pengaturan parameter operasional lift selalu lebih dari 5 detik</label>
@@ -2212,6 +2987,17 @@
                               <input class="form-check-input" type="radio" name="pengaturan_operasional" value="9" id="operasional_cepat">
                               <label class="form-check-label" for="operasional_cepat">Waktu respons pengaturan parameter operasional lift selalu ≤5 detik</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointPengaturanOperasional" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 14.4 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="antarmuka_pengguna" value="3" id="antarmuka_lambat">
                               <label class="form-check-label" for="antarmuka_lambat">Waktu akses informasi di antarmuka lift selalu lebih dari 3 detik</label>
@@ -2224,6 +3010,17 @@
                               <input class="form-check-input" type="radio" name="antarmuka_pengguna" value="9" id="antarmuka_cepat">
                               <label class="form-check-label" for="antarmuka_cepat">Waktu akses informasi di antarmuka lift selalu ≤3 detik</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointAntarmukaPengguna" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 14.5 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="monitor_darurat" value="0" id="monitor_tidak">
                               <label class="form-check-label" for="monitor_tidak">Monitor keadaan darurat tidak dapat diukur</label>
@@ -2236,6 +3033,17 @@
                               <input class="form-check-input" type="radio" name="monitor_darurat" value="6" id="monitor_lengkap">
                               <label class="form-check-label" for="monitor_lengkap">Monitor keadaan darurat 100% berhasil</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointMonitorDarurat" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 14.6 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="pengendalian_jarak_jauh" value="2" id="jarak_jauh_lambat">
                               <label class="form-check-label" for="jarak_jauh_lambat">Waktu respons pengendalian jarak jauh selalu lebih dari 2 detik</label>
@@ -2248,6 +3056,40 @@
                               <input class="form-check-input" type="radio" name="pengendalian_jarak_jauh" value="6" id="jarak_jauh_cepat">
                               <label class="form-check-label" for="jarak_jauh_cepat">Waktu respons pengendalian jarak jauh selalu ≤2 detik</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointPengendalianJarakJauh" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 14.7 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="sistem_navigasi" value="2" id="navigasi_manual">
+                              <label class="form-check-label" for="navigasi_manual">Sistem navigasi dalam gedung secara manual</label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="sistem_navigasi" value="4" id="navigasi_sebagian">
+                              <label class="form-check-label" for="navigasi_sebagian">Sistem navigasi dalam gedung sebagian otomatis</label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="sistem_navigasi" value="6" id="navigasi_otomatis">
+                              <label class="form-check-label" for="navigasi_otomatis">Sistem navigasi dalam gedung otomatis penuh</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointSistemNavigasi" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 14.8 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="pembaruan_data" value="2" id="pembaruan_lambat">
                               <label class="form-check-label" for="pembaruan_lambat">Waktu pembaruan data pada aplikasi selalu lebih dari 5 detik</label>
@@ -2263,15 +3105,15 @@
                           </div>
                         </td>
                         <td>
-                          <div id="pointTransportasi" class="point-display">0</div>
+                          <div id="pointPembaruanData" class="point-display">0</div>
                         </td>
                       </tr>
                       
-                      <!-- Kriteria 15 -->
+                      <!-- Kriteria 15.1 -->
                       <tr>
-                        <td>15</td>
-                        <td>Sistem Deteksi dan Alarm Kebakaran</td>
-                        <td>48</td>
+                        <td rowspan="4">15</td>
+                        <td rowspan="4">Sistem Deteksi dan Alarm Kebakaran</td>
+                        <td rowspan="4">48</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -2286,6 +3128,17 @@
                               <input class="form-check-input" type="radio" name="deteksi_kebakaran" value="12" id="kebakaran_cepat">
                               <label class="form-check-label" for="kebakaran_cepat">Waktu deteksi kebakaran selalu ≤15 detik</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointDeteksiKebakaran" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 15.2 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="respons_alarm" value="4" id="alarm_lambat">
                               <label class="form-check-label" for="alarm_lambat">Waktu respons alarm selalu lebih dari 5 detik</label>
@@ -2298,6 +3151,17 @@
                               <input class="form-check-input" type="radio" name="respons_alarm" value="12" id="alarm_cepat">
                               <label class="form-check-label" for="alarm_cepat">Waktu respons alarm selalu ≤5 detik</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointResponsAlarm" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 15.3 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="integrasi_sprinkler" value="4" id="sprinkler_manual">
                               <label class="form-check-label" for="sprinkler_manual">Aktivasi sistem sprinkler secara manual</label>
@@ -2310,6 +3174,17 @@
                               <input class="form-check-input" type="radio" name="integrasi_sprinkler" value="12" id="sprinkler_otomatis">
                               <label class="form-check-label" for="sprinkler_otomatis">Aktivasi sistem sprinkler selalu otomatis</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointIntegrasiSprinkler" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 15.4 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="notifikasi_kebakaran" value="4" id="notif_lambat">
                               <label class="form-check-label" for="notif_lambat">Waktu notifikasi ke petugas selalu lebih dari 3 detik</label>
@@ -2325,15 +3200,15 @@
                           </div>
                         </td>
                         <td>
-                          <div id="pointDeteksiKebakaran" class="point-display">0</div>
+                          <div id="pointNotifikasiKebakaran" class="point-display">0</div>
                         </td>
                       </tr>
                       
-                      <!-- Kriteria 16 -->
+                      <!-- Kriteria 16.1 -->
                       <tr>
-                        <td>16</td>
-                        <td>Sistem Keamanan dan Keselamatan</td>
-                        <td>48</td>
+                        <td rowspan="4">16</td>
+                        <td rowspan="4">Sistem Keamanan dan Keselamatan</td>
+                        <td rowspan="4">48</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -2348,6 +3223,17 @@
                               <input class="form-check-input" type="radio" name="akses_kontrol" value="12" id="akses_penuh">
                               <label class="form-check-label" for="akses_penuh">Sistem kontrol akses terintegrasi penuh</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointAksesKontrol" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 16.2 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="monitoring_keamanan" value="0" id="monitoring_tidak">
                               <label class="form-check-label" for="monitoring_tidak">Sistem monitoring keamanan tidak real-time</label>
@@ -2360,6 +3246,17 @@
                               <input class="form-check-input" type="radio" name="monitoring_keamanan" value="12" id="monitoring_realtime">
                               <label class="form-check-label" for="monitoring_realtime">Sistem monitoring keamanan real-time penuh</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointMonitoringKeamanan" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 16.3 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="respon_darurat" value="4" id="darurat_lambat">
                               <label class="form-check-label" for="darurat_lambat">Waktu respons sistem darurat selalu lebih dari 10 detik</label>
@@ -2372,6 +3269,17 @@
                               <input class="form-check-input" type="radio" name="respon_darurat" value="12" id="darurat_cepat">
                               <label class="form-check-label" for="darurat_cepat">Waktu respons sistem darurat selalu ≤10 detik</label>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="pointResponDarurat" class="point-display">0</div>
+                        </td>
+                      </tr>
+                      
+                      <!-- Kriteria 16.4 -->
+                      <tr>
+                        <td>
+                          <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="integrasi_sistem" value="4" id="integrasi_minimal">
                               <label class="form-check-label" for="integrasi_minimal">Integrasi dengan sistem lain minimal</label>
@@ -2387,7 +3295,7 @@
                           </div>
                         </td>
                         <td>
-                          <div id="pointSistemKeamanan" class="point-display">0</div>
+                          <div id="pointIntegrasiSistem" class="point-display">0</div>
                         </td>
                       </tr>
                       
@@ -2536,7 +3444,178 @@
             total += parseInt(input.value) || 0;
         });
         
+        // Update individual point displays for each indicator
+        updateIndividualPoints();
+        
         return total;
+    }
+
+    // Function to update individual point displays
+    function updateIndividualPoints() {
+        // Get all point display elements
+        const pointDisplays = document.querySelectorAll('.point-display');
+        
+        pointDisplays.forEach(display => {
+            const id = display.id;
+            
+            // Extract the input name from the point display id
+            // For example: pointDeteksiBencana -> deteksi_bencana
+            let inputName = '';
+            
+            // Map point display IDs to their corresponding input names
+            const idToNameMap = {
+                // Parameter A
+                'pointVerifikasi': 'integritas_verifikasi',
+                'pointDokumentasi': 'integritas_dokumentasi',
+                'pointRedundansiPersen': 'redundansi_persen',
+                'pointFailover': 'failover',
+                'pointAnalisisLog': 'analisis_log',
+                'pointDeteksiAnomali': 'deteksi_anomali',
+                'pointKontrolAkses': 'kontrol_akses',
+                'pointSegmentasiJaringan': 'segmentasi_jaringan',
+                'pointPemantauanJaringan': 'pemantauan_jaringan',
+                'pointEnkripsiStandar': 'enkripsi_standar',
+                'pointEnkripsiSensitif': 'enkripsi_sensitif',
+                'pointAutentikasiBerhasil': 'autentikasi_berhasil',
+                'pointWaktuAutentikasi': 'waktu_autentikasi',
+                'pointLoggingAktivitas': 'logging_aktivitas',
+                // Parameter B
+                'pointProtokolStandar': 'protokol_standar',
+                'pointProtokolTcpIp': 'protokol_tcpip',
+                'pointResponsPengiriman': 'respons_pengiriman',
+                'pointTingkatKesalahan': 'tingkat_kesalahan',
+                'pointKeberhasilanPaket': 'keberhasilan_paket',
+                'pointKoneksiTcp': 'koneksi_tcp',
+                'pointSesi': 'sesi',
+                'pointEnkripsiDekripsi': 'enkripsi_dekripsi',
+                'pointResponsAplikasi': 'respons_aplikasi',
+                'pointJaringanKabel': 'jaringan_kabel',
+                'pointPelabelan': 'pelabelan',
+                'pointJaringanNirkabel': 'jaringan_nirkabel',
+                'pointPelabelanNirkabel': 'pelabelan_nirkabel',
+                'pointLatensi5g': 'latensi_5g',
+                'pointThroughput5g': 'throughput_5g',
+                'pointPortLayanan': 'port_layanan',
+                'pointPatchPanel': 'patch_panel',
+                'pointModularJack': 'modular_jack',
+                'pointPatchCord': 'patch_cord',
+                'pointBandwidth': 'bandwidth',
+                'pointResponsPaket': 'respons_paket',
+                'pointKehilanganPaket': 'kehilangan_paket',
+                'pointVariasiWaktu': 'variasi_waktu',
+                'pointPrioritasiData': 'prioritasi_data',
+                'pointEfisiensiAlokasi': 'efisiensi_alokasi',
+                // Parameter C
+                'pointSinkronisasiBms': 'sinkronisasi_bms',
+                'pointMonitoringBms': 'monitoring_bms',
+                'pointKompatibilitasBms': 'kompatibilitas_bms',
+                'pointAkuisisiData': 'akuisisi_data',
+                'pointKonsistensiData': 'konsistensi_data',
+                'pointKepatuhanData': 'kepatuhan_data',
+                'pointPemrosesanData': 'pemrosesan_data',
+                'pointKatalogData': 'katalog_data',
+                'pointStandarTerbuka': 'standar_terbuka',
+                // Parameter D
+                'pointKebijakan': 'kebijakan',
+                'pointTugasTanggungJawab': 'tugas_tanggungjawab',
+                'pointProsedur': 'prosedur',
+                'pointPemenuhanPosisi': 'pemenuhan_posisi',
+                'pointKompetensi': 'kompetensi',
+                'pointPelatihan': 'frekuensi_pelatihan',
+                'pointPengawasan': 'frekuensi_audit',
+                // Parameter E
+                'pointEnergi': 'penurunan_energi',
+                'pointAir': 'penurunan_air',
+                'pointKepuasan': 'kepuasan_penghuni',
+                // Parameter F
+                'pointDeteksiBencana': 'deteksi_bencana',
+                'pointPemantauanKomponen': 'pemantauan_komponen',
+                'pointPelaporanOtomatis': 'pelaporan_otomatis',
+                'pointEnkripsiDVR': 'enkripsi_dvr',
+                'pointStreamingVideo': 'streaming_video',
+                'pointResolusiKamera': 'resolusi_kamera',
+                'pointDeteksiGerakan': 'deteksi_gerakan',
+                'pointDeteksiObjek': 'deteksi_objek',
+                'pointPerekamanOtomatis': 'perekaman_otomatis',
+                'pointWaktuResponsAkses': 'waktu_respons_akses',
+                'pointAkurasiVerifikasi': 'akurasi_verifikasi',
+                'pointAntipassback': 'antipassback',
+                'pointPengaturanAkses': 'pengaturan_akses',
+                'pointPerhitunganPenghuni': 'perhitungan_penghuni',
+                'pointDeaktivasiKredensial': 'deaktivasi_kredensial',
+                'pointKualitasVideo': 'kualitas_video',
+                'pointKompatibilitasFormat': 'kompatibilitas_format',
+                'pointProtokolTerbuka': 'protokol_terbuka',
+                'pointJumlahData': 'jumlah_data',
+                'pointPenjadwalanStreaming': 'penjadwalan_streaming',
+                'pointPoeAktif': 'poe_aktif',
+                'pointPoePasif': 'poe_pasif',
+                'pointPemantauanAudio': 'pemantauan_audio',
+                'pointPoeAudioAktif': 'poe_audio_aktif',
+                'pointPoeAudioPasif': 'poe_audio_pasif',
+                'pointTriplePlay': 'triple_play',
+                'pointSinyalDistribusi': 'sinyal_distribusi',
+                'pointAkurasiPengukuran': 'akurasi_pengukuran',
+                'pointKontrolOtomatis': 'kontrol_otomatis',
+                'pointLaporanEnergi': 'laporan_energi',
+                'pointDemandResponse': 'demand_response',
+                'pointAlarmAnomali': 'alarm_anomali',
+                'pointUptimePencahayaan': 'uptime_pencahayaan',
+                'pointKontrolOtomatisPencahayaan': 'kontrol_otomatis_pencahayaan',
+                'pointPemantauanPencahayaan': 'pemantauan_pencahayaan',
+                'pointPengondisianUdara': 'pemantauan_parameter',
+                'pointResponsVentilasi': 'respons_ventilasi',
+                'pointDeteksiUdaraLuar': 'deteksi_udara_luar',
+                'pointKontrolOtomatisVentilasi': 'kontrol_otomatis_ventilasi',
+                'pointPrediksiVentilasi': 'prediksi_ventilasi',
+                'pointMeterAir': 'meter_air',
+                'pointDeteksiKebocoran': 'deteksi_kebocoran',
+                'pointResponsDebit': 'respons_debit',
+                'pointPembersihanOtomatis': 'pembersihan_otomatis',
+                'pointResponsKatup': 'respons_katup',
+                'pointPemantauanKualitasAir': 'pemantauan_kualitas',
+                'pointDeteksiKontaminasi': 'deteksi_kontaminasi',
+                'pointOptimisasiDistribusi': 'optimisasi_distribusi',
+                'pointResponsVolume': 'respons_volume',
+                'pointAkurasiKetinggian': 'akurasi_ketinggian',
+                'pointPenggelontoran': 'penggelontoran',
+                'pointResponsKebocoranLimbah': 'respons_kebocoran',
+                'pointSistemOverflow': 'sistem_overflow',
+                'pointPemantauanKualitasLimbah': 'pemantauan_kualitas_limbah',
+                'pointAkurasiSensor': 'akurasi_sensor',
+                'pointJaringanIot': 'jaringan_iot',
+                'pointInformasiLift': 'informasi_lift',
+                'pointResponsBantuan': 'respons_bantuan',
+                'pointPengaturanOperasional': 'pengaturan_operasional',
+                'pointAntarmukaPengguna': 'antarmuka_pengguna',
+                'pointMonitorDarurat': 'monitor_darurat',
+                'pointPengendalianJarakJauh': 'pengendalian_jarak_jauh',
+                'pointSistemNavigasi': 'sistem_navigasi',
+                'pointPembaruanData': 'pembaruan_data',
+                'pointDeteksiKebakaran': 'deteksi_kebakaran',
+                'pointResponsAlarm': 'respons_alarm',
+                'pointIntegrasiSprinkler': 'integrasi_sprinkler',
+                'pointNotifikasiKebakaran': 'notifikasi_kebakaran',
+                'pointAksesKontrol': 'akses_kontrol',
+                'pointMonitoringKeamanan': 'monitoring_keamanan',
+                'pointResponDarurat': 'respon_darurat',
+                'pointIntegrasiSistem': 'integrasi_sistem'
+            };
+            
+            inputName = idToNameMap[id];
+            
+            if (inputName) {
+                // Calculate points for this specific indicator
+                let points = 0;
+                const checkedInputs = document.querySelectorAll(`input[name="${inputName}"]:checked`);
+                
+                checkedInputs.forEach(input => {
+                    points += parseInt(input.value) || 0;
+                });
+                
+                display.textContent = points;
+            }
+        });
     }
 
     // Function to update parameter display
@@ -2602,7 +3681,10 @@
         const allInputs = document.querySelectorAll('input[type="radio"], input[type="checkbox"]');
         
         allInputs.forEach(input => {
-            input.addEventListener('change', calculateTotal);
+            input.addEventListener('change', function() {
+                calculateTotal();
+                updateIndividualPoints();
+            });
         });
         
         // Initial calculation
