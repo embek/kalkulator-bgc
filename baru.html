@@ -6,1216 +6,521 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kalkulator Penilaian Kinerja Bangunan Gedung Cerdas Tahap Pemanfaatan</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    /* Base Flexbox Layout */
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f8f9fa;
-      display: flex;
-      min-height: 100vh;
-      margin: 0;
-    }
-
-    .header {
-      background-color: #0d6efd;
-      color: white;
-      padding: 2rem 0;
-      margin-bottom: 2rem;
-      display: flex;
-      align-items: center;
-    }
-
-    .header .container {
-      display: flex;
-      align-items: center;
-      width: 100%;
-    }
-
-    .card {
-      margin-bottom: 2rem;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card-body {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-    }
-
-    .parameter-group {
-      background-color: #e9ecef;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border-radius: 5px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .parameter-title {
-      color: #0d6efd;
-      border-bottom: 2px solid #0d6efd;
-      padding-bottom: 0.5rem;
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-    }
-
-    .result-box {
-      background-color: #f8f9fa;
-      border: 1px solid #dee2e6;
-      border-radius: 5px;
-      padding: 1rem;
-      margin-top: 1rem;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .table-responsive {
-      overflow-x: auto;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .bgc-classification {
-      font-weight: bold;
-      font-size: 1.2rem;
-      display: flex;
-      align-items: center;
-    }
-
-    .pratama {
-      color: #dc3545;
-    }
-
-    .madya {
-      color: #fd7e14;
-    }
-
-    .utama {
-      color: #198754;
-    }
-    
-    .indicator-option {
-      margin-bottom: 5px;
-      padding-left: 5px;
-      border-left: 3px solid #dee2e6;
-      display: flex;
-      align-items: center;
-    }
-    
-    .radio-group {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    
-    .form-check {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-      margin-bottom: 0;
-    }
-    
-    .form-check-input {
-      margin: 0;
-      flex-shrink: 0;
-    }
-    
-    .form-check-label {
-      display: flex;
-      align-items: center;
-      line-height: 1.4;
-      cursor: pointer;
-    }
-    
-    .point-display {
-      font-weight: bold;
-      text-align: center;
-      padding: 8px 12px;
-      background-color: #f8f9fa;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 50px;
-    }
-    
-    .nav-tabs {
-      display: flex;
-      flex-wrap: wrap;
-    }
-    
-    .nav-tabs .nav-link {
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-    }
-    
-    /* Sidebar Navigation Styles */
-    .sidebar-nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 280px;
-      height: 100vh;
-      background-color: #fff;
-      border-right: 1px solid #dee2e6;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      z-index: 1000;
-      overflow-y: auto;
-      padding-top: 20px;
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .sidebar-nav .nav {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-    }
-    
-    .sidebar-nav .nav-item {
-      margin-bottom: 5px;
-      display: flex;
-    }
-    
-    .sidebar-nav .nav-link {
-      display: flex;
-      align-items: center;
-      padding: 12px 20px;
-      color: #495057;
-      text-decoration: none;
-      border-left: 4px solid transparent;
-      transition: all 0.3s ease;
-      font-weight: 500;
-      font-size: 0.9rem;
-      flex: 1;
-    }
-    
-    .sidebar-nav .nav-link:hover {
-      background-color: #f8f9fa;
-      color: #0d6efd;
-      border-left-color: #0d6efd;
-    }
-    
-    .sidebar-nav .nav-link.active {
-      background-color: #e7f1ff;
-      color: #0d6efd;
-      border-left-color: #0d6efd;
-    }
-    
-    .sidebar-header {
-      padding: 15px 20px;
-      background-color: #0d6efd;
-      color: white;
-      font-weight: bold;
-      font-size: 1rem;
-      border-bottom: 1px solid #dee2e6;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .main-content {
-      margin-left: 280px;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-    }
-    
-    .toggle-sidebar {
-      display: none;
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 1001;
-      background-color: #0d6efd;
-      color: white;
-      border: none;
-      padding: 10px;
-      border-radius: 5px;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .parameter-progress {
-      font-size: 0.8rem;
-      color: #6c757d;
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-    }
-    
-    /* Table stripe styling for indicator and point columns - FORCE OVERRIDE */
-    .table.table-bordered tbody tr:nth-child(odd) td:nth-child(4),
-    .table.table-bordered tbody tr:nth-child(odd) td:nth-child(5) {
-      background-color: #f8f9fa !important;
-    }
-
-    .table.table-bordered tbody tr:nth-child(even) td:nth-child(4),
-    .table.table-bordered tbody tr:nth-child(even) td:nth-child(5) {
-      background-color: #ffffff !important;
-    }
-
-    /* More specific selectors for parameter sections */
-    .parameter-section .table.table-bordered tbody tr:nth-child(odd) td:nth-child(4),
-    .parameter-section .table.table-bordered tbody tr:nth-child(odd) td:nth-child(5) {
-      background-color: #f8f9fa !important;
-    }
-
-    .parameter-section .table.table-bordered tbody tr:nth-child(even) td:nth-child(4),
-    .parameter-section .table.table-bordered tbody tr:nth-child(even) td:nth-child(5) {
-      background-color: #ffffff !important;
-    }
-
-    /* Override ALL Bootstrap table styling */
-    .table.table-bordered td:nth-child(4),
-    .table.table-bordered td:nth-child(5) {
-      background-color: inherit !important;
-    }
-
-    .parameter-section .table.table-bordered td:nth-child(4),
-    .parameter-section .table.table-bordered td:nth-child(5) {
-      background-color: inherit !important;
-    }
-
-    /* Table cells with flexbox */
-    .table-bordered td {
-      display: table-cell;
-      vertical-align: middle;
-    }
-
-    .table-bordered td:nth-child(4),
-    .table-bordered td:nth-child(5) {
-      padding: 12px;
-    }
-
-    /* Hover effect for table rows - FORCE OVERRIDE */
-    .table.table-bordered tbody tr:hover td:nth-child(4),
-    .table.table-bordered tbody tr:hover td:nth-child(5) {
-      background-color: #e3f2fd !important;
-      transition: background-color 0.15s ease-in-out;
-    }
-
-    .parameter-section .table.table-bordered tbody tr:hover td:nth-child(4),
-    .parameter-section .table.table-bordered tbody tr:hover td:nth-child(5) {
-      background-color: #e3f2fd !important;
-      transition: background-color 0.15s ease-in-out;
-    }
-
-    /* Enhanced styling for point display - using flexbox for all parameters */
-    .point-display {
-      font-weight: bold;
-      color: #0d6efd;
-      background: #e7f3ff !important;
-      padding: 8px 12px;
-      border-radius: 4px;
-      text-align: center;
-      min-width: 50px;
-      display: flex !important;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto;
-    }
-
-    .parameter-section .point-display {
-      font-weight: bold;
-      color: #0d6efd;
-      background: #e7f3ff !important;
-      padding: 8px 12px;
-      border-radius: 4px;
-      text-align: center;
-      min-width: 50px;
-      display: flex !important;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto;
-    }
-
-    /* Special styling for subtotal rows - FORCE OVERRIDE */
-    .table.table-bordered tbody tr:last-child td:nth-child(4),
-    .table.table-bordered tbody tr:last-child td:nth-child(5) {
-      background-color: #e9ecef !important;
-      font-weight: bold;
-    }
-
-    .parameter-section .table.table-bordered tbody tr:last-child td:nth-child(4),
-    .parameter-section .table.table-bordered tbody tr:last-child td:nth-child(5) {
-      background-color: #e9ecef !important;
-      font-weight: bold;
-    }
-
-    /* Target subtotal rows specifically */
-    .table.table-bordered tbody tr td[colspan]:contains("Subtotal") ~ td,
-    .table.table-bordered tbody tr:has(td:contains("Subtotal")) td:nth-child(4),
-    .table.table-bordered tbody tr:has(td:contains("Subtotal")) td:nth-child(5) {
-      background-color: #e9ecef !important;
-      font-weight: bold;
-    }
-
-    .table-bordered tbody tr:last-child td {
-      display: table-cell;
-    }
-
-    /* Form controls styling within table - enhanced flexbox */
-    .table-bordered .form-check {
-      margin-bottom: 8px;
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-    }
-
-    .table-bordered .form-check-input {
-      margin: 0;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-
-    .table-bordered .form-check-label {
-      font-size: 0.9rem;
-      line-height: 1.4;
-      flex: 1;
-      cursor: pointer;
-      display: flex;
-      align-items: flex-start;
-    }
-
-    .table-bordered .radio-group {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      width: 100%;
-    }
-
-    .table-bordered .radio-group .form-check:last-child {
-      margin-bottom: 0;
-    }
-
-    /* Container and row flexbox enhancements */
-    .container {
-      display: flex;
-      flex-direction: column;
-      max-width: 100%;
-    }
-
-    .row {
-      display: flex;
-      flex-wrap: wrap;
-      margin: 0 -15px;
-    }
-
-    .col-md-12 {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      padding: 0 15px;
-    }
-
-    /* Tab content flexbox - Single page layout */
-    .tab-content {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-    }
-
-    .parameter-section {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 3rem;
-      padding: 1.5rem 0;
-      border-bottom: 2px solid #e9ecef;
-    }
-
-    .parameter-section:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
-    }
-
-    /* Parameter section headers */
-    .parameter-section-header {
-      background: linear-gradient(135deg, #0d6efd, #0056b3);
-      color: white;
-      padding: 1rem 1.5rem;
-      margin: -1.5rem -1.5rem 1.5rem -1.5rem;
-      border-radius: 8px 8px 0 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 1.25rem;
-      font-weight: 600;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .parameter-section-header h3 {
-      margin: 0;
-      display: flex;
-      align-items: center;
-    }
-
-    /* Smooth scrolling */
-    html {
-      scroll-behavior: smooth;
-    }
-    
-    /* Parameter sections with proper scroll offset */
-    .parameter-section {
-      margin-bottom: 40px;
-      padding-top: 80px;
-      margin-top: -80px;
-    }
-    
-    /* Active navigation styling */
-    .nav-link.active {
-      background-color: #007bff !important;
-      color: white !important;
-      border-radius: 5px;
-    }
-    
-    /* Enhanced parameter section header */
-    .parameter-section-header .badge {
-      font-size: 14px;
-      padding: 8px 12px;
-      background: rgba(255,255,255,0.9) !important;
-      color: #0d6efd !important;
-      border: 2px solid rgba(255,255,255,0.3);
-      font-weight: 600;
-    }
-    html {
-      scroll-behavior: smooth;
-    }
-
-    /* Scroll offset for sticky header */
-    .parameter-section {
-      scroll-margin-top: 100px;
-    }
-
-    /* Enhanced navbar for single page */
-    .sidebar-nav .nav-link {
-      display: flex;
-      align-items: center;
-      padding: 12px 20px;
-      color: #495057;
-      text-decoration: none;
-      border-left: 4px solid transparent;
-      transition: all 0.3s ease;
-      font-weight: 500;
-      font-size: 0.9rem;
-      flex: 1;
-      cursor: pointer;
-    }
-
-    .sidebar-nav .nav-link[data-scroll-to] {
-      cursor: pointer;
-    }
-    
-    /* Responsive Design with Flexbox */
-    @media (max-width: 768px) {
-      body {
-        flex-direction: column;
-      }
-
-      .parameter-title {
-        font-size: 1.1rem;
-      }
-      
-      .sidebar-nav {
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-        position: fixed;
-        z-index: 1000;
-      }
-      
-      .sidebar-nav.show {
-        transform: translateX(0);
-      }
-      
-      .main-content {
-        margin-left: 0;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-      }
-      
-      .toggle-sidebar {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      
-      .sidebar-nav .nav-link {
-        font-size: 0.85rem;
-        padding: 10px 15px;
-      }
-
-      .container {
-        padding: 0 10px;
-      }
-
-      .row {
-        margin: 0 -10px;
-      }
-
-      .col-md-12 {
-        padding: 0 10px;
-      }
-
-      .card-body {
-        padding: 1rem;
-      }
-
-      .table-responsive {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-
-      .form-check-label {
-        font-size: 0.85rem;
-      }
-
-      .point-display {
-        min-width: 40px;
-        padding: 6px 8px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .header {
-        padding: 1rem 0;
-      }
-
-      .card {
-        margin-bottom: 1rem;
-      }
-
-      .form-check {
-        gap: 6px;
-      }
-
-      .form-check-label {
-        font-size: 0.8rem;
-        line-height: 1.3;
-      }
-
-      .point-display {
-        min-width: 35px;
-        padding: 4px 6px;
-        font-size: 0.85rem;
-      }
-
-      .radio-group {
-        gap: 6px;
-      }
-
-      .table-bordered td {
-        padding: 8px;
-      }
-    }
-    
-    /* FINAL OVERRIDE - Stripe styling for all tables */
-    body .table.table-bordered tbody tr:nth-child(odd) td:nth-child(4),
-    body .table.table-bordered tbody tr:nth-child(odd) td:nth-child(5) {
-      background-color: #f8f9fa !important;
-    }
-
-    body .table.table-bordered tbody tr:nth-child(even) td:nth-child(4),
-    body .table.table-bordered tbody tr:nth-child(even) td:nth-child(5) {
-      background-color: #ffffff !important;
-    }
-
-    body .table.table-bordered tbody tr:hover td:nth-child(4),
-    body .table.table-bordered tbody tr:hover td:nth-child(5) {
-      background-color: #e3f2fd !important;
-    }
-  </style>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="styles/style.css" rel="stylesheet">
 </head>
 
 <body>
-  <!-- Toggle button for mobile -->
-  <button class="toggle-sidebar" id="toggleSidebar">
-    <i class="fas fa-bars"></i> ☰
-  </button>
-
-  <!-- Sidebar Navigation -->
-  <nav class="sidebar-nav" id="sidebarNav">
-    <div class="sidebar-header">
-      Parameter Penilaian BGC
+  <!-- Bootstrap Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <i class="fas fa-calculator me-2"></i>
+        Kalkulator BGC
+      </a>
+      
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="#data-bangunan" data-scroll-to="data-bangunan">
+              <i class="fas fa-building me-1"></i>Data Bangunan
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#parameter-a" data-scroll-to="parameter-a">
+              <i class="fas fa-shield-alt me-1"></i>A. Keamanan Siber
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#parameter-b" data-scroll-to="parameter-b">
+              <i class="fas fa-network-wired me-1"></i>B. Protokol & Jaringan
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#parameter-c" data-scroll-to="parameter-c">
+              <i class="fas fa-database me-1"></i>C. Integrasi Data
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#parameter-d" data-scroll-to="parameter-d">
+              <i class="fas fa-cogs me-1"></i>D. Manajemen Operasi
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#parameter-e" data-scroll-to="parameter-e">
+              <i class="fas fa-chart-line me-1"></i>E. Dampak
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#parameter-f" data-scroll-to="parameter-f">
+              <i class="fas fa-microchip me-1"></i>F. Kemampuan Sistem
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#hasil-penilaian" data-scroll-to="hasil-penilaian">
+              <i class="fas fa-chart-pie me-1"></i>Hasil
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
-    <ul class="nav flex-column">
-      <li class="nav-item">
-        <a class="nav-link active" data-scroll-to="parameter-a" id="nav-parameterA">
-          A. Keamanan Siber
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-scroll-to="parameter-b" id="nav-parameterB">
-          B. Protokol & Jaringan
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-scroll-to="parameter-c" id="nav-parameterC">
-          C. Integrasi Data
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-scroll-to="parameter-d" id="nav-parameterD">
-          D. Manajemen Operasi
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-scroll-to="parameter-e" id="nav-parameterE">
-          E. Dampak
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-scroll-to="parameter-f" id="nav-parameterF">
-          F. Kemampuan Sistem
-        </a>
-      </li>
-    </ul>
   </nav>
 
   <!-- Main Content Area -->
-  <div class="main-content">
-    <div class="header">
-      <div class="container">
+  <main class="main-content" role="main">
+    <header class="header">
+      <div class="container-fluid">
         <div class="row">
-          <div class="col-md-8">
-            <h1>Kalkulator Penilaian Kinerja BGC Tahap Pemanfaatan</h1>
-            <p class="lead">Sesuai Surat Edaran Menteri PUPR Nomor 22/SE/M/2024</p>
+          <div class="col-12 col-lg-8">
+            <h1 class="display-6 mb-2">Kalkulator Penilaian Kinerja BGC Tahap Pemanfaatan</h1>
+            <p class="lead mb-0">Sesuai Surat Edaran Menteri PUPR Nomor 22/SE/M/2024</p>
           </div>
         </div>
       </div>
-    </div>
+    </header>
 
-  <div class="container">
+  <div class="container-fluid px-3 px-md-4">
     <div class="row">
-      <div class="col-md-12">
-        <div class="card">
+      <div class="col-12">
+        <section class="card shadow-sm" id="data-bangunan">
           <div class="card-header bg-primary text-white">
-            <h2>Data Bangunan Gedung</h2>
+            <h2 class="h4 mb-0">
+              <i class="fas fa-building me-2"></i>Data Bangunan Gedung
+            </h2>
           </div>
           <div class="card-body">
-            <div class="row">
-              <div class="col-md-6">
+            <div class="row g-3">
+              <div class="col-12 col-md-6">
                 <div class="mb-3">
-                  <label for="namaBangunan" class="form-label">Nama Bangunan Gedung</label>
-                  <input type="text" class="form-control" id="namaBangunan">
+                  <label for="namaBangunan" class="form-label fw-semibold">Nama Bangunan Gedung</label>
+                  <input type="text" class="form-control" id="namaBangunan" placeholder="Masukkan nama bangunan">
                 </div>
                 <div class="mb-3">
-                  <label for="fungsiBangunan" class="form-label">Fungsi Bangunan</label>
-                  <input type="text" class="form-control" id="fungsiBangunan">
+                  <label for="fungsiBangunan" class="form-label fw-semibold">Fungsi Bangunan</label>
+                  <input type="text" class="form-control" id="fungsiBangunan" placeholder="Masukkan fungsi bangunan">
                 </div>
                 <div class="mb-3">
-                  <label for="alamatBangunan" class="form-label">Alamat</label>
-                  <input type="text" class="form-control" id="alamatBangunan">
+                  <label for="alamatBangunan" class="form-label fw-semibold">Alamat</label>
+                  <input type="text" class="form-control" id="alamatBangunan" placeholder="Masukkan alamat lengkap">
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-12 col-md-6">
                 <div class="mb-3">
-                  <label for="luasBangunan" class="form-label">Luas Bangunan (m²)</label>
-                  <input type="number" class="form-control" id="luasBangunan">
+                  <label for="luasBangunan" class="form-label fw-semibold">Luas Bangunan (m²)</label>
+                  <input type="number" class="form-control" id="luasBangunan" placeholder="0" min="0">
                 </div>
                 <div class="mb-3">
-                  <label for="jumlahLantai" class="form-label">Jumlah Lantai</label>
-                  <input type="number" class="form-control" id="jumlahLantai">
+                  <label for="jumlahLantai" class="form-label fw-semibold">Jumlah Lantai</label>
+                  <input type="number" class="form-control" id="jumlahLantai" placeholder="0" min="1">
                 </div>
                 <div class="mb-3">
-                  <label class="form-label">Kepemilikan</label>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="kepemilikan" id="bgn" value="BGN">
-                    <label class="form-check-label" for="bgn">Bangunan Gedung Negara (BGN)</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="kepemilikan" id="nonBgn" value="Non BGN">
-                    <label class="form-check-label" for="nonBgn">Non Bangunan Gedung Negara (Non BGN)</label>
-                  </div>
+                  <fieldset>
+                    <legend class="form-label fw-semibold">Kepemilikan</legend>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="kepemilikan" id="bgn" value="BGN">
+                      <label class="form-check-label" for="bgn">Bangunan Gedung Negara (BGN)</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="kepemilikan" id="nonBgn" value="Non BGN">
+                      <label class="form-check-label" for="nonBgn">Non Bangunan Gedung Negara (Non BGN)</label>
+                    </div>
+                  </fieldset>
                 </div>
               </div>
             </div>
 
             <div class="row" id="klasifikasiBgnContainer" style="display: none;">
-              <div class="col-md-12">
+              <div class="col-12">
                 <div class="mb-3">
-                  <label class="form-label">Klasifikasi BGN</label>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="klasifikasiBgn" id="sederhana" value="Sederhana">
-                    <label class="form-check-label" for="sederhana">Sederhana</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="klasifikasiBgn" id="tidakSederhana"
-                      value="Tidak Sederhana">
-                    <label class="form-check-label" for="tidakSederhana">Tidak Sederhana</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="klasifikasiBgn" id="khusus" value="Khusus">
-                    <label class="form-check-label" for="khusus">Khusus</label>
-                  </div>
+                  <fieldset>
+                    <legend class="form-label fw-semibold">Klasifikasi BGN</legend>
+                    <div class="row g-2">
+                      <div class="col-12 col-sm-4">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="klasifikasiBgn" id="sederhana" value="Sederhana">
+                          <label class="form-check-label" for="sederhana">Sederhana</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-4">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="klasifikasiBgn" id="tidakSederhana" value="Tidak Sederhana">
+                          <label class="form-check-label" for="tidakSederhana">Tidak Sederhana</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-4">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="klasifikasiBgn" id="khusus" value="Khusus">
+                          <label class="form-check-label" for="khusus">Khusus</label>
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
                 </div>
               </div>
             </div>
 
             <div class="row" id="klasNonBgnContainer" style="display: none;">
-              <div class="col-md-12">
+              <div class="col-12">
                 <div class="mb-3">
-                  <label class="form-label">Klas Bangunan Gedung (Non BGN)</label>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="klasNonBgn" id="klas1a" value="Klas 1a">
-                        <label class="form-check-label" for="klas1a">Klas 1a</label>
+                  <fieldset>
+                    <legend class="form-label fw-semibold">Kelas Bangunan Gedung (Non BGN)</legend>
+                    <div class="row g-2">
+                      <div class="col-12 col-md-4">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="klasNonBgn" id="klas1a" value="Klas 1a">
+                          <label class="form-check-label" for="klas1a">Kelas 1a</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="klasNonBgn" id="klas1b" value="Klas 1b">
+                          <label class="form-check-label" for="klas1b">Kelas 1b</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="klasNonBgn" id="klas2" value="Klas 2">
+                          <label class="form-check-label" for="klas2">Kelas 2</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="klasNonBgn" id="klas3" value="Klas 3">
+                          <label class="form-check-label" for="klas3">Kelas 3</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="klasNonBgn" id="klas4" value="Klas 4">
+                          <label class="form-check-label" for="klas4">Kelas 4</label>
+                        </div>
                       </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="klasNonBgn" id="klas1b" value="Klas 1b">
-                        <label class="form-check-label" for="klas1b">Klas 1b</label>
+                      <div class="col-12 col-md-4">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="klasNonBgn" id="klas5" value="Klas 5">
+                          <label class="form-check-label" for="klas5">Kelas 5</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="klasNonBgn" id="klas6" value="Klas 6">
+                          <label class="form-check-label" for="klas6">Kelas 6</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="klasNonBgn" id="klas7" value="Klas 7">
+                          <label class="form-check-label" for="klas7">Kelas 7</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="klasNonBgn" id="klas8" value="Klas 8">
+                          <label class="form-check-label" for="klas8">Kelas 8</label>
+                        </div>
                       </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="klasNonBgn" id="klas2" value="Klas 2">
-                        <label class="form-check-label" for="klas2">Klas 2</label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="klasNonBgn" id="klas3" value="Klas 3">
-                        <label class="form-check-label" for="klas3">Klas 3</label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="klasNonBgn" id="klas4" value="Klas 4">
-                        <label class="form-check-label" for="klas4">Klas 4</label>
+                      <div class="col-12 col-md-4">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="klasNonBgn" id="klas9a" value="Klas 9a">
+                          <label class="form-check-label" for="klas9a">Kelas 9a</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="klasNonBgn" id="klas9b" value="Klas 9b">
+                          <label class="form-check-label" for="klas9b">Kelas 9b</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="klasNonBgn" id="klas10a" value="Klas 10a">
+                          <label class="form-check-label" for="klas10a">Kelas 10a</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="klasNonBgn" id="klas10b" value="Klas 10b">
+                          <label class="form-check-label" for="klas10b">Kelas 10b</label>
+                        </div>
                       </div>
                     </div>
-                    <div class="col-md-4">
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="klasNonBgn" id="klas5" value="Klas 5">
-                        <label class="form-check-label" for="klas5">Klas 5</label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="klasNonBgn" id="klas6" value="Klas 6">
-                        <label class="form-check-label" for="klas6">Klas 6</label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="klasNonBgn" id="klas7" value="Klas 7">
-                        <label class="form-check-label" for="klas7">Klas 7</label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="klasNonBgn" id="klas8" value="Klas 8">
-                        <label class="form-check-label" for="klas8">Klas 8</label>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="klasNonBgn" id="klas9a" value="Klas 9a">
-                        <label class="form-check-label" for="klas9a">Klas 9a</label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="klasNonBgn" id="klas9b" value="Klas 9b">
-                        <label class="form-check-label" for="klas9b">Klas 9b</label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="klasNonBgn" id="klas10a" value="Klas 10a">
-                        <label class="form-check-label" for="klas10a">Klas 10a</label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="klasNonBgn" id="klas10b" value="Klas 10b">
-                        <label class="form-check-label" for="klas10b">Klas 10b</label>
-                      </div>
-                    </div>
-                  </div>
+                  </fieldset>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-md-12">
-        <div class="card">
+      <div class="col-12">
+        <section class="card shadow-sm">
           <div class="card-header bg-primary text-white">
-            <h2>Penilaian Kinerja BGC Tahap Pemanfaatan</h2>
+            <h2 class="h4 mb-0">
+              <i class="fas fa-clipboard-check me-2"></i>Penilaian Kinerja BGC Tahap Pemanfaatan
+            </h2>
           </div>
-          <div class="card-body">
+          <div class="card-body p-0">
             <div class="tab-content" id="parameterTabsContent">
               <!-- Parameter A: Keamanan Siber -->
-              <div class="parameter-section" id="parameter-a" role="tabpanel">
-                <div class="parameter-section-header">
-                  <h3>Parameter A: Keamanan Siber</h3>
-                  <span class="badge bg-light text-dark">192 Poin</span>
+              <fieldset class="parameter-section" id="parameter-a">
+                <legend class="parameter-legend">
+                  <span class="parameter-title">
+                    <i class="fas fa-shield-alt me-2"></i>Parameter A: Keamanan Siber
+                  </span>
+                  <span class="badge bg-primary text-white">192 Poin</span>
+                </legend>
+                <div class="px-3 px-md-4 pb-4">
+                  <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                      <thead>
+                        <tr>
+                          <th scope="col" style="width: 5%" class="text-center">No</th>
+                          <th scope="col" style="width: 35%">Kriteria Unjuk Kerja</th>
+                          <th scope="col" style="width: 10%" class="text-center">Poin Maks</th>
+                          <th scope="col" style="width: 35%">Indikator</th>
+                          <th scope="col" style="width: 15%" class="text-center">Klaim Poin</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <!-- Kriteria 1 -->
+                        <tr>
+                          <td rowspan="2" class="text-center fw-medium">1</td>
+                          <td rowspan="2" class="fw-medium">Integritas data yang disimpan di pusat data</td>
+                          <td rowspan="2" class="text-center fw-semibold">24</td>
+                          <td class="p-3">
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" name="integritas_verifikasi" value="12" id="verifikasi">
+                              <label class="form-check-label" for="verifikasi">
+                                100% data berhasil diverifikasi menggunakan checksum atau hashing
+                              </label>
+                            </div>
+                          </td>
+                          <td class="text-center">
+                            <div id="pointVerifikasi" class="point-display">0</div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3">
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" name="integritas_dokumentasi" value="12" id="dokumentasi">
+                              <label class="form-check-label" for="dokumentasi">
+                                100% perubahan data atau riwayat versi data terdokumentasi
+                              </label>
+                            </div>
+                          </td>
+                          <td class="text-center">
+                            <div id="pointDokumentasi" class="point-display">0</div>
+                          </td>
+                        </tr>
+                        
+                        <!-- Kriteria 2 -->
+                        <tr>
+                          <td rowspan="2" class="text-center fw-medium">2</td>
+                          <td rowspan="2" class="fw-medium">Redundansi perangkat keras</td>
+                          <td rowspan="2" class="text-center fw-semibold">24</td>
+                          <td class="p-3">
+                            <div class="radio-group">
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="redundansi_persen" value="4" id="redundansi_kurang">
+                                <label class="form-check-label" for="redundansi_kurang">
+                                  Kurang dari 100% redundansi perangkat kritikal
+                                </label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="redundansi_persen" value="12" id="redundansi_100">
+                                <label class="form-check-label" for="redundansi_100">
+                                  100% redundansi perangkat kritikal
+                                </label>
+                              </div>
+                            </div>
+                          </td>
+                          <td class="text-center">
+                            <div id="pointRedundansiPersen" class="point-display">0</div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3">
+                            <div class="radio-group">
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="failover" value="0" id="failover_tidak_ada">
+                                <label class="form-check-label" for="failover_tidak_ada">
+                                  Tidak ada informasi mengenai jumlah failover
+                                </label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="failover" value="4" id="failover_gangguan">
+                                <label class="form-check-label" for="failover_gangguan">
+                                  Terjadi gangguan selama failover
+                                </label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="failover" value="12" id="failover_tanpa_gangguan">
+                                <label class="form-check-label" for="failover_tanpa_gangguan">
+                                  Tidak ada gangguan selama failover
+                                </label>
+                              </div>
+                            </div>
+                          </td>
+                          <td class="text-center">
+                            <div id="pointFailover" class="point-display">0</div>
+                          </td>
+                        </tr>
+                        
+                        <!-- Kriteria 3 -->
+                        <tr>
+                          <td rowspan="2" class="text-center fw-medium">3</td>
+                          <td rowspan="2" class="fw-medium">Analisis event log</td>
+                          <td rowspan="2" class="text-center fw-semibold">24</td>
+                          <td class="p-3">
+                            <div class="radio-group">
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="analisis_log" value="4" id="log_lambat">
+                                <label class="form-check-label" for="log_lambat">
+                                  Frekuensi analisis log setiap lebih dari 1 menit
+                                </label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="analisis_log" value="8" id="log_kadang">
+                                <label class="form-check-label" for="log_kadang">
+                                  Frekuensi analisis log kadang-kadang setiap 1 menit
+                                </label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="analisis_log" value="12" id="log_realtime">
+                                <label class="form-check-label" for="log_realtime">
+                                  Frekuensi analisis log real-time dengan maksimal setiap 1 menit
+                                </label>
+                              </div>
+                            </div>
+                          </td>
+                          <td class="text-center">
+                            <div id="pointAnalisisLog" class="point-display">0</div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3">
+                            <div class="radio-group">
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="deteksi_anomali" value="0" id="anomali_tidak">
+                                <label class="form-check-label" for="anomali_tidak">
+                                  Insiden keamanan tidak dapat dideteksi
+                                </label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="deteksi_anomali" value="4" id="anomali_kurang">
+                                <label class="form-check-label" for="anomali_kurang">
+                                  Kurang dari 95% insiden keamanan terdeteksi
+                                </label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="deteksi_anomali" value="12" id="anomali_tinggi">
+                                <label class="form-check-label" for="anomali_tinggi">
+                                  Lebih dari 95% insiden keamanan terdeteksi
+                                </label>
+                              </div>
+                            </div>
+                          </td>
+                          <td class="text-center">
+                            <div id="pointDeteksiAnomali" class="point-display">0</div>
+                          </td>
+                        </tr>
+                        
+                        <!-- Kriteria 4 -->
+                        <tr>
+                          <td class="text-center fw-medium">4</td>
+                          <td class="fw-medium">Kontrol akses pada setiap lapisan OSI</td>
+                          <td class="text-center fw-semibold">27</td>
+                          <td class="p-3">
+                            <div class="radio-group">
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="kontrol_akses" value="9" id="akses_kurang">
+                                <label class="form-check-label" for="akses_kurang">
+                                  Kurang dari 100% layer diterapkan kontrol akses
+                                </label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="kontrol_akses" value="18" id="akses_tidak_konsisten">
+                                <label class="form-check-label" for="akses_tidak_konsisten">
+                                  100% layer diterapkan kontrol akses tetapi tidak konsisten
+                                </label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="kontrol_akses" value="27" id="akses_selalu">
+                                <label class="form-check-label" for="akses_selalu">
+                                  100% layer selalu diterapkan kontrol akses
+                                </label>
+                              </div>
+                            </div>
+                          </td>
+                          <td class="text-center">
+                            <div id="pointKontrolAkses" class="point-display">0</div>
+                          </td>
+                        </tr>
+                        
+                        <!-- Subtotal -->
+                        <tr class="table-secondary">
+                          <td colspan="3" class="text-end fw-bold">Subtotal Poin Parameter A</td>
+                          <td class="text-center fw-bold">192</td>
+                          <td class="text-center fw-bold">
+                            <span id="subtotalA" class="fs-5 text-primary">0</span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-                <div class="table-responsive">
-                  <table class="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th width="5%">No</th>
-                        <th width="35%">Kriteria Unjuk Kerja</th>
-                        <th width="10%">Poin Maks</th>
-                        <th width="30%">Indikator</th>
-                        <th width="20%">Klaim Poin</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <!-- Kriteria 1 -->
-                      <tr>
-                        <td rowspan="2">1</td>
-                        <td rowspan="2">Integritas data yang disimpan di pusat data</td>
-                        <td rowspan="2">24</td>
-                        <td>
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="integritas_verifikasi" value="12" id="verifikasi">
-                            <label class="form-check-label" for="verifikasi">100% data berhasil diverifikasi menggunakan checksum atau hashing</label>
-                          </div>
-                        </td>
-                        <td>
-                          <div id="pointVerifikasi" class="point-display">0</div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="integritas_dokumentasi" value="12" id="dokumentasi">
-                            <label class="form-check-label" for="dokumentasi">100% perubahan data atau riwayat versi data terdokumentasi</label>
-                          </div>
-                        </td>
-                        <td>
-                          <div id="pointDokumentasi" class="point-display">0</div>
-                        </td>
-                      </tr>
-                      
-                      <!-- Kriteria 2 -->
-                      <tr>
-                        <td rowspan="2">2</td>
-                        <td rowspan="2">Redundansi perangkat keras</td>
-                        <td rowspan="2">24</td>
-                        <td>
-                          <div class="radio-group">
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="redundansi_persen" value="4" id="redundansi_kurang">
-                              <label class="form-check-label" for="redundansi_kurang">Kurang dari 100% redundansi perangkat kritikal</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="redundansi_persen" value="12" id="redundansi_100">
-                              <label class="form-check-label" for="redundansi_100">100% redundansi perangkat kritikal</label>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div id="pointRedundansiPersen" class="point-display">0</div>
-                        </td>
-                      </tr>
-                      
-                      <tr>
-                        <td>
-                          <div class="radio-group">
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="failover" value="0" id="failover_tidak_ada">
-                              <label class="form-check-label" for="failover_tidak_ada">Tidak ada informasi mengenai jumlah failover</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="failover" value="4" id="failover_gangguan">
-                              <label class="form-check-label" for="failover_gangguan">Terjadi gangguan selama failover</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="failover" value="12" id="failover_tanpa_gangguan">
-                              <label class="form-check-label" for="failover_tanpa_gangguan">Tidak ada gangguan selama failover</label>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div id="pointFailover" class="point-display">0</div>
-                        </td>
-                      </tr>
-                      
-                      <!-- Kriteria 3 -->
-                      <tr>
-                        <td rowspan="2">3</td>
-                        <td rowspan="2">Analisis event log</td>
-                        <td rowspan="2">24</td>
-                        <td>
-                          <div class="radio-group">
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="analisis_log" value="4" id="log_lambat">
-                              <label class="form-check-label" for="log_lambat">Frekuensi analisis log setiap lebih dari 1 menit</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="analisis_log" value="8" id="log_kadang">
-                              <label class="form-check-label" for="log_kadang">Frekuensi analisis log kadang-kadang setiap 1 menit</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="analisis_log" value="12" id="log_realtime">
-                              <label class="form-check-label" for="log_realtime">Frekuensi analisis log real-time dengan maksimal setiap 1 menit</label>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div id="pointAnalisisLog" class="point-display">0</div>
-                        </td>
-                      </tr>
-                      
-                      <tr>
-                        <td>
-                          <div class="radio-group">
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="deteksi_anomali" value="0" id="anomali_tidak">
-                              <label class="form-check-label" for="anomali_tidak">Insiden keamanan tidak dapat dideteksi</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="deteksi_anomali" value="4" id="anomali_kurang">
-                              <label class="form-check-label" for="anomali_kurang">Kurang dari 95% insiden keamanan terdeteksi</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="deteksi_anomali" value="12" id="anomali_tinggi">
-                              <label class="form-check-label" for="anomali_tinggi">Lebih dari 95% insiden keamanan terdeteksi</label>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div id="pointDeteksiAnomali" class="point-display">0</div>
-                        </td>
-                      </tr>
-                      
-                      <!-- Kriteria 4 -->
-                      <tr>
-                        <td>4</td>
-                        <td>Kontrol akses pada setiap lapisan OSI</td>
-                        <td>27</td>
-                        <td>
-                          <div class="radio-group">
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="kontrol_akses" value="9" id="akses_kurang">
-                              <label class="form-check-label" for="akses_kurang">Kurang dari 100% layer diterapkan kontrol akses</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="kontrol_akses" value="18" id="akses_tidak_konsisten">
-                              <label class="form-check-label" for="akses_tidak_konsisten">100% layer diterapkan kontrol akses tetapi tidak konsisten</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="kontrol_akses" value="27" id="akses_selalu">
-                              <label class="form-check-label" for="akses_selalu">100% layer selalu diterapkan kontrol akses</label>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div id="pointKontrolAkses" class="point-display">0</div>
-                        </td>
-                      </tr>
-                      
-                      <!-- Kriteria 5 -->
-                      <tr>
-                        <td rowspan="2">5</td>
-                        <td rowspan="2">Segmentasi jaringan</td>
-                        <td rowspan="2">24</td>
-                        <td>
-                          <div class="radio-group">
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="segmentasi_jaringan" value="4" id="segmentasi_kurang">
-                              <label class="form-check-label" for="segmentasi_kurang">Kurang dari 3 segment terisolasi</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="segmentasi_jaringan" value="12" id="segmentasi_cukup">
-                              <label class="form-check-label" for="segmentasi_cukup">≥ 3 segment terisolasi</label>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div id="pointSegmentasiJaringan" class="point-display">0</div>
-                        </td>
-                      </tr>
-                      
-                      <tr>
-                        <td>
-                          <div class="radio-group">
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="pemantauan_jaringan" value="4" id="pantau_kurang">
-                              <label class="form-check-label" for="pantau_kurang">Kurang dari 100% lalu lintas jaringan dipantau</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="pemantauan_jaringan" value="8" id="pantau_tidak_konsisten">
-                              <label class="form-check-label" for="pantau_tidak_konsisten">100% lalu lintas jaringan dipantau tetapi tidak konsisten</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="pemantauan_jaringan" value="12" id="pantau_selalu">
-                              <label class="form-check-label" for="pantau_selalu">100% lalu lintas jaringan selalu dipantau</label>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div id="pointPemantauanJaringan" class="point-display">0</div>
-                        </td>
-                      </tr>
-                      
-                      <!-- Kriteria 6 -->
-                      <tr>
-                        <td rowspan="2">6</td>
-                        <td rowspan="2">Enkripsi end-to-end</td>
-                        <td rowspan="2">30</td>
-                        <td>
-                          <div class="radio-group">
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" name="enkripsi_standar" value="15" id="enkripsi_standar">
-                              <label class="form-check-label" for="enkripsi_standar">100% data yang dikirim dienkripsi menggunakan standar enkripsi tertentu</label>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div id="pointEnkripsiStandar" class="point-display">0</div>
-                        </td>
-                      </tr>
-                      
-                      <tr>
-                        <td>
-                          <div class="radio-group">
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" name="enkripsi_sensitif" value="15" id="enkripsi_sensitif">
-                              <label class="form-check-label" for="enkripsi_sensitif">100% komunikasi data sensitif menggunakan enkripsi</label>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div id="pointEnkripsiSensitif" class="point-display">0</div>
-                        </td>
-                      </tr>
-                      
-                      <!-- Kriteria 7 -->
-                      <tr>
-                        <td rowspan="3">7</td>
-                        <td rowspan="3">Sistem kendali akses jaringan</td>
-                        <td rowspan="3">27</td>
-                        <td>
-                          <div class="radio-group">
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="autentikasi_berhasil" value="0" id="autentikasi_tidak">
-                              <label class="form-check-label" for="autentikasi_tidak">Tingkat keberhasilan autentikasi tidak dapat diukur</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="autentikasi_berhasil" value="9" id="autentikasi_kurang">
-                              <label class="form-check-label" for="autentikasi_kurang">Tingkat keberhasilan autentikasi kurang dari 98%</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="autentikasi_berhasil" value="18" id="autentikasi_minimal">
-                              <label class="form-check-label" for="autentikasi_minimal">Tingkat keberhasilan autentikasi minimal 98%</label>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div id="pointAutentikasiBerhasil" class="point-display">0</div>
-                        </td>
-                      </tr>
-                      
-                      <tr>
-                        <td>
-                          <div class="radio-group">
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="waktu_autentikasi" value="3" id="waktu_lebih">
-                              <label class="form-check-label" for="waktu_lebih">Waktu rata-rata autentikasi selalu lebih dari dua detik</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="waktu_autentikasi" value="6" id="waktu_kadang">
-                              <label class="form-check-label" for="waktu_kadang">Waktu rata-rata autentikasi kadang-kadang 2 detik atau lebih</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="waktu_autentikasi" value="9" id="waktu_selalu">
-                              <label class="form-check-label" for="waktu_selalu">Waktu rata-rata autentikasi selalu kurang dari 2 detik</label>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div id="pointWaktuAutentikasi" class="point-display">0</div>
-                        </td>
-                      </tr>
-                      
-                      <tr>
-                        <td>
-                          <div class="radio-group">
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="logging_aktivitas" value="0" id="logging_tidak">
-                              <label class="form-check-label" for="logging_tidak">Tidak ada pencatatan aktivitas</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="logging_aktivitas" value="9" id="logging_kurang">
-                              <label class="form-check-label" for="logging_kurang">Kurang dari 100% aktivitas tercatat</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="logging_aktivitas" value="18" id="logging_lengkap">
-                              <label class="form-check-label" for="logging_lengkap">Mencakup 100% aktivitas penting (autentikasi dan perubahan konfigurasi)</label>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div id="pointLoggingAktivitas" class="point-display">0</div>
-                        </td>
-                      </tr>
-                      
-                      <!-- Subtotal -->
-                      <tr>
-                        <td colspan="3" class="text-end"><strong>Subtotal Poin Parameter A</strong></td>
-                        <td>192</td>
-                        <td id="subtotalA">0</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+              </fieldset>
               
               <!-- Parameter B: Protokol dan Jaringan Komunikasi -->
-              <div class="parameter-section" id="parameter-b" role="tabpanel">
-                <div class="parameter-section-header">
-                  <h3>Parameter B: Protokol & Jaringan Komunikasi</h3>
-                  <span class="badge bg-light text-dark">318 Poin</span>
-                </div>
-                <div class="table-responsive">
-                  <table class="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th width="5%">No</th>
-                        <th width="35%">Kriteria Unjuk Kerja</th>
-                        <th width="10%">Poin Maks</th>
-                        <th width="30%">Indikator</th>
-                        <th width="20%">Klaim Poin</th>
-                      </tr>
-                    </thead>
+              <fieldset class="parameter-section" id="parameter-b">
+                <legend class="parameter-legend">
+                  <span class="parameter-title">
+                    <i class="fas fa-network-wired me-2"></i>Parameter B: Protokol & Jaringan Komunikasi
+                  </span>
+                  <span class="badge bg-primary text-white">318 Poin</span>
+                </legend>
+                <div class="px-3 px-md-4 pb-4">
+                  <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                      <thead>
+                        <tr>
+                          <th scope="col" style="width: 5%" class="text-center">No</th>
+                          <th scope="col" style="width: 35%">Kriteria Unjuk Kerja</th>
+                          <th scope="col" style="width: 10%" class="text-center">Poin Maks</th>
+                          <th scope="col" style="width: 35%">Indikator</th>
+                          <th scope="col" style="width: 15%" class="text-center">Klaim Poin</th>
+                        </tr>
+                      </thead>
                     <tbody>
                       <!-- Kriteria 1 -->
                       <tr>
-                        <td>1</td>
-                        <td>100% menggunakan perangkat berbasis protokol komunikasi standar terbuka</td>
-                        <td>30</td>
-                        <td>
+                        <td class="text-center fw-medium">1</td>
+                        <td class="fw-medium">100% menggunakan perangkat berbasis protokol komunikasi standar terbuka</td>
+                        <td class="text-center fw-semibold">30</td>
+                        <td class="p-3">
                           <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="protokol_standar" value="30" id="protokol_standar_terbuka">
-                            <label class="form-check-label" for="protokol_standar_terbuka">100% perangkat menggunakan protokol standar terbuka</label>
+                            <label class="form-check-label" for="protokol_standar_terbuka">
+                              100% perangkat menggunakan protokol standar terbuka
+                            </label>
                           </div>
                         </td>
-                        <td>
+                        <td class="text-center">
                           <div id="pointProtokolStandar" class="point-display">0</div>
                         </td>
                       </tr>
                       
                       <!-- Kriteria 2 -->
                       <tr>
-                        <td>2</td>
-                        <td>100% perangkat jaringan menggunakan protokol kompatibel TCP/IP</td>
-                        <td>21</td>
-                        <td>
+                        <td class="text-center fw-medium">2</td>
+                        <td class="fw-medium">100% perangkat jaringan menggunakan protokol kompatibel TCP/IP</td>
+                        <td class="text-center fw-semibold">21</td>
+                        <td class="p-3">
                           <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="protokol_tcpip" value="21" id="protokol_tcpip">
-                            <label class="form-check-label" for="protokol_tcpip">100% perangkat jaringan menggunakan protokol kompatibel TCP/IP</label>
+                            <label class="form-check-label" for="protokol_tcpip">
+                              100% perangkat jaringan menggunakan protokol kompatibel TCP/IP
+                            </label>
                           </div>
                         </td>
-                        <td>
+                        <td class="text-center">
                           <div id="pointProtokolTcpIp" class="point-display">0</div>
                         </td>
                       </tr>
                       
                       <!-- Kriteria 3 -->
                       <tr>
-                        <td rowspan="7">3</td>
-                        <td rowspan="7">Setiap lapisan OSI dipastikan sudah optimal</td>
-                        <td rowspan="7">21</td>
-                        <td>
+                        <td rowspan="7" class="text-center fw-medium">3</td>
+                        <td rowspan="7" class="fw-medium">Setiap lapisan OSI dipastikan sudah optimal</td>
+                        <td rowspan="7" class="text-center fw-semibold">21</td>
+                        <td class="p-3">
                           <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="respons_pengiriman" value="1" id="respons_lebih">
@@ -1231,13 +536,13 @@
                             </div>
                           </div>
                         </td>
-                        <td>
+                        <td class="text-center">
                           <div id="pointResponsPengiriman" class="point-display">0</div>
                         </td>
                       </tr>
                       
                       <tr>
-                        <td>
+                        <td class="p-3">
                           <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="tingkat_kesalahan" value="0" id="kesalahan_tidak">
@@ -1253,13 +558,13 @@
                             </div>
                           </div>
                         </td>
-                        <td>
+                        <td class="text-center">
                           <div id="pointTingkatKesalahan" class="point-display">0</div>
                         </td>
                       </tr>
                       
                       <tr>
-                        <td>
+                        <td class="p-3">
                           <div class="radio-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="keberhasilan_paket" value="0" id="paket_tidak">
@@ -1370,9 +675,9 @@
                       
                       <!-- Kriteria 4 -->
                       <tr>
-                        <td>4</td>
-                        <td>Implementasi standar untuk pengelolaan jaringan kabel</td>
-                        <td>30</td>
+                        <td class="text-center fw-medium">4</td>
+                        <td class="fw-medium">Implementasi standar untuk pengelolaan jaringan kabel</td>
+                        <td class="text-center fw-semibold">30</td>
                         <td>
                           <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="jaringan_kabel" value="30" id="jaringan_kabel">
@@ -1386,9 +691,9 @@
                       
                       <!-- Kriteria 5 -->
                       <tr>
-                        <td>5</td>
-                        <td>Pelabelan infrastruktur kabel dan peralatan</td>
-                        <td>30</td>
+                        <td class="text-center fw-medium">5</td>
+                        <td class="fw-medium">Pelabelan infrastruktur kabel dan peralatan</td>
+                        <td class="text-center fw-semibold">30</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -1412,9 +717,9 @@
                       
                       <!-- Kriteria 6 -->
                       <tr>
-                        <td>6</td>
-                        <td>Implementasi standar untuk pengelolaan jaringan nirkabel</td>
-                        <td>30</td>
+                        <td class="text-center fw-medium">6</td>
+                        <td class="fw-medium">Implementasi standar untuk pengelolaan jaringan nirkabel</td>
+                        <td class="text-center fw-semibold">30</td>
                         <td>
                           <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="jaringan_nirkabel" value="30" id="jaringan_nirkabel">
@@ -1428,9 +733,9 @@
                       
                       <!-- Kriteria 7 -->
                       <tr>
-                        <td>7</td>
-                        <td>Pelabelan infrastruktur peralatan dan titik akses nirkabel</td>
-                        <td>27</td>
+                        <td class="text-center fw-medium">7</td>
+                        <td class="fw-medium">Pelabelan infrastruktur peralatan dan titik akses nirkabel</td>
+                        <td class="text-center fw-semibold">27</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -1454,9 +759,9 @@
                       
                       <!-- Kriteria 8 -->
                       <tr>
-                        <td rowspan="2">8</td>
-                        <td rowspan="2">Teknologi 5G (jika digunakan)</td>
-                        <td rowspan="2">24</td>
+                        <td rowspan="2" class="text-center fw-medium">8</td>
+                        <td rowspan="2" class="fw-medium">Teknologi 5G (jika digunakan)</td>
+                        <td rowspan="2" class="text-center fw-semibold">24</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -1502,9 +807,9 @@
                       
                       <!-- Kriteria 9 -->
                       <tr>
-                        <td>9</td>
-                        <td>Evaluasi penggunaan port dan layanan pada perangkat berbasis IP</td>
-                        <td>33</td>
+                        <td class="text-center fw-medium">9</td>
+                        <td class="fw-medium">Evaluasi penggunaan port dan layanan pada perangkat berbasis IP</td>
+                        <td class="text-center fw-semibold">33</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -1528,9 +833,9 @@
                       
                       <!-- Kriteria 10 -->
                       <tr>
-                        <td rowspan="2">10</td>
-                        <td rowspan="2">Koneksi kabel di rak server menggunakan patch panel</td>
-                        <td rowspan="2">24</td>
+                        <td rowspan="2" class="text-center fw-medium">10</td>
+                        <td rowspan="2" class="fw-medium">Koneksi kabel di rak server menggunakan patch panel</td>
+                        <td rowspan="2" class="text-center fw-semibold">24</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -1576,9 +881,9 @@
                       
                       <!-- Kriteria 11 -->
                       <tr>
-                        <td>11</td>
-                        <td>Koneksi perangkat berbasis jaringan IP menggunakan kabel patch cord</td>
-                        <td>30</td>
+                        <td class="text-center fw-medium">11</td>
+                        <td class="fw-medium">Koneksi perangkat berbasis jaringan IP menggunakan kabel patch cord</td>
+                        <td class="text-center fw-semibold">30</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -1602,9 +907,9 @@
                       
                       <!-- Kriteria 12 -->
                       <tr>
-                        <td rowspan="6">12</td>
-                        <td rowspan="6">Sistem dapat mengelola QoS dengan baik</td>
-                        <td rowspan="6">18</td>
+                        <td rowspan="6" class="text-center fw-medium">12</td>
+                        <td rowspan="6" class="fw-medium">Sistem dapat mengelola QoS dengan baik</td>
+                        <td rowspan="6" class="text-center fw-semibold">18</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -1737,39 +1042,44 @@
                       </tr>
                       
                       <!-- Subtotal -->
-                      <tr>
-                        <td colspan="3" class="text-end"><strong>Subtotal Poin Parameter B</strong></td>
-                        <td>318</td>
-                        <td id="subtotalB">0</td>
+                      <tr class="table-secondary">
+                        <td colspan="3" class="text-end fw-bold">Subtotal Poin Parameter B</td>
+                        <td class="text-center fw-bold">318</td>
+                        <td class="text-center fw-bold">
+                          <span id="subtotalB" class="fs-5 text-primary">0</span>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </fieldset>
               
               <!-- Parameter C: Integrasi Data dan Sistem -->
-              <div class="parameter-section" id="parameter-c" role="tabpanel">
-                <div class="parameter-section-header">
-                  <h3>Parameter C: Integrasi Data & Sistem</h3>
-                  <span class="badge bg-light text-dark">228 Poin</span>
-                </div>
-                <div class="table-responsive">
-                  <table class="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th width="5%">No</th>
-                        <th width="35%">Kriteria Unjuk Kerja</th>
-                        <th width="10%">Poin Maks</th>
-                        <th width="30%">Indikator</th>
-                        <th width="20%">Klaim Poin</th>
-                      </tr>
-                    </thead>
+              <fieldset class="parameter-section" id="parameter-c">
+                <legend class="parameter-legend">
+                  <span class="parameter-title">
+                    <i class="fas fa-database me-2"></i>Parameter C: Integrasi Data & Sistem
+                  </span>
+                  <span class="badge bg-primary text-white">228 Poin</span>
+                </legend>
+                <div class="px-3 px-md-4 pb-4">
+                  <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                      <thead>
+                        <tr>
+                          <th scope="col" style="width: 5%" class="text-center">No</th>
+                          <th scope="col" style="width: 35%">Kriteria Unjuk Kerja</th>
+                          <th scope="col" style="width: 10%" class="text-center">Poin Maks</th>
+                          <th scope="col" style="width: 35%">Indikator</th>
+                          <th scope="col" style="width: 15%" class="text-center">Klaim Poin</th>
+                        </tr>
+                      </thead>
                     <tbody>
                       <!-- Kriteria 1 -->
                       <tr>
-                        <td rowspan="3">1</td>
-                        <td rowspan="3">Integrasi dengan Building Management System (BMS)</td>
-                        <td rowspan="3">39</td>
+                        <td rowspan="3" class="text-center fw-medium">1</td>
+                        <td rowspan="3" class="fw-medium">Integrasi dengan Building Management System (BMS)</td>
+                        <td rowspan="3" class="text-center fw-semibold">39</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -1964,31 +1274,34 @@
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </fieldset>
               
               <!-- Parameter D: Manajemen Operasi -->
-              <div class="parameter-section" id="parameter-d" role="tabpanel">
-                <div class="parameter-section-header">
-                  <h3>Parameter D: Manajemen Operasi</h3>
-                  <span class="badge bg-light text-dark">114 Poin</span>
-                </div>
-                <div class="table-responsive">
-                  <table class="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th width="5%">No</th>
-                        <th width="35%">Kriteria Unjuk Kerja</th>
-                        <th width="10%">Poin Maks</th>
-                        <th width="30%">Indikator</th>
-                        <th width="20%">Klaim Poin</th>
-                      </tr>
-                    </thead>
+              <fieldset class="parameter-section" id="parameter-d">
+                <legend class="parameter-legend">
+                  <span class="parameter-title">
+                    <i class="fas fa-cogs me-2"></i>Parameter D: Manajemen Operasi
+                  </span>
+                  <span class="badge bg-primary text-white">114 Poin</span>
+                </legend>
+                <div class="px-3 px-md-4 pb-4">
+                  <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                      <thead>
+                        <tr>
+                          <th scope="col" style="width: 5%" class="text-center">No</th>
+                          <th scope="col" style="width: 35%">Kriteria Unjuk Kerja</th>
+                          <th scope="col" style="width: 10%" class="text-center">Poin Maks</th>
+                          <th scope="col" style="width: 35%">Indikator</th>
+                          <th scope="col" style="width: 15%" class="text-center">Klaim Poin</th>
+                        </tr>
+                      </thead>
                     <tbody>
                       <!-- Kriteria 1 -->
                       <tr>
-                        <td rowspan="3">1</td>
-                        <td rowspan="3">Perencanaan pengelolaan sistem cerdas</td>
-                        <td rowspan="3">30</td>
+                        <td rowspan="3" class="text-center fw-medium">1</td>
+                        <td rowspan="3" class="fw-medium">Perencanaan pengelolaan sistem cerdas</td>
+                        <td rowspan="3" class="text-center fw-semibold">30</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -2139,31 +1452,34 @@
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </fieldset>
               
               <!-- Parameter E: Dampak -->
-              <div class="parameter-section" id="parameter-e" role="tabpanel">
-                <div class="parameter-section-header">
-                  <h3>Parameter E: Dampak</h3>
-                  <span class="badge bg-light text-dark">96 Poin</span>
-                </div>
-                <div class="table-responsive">
-                  <table class="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th width="5%">No</th>
-                        <th width="35%">Kriteria Unjuk Kerja</th>
-                        <th width="10%">Poin Maks</th>
-                        <th width="30%">Indikator</th>
-                        <th width="20%">Klaim Poin</th>
-                      </tr>
-                    </thead>
+              <fieldset class="parameter-section" id="parameter-e">
+                <legend class="parameter-legend">
+                  <span class="parameter-title">
+                    <i class="fas fa-chart-line me-2"></i>Parameter E: Dampak
+                  </span>
+                  <span class="badge bg-primary text-white">96 Poin</span>
+                </legend>
+                <div class="px-3 px-md-4 pb-4">
+                  <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                      <thead>
+                        <tr>
+                          <th scope="col" style="width: 5%" class="text-center">No</th>
+                          <th scope="col" style="width: 35%">Kriteria Unjuk Kerja</th>
+                          <th scope="col" style="width: 10%" class="text-center">Poin Maks</th>
+                          <th scope="col" style="width: 35%">Indikator</th>
+                          <th scope="col" style="width: 15%" class="text-center">Klaim Poin</th>
+                        </tr>
+                      </thead>
                     <tbody>
                       <!-- Kriteria 1 -->
                       <tr>
-                        <td>1</td>
-                        <td>Penurunan konsumsi energi</td>
-                        <td>33</td>
+                        <td class="text-center fw-medium">1</td>
+                        <td class="fw-medium">Penurunan konsumsi energi</td>
+                        <td class="text-center fw-semibold">33</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -2246,32 +1562,34 @@
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </fieldset>
               
               <!-- Parameter F: Kemampuan Sistem -->
-              <div class="parameter-section" id="parameter-f" role="tabpanel">
-                <div class="parameter-section-header">
-                  <h3>Parameter F: Kemampuan Sistem</h3>
-                  <span class="badge bg-light text-dark">768 Poin</span>
-                </div>
-                <div class="table-responsive">
-                <div class="table-responsive">
-                  <table class="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th width="5%">No</th>
-                        <th width="35%">Kriteria Unjuk Kerja</th>
-                        <th width="10%">Poin Maks</th>
-                        <th width="30%">Indikator</th>
-                        <th width="20%">Klaim Poin</th>
-                      </tr>
-                    </thead>
+              <fieldset class="parameter-section" id="parameter-f">
+                <legend class="parameter-legend">
+                  <span class="parameter-title">
+                    <i class="fas fa-microchip me-2"></i>Parameter F: Kemampuan Sistem
+                  </span>
+                  <span class="badge bg-primary text-white">768 Poin</span>
+                </legend>
+                <div class="px-3 px-md-4 pb-4">
+                  <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                      <thead>
+                        <tr>
+                          <th scope="col" style="width: 5%" class="text-center">No</th>
+                          <th scope="col" style="width: 35%">Kriteria Unjuk Kerja</th>
+                          <th scope="col" style="width: 10%" class="text-center">Poin Maks</th>
+                          <th scope="col" style="width: 35%">Indikator</th>
+                          <th scope="col" style="width: 15%" class="text-center">Klaim Poin</th>
+                        </tr>
+                      </thead>
                     <tbody>
                       <!-- Kriteria 1.1 -->
                       <tr>
-                        <td rowspan="3">1</td>
-                        <td rowspan="3">Sistem Alarm Kebencanaan dan Pemberitahuan Massal</td>
-                        <td rowspan="3">48</td>
+                        <td rowspan="3" class="text-center fw-medium">1</td>
+                        <td rowspan="3" class="fw-medium">Sistem Alarm Kebencanaan dan Pemberitahuan Massal</td>
+                        <td rowspan="3" class="text-center fw-semibold">48</td>
                         <td>
                           <div class="radio-group">
                             <div class="form-check">
@@ -3890,7 +3208,7 @@
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </fieldset>
             </div>
           </div>
         </div>
@@ -3898,25 +3216,27 @@
     </div>
 
     <!-- Total dan Klasifikasi -->
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
+    <div class="row" id="hasil-penilaian">
+      <div class="col-12">
+        <section class="card shadow-sm">
           <div class="card-header bg-success text-white">
-            <h2>Hasil Penilaian BGC</h2>
+            <h2 class="h4 mb-0">
+              <i class="fas fa-chart-pie me-2"></i>Hasil Penilaian BGC
+            </h2>
           </div>
           <div class="card-body">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="result-box">
-                  <h4>Total Poin yang Diperoleh</h4>
-                  <div class="display-4 text-primary" id="totalPoin">0</div>
-                  <small class="text-muted">dari maksimal 1524 poin</small>
+            <div class="row g-4">
+              <div class="col-12 col-md-6">
+                <div class="result-box text-center">
+                  <h3 class="h5 mb-3">Total Poin yang Diperoleh</h3>
+                  <div class="display-4 text-primary fw-bold" id="totalPoin">0</div>
+                  <small class="text-muted">dari maksimal 1716 poin</small>
                 </div>
               </div>
-              <div class="col-md-6">
-                <div class="result-box">
-                  <h4>Persentase Pencapaian</h4>
-                  <div class="display-4 text-primary" id="persentasePencapaian">0%</div>
+              <div class="col-12 col-md-6">
+                <div class="result-box text-center">
+                  <h3 class="h5 mb-3">Persentase Pencapaian</h3>
+                  <div class="display-4 text-primary fw-bold" id="persentasePencapaian">0%</div>
                 </div>
               </div>
             </div>
@@ -3998,24 +3318,26 @@
             <div class="row mt-4">
               <div class="col-md-12">
                 <div class="text-center">
-                  <button type="button" class="btn btn-danger me-2" id="resetBtn">
-                    <i class="fas fa-redo"></i> Reset Form
-                  </button>
-                  <button type="button" class="btn btn-warning me-2" id="clearDataBtn">
-                    <i class="fas fa-trash"></i> Hapus Data Tersimpan
-                  </button>
-                  <button type="button" class="btn btn-success me-2" id="calculateBtn">
-                    <i class="fas fa-calculator"></i> Hitung Total
-                  </button>
-                  <button type="button" class="btn btn-primary me-2" id="forceBtn">
-                    <i class="fas fa-bolt"></i> Paksa Hitung
-                  </button>
-                  <button type="button" class="btn btn-secondary me-2" id="testBtn">
-                    <i class="fas fa-bug"></i> Test Debug
-                  </button>
-                  <button type="button" class="btn btn-info" id="exportBtn">
-                    <i class="fas fa-file-pdf"></i> Ekspor PDF
-                  </button>
+                  <div class="btn-group-responsive">
+                    <button type="button" class="btn btn-danger me-2 mb-2" id="resetBtn">
+                      <i class="fas fa-redo me-1"></i> Reset Form
+                    </button>
+                    <button type="button" class="btn btn-warning me-2 mb-2" id="clearDataBtn">
+                      <i class="fas fa-trash me-1"></i> Hapus Data Tersimpan
+                    </button>
+                    <button type="button" class="btn btn-success me-2 mb-2" id="calculateBtn">
+                      <i class="fas fa-calculator me-1"></i> Hitung Total
+                    </button>
+                    <button type="button" class="btn btn-primary me-2 mb-2" id="forceBtn">
+                      <i class="fas fa-bolt me-1"></i> Paksa Hitung
+                    </button>
+                    <button type="button" class="btn btn-secondary me-2 mb-2" id="testBtn">
+                      <i class="fas fa-bug me-1"></i> Test Debug
+                    </button>
+                    <button type="button" class="btn btn-info mb-2" id="exportBtn">
+                      <i class="fas fa-file-pdf me-1"></i> Ekspor PDF
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -4026,726 +3348,6 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  
-  <script>
-    // Smooth scrolling navigation
-    document.addEventListener('DOMContentLoaded', function() {
-      // Handle navigation clicks
-      document.querySelectorAll('[data-scroll-to]').forEach(function(element) {
-        element.addEventListener('click', function(e) {
-          e.preventDefault();
-          
-          const targetId = this.getAttribute('data-scroll-to');
-          const targetElement = document.getElementById(targetId);
-          
-          if (targetElement) {
-            // Remove active class from all navigation items
-            document.querySelectorAll('.nav-link').forEach(function(navItem) {
-              navItem.classList.remove('active');
-            });
-            
-            // Add active class to clicked item
-            this.classList.add('active');
-            
-            // Smooth scroll to target with offset for header
-            const headerOffset = 120; // Increased offset for better visibility
-            const elementPosition = targetElement.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-            
-            window.scrollTo({
-              top: offsetPosition,
-              behavior: 'smooth'
-            });
-          }
-        });
-      });
-      
-      // Update active navigation on scroll
-      window.addEventListener('scroll', function() {
-        const sections = document.querySelectorAll('[id^="parameter-"]');
-        const navLinks = document.querySelectorAll('[data-scroll-to]');
-        
-        let currentSection = null;
-        const scrollPosition = window.pageYOffset + 200; // Adjusted for better detection
-        
-        sections.forEach(function(section) {
-          const sectionTop = section.offsetTop;
-          const sectionHeight = section.offsetHeight;
-          
-          if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-            currentSection = section.getAttribute('id');
-          }
-        });
-        
-        // Update navigation active states
-        navLinks.forEach(function(link) {
-          link.classList.remove('active');
-          if (link.getAttribute('data-scroll-to') === currentSection) {
-            link.classList.add('active');
-          }
-        });
-      });
-      
-      // Make radio buttons unselectable (allow deselection)
-      let lastSelectedRadio = {};
-      
-      document.querySelectorAll('input[type="radio"]').forEach(function(radio) {
-        radio.addEventListener('click', function() {
-          const radioName = this.name;
-          
-          // If this radio was already selected, unselect it
-          if (lastSelectedRadio[radioName] === this) {
-            this.checked = false;
-            lastSelectedRadio[radioName] = null;
-            
-            // Trigger change event for point calculation
-            this.dispatchEvent(new Event('change'));
-          } else {
-            // Track the newly selected radio
-            lastSelectedRadio[radioName] = this;
-          }
-        });
-        
-        // Track initially selected radios
-        if (radio.checked) {
-          lastSelectedRadio[radio.name] = radio;
-        }
-      });
-    });
-  </script>
-  <script>
-    // Sidebar navigation functionality
-    document.addEventListener('DOMContentLoaded', function() {
-      const toggleBtn = document.getElementById('toggleSidebar');
-      const sidebar = document.getElementById('sidebarNav');
-      const navLinks = document.querySelectorAll('.sidebar-nav .nav-link');
-      
-      // Toggle sidebar on mobile
-      if (toggleBtn) {
-        toggleBtn.addEventListener('click', function() {
-          sidebar.classList.toggle('show');
-        });
-      }
-      
-      // Handle nav link clicks
-      navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-          // Remove active class from all nav links
-          navLinks.forEach(l => l.classList.remove('active'));
-          // Add active class to clicked link
-          this.classList.add('active');
-          
-          // Close sidebar on mobile after selection
-          if (window.innerWidth <= 768) {
-            sidebar.classList.remove('show');
-          }
-        });
-      });
-      
-      // Close sidebar when clicking outside on mobile
-      document.addEventListener('click', function(e) {
-        if (window.innerWidth <= 768) {
-          if (!sidebar.contains(e.target) && !toggleBtn.contains(e.target)) {
-            sidebar.classList.remove('show');
-          }
-        }
-      });
-    });
-
-    // Function to show/hide BGN classification
-    document.querySelectorAll('input[name="kepemilikan"]').forEach(radio => {
-        radio.addEventListener('change', function() {
-            const bgnContainer = document.getElementById('klasifikasiBgnContainer');
-            const nonBgnContainer = document.getElementById('klasNonBgnContainer');
-            
-            if (this.value === 'BGN') {
-                bgnContainer.style.display = 'block';
-                nonBgnContainer.style.display = 'none';
-            } else {
-                bgnContainer.style.display = 'none';
-                nonBgnContainer.style.display = 'block';
-            }
-        });
-    });
-
-    // Function to calculate points for a parameter
-    function calculateParameterPoints(parameter) {
-        let total = 0;
-        
-        // Try multiple selectors to find inputs
-        const selectors = [
-            `#parameter-${parameter.toLowerCase()} input[type="checkbox"]:checked`,
-            `#parameter-${parameter.toLowerCase()} input[type="radio"]:checked`,
-            `#parameter${parameter} input[type="checkbox"]:checked`,
-            `#parameter${parameter} input[type="radio"]:checked`
-        ];
-        
-        selectors.forEach(selector => {
-            const inputs = document.querySelectorAll(selector);
-            inputs.forEach(input => {
-                const value = parseInt(input.value) || 0;
-                total += value;
-                console.log(`Found input with value: ${value} (selector: ${selector})`);
-            });
-        });
-        
-        console.log(`Parameter ${parameter} total: ${total}`);
-        return total;
-    }
-
-    // Function to update individual point displays
-    function updateIndividualPoints() {
-        // Get all point display elements
-        const pointDisplays = document.querySelectorAll('.point-display');
-        
-        pointDisplays.forEach(display => {
-            const id = display.id;
-            
-            // Extract the input name from the point display id
-            // For example: pointDeteksiBencana -> deteksi_bencana
-            let inputName = '';
-            
-            // Map point display IDs to their corresponding input names
-            const idToNameMap = {
-                // Parameter A
-                'pointVerifikasi': 'integritas_verifikasi',
-                'pointDokumentasi': 'integritas_dokumentasi',
-                'pointRedundansiPersen': 'redundansi_persen',
-                'pointFailover': 'failover',
-                'pointAnalisisLog': 'analisis_log',
-                'pointDeteksiAnomali': 'deteksi_anomali',
-                'pointKontrolAkses': 'kontrol_akses',
-                'pointSegmentasiJaringan': 'segmentasi_jaringan',
-                'pointPemantauanJaringan': 'pemantauan_jaringan',
-                'pointEnkripsiStandar': 'enkripsi_standar',
-                'pointEnkripsiSensitif': 'enkripsi_sensitif',
-                'pointAutentikasiBerhasil': 'autentikasi_berhasil',
-                'pointWaktuAutentikasi': 'waktu_autentikasi',
-                'pointLoggingAktivitas': 'logging_aktivitas',
-                // Parameter B
-                'pointProtokolStandar': 'protokol_standar',
-                'pointProtokolTcpIp': 'protokol_tcpip',
-                'pointResponsPengiriman': 'respons_pengiriman',
-                'pointTingkatKesalahan': 'tingkat_kesalahan',
-                'pointKeberhasilanPaket': 'keberhasilan_paket',
-                'pointKoneksiTcp': 'koneksi_tcp',
-                'pointSesi': 'sesi',
-                'pointEnkripsiDekripsi': 'enkripsi_dekripsi',
-                'pointResponsAplikasi': 'respons_aplikasi',
-                'pointJaringanKabel': 'jaringan_kabel',
-                'pointPelabelan': 'pelabelan',
-                'pointJaringanNirkabel': 'jaringan_nirkabel',
-                'pointPelabelanNirkabel': 'pelabelan_nirkabel',
-                'pointLatensi5g': 'latensi_5g',
-                'pointThroughput5g': 'throughput_5g',
-                'pointPortLayanan': 'port_layanan',
-                'pointPatchPanel': 'patch_panel',
-                'pointModularJack': 'modular_jack',
-                'pointPatchCord': 'patch_cord',
-                'pointBandwidth': 'bandwidth',
-                'pointResponsPaket': 'respons_paket',
-                'pointKehilanganPaket': 'kehilangan_paket',
-                'pointVariasiWaktu': 'variasi_waktu',
-                'pointPrioritasiData': 'prioritasi_data',
-                'pointEfisiensiAlokasi': 'efisiensi_alokasi',
-                // Parameter C
-                'pointSinkronisasiBms': 'sinkronisasi_bms',
-                'pointMonitoringBms': 'monitoring_bms',
-                'pointKompatibilitasBms': 'kompatibilitas_bms',
-                'pointAkuisisiData': 'akuisisi_data',
-                'pointKonsistensiData': 'konsistensi_data',
-                'pointKepatuhanData': 'kepatuhan_data',
-                'pointPemrosesanData': 'pemrosesan_data',
-                'pointKatalogData': 'katalog_data',
-                'pointStandarTerbuka': 'standar_terbuka',
-                // Parameter D
-                'pointKebijakan': 'kebijakan',
-                'pointTugasTanggungJawab': 'tugas_tanggungjawab',
-                'pointProsedur': 'prosedur',
-                'pointPemenuhanPosisi': 'pemenuhan_posisi',
-                'pointKompetensi': 'kompetensi',
-                'pointPelatihan': 'frekuensi_pelatihan',
-                'pointPengawasan': 'frekuensi_audit',
-                // Parameter E
-                'pointEnergi': 'penurunan_energi',
-                'pointAir': 'penurunan_air',
-                'pointKepuasan': 'kepuasan_penghuni',
-                // Parameter F
-                'pointDeteksiBencana': 'deteksi_bencana',
-                'pointPemantauanKomponen': 'pemantauan_komponen',
-                'pointPelaporanOtomatis': 'pelaporan_otomatis',
-                'pointEnkripsiDVR': 'enkripsi_dvr',
-                'pointStreamingVideo': 'streaming_video',
-                'pointResolusiKamera': 'resolusi_kamera',
-                'pointDeteksiGerakan': 'deteksi_gerakan',
-                'pointDeteksiObjek': 'deteksi_objek',
-                'pointPerekamanOtomatis': 'perekaman_otomatis',
-                'pointWaktuResponsAkses': 'waktu_respons_akses',
-                'pointAkurasiVerifikasi': 'akurasi_verifikasi',
-                'pointAntipassback': 'antipassback',
-                'pointPengaturanAkses': 'pengaturan_akses',
-                'pointPerhitunganPenghuni': 'perhitungan_penghuni',
-                'pointDeaktivasiKredensial': 'deaktivasi_kredensial',
-                'pointKualitasVideo': 'kualitas_video',
-                'pointKompatibilitasFormat': 'kompatibilitas_format',
-                'pointProtokolTerbuka': 'protokol_terbuka',
-                'pointJumlahData': 'jumlah_data',
-                'pointPenjadwalanStreaming': 'penjadwalan_streaming',
-                'pointPoeAktif': 'poe_aktif',
-                'pointPoePasif': 'poe_pasif',
-                'pointPemantauanAudio': 'pemantauan_audio',
-                'pointPoeAudioAktif': 'poe_audio_aktif',
-                'pointPoeAudioPasif': 'poe_audio_pasif',
-                'pointTriplePlay': 'triple_play',
-                'pointSinyalDistribusi': 'sinyal_distribusi',
-                'pointAkurasiPengukuran': 'akurasi_pengukuran',
-                'pointKontrolOtomatis': 'kontrol_otomatis',
-                'pointLaporanEnergi': 'laporan_energi',
-                'pointDemandResponse': 'demand_response',
-                'pointAlarmAnomali': 'alarm_anomali',
-                'pointUptimePencahayaan': 'uptime_pencahayaan',
-                'pointKontrolOtomatisPencahayaan': 'kontrol_otomatis_pencahayaan',
-                'pointPemantauanPencahayaan': 'pemantauan_pencahayaan',
-                'pointPengondisianUdara': 'pemantauan_parameter',
-                'pointResponsVentilasi': 'respons_ventilasi',
-                'pointDeteksiUdaraLuar': 'deteksi_udara_luar',
-                'pointKontrolOtomatisVentilasi': 'kontrol_otomatis_ventilasi',
-                'pointPrediksiVentilasi': 'prediksi_ventilasi',
-                'pointMeterAir': 'meter_air',
-                'pointDeteksiKebocoran': 'deteksi_kebocoran',
-                'pointResponsDebit': 'respons_debit',
-                'pointPembersihanOtomatis': 'pembersihan_otomatis',
-                'pointResponsKatup': 'respons_katup',
-                'pointPemantauanKualitasAir': 'pemantauan_kualitas',
-                'pointDeteksiKontaminasi': 'deteksi_kontaminasi',
-                'pointOptimisasiDistribusi': 'optimisasi_distribusi',
-                'pointResponsVolume': 'respons_volume',
-                'pointAkurasiKetinggian': 'akurasi_ketinggian',
-                'pointPenggelontoran': 'penggelontoran',
-                'pointResponsKebocoranLimbah': 'respons_kebocoran',
-                'pointSistemOverflow': 'sistem_overflow',
-                'pointPemantauanKualitasLimbah': 'pemantauan_kualitas_limbah',
-                'pointAkurasiSensor': 'akurasi_sensor',
-                'pointJaringanIot': 'jaringan_iot',
-                'pointInformasiLift': 'informasi_lift',
-                'pointResponsBantuan': 'respons_bantuan',
-                'pointPengaturanOperasional': 'pengaturan_operasional',
-                'pointAntarmukaPengguna': 'antarmuka_pengguna',
-                'pointMonitorDarurat': 'monitor_darurat',
-                'pointPengendalianJarakJauh': 'pengendalian_jarak_jauh',
-                'pointSistemNavigasi': 'sistem_navigasi',
-                'pointPembaruanData': 'pembaruan_data',
-                'pointDeteksiKebakaran': 'deteksi_kebakaran',
-                'pointResponsAlarm': 'respons_alarm',
-                'pointIntegrasiSprinkler': 'integrasi_sprinkler',
-                'pointNotifikasiKebakaran': 'notifikasi_kebakaran',
-                'pointAksesKontrol': 'akses_kontrol',
-                'pointMonitoringKeamanan': 'monitoring_keamanan',
-                'pointResponDarurat': 'respon_darurat',
-                'pointIntegrasiSistem': 'integrasi_sistem'
-            };
-            
-            inputName = idToNameMap[id];
-            
-            if (inputName) {
-                // Calculate points for this specific indicator
-                let points = 0;
-                const checkedInputs = document.querySelectorAll(`input[name="${inputName}"]:checked`);
-                
-                checkedInputs.forEach(input => {
-                    points += parseInt(input.value) || 0;
-                });
-                
-                display.textContent = points;
-            }
-        });
-    }
-
-    // Function to update parameter display
-    function updateParameterDisplay(parameter, points) {
-        const maxPoints = {
-            'A': 192, 'B': 318, 'C': 228, 'D': 114, 'E': 96, 'F': 768
-        };
-        
-        const percentage = Math.round((points / maxPoints[parameter]) * 100);
-        
-        // Update subtotal display
-        const subtotalElement = document.getElementById(`subtotal${parameter}`);
-        if (subtotalElement) subtotalElement.textContent = points;
-        
-        // Update detail table
-        const detailElement = document.getElementById(`detail${parameter}`);
-        const persenElement = document.getElementById(`persen${parameter}`);
-        
-        if (detailElement) detailElement.textContent = points;
-        if (persenElement) persenElement.textContent = percentage + '%';
-        
-        console.log(`Updated parameter ${parameter}: ${points}/${maxPoints[parameter]} (${percentage}%)`);
-    }
-
-    // Simplified function to calculate total points and classification - FIXED VERSION
-    function calculateTotal() {
-        console.log('=== STARTING CALCULATION ===');
-        let total = 0;
-        const parameters = ['A', 'B', 'C', 'D', 'E', 'F'];
-        
-        // Calculate points for each parameter
-        parameters.forEach(param => {
-            // Try to find all checked inputs in the parameter section
-            let parameterTotal = 0;
-            
-            // Multiple approaches to find inputs
-            const parameterSection = document.getElementById(`parameter-${param.toLowerCase()}`);
-            if (parameterSection) {
-                const checkedInputs = parameterSection.querySelectorAll('input:checked');
-                checkedInputs.forEach(input => {
-                    const value = parseInt(input.value) || 0;
-                    parameterTotal += value;
-                    console.log(`Found input in Parameter ${param}: value=${value}, name=${input.name}`);
-                });
-            } else {
-                console.log(`Parameter section ${param} not found!`);
-            }
-            
-            console.log(`Parameter ${param} total: ${parameterTotal}`);
-            total += parameterTotal;
-            
-            // Update parameter display
-            updateParameterDisplay(param, parameterTotal);
-        });
-        
-        console.log(`TOTAL POINTS: ${total}`);
-        
-        // Fixed total max points calculation
-        const totalMaxPoints = 1716; // A:192 + B:318 + C:228 + D:114 + E:96 + F:768
-        const percentage = total > 0 ? Math.round((total / totalMaxPoints) * 100) : 0;
-        
-        console.log(`Percentage: ${percentage}%`);
-        
-        // Update total displays with explicit null checks
-        try {
-            const totalPoinElement = document.getElementById('totalPoin');
-            if (totalPoinElement) {
-                totalPoinElement.textContent = total;
-                console.log('Updated totalPoin');
-            } else {
-                console.error('totalPoin element not found!');
-            }
-            
-            const persentasePencapaianElement = document.getElementById('persentasePencapaian');
-            if (persentasePencapaianElement) {
-                persentasePencapaianElement.textContent = percentage + '%';
-                console.log('Updated persentasePencapaian');
-            } else {
-                console.error('persentasePencapaian element not found!');
-            }
-            
-            const detailTotalElement = document.getElementById('detailTotal');
-            if (detailTotalElement) {
-                detailTotalElement.textContent = total;
-                console.log('Updated detailTotal');
-            } else {
-                console.error('detailTotal element not found!');
-            }
-            
-            const persenTotalElement = document.getElementById('persenTotal');
-            if (persenTotalElement) {
-                persenTotalElement.textContent = percentage + '%';
-                console.log('Updated persenTotal');
-            } else {
-                console.error('persenTotal element not found!');
-            }
-            
-            // Update classification
-            let classification = 'Belum Dinilai';
-            let classType = '';
-            
-            if (percentage >= 80) {
-                classification = 'Utama';
-                classType = 'utama';
-            } else if (percentage >= 60) {
-                classification = 'Madya';
-                classType = 'madya';
-            } else if (percentage >= 40) {
-                classification = 'Pratama';
-                classType = 'pratama';
-            }
-            
-            const klasifikasiElement = document.getElementById('klasifikasiBGC');
-            if (klasifikasiElement) {
-                klasifikasiElement.textContent = classification;
-                klasifikasiElement.className = 'display-3 bgc-classification ' + classType;
-                console.log(`Updated classification: ${classification}`);
-            } else {
-                console.error('klasifikasiBGC element not found!');
-            }
-            
-        } catch (error) {
-            console.error('Error updating displays:', error);
-        }
-        
-        console.log('=== CALCULATION FINISHED ===');
-    }
-
-    // Add event listeners to all form inputs
-    document.addEventListener('DOMContentLoaded', function() {
-        // Load saved data from localStorage on page load
-        loadSavedData();
-        
-        // Add listeners for all radio buttons and checkboxes
-        const allInputs = document.querySelectorAll('input[type="radio"], input[type="checkbox"], input[type="text"], input[type="number"]');
-        
-        allInputs.forEach(input => {
-            input.addEventListener('change', function() {
-                // Save data to localStorage whenever an input changes
-                saveDataToLocalStorage();
-                
-                // Recalculate everything
-                setTimeout(() => {
-                    updateIndividualPoints();
-                    calculateTotal();
-                }, 10);
-            });
-        });
-        
-        // Initial calculation after a short delay to ensure DOM is ready
-        setTimeout(() => {
-            updateIndividualPoints();
-            calculateTotal();
-        }, 100);
-    });
-
-    // Function to save all form data to localStorage
-    function saveDataToLocalStorage() {
-        const formData = {};
-        
-        // Save all input values
-        const allInputs = document.querySelectorAll('input[type="radio"], input[type="checkbox"], input[type="text"], input[type="number"]');
-        
-        allInputs.forEach(input => {
-            if (input.type === 'radio' || input.type === 'checkbox') {
-                formData[input.id] = input.checked;
-            } else {
-                formData[input.id] = input.value;
-            }
-        });
-        
-        // Save to localStorage
-        localStorage.setItem('bgc-calculator-data', JSON.stringify(formData));
-        
-        // Show auto-save indicator (optional)
-        showAutoSaveIndicator();
-    }
-
-    // Function to load saved data from localStorage
-    function loadSavedData() {
-        const savedData = localStorage.getItem('bgc-calculator-data');
-        
-        if (savedData) {
-            try {
-                const formData = JSON.parse(savedData);
-                
-                // Restore all input values
-                Object.keys(formData).forEach(inputId => {
-                    const input = document.getElementById(inputId);
-                    if (input) {
-                        if (input.type === 'radio' || input.type === 'checkbox') {
-                            input.checked = formData[inputId];
-                        } else {
-                            input.value = formData[inputId];
-                        }
-                    }
-                });
-                
-                // Trigger change events for dependent elements (like BGN classification display)
-                const kepemilikanInputs = document.querySelectorAll('input[name="kepemilikan"]');
-                kepemilikanInputs.forEach(input => {
-                    if (input.checked) {
-                        input.dispatchEvent(new Event('change'));
-                    }
-                });
-                
-                console.log('Data berhasil dimuat dari penyimpanan browser');
-            } catch (error) {
-                console.error('Error loading saved data:', error);
-            }
-        }
-    }
-
-    // Function to show auto-save indicator
-    function showAutoSaveIndicator(message = '✓ Tersimpan otomatis') {
-        // Remove existing indicator
-        const existingIndicator = document.querySelector('.auto-save-indicator');
-        if (existingIndicator) {
-            existingIndicator.remove();
-        }
-        
-        // Create new indicator
-        const indicator = document.createElement('div');
-        indicator.className = 'auto-save-indicator';
-        indicator.innerHTML = message;
-        indicator.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #28a745;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-size: 12px;
-            z-index: 9999;
-            opacity: 0.9;
-            transition: opacity 0.3s ease;
-        `;
-        
-        document.body.appendChild(indicator);
-        
-        // Auto remove after 2 seconds
-        setTimeout(() => {
-            if (indicator.parentNode) {
-                indicator.style.opacity = '0';
-                setTimeout(() => {
-                    if (indicator.parentNode) {
-                        indicator.remove();
-                    }
-                }, 300);
-            }
-        }, 2000);
-    }
-
-    // Function to clear saved data
-    function clearSavedData() {
-        if (confirm('Apakah Anda yakin ingin menghapus semua data tersimpan dari browser?')) {
-            localStorage.removeItem('bgc-calculator-data');
-            alert('Data tersimpan telah dihapus dari browser');
-        }
-    }
-
-    // Reset form function
-    function resetForm() {
-        if (confirm('Apakah Anda yakin ingin mereset semua data? Data tersimpan di browser juga akan dihapus.')) {
-            // Uncheck all inputs
-            document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
-                input.checked = false;
-            });
-            
-            // Clear text and number inputs
-            document.querySelectorAll('input[type="text"], input[type="number"]').forEach(input => {
-                input.value = '';
-            });
-            
-            // Hide classification containers
-            document.getElementById('klasifikasiBgnContainer').style.display = 'none';
-            document.getElementById('klasNonBgnContainer').style.display = 'none';
-            
-            // Clear localStorage
-            localStorage.removeItem('bgc-calculator-data');
-            
-            // Reset all displays
-            document.querySelectorAll('[id^="subtotal"], [id^="detail"], [id^="persen"]').forEach(el => {
-                el.textContent = el.id.startsWith('persen') ? '0%' : '0';
-            });
-            
-            // Reset point displays
-            document.querySelectorAll('.point-display').forEach(el => {
-                el.textContent = '0';
-            });
-            
-            // Reset total displays
-            document.getElementById('totalPoin').textContent = '0';
-            document.getElementById('persentasePencapaian').textContent = '0%';
-            document.getElementById('klasifikasiBGC').textContent = 'Belum Dinilai';
-            document.getElementById('klasifikasiBGC').className = 'display-3 bgc-classification';
-            
-            alert('Semua data telah direset dan dihapus dari penyimpanan browser');
-        }
-    }
-
-    // Calculate BGC function - recalculates everything
-    function calculateBGC() {
-        console.log('Memulai kalkulasi ulang BGC...');
-        
-        // Directly calculate totals
-        calculateTotal();
-        updateIndividualPoints();
-        
-        // Show feedback
-        showAutoSaveIndicator('Kalkulasi selesai!');
-        console.log('Kalkulasi BGC selesai');
-    }
-
-    // Force calculation function for manual testing
-    function forceCalculation() {
-        console.log('FORCING CALCULATION...');
-        
-        // Force update all individual points first
-        updateIndividualPoints();
-        
-        // Then calculate total
-        calculateTotal();
-        
-        // Show feedback
-        showAutoSaveIndicator('Perhitungan dipaksa selesai!');
-        
-        alert('Perhitungan telah dipaksa dijalankan! Cek console untuk detail.');
-    }
-
-    // Test debug function
-    function testDebug() {
-        console.log('=== DEBUG TEST ===');
-        
-        // Check if elements exist
-        const parameters = ['A', 'B', 'C', 'D', 'E', 'F'];
-        parameters.forEach(param => {
-            const section = document.getElementById(`parameter-${param.toLowerCase()}`);
-            console.log(`Parameter ${param} section exists:`, !!section);
-            
-            if (section) {
-                const inputs = section.querySelectorAll('input[type="checkbox"], input[type="radio"]');
-                const checkedInputs = section.querySelectorAll('input[type="checkbox"]:checked, input[type="radio"]:checked');
-                console.log(`Parameter ${param} - Total inputs: ${inputs.length}, Checked: ${checkedInputs.length}`);
-                
-                checkedInputs.forEach((input, index) => {
-                    console.log(`  Input ${index + 1}: value=${input.value}, name=${input.name}`);
-                });
-            }
-        });
-        
-        // Check if display elements exist
-        const displayElements = ['totalPoin', 'persentasePencapaian', 'klasifikasiBGC'];
-        displayElements.forEach(elementId => {
-            const element = document.getElementById(elementId);
-            console.log(`Element ${elementId} exists:`, !!element);
-            if (element) {
-                console.log(`  Current content: "${element.textContent}"`);
-            }
-        });
-        
-        console.log('=== END DEBUG ===');
-        alert('Debug selesai! Cek console untuk detail.');
-    }
-
-    // Export to PDF function (placeholder)
-    function exportToPDF() {
-        alert('Fitur ekspor ke PDF akan tersedia segera!');
-    }
-
-    // Add event listeners to buttons if they exist
-    document.addEventListener('DOMContentLoaded', function() {
-        const resetBtn = document.getElementById('resetBtn');
-        const clearDataBtn = document.getElementById('clearDataBtn');
-        const calculateBtn = document.getElementById('calculateBtn');
-        const forceBtn = document.getElementById('forceBtn');
-        const testBtn = document.getElementById('testBtn');
-        const exportBtn = document.getElementById('exportBtn');
-        
-        if (resetBtn) resetBtn.addEventListener('click', resetForm);
-        if (clearDataBtn) clearDataBtn.addEventListener('click', clearSavedData);
-        if (calculateBtn) calculateBtn.addEventListener('click', calculateBGC);
-        if (forceBtn) forceBtn.addEventListener('click', forceCalculation);
-        if (testBtn) testBtn.addEventListener('click', testDebug);
-        if (exportBtn) exportBtn.addEventListener('click', exportToPDF);
-    });
-  </script>
+  <script src="js/script.js"></script>
 </body>
 </html>
