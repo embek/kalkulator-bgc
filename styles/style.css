@@ -167,22 +167,18 @@ body {
   background-color: inherit;
 }
 
+/* Auto-apply padding to Indikator column (now 3rd column) */
 .table td:nth-child(3) {
-  text-align: center !important;
-  font-weight: 600 !important;
-  background-color: inherit;
-}
-
-/* Auto-apply padding to Indikator column */
-.table td:nth-child(4) {
   padding: 0.75rem !important;
+  text-align: left !important;
 }
 
-.table td:nth-child(4):has(.form-check, .radio-group) {
+.table td:nth-child(3):has(.form-check, .radio-group) {
   padding: 1rem 0.75rem !important;
+  text-align: left !important;
 }
 
-.table td:nth-child(5) {
+.table td:nth-child(4) {
   text-align: center !important;
 }
 
@@ -195,17 +191,6 @@ body {
 .table td .form-check:last-child,
 .table td .radio-group:last-child {
   margin-bottom: 0;
-}
-
-/* Remove hover effect from specific columns */
-.table-hover tbody tr:hover {
-  background-color: rgba(13, 110, 253, 0.04);
-}
-
-.table-hover tbody tr:hover td:nth-child(1),
-.table-hover tbody tr:hover td:nth-child(2),
-.table-hover tbody tr:hover td:nth-child(3) {
-  background-color: transparent !important;
 }
 
 .table-secondary {
@@ -224,18 +209,14 @@ body {
 }
 
 .parameter-section .table td:nth-child(2) {
-  width: 35% !important;
+  width: 45% !important;
 }
 
 .parameter-section .table td:nth-child(3) {
-  width: 10% !important;
-}
-
-.parameter-section .table td:nth-child(4) {
   width: 35% !important;
 }
 
-.parameter-section .table td:nth-child(5) {
+.parameter-section .table td:nth-child(4) {
   width: 15% !important;
 }
 

@@ -302,7 +302,7 @@ function updateIndividualPoints() {
 // Function to update parameter display
 function updateParameterDisplay(parameter, points) {
     const maxPoints = {
-        'A': 192, 'B': 318, 'C': 228, 'D': 114, 'E': 96, 'F': 768
+        'A': 387, 'B': 300, 'C': 255, 'D': 177, 'E': 96, 'F': 705
     };
     
     const percentage = Math.round((points / maxPoints[parameter]) * 100);
@@ -355,7 +355,7 @@ function calculateTotal() {
     console.log(`TOTAL POINTS: ${total}`);
     
     // Fixed total max points calculation
-    const totalMaxPoints = 1716; // A:192 + B:318 + C:228 + D:114 + E:96 + F:768
+    const totalMaxPoints = 1920; // A:387 + B:300 + C:255 + D:177 + E:96 + F:705
     const percentage = total > 0 ? Math.round((total / totalMaxPoints) * 100) : 0;
     
     console.log(`Percentage: ${percentage}%`);
