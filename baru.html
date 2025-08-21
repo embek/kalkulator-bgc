@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
   <title>Kalkulator Penilaian Kinerja Bangunan Gedung Cerdas Tahap Pemanfaatan</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -84,7 +84,7 @@
       </div>
     </header>
 
-  <div class="container-fluid px-3 px-md-4">
+  <div class="container-fluid px-2 px-md-3 px-lg-4">
     <div class="row">
       <div class="col-12">
         <section class="card shadow-sm" id="data-bangunan">
@@ -254,7 +254,7 @@
                   <span class="parameter-title">
                     <i class="fas fa-shield-alt me-2"></i>Parameter A: Keamanan Siber
                   </span>
-                  <span class="badge bg-primary text-white">192 Poin</span>
+                  <span class="badge bg-primary text-white">390 Poin</span>
                 </legend>
                 <div class="px-3 px-md-4 pb-4">
                   <div class="table-responsive">
@@ -470,7 +470,6 @@
                       <thead>
                         <tr>
                           <th scope="col" style="width: 5%" class="text-center">No</th>
-                          <th scope="col" style="width: 35%">Kriteria Unjuk Kerja</th>
                           <th scope="col" style="width: 45%">Kriteria Unjuk Kerja</th>
                           <th scope="col" style="width: 35%">Indikator</th>
                           <th scope="col" style="width: 15%" class="text-center">Klaim Poin</th>
@@ -1058,7 +1057,7 @@
                   <span class="parameter-title">
                     <i class="fas fa-database me-2"></i>Parameter C: Integrasi Data & Sistem
                   </span>
-                  <span class="badge bg-primary text-white">228 Poin</span>
+                  <span class="badge bg-primary text-white">255 Poin</span>
                 </legend>
                 <div class="px-3 px-md-4 pb-4">
                   <div class="table-responsive">
@@ -1066,7 +1065,6 @@
                       <thead>
                         <tr>
                           <th scope="col" style="width: 5%" class="text-center">No</th>
-                          <th scope="col" style="width: 35%">Kriteria Unjuk Kerja</th>
                           <th scope="col" style="width: 45%">Kriteria Unjuk Kerja</th>
                           <th scope="col" style="width: 35%">Indikator</th>
                           <th scope="col" style="width: 15%" class="text-center">Klaim Poin</th>
@@ -1259,9 +1257,11 @@
                       </tr>
                       
                       <!-- Subtotal -->
-                      <tr>
-                        <td colspan="2" class="text-end"><strong>Subtotal Poin Parameter C</strong></td>
-                        <td id="subtotalC">0</td>
+                      <tr class="table-secondary">
+                        <td colspan="2" class="text-end fw-bold">Subtotal Poin Parameter C</td>
+                        <td class="text-center fw-bold">
+                          <span id="subtotalC" class="fs-5 text-primary">0</span>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -1274,7 +1274,7 @@
                   <span class="parameter-title">
                     <i class="fas fa-cogs me-2"></i>Parameter D: Manajemen Operasi
                   </span>
-                  <span class="badge bg-primary text-white">114 Poin</span>
+                  <span class="badge bg-primary text-white">177 Poin</span>
                 </legend>
                 <div class="px-3 px-md-4 pb-4">
                   <div class="table-responsive">
@@ -1282,7 +1282,6 @@
                       <thead>
                         <tr>
                           <th scope="col" style="width: 5%" class="text-center">No</th>
-                          <th scope="col" style="width: 35%">Kriteria Unjuk Kerja</th>
                           <th scope="col" style="width: 45%">Kriteria Unjuk Kerja</th>
                           <th scope="col" style="width: 35%">Indikator</th>
                           <th scope="col" style="width: 15%" class="text-center">Klaim Poin</th>
@@ -1433,9 +1432,9 @@
                       </tr>
                       
                       <!-- Subtotal -->
-                      <tr>
-                        <td colspan="2" class="text-end"><strong>Subtotal Poin Parameter D</strong></td>
-                        <td id="subtotalD">0</td>
+                      <tr class="table-secondary">
+                        <td colspan="2" class="text-end fw-bold">Subtotal Poin Parameter D</td>
+                        <td class="fw-bold"><span class="fs-5 text-primary" id="subtotalD">0</span></td>
                       </tr>
                     </tbody>
                   </table>
@@ -1539,9 +1538,9 @@
                       </tr>
                       
                       <!-- Subtotal -->
-                      <tr>
-                        <td colspan="2" class="text-end"><strong>Subtotal Poin Parameter E</strong></td>
-                        <td id="subtotalE">0</td>
+                      <tr class="table-secondary">
+                        <td colspan="2" class="text-end fw-bold">Subtotal Poin Parameter E</td>
+                        <td class="fw-bold"><span class="fs-5 text-primary" id="subtotalE">0</span></td>
                       </tr>
                     </tbody>
                   </table>
@@ -1554,7 +1553,7 @@
                   <span class="parameter-title">
                     <i class="fas fa-microchip me-2"></i>Parameter F: Kemampuan Sistem
                   </span>
-                  <span class="badge bg-primary text-white">768 Poin</span>
+                  <span class="badge bg-primary text-white">774 Poin</span>
                 </legend>
                 <div class="px-3 px-md-4 pb-4">
                   <div class="table-responsive">
@@ -3168,9 +3167,9 @@
                       </tr>
                       
                       <!-- Subtotal -->
-                      <tr>
-                        <td colspan="2" class="text-end"><strong>Subtotal Poin Parameter F</strong></td>
-                        <td id="subtotalF">0</td>
+                      <tr class="table-secondary">
+                        <td colspan="2" class="text-end fw-bold">Subtotal Poin Parameter F</td>
+                        <td class="fw-bold"><span class="fs-5 text-primary" id="subtotalF">0</span></td>
                       </tr>
                     </tbody>
                   </table>
@@ -3197,7 +3196,7 @@
                 <div class="result-box text-center">
                   <h3 class="h5 mb-3">Total Poin yang Diperoleh</h3>
                   <div class="display-4 text-primary fw-bold" id="totalPoin">0</div>
-                  <small class="text-muted">dari maksimal 1716 poin</small>
+                  <small class="text-muted">dari maksimal 2010 poin</small>
                 </div>
               </div>
               <div class="col-12 col-md-6">
@@ -3218,66 +3217,6 @@
                     </small>
                   </div>
                 </div>
-              </div>
-            </div>
-            
-            <div class="row mt-4">
-              <div class="col-md-12">
-                <h5>Detail Poin per Parameter</h5>
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th>Parameter</th>
-                      <th>Poin Diperoleh</th>
-                      <th>Poin Maksimal</th>
-                      <th>Persentase</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>A. Keamanan Siber</td>
-                      <td id="detailA">0</td>
-                      <td>153</td>
-                      <td id="persenA">0%</td>
-                    </tr>
-                    <tr>
-                      <td>B. Protokol dan Jaringan Komunikasi</td>
-                      <td id="detailB">0</td>
-                      <td>171</td>
-                      <td id="persenB">0%</td>
-                    </tr>
-                    <tr>
-                      <td>C. Integrasi Data dan Sistem</td>
-                      <td id="detailC">0</td>
-                      <td>222</td>
-                      <td id="persenC">0%</td>
-                    </tr>
-                    <tr>
-                      <td>D. Manajemen Operasi</td>
-                      <td id="detailD">0</td>
-                      <td>114</td>
-                      <td id="persenD">0%</td>
-                    </tr>
-                    <tr>
-                      <td>E. Dampak</td>
-                      <td id="detailE">0</td>
-                      <td>96</td>
-                      <td id="persenE">0%</td>
-                    </tr>
-                    <tr>
-                      <td>F. Kemampuan Sistem</td>
-                      <td id="detailF">0</td>
-                      <td>768</td>
-                      <td id="persenF">0%</td>
-                    </tr>
-                    <tr class="table-dark">
-                      <td><strong>Total</strong></td>
-                      <td id="detailTotal"><strong>0</strong></td>
-                      <td><strong>1524</strong></td>
-                      <td id="persenTotal"><strong>0%</strong></td>
-                    </tr>
-                  </tbody>
-                </table>
               </div>
             </div>
             
@@ -3315,6 +3254,6 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="js/script.js"></script>
+  <script src="js/bgc-calculator-unified.js"></script>
 </body>
 </html>
