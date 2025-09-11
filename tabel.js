@@ -25,300 +25,79 @@ const matriks = {
             nama: "Klas 1a",
             definisi: "Satu rumah tunggal, satu atau lebih rumah gandeng yang dipisahkan dinding tahan api",
             contoh: "Rumah sederhana, rumah deret, vila, rumah taman",
-            implementasi: [
-                { elemenId: 1, kategori: 0 },  // W
-                { elemenId: 2, kategori: 1 },  // D
-                { elemenId: 3, kategori: 1 },  // D
-                { elemenId: 4, kategori: 2 },  // S
-                { elemenId: 5, kategori: 2 },  // S
-                { elemenId: 6, kategori: 2 },  // S
-                { elemenId: 7, kategori: 0 },  // W
-                { elemenId: 8, kategori: 0 },  // W
-                { elemenId: 9, kategori: 1 },  // D
-                { elemenId: 10, kategori: 2 }, // S
-                { elemenId: 11, kategori: 1 }, // D
-                { elemenId: 12, kategori: 1 }, // D
-                { elemenId: 13, kategori: 1 }, // D
-                { elemenId: 14, kategori: 2 }, // S
-                { elemenId: 15, kategori: 1 }, // D
-                { elemenId: 16, kategori: 1 }  // D
-            ]
+            implementasi: 'wddssswwdsdddsdd'
         },
         {
             nama: "Klas 1b",
             definisi: "Asrama, hostel atau sejenisnya dengan luas paling besar 300 m2 dan tidak dihuni lebih dari 12 orang",
             contoh: "Kos, losmen, hostel yang luasannya tidak lebih dari 300 m2 dan dihuni tidak lebih dari 12 orang",
-            implementasi: [
-                { elemenId: 1, kategori: 0 },  // W
-                { elemenId: 2, kategori: 1 },  // D
-                { elemenId: 3, kategori: 1 },  // D
-                { elemenId: 4, kategori: 2 },  // S
-                { elemenId: 5, kategori: 2 },  // S
-                { elemenId: 6, kategori: 2 },  // S
-                { elemenId: 7, kategori: 0 },  // W
-                { elemenId: 8, kategori: 0 },  // W
-                { elemenId: 9, kategori: 1 },  // D
-                { elemenId: 10, kategori: 2 }, // S
-                { elemenId: 11, kategori: 1 }, // D
-                { elemenId: 12, kategori: 1 }, // D
-                { elemenId: 13, kategori: 1 }, // D
-                { elemenId: 14, kategori: 2 }, // S
-                { elemenId: 15, kategori: 1 }, // D
-                { elemenId: 16, kategori: 1 }  // D
-            ]
+            implementasi: 'wddssswwdsdddsdd'
         },
         {
             nama: "Klas 2",
             definisi: "Bangunan gedung hunian yang terdiri atas 2 atau lebih unit hunian, yang masing-masing merupakan tempat tinggal terpisah",
             contoh: "Rumah tidak sederhana",
-            implementasi: [
-                { elemenId: 1, kategori: 0 },  // W
-                { elemenId: 2, kategori: 1 },  // D
-                { elemenId: 3, kategori: 1 },  // D
-                { elemenId: 4, kategori: 2 },  // S
-                { elemenId: 5, kategori: 2 },  // S
-                { elemenId: 6, kategori: 2 },  // S
-                { elemenId: 7, kategori: 0 },  // W
-                { elemenId: 8, kategori: 0 },  // W
-                { elemenId: 9, kategori: 1 },  // D
-                { elemenId: 10, kategori: 2 }, // S
-                { elemenId: 11, kategori: 1 }, // D
-                { elemenId: 12, kategori: 1 }, // D
-                { elemenId: 13, kategori: 1 }, // D
-                { elemenId: 14, kategori: 2 }, // S
-                { elemenId: 15, kategori: 1 }, // D
-                { elemenId: 16, kategori: 1 }  // D
-            ]
+            implementasi: 'wddssswwdsdddsdd'
         },
         {
             nama: "Klas 3",
             definisi: "Bangunan gedung hunian di luar klas 1 dan 2, yang umum digunakan sebagai tempat tinggal lama atau sementara oleh sejumlah orang yang tidak berhubungan",
             contoh: "Asrama, guest house, losmen, panti, dan sejenisnya",
-            implementasi: [
-                { elemenId: 1, kategori: 0, catatan: [3] },  // W
-                { elemenId: 2, kategori: 1, catatan: [2, 3] },  // D
-                { elemenId: 3, kategori: 1 },  // D
-                { elemenId: 4, kategori: 2 },  // S
-                { elemenId: 5, kategori: 2 },  // S
-                { elemenId: 6, kategori: 2 },  // S
-                { elemenId: 7, kategori: 0 },  // W
-                { elemenId: 8, kategori: 0 },  // W
-                { elemenId: 9, kategori: 1 },  // D
-                { elemenId: 10, kategori: 2 }, // S
-                { elemenId: 11, kategori: 1 }, // D
-                { elemenId: 12, kategori: 1 }, // D
-                { elemenId: 13, kategori: 1 }, // D
-                { elemenId: 14, kategori: 2 }, // S
-                { elemenId: 15, kategori: 1 }, // D
-                { elemenId: 16, kategori: 1 }  // D
-            ]
+            implementasi: 'w3w23w23ssswww1sd3d3d3w8d3d3'
         },
         {
             nama: "Klas 4",
             definisi: "Bangunan gedung hunian yang berada di dalam suatu bangunan klas 5, 6, 7, 8, atau 9 dan merupakan tempat tinggal yang ada dalam bangunan tersebut",
             contoh: "Apartemen mix-use",
-            implementasi: [
-                { elemenId: 1, kategori: 0 },  // W
-                { elemenId: 2, kategori: 1 },  // D
-                { elemenId: 3, kategori: 1 },  // D
-                { elemenId: 4, kategori: 2 },  // S
-                { elemenId: 5, kategori: 2 },  // S
-                { elemenId: 6, kategori: 2 },  // S
-                { elemenId: 7, kategori: 0 },  // W
-                { elemenId: 8, kategori: 0 },  // W
-                { elemenId: 9, kategori: 1 },  // D
-                { elemenId: 10, kategori: 2 }, // S
-                { elemenId: 11, kategori: 1 }, // D
-                { elemenId: 12, kategori: 1 }, // D
-                { elemenId: 13, kategori: 1 }, // D
-                { elemenId: 14, kategori: 2 }, // S
-                { elemenId: 15, kategori: 1 }, // D
-                { elemenId: 16, kategori: 1 }  // D
-            ]
+            implementasi: 'ww2w2ssswww1sw4w4w4w8dd'
         },
         {
             nama: "Klas 5",
             definisi: "Bangunan gedung yang dipergunakan untuk tujuan usaha professional, pengurusan administrasi, atau usaha komersial, di luar bangunan klas 6, 7, 8, atau 9",
             contoh: "Gedung perkantoran, gedung pemerintahan, dan sejenisnya",
-            implementasi: [
-                { elemenId: 1, kategori: 0 },  // W
-                { elemenId: 2, kategori: 0, catatan: [2] },  // W²
-                { elemenId: 3, kategori: 0, catatan: [2] },  // W²
-                { elemenId: 4, kategori: 1 },  // D
-                { elemenId: 5, kategori: 1 },  // D
-                { elemenId: 6, kategori: 0 },  // W
-                { elemenId: 7, kategori: 0 },  // W
-                { elemenId: 8, kategori: 0, catatan: [1] },  // W¹
-                { elemenId: 9, kategori: 0, catatan: [2] },  // W²
-                { elemenId: 10, kategori: 0, catatan: [2] }, // W²
-                { elemenId: 11, kategori: 0, catatan: [2] }, // W²
-                { elemenId: 12, kategori: 0, catatan: [2] }, // W²
-                { elemenId: 13, kategori: 0, catatan: [2] }, // W²
-                { elemenId: 14, kategori: 1 }, // D
-                { elemenId: 15, kategori: 1 }, // D
-                { elemenId: 16, kategori: 1 }  // D
-            ]
+            implementasi: 'ww2w2dddwww1w2w2w2w2w8dd'
         },
         {
             nama: "Klas 6",
             definisi: "Bangunan gedung toko atau Bangunan Gedung lain yang dipergunakan untuk tempat penjualan barang-barang secara eceran atau pelayanan kebutuhan langsung kepada masyarakat",
             contoh: "Toko, kedai, restoran, pasar, showroom mobil, dan sejenisnya",
-            implementasi: [
-                { elemenId: 1, kategori: 0 },  // W
-                { elemenId: 2, kategori: 2 },  // S
-                { elemenId: 3, kategori: 2 },  // S
-                { elemenId: 4, kategori: 1, catatan: [5] },  // D5)
-                { elemenId: 5, kategori: 2 },  // S
-                { elemenId: 6, kategori: 2 },  // S
-                { elemenId: 7, kategori: 0 },  // W
-                { elemenId: 8, kategori: 0 },  // W
-                { elemenId: 9, kategori: 0, catatan: [1] },  // W1)
-                { elemenId: 10, kategori: 2 }, // S
-                { elemenId: 11, kategori: 1 }, // D
-                { elemenId: 12, kategori: 1 }, // D
-                { elemenId: 13, kategori: 0, catatan: [5] }, // W5)
-                { elemenId: 14, kategori: 2, catatan: [5] }, // S D5)
-                { elemenId: 15, kategori: 1, catatan: [5] }, // D5)
-                { elemenId: 16, kategori: 1 }  // D
-            ]
+            implementasi: 'wssd5sswww1sddw5sd5d5'
         },
         {
             nama: "Klas 7",
             definisi: "Bangunan gedung yang dipergunakan sebagai penyimpanan",
             contoh: "Gudang dan tempat parkir umum",
-            implementasi: [
-                { elemenId: 1, kategori: 0 },  // W
-                { elemenId: 2, kategori: 2 },  // S
-                { elemenId: 3, kategori: 2 },  // S
-                { elemenId: 4, kategori: 2 },  // S
-                { elemenId: 5, kategori: 2 },  // S
-                { elemenId: 6, kategori: 2 },  // S
-                { elemenId: 7, kategori: 0 },  // W
-                { elemenId: 8, kategori: 0 },  // W
-                { elemenId: 9, kategori: 0, catatan: [1] },  // W1)
-                { elemenId: 10, kategori: 2 }, // S
-                { elemenId: 11, kategori: 2 }, // S
-                { elemenId: 12, kategori: 2 }, // S
-                { elemenId: 13, kategori: 2 }, // S
-                { elemenId: 14, kategori: 2 }, // S
-                { elemenId: 15, kategori: 2 }, // S
-                { elemenId: 16, kategori: 2 }  // S
-            ]
+            implementasi: 'wssssswww1sssssss'
         },
         {
             nama: "Klas 8",
             definisi: "Bangunan gedung laboratorium dan bangunan gedung yang dipergunakan untuk tempat pemrosesan suatu produksi, perakitan, perubahan, perbaikan, pengepakan, finishing, atau pembersihan barang-barang produksi dalam rangka perdagangan atau penjualan",
             contoh: "Laboratorium, bengkel mobil, pabrik, dan sejenisnya",
-            implementasi: [
-                { elemenId: 1, kategori: 0 },  // W
-                { elemenId: 2, kategori: 2 },  // S
-                { elemenId: 3, kategori: 2 },  // S
-                { elemenId: 4, kategori: 2 },  // S
-                { elemenId: 5, kategori: 2 },  // S
-                { elemenId: 6, kategori: 2 },  // S
-                { elemenId: 7, kategori: 0 },  // W
-                { elemenId: 8, kategori: 0 },  // W
-                { elemenId: 9, kategori: 0, catatan: [1] },  // W1)
-                { elemenId: 10, kategori: 2 }, // S
-                { elemenId: 11, kategori: 1 }, // D
-                { elemenId: 12, kategori: 1 }, // D
-                { elemenId: 13, kategori: 1 }, // D
-                { elemenId: 14, kategori: 2 }, // S
-                { elemenId: 15, kategori: 2 }, // S
-                { elemenId: 16, kategori: 2 }  // S
-            ]
+            implementasi: 'wssssswww1sdddsss'
         },
         {
             nama: "Klas 9a",
             definisi: "Bangunan gedung umum untuk pelayanan perawatan kesehatan",
             contoh: "Rumah sakit",
-            implementasi: [
-                { elemenId: 1, kategori: 0, catatan: [6] },  // W (hanya RS Tipe A dan B)
-                { elemenId: 2, kategori: 0, catatan: [6] },  // W (hanya RS Tipe A dan B)
-                { elemenId: 3, kategori: 0, catatan: [6] },  // W (hanya RS Tipe A dan B)
-                { elemenId: 4, kategori: 0, catatan: [6] },  // W (hanya RS Tipe A dan B)
-                { elemenId: 5, kategori: 0, catatan: [6] },  // W (hanya RS Tipe A dan B)
-                { elemenId: 6, kategori: 0, catatan: [6] },  // W (hanya RS Tipe A dan B)
-                { elemenId: 7, kategori: 0 },  // W
-                { elemenId: 8, kategori: 0 },  // W
-                { elemenId: 9, kategori: 0, catatan: [1, 6] },  // W1) (hanya RS Tipe A dan B)
-                { elemenId: 10, kategori: 0, catatan: [6] }, // W (hanya RS Tipe A dan B)
-                { elemenId: 11, kategori: 0, catatan: [6] }, // W (hanya RS Tipe A dan B)
-                { elemenId: 12, kategori: 0, catatan: [6] }, // W (hanya RS Tipe A dan B)
-                { elemenId: 13, kategori: 0, catatan: [6] }, // W (hanya RS Tipe A dan B)
-                { elemenId: 14, kategori: 0, catatan: [6] }, // W (hanya RS Tipe A dan B)
-                { elemenId: 15, kategori: 0, catatan: [6] }, // W (hanya RS Tipe A dan B)
-                { elemenId: 16, kategori: 0, catatan: [6] }  // W (hanya RS Tipe A dan B)
-            ]
+            implementasi: 'wdddsd6www1w6dddw8d6d6'
         },
         {
             nama: "Klas 9b",
             definisi: "Bangunan gedung umum pertemuan yang tidak termasuk setiap bagian dari bangunan yang merupakan klas lain",
             contoh: "Sekolah, tempat peribadatan, tempat budaya, bengkel kerja (workshop), dan sejenisnya",
-            implementasi: [
-                { elemenId: 1, kategori: 0, catatan: [7, 9] },  // W (museum, gedung pertemuan besar, gedung pameran, perguruan tinggi, sekolah khusus)
-                { elemenId: 2, kategori: 0, catatan: [7, 9] },  // W (museum, gedung pertemuan besar, gedung pameran, perguruan tinggi, sekolah khusus)
-                { elemenId: 3, kategori: 0, catatan: [7, 9] },  // W (museum, gedung pertemuan besar, gedung pameran, perguruan tinggi, sekolah khusus)
-                { elemenId: 4, kategori: 0, catatan: [7, 9] },  // W (museum, gedung pertemuan besar, gedung pameran, perguruan tinggi, sekolah khusus)
-                { elemenId: 5, kategori: 0, catatan: [7, 9] },  // W (museum, gedung pertemuan besar, gedung pameran, perguruan tinggi, sekolah khusus)
-                { elemenId: 6, kategori: 0, catatan: [7, 9] },  // W (museum, gedung pertemuan besar, gedung pameran, perguruan tinggi, sekolah khusus)
-                { elemenId: 7, kategori: 0 },  // W
-                { elemenId: 8, kategori: 0 },  // W
-                { elemenId: 9, kategori: 0, catatan: [1, 7, 9] },  // W1) (museum, gedung pertemuan besar, gedung pameran, perguruan tinggi, sekolah khusus)
-                { elemenId: 10, kategori: 0, catatan: [7, 9] }, // W (museum, gedung pertemuan besar, gedung pameran, perguruan tinggi, sekolah khusus)
-                { elemenId: 11, kategori: 0, catatan: [7, 9] }, // W (museum, gedung pertemuan besar, gedung pameran, perguruan tinggi, sekolah khusus)
-                { elemenId: 12, kategori: 0, catatan: [7, 9] }, // W (museum, gedung pertemuan besar, gedung pameran, perguruan tinggi, sekolah khusus)
-                { elemenId: 13, kategori: 0, catatan: [7, 9] }, // W (museum, gedung pertemuan besar, gedung pameran, perguruan tinggi, sekolah khusus)
-                { elemenId: 14, kategori: 0, catatan: [7, 9] }, // W (museum, gedung pertemuan besar, gedung pameran, perguruan tinggi, sekolah khusus)
-                { elemenId: 15, kategori: 0, catatan: [7, 9] }, // W (museum, gedung pertemuan besar, gedung pameran, perguruan tinggi, sekolah khusus)
-                { elemenId: 16, kategori: 0, catatan: [7, 9] }  // W (museum, gedung pertemuan besar, gedung pameran, perguruan tinggi, sekolah khusus)
-            ]
+            implementasi: 'wssd7d9swww1d7dddsss'
         },
         {
             nama: "Klas 10a",
             definisi: "Bangunan gedung bukan hunian berupa sarana atau prasarana yang dibangun terpisah",
             contoh: "Garasi pribadi, garasi umum, dan sejenisnya",
-            implementasi: [
-                { elemenId: 1, kategori: 0 },  // W
-                { elemenId: 2, kategori: 2 },  // S
-                { elemenId: 3, kategori: 2 },  // S
-                { elemenId: 4, kategori: 2 },  // S
-                { elemenId: 5, kategori: 2 },  // S
-                { elemenId: 6, kategori: 2 },  // S
-                { elemenId: 7, kategori: 0 },  // W
-                { elemenId: 8, kategori: 0 },  // W
-                { elemenId: 9, kategori: 0, catatan: [1] },  // W1)
-                { elemenId: 10, kategori: 2 }, // S
-                { elemenId: 11, kategori: 2 }, // S
-                { elemenId: 12, kategori: 2 }, // S
-                { elemenId: 13, kategori: 2 }, // S
-                { elemenId: 14, kategori: 2 }, // S
-                { elemenId: 15, kategori: 2 }, // S
-                { elemenId: 16, kategori: 2 }  // S
-            ]
+            implementasi: 'ssssssssssssssss'
         },
         {
             nama: "Klas 10b",
             definisi: "Struktur berupa sarana atau prasarana yang dibangun terpisah",
             contoh: "Pagar, antena (mast), kolam renang, dan sejenisnya",
-            implementasi: [
-                { elemenId: 1, kategori: 0 },  // W
-                { elemenId: 2, kategori: 2 },  // S
-                { elemenId: 3, kategori: 2 },  // S
-                { elemenId: 4, kategori: 2 },  // S
-                { elemenId: 5, kategori: 2 },  // S
-                { elemenId: 6, kategori: 2 },  // S
-                { elemenId: 7, kategori: 0 },  // W
-                { elemenId: 8, kategori: 0 },  // W
-                { elemenId: 9, kategori: 0, catatan: [1] },  // W1)
-                { elemenId: 10, kategori: 2 }, // S
-                { elemenId: 11, kategori: 2 }, // S
-                { elemenId: 12, kategori: 2 }, // S
-                { elemenId: 13, kategori: 2 }, // S
-                { elemenId: 14, kategori: 2 }, // S
-                { elemenId: 15, kategori: 2 }, // S
-                { elemenId: 16, kategori: 2 }  // S
-            ]
+            implementasi: 'ssssssssssssssss'
         }
     ],
 
@@ -327,70 +106,19 @@ const matriks = {
             nama: "Sederhana",
             definisi: "Bangunan gedung dengan teknologi dan spesifikasi sederhana meliputi: 1) Bangunan gedung kantor dan BGN lainnya dengan jumlah lantai sampai dengan 2 lantai; 2) Bangunan gedung kantor dan BGN lainnya dengan luas sampai dengan 500 m2; dan Rumah negara meliputi rumah negara tipe C, tipe D, dan tipe E",
             contoh: "Bangunan gedung kantor sederhana, rumah negara tipe C/D/E",
-            implementasi: [
-                { elemenId: 1, kategori: 0 },  // W
-                { elemenId: 2, kategori: 2 },  // S
-                { elemenId: 3, kategori: 2 },  // S
-                { elemenId: 4, kategori: 2 },  // S
-                { elemenId: 5, kategori: 2 },  // S
-                { elemenId: 6, kategori: 2 },  // S
-                { elemenId: 7, kategori: 0 },  // W
-                { elemenId: 8, kategori: 0 },  // W
-                { elemenId: 9, kategori: 2 },  // S
-                { elemenId: 10, kategori: 2 }, // S
-                { elemenId: 11, kategori: 2 }, // S
-                { elemenId: 12, kategori: 2 }, // S
-                { elemenId: 13, kategori: 2 }, // S
-                { elemenId: 14, kategori: 2 }, // S
-                { elemenId: 15, kategori: 2 }, // S
-                { elemenId: 16, kategori: 2 }  // S
-            ]
+            implementasi: 'wssssswwssssssss'
         },
         {
             nama: "Tidak Sederhana",
             definisi: "Bangunan gedung dengan teknologi dan spesifikasi tidak sederhana meliputi: 1) Bangunan gedung kantor dan BGN lainnya dengan jumlah lantai lebih dari 2 lantai; 2) Bangunan gedung kantor dan BGN lainnya dengan luas lebih dari 500 m2; dan Rumah negara meliputi rumah negara tipe A dan tipe B",
             contoh: "Bangunan gedung kantor tidak sederhana, rumah negara tipe A/B",
-            implementasi: [
-                { elemenId: 1, kategori: 0 },  // W
-                { elemenId: 2, kategori: 0 },  // W
-                { elemenId: 3, kategori: 0 },  // W
-                { elemenId: 4, kategori: 2 },  // S
-                { elemenId: 5, kategori: 2 },  // S
-                { elemenId: 6, kategori: 2 },  // S
-                { elemenId: 7, kategori: 0 },  // W
-                { elemenId: 8, kategori: 0 },  // W
-                { elemenId: 9, kategori: 0, catatan: [1] },  // W1)
-                { elemenId: 10, kategori: 0, catatan: [3] }, // W3)
-                { elemenId: 11, kategori: 0, catatan: [3] }, // W3)
-                { elemenId: 12, kategori: 0, catatan: [3] }, // W3)
-                { elemenId: 13, kategori: 2 }, // S
-                { elemenId: 14, kategori: 2 }, // S
-                { elemenId: 15, kategori: 2 }, // S
-                { elemenId: 16, kategori: 2 }  // S
-            ]
+            implementasi: 'wwwssswww1dw3w3w3d2sd'
         },
         {
             nama: "Khusus",
             definisi: "Merupakan: 1) BGN yang memiliki standar khusus, serta dalam perencanaan dan pelaksanaannya memerlukan penyelesaian atau teknologi khusus; 2) BGN yang memiliki tingkat kerahasiaan tinggi untuk kepentingan nasional; 3) BGN yang penyelenggaraannya dapat membahayakan masyarakat di sekitarnya; dan 4) BGN yang memiliki risiko bahaya tinggi",
-            contoh: "Istana negara, rumah jabatan, gedung instalasi nuklir, gedung pertahanan, terminal, stasiun, stadion, rumah tahanan, pusat data, gudang benda berbahaya, gedung monumental, gedung cagar budaya, gedung perwakilan negara",
-            implementasi: [
-                { elemenId: 1, kategori: 0 },  // W
-                { elemenId: 2, kategori: 0 },  // W
-                { elemenId: 3, kategori: 0 },  // W
-                { elemenId: 4, kategori: 0 },  // W
-                { elemenId: 5, kategori: 0 },  // W
-                { elemenId: 6, kategori: 0 },  // W
-                { elemenId: 7, kategori: 0 },  // W
-                { elemenId: 8, kategori: 0 },  // W
-                { elemenId: 9, kategori: 0, catatan: [1] },  // W1)
-                { elemenId: 10, kategori: 0 }, // W
-                { elemenId: 11, kategori: 0 }, // W
-                { elemenId: 12, kategori: 0 }, // W
-                { elemenId: 13, kategori: 0 }, // W
-                { elemenId: 14, kategori: 0 }, // W
-                { elemenId: 15, kategori: 0 }, // W
-                { elemenId: 16, kategori: 0 }  // W
-            ]
+            contoh: "Istana negara, rumah jabatan matan presiden/wapres/menteri, wisma negara, gedung instalasi nuklir, gedung instalasi pertahanan, gedung terminal udara/laut/darat, stasiun kereta api, stadion/gedung olahraga, rumah tahanan, pusat data, gudang benda berbahaya, gedung monumental, gedung cagar budaya, gedung perwakilan negara",
+            implementasi: 'wwwddswww1dwwwd2sd'
         }
     ]
 };
