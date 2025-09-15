@@ -1,7 +1,7 @@
 // Simple offline-first service worker for Kalkulator BGC
 // Cache core assets and serve same-origin requests from cache first.
 
-const VERSION = 'v1';
+const VERSION = 'v2';
 const CACHE_STATIC = `bgc-static-${VERSION}`;
 const CACHE_RUNTIME = `bgc-runtime-${VERSION}`;
 const CACHE_FONTS = `bgc-fonts-${VERSION}`;
@@ -46,7 +46,7 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(req.url);
 
   // Cache Google Fonts with stale-while-revalidate
-  if (url.origin.includes('fonts.googleapis.com') || url.origin.includes('fonts.gstatic.com')) {
+  if (url.origin.includes('fonts.googleapis.com') || url.origin.includes('fonts.gstatic.com') || url.origin.includes('cdnjs.cloudflare.com')) {
     event.respondWith((async () => {
       const cache = await caches.open(CACHE_FONTS);
       const cached = await cache.match(req);
