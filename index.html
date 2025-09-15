@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+	<meta name="theme-color" content="#0d47a1" />
+	<title>Kalkulator Penilaian BGC</title>
+	<link rel="stylesheet" href="style.css" />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+	<header class="app-bar" role="banner">
+		<h1>Kalkulator Penilaian BGC</h1>
+		<button id="btn-tema" type="button" class="btn sekunder kecil" aria-pressed="false" aria-label="Toggle tema"
+			title="Ganti Tema">🌙</button>
+	</header>
+
+	<main id="utama" class="konten" role="main">
+		<p class="deskripsi">Isi data bangunan lalu centang / pilih indikator pada checklist terperinci setiap kriteria
+			untuk menghitung skor otomatis. Data disimpan lokal (tidak dikirim ke server).</p>
+
+		<form id="form-penilaian" novalidate autocomplete="off">
+			<details class="panel-bantuan">
+				<summary>Panduan Penggunaan</summary>
+				<ol>
+					<li>Pilih Jenis Bangunan lalu Klasifikasi.</li>
+					<li>Buka tiap parameter untuk mengisi skor (0 s/d maksimum).</li>
+					<li>Tekan Hitung Total atau biarkan sistem menghitung otomatis.</li>
+					<li>Gunakan Simpan / Muat untuk kelola penyimpanan lokal.</li>
+					<li>Reset akan menghapus semua input dan data simpanan.</li>
+				</ol>
+			</details>
+			<section class="data-bangunan" aria-labelledby="judul-data-bangunan">
+				<h2 id="judul-data-bangunan">Data Bangunan</h2>
+				<div class="grid-form">
+					<div class="grup-form">
+						<label id="label-jenis-bangunan">Jenis Bangunan</label>
+						<input type="hidden" id="jenis-bangunan" name="jenis_bangunan" />
+						<div id="jenis-bangunan-group" class="radio-group" role="radiogroup"
+							aria-labelledby="label-jenis-bangunan">
+							<!-- Radio Jenis diisi dinamis dari matriks -->
+						</div>
+					</div>
+					<div class="grup-form">
+						<label id="label-klasifikasi-bangunan">Klasifikasi</label>
+						<input type="hidden" id="klasifikasi-bangunan" name="klasifikasi_bangunan" />
+						<div id="klasifikasi-bangunan-group" class="radio-group" role="radiogroup"
+							aria-labelledby="label-klasifikasi-bangunan">
+							<!-- Radio Klasifikasi diisi dinamis sesuai Jenis -->
+						</div>
+					</div>
+				</div>
+				<div id="catatan-global-wrapper" class="catatan-global" hidden>
+					<h3>Catatan Implementasi</h3>
+					<p class="ket-catatan">Tandai catatan yang terpenuhi. Jika catatan untuk suatu elemen tidak
+						terpenuhi maka elemen tersebut turun menjadi Sukarela.</p>
+					<div id="daftar-catatan-global" class="daftar-catatan-global"><!-- diisi dinamis --></div>
+				</div>
+			</section>
+
+			<section id="implementasi-section" class="implementasi" aria-labelledby="judul-implementasi" hidden>
+				<h2 id="judul-implementasi">Kriteria Implementasi (Jenis & Klasifikasi)</h2>
+				<p class="ket-impl">Berikut 16 elemen. Label Wajib (W), Disarankan (D), Sukarela (S). Jika ada catatan
+					angka, centang apakah telah terpenuhi.</p>
+				<div id="implementasi-list" class="implementasi-list"><!-- diisi dinamis --></div>
+			</section>
+
+			<section class="parameter" aria-labelledby="judul-parameter">
+				<h2 id="judul-parameter">Checklist Penilaian Terperinci</h2>
+				<div id="parameter-checklist" class="parameter-checklist"><!-- Render dinamis --></div>
+			</section>
+
+			<div class="blok-tombol-hitung">
+				<button type="button" id="btn-hitung" class="btn besar primer" aria-describedby="info-hitung">Hitung
+					Total</button>
+				<p id="info-hitung" class="keterangan-tombol">Gunakan tombol ini untuk memastikan ringkasan diperbarui
+					(juga otomatis saat input berubah).</p>
+			</div>
+
+			<section class="ringkasan" aria-labelledby="judul-ringkasan">
+				<h2 id="judul-ringkasan">Hasil & Ringkasan</h2>
+				<div class="card-total" id="area-hasil">
+					<div class="hasil-grid">
+						<div class="hasil-item"><span>Total Skor</span><strong id="total-skor">0</strong></div>
+						<div class="hasil-item"><span>Skor Maks</span><strong id="total-maks">0</strong></div>
+						<div class="hasil-item besar"><span>Persentase</span><strong id="persentase">0%</strong></div>
+						<div class="hasil-item"><span>Klasifikasi</span><strong id="klasifikasi-level"
+								class="badge-klasifikasi" data-level="-">-</strong></div>
+					</div>
+					<div class="progress-wrapper" aria-label="Persentase total">
+						<progress id="progress-total" value="0" max="100">0%</progress>
+					</div>
+				</div>
+			</section>
+
+			<div class="aksi">
+				<button type="button" id="btn-simpan" class="btn sekunder">Simpan</button>
+				<button type="button" id="btn-muat" class="btn sekunder">Muat</button>
+				<button type="reset" id="btn-reset" class="btn bahaya">Reset</button>
+			</div>
+		</form>
+	</main>
+
+	<nav id="param-nav" class="param-nav floating" aria-label="Navigasi Parameter"><!-- diisi dinamis --></nav>
+
+	<footer class="footer" role="contentinfo">
+		<small><strong>Kalkulator BGC</strong> • Versi <span id="versi-aplikasi"></span> • &copy; <span
+				id="tahun"></span> Data lokal, tidak dikirim ke server.</small>
+	</footer>
+
+	<!-- Dataset besar penilaian -->
+	<script src="tabel.js" defer></script>
+	<script src="main.js" defer></script>
+</body>
+
+</html>
