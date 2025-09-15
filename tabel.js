@@ -2116,4 +2116,7 @@ const penilaian = {
     }
 };
 
-export { kategori, daftarElemen, matriks, catatanImplementasi }
+// Ekspos matriks ke window agar dapat diakses eksplisit (beberapa browser tidak menaruh const global ke window)
+try { if (typeof window !== 'undefined') { window.matriks = window.matriks || matriks; } } catch(_) {}
+// Trigger event siap agar skrip lain bisa mengisi dropdown tanpa polling panjang
+try { document.dispatchEvent(new Event('matriks:ready')); } catch(_) {}
