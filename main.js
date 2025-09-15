@@ -521,6 +521,22 @@ function renderChecklist() {
 	const frag = document.createDocumentFragment();
 	const nav = document.getElementById('param-nav');
 	const navFrag = document.createDocumentFragment();
+	// Tambah chip khusus: Data Bangunan di awal; Hasil ditambahkan setelah parameter
+	let chipHasil = null;
+	if (nav) {
+		const chipData = document.createElement('button');
+		chipData.type = 'button';
+		chipData.className = 'chip';
+		chipData.innerHTML = '<i class="fa-solid fa-building"></i><span class="nama"> Data Bangunan</span>';
+		chipData.setAttribute('data-scroll-target', '#judul-data-bangunan');
+		navFrag.appendChild(chipData);
+
+		chipHasil = document.createElement('button');
+		chipHasil.type = 'button';
+		chipHasil.className = 'chip';
+		chipHasil.innerHTML = '<i class="fa-solid fa-chart-column"></i><span class="nama"> Hasil</span>';
+		chipHasil.setAttribute('data-scroll-target', '#judul-ringkasan');
+	}
 	Object.entries(penilaian).forEach(([kode, data]) => {
 		const section = document.createElement('details');
 		section.className = 'pc-parameter';
@@ -549,6 +565,8 @@ function renderChecklist() {
 	});
 	root.innerHTML = '';
 	root.appendChild(frag);
+	// Taruh chip Hasil setelah semua parameter (setelah F)
+	if (nav && chipHasil) navFrag.appendChild(chipHasil);
 	// Render navbar chips sekaligus
 	if (nav) { nav.innerHTML = ''; nav.appendChild(navFrag); pasangNavParameter(); }
 	// Pasang lazy-hydration untuk setiap parameter
@@ -631,6 +649,21 @@ function pasangNavParameter() {
 	if (!nav) return;
 	const chips = Array.from(nav.querySelectorAll('.chip'));
 	const sections = Array.from(document.querySelectorAll('.pc-parameter'));
+
+	// Smooth scroll untuk chip custom
+	chips.forEach(c => {
+		const t = c.getAttribute('data-scroll-target');
+		if (t) {
+			c.addEventListener('click', () => {
+				const el = document.querySelector(t);
+				if (!el) return;
+				const appBar = document.querySelector('.app-bar');
+				const headerH = appBar ? appBar.getBoundingClientRect().height : 60;
+				const y = el.getBoundingClientRect().top + window.scrollY - (headerH + 8);
+				window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+			}, { passive: true });
+		}
+	});
 
 	const keSection = (kode) => sections.find(s => s.dataset.param === kode);
 	const setAktif = (kode) => {
@@ -1050,18 +1083,18 @@ function notifikasi(pesan) {
 		ele.id = 'toast';
 		ele.setAttribute('role', 'status');
 		ele.setAttribute('aria-live', 'polite');
-		ele.style.cssText = 'position:fixed;left:50%;bottom:1.2rem;translate:-50% 0;background:#0d47a1;color:#fff;padding:.55rem .9rem;font-size:.7rem;font-weight:600;border-radius:999px;letter-spacing:.5px;box-shadow:0 4px 12px -2px rgba(0,0,0,.35);z-index:999;opacity:0;transition:.35s cubic-bezier(.4,0,.2,1);pointer-events:none;';
+	ele.style.cssText = 'position:fixed;right:max(1rem, env(safe-area-inset-right));top:calc(.6rem + env(safe-area-inset-top));background:#ffffff;color:#0f172a;padding:.6rem .8rem;font-size:.8rem;font-weight:600;border-radius:10px;letter-spacing:.3px;border:1px solid #e2e8f0;box-shadow:0 6px 18px rgba(16,24,40,.16);z-index:999;opacity:0;transition:.35s cubic-bezier(.4,0,.2,1);pointer-events:none;transform:translate(8px, -8px)';
 		document.body.appendChild(ele);
 	}
 	ele.textContent = pesan;
 	requestAnimationFrame(() => {
-		ele.style.opacity = '1';
-		ele.style.transform = 'translate(-50%, -4px)';
+	ele.style.opacity = '1';
+	ele.style.transform = 'translate(0, 0)';
 	});
 	clearTimeout(timerNotifikasi);
 	timerNotifikasi = setTimeout(() => {
 		ele.style.opacity = '0';
-		ele.style.transform = 'translate(-50%, 0)';
+	ele.style.transform = 'translate(8px, -8px)';
 	}, 1800);
 }
 
@@ -1167,14 +1200,17 @@ function setupPreventZoom() {
 	const kontenNormal = 'width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover';
 	const kontenFocus = 'width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover';
 	meta.setAttribute('content', kontenNormal);
+	const isFormTarget = (t) => t && t.nodeType === 1 && typeof t.matches === 'function' && t.matches('input,select,textarea');
 	const handlerFocus = (e) => {
-		if (e.target && e.target.matches('input,select,textarea')) {
+		const t = e && e.target;
+		if (isFormTarget(t)) {
 			// Pastikan font-size cukup (>=16px sudah di CSS)
 			meta.setAttribute('content', kontenFocus);
 		}
 	};
 	const handlerBlur = (e) => {
-		if (e.target && e.target.matches('input,select,textarea')) {
+		const t = e && e.target;
+		if (isFormTarget(t)) {
 			// Kembalikan (sedikit delay untuk menghindari flicker)
 			setTimeout(() => meta.setAttribute('content', kontenNormal), 150);
 		}
@@ -1218,6 +1254,40 @@ function optimisasiMobileInit() {
 	optimisasiPerforma();
 }
 
+// Lite mode detection (Save-Data / 2G / reduced motion)
+function aktifkanLiteModeJikaPerlu() {
+	const nav = navigator || {};
+	const conn = nav.connection || nav.mozConnection || nav.webkitConnection;
+	const saveData = !!(conn && conn.saveData);
+	const is2G = !!(conn && /2g/i.test(conn.effectiveType || ''));
+	const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	if (saveData || is2G || prefersReducedMotion) {
+		document.documentElement.setAttribute('data-lite', 'true');
+		try { window.__LITE_MODE__ = true; } catch (_) {}
+	// Disable remote font CSS to save bandwidth
+	const linkFonts = document.getElementById('fonts-css');
+	if (linkFonts) linkFonts.disabled = true;
+	}
+}
+
+// Idle helper with fallback
+const ric = window.requestIdleCallback || function (fn) { return setTimeout(() => fn({ timeRemaining: () => 1, didTimeout: false }), 1); };
+const cRic = window.cancelIdleCallback || function (id) { clearTimeout(id); };
+
+// Chunked hydration using idle time
+function jadwalkanHydrationRingan() {
+	const sections = Array.from(document.querySelectorAll('.pc-parameter'));
+	let i = 2; // dua pertama sudah di-render awal
+	function step(deadline) {
+		while (i < sections.length && deadline.timeRemaining() > 4) {
+			renderIsiParameter(sections[i]);
+			i++;
+		}
+		if (i < sections.length) ric(step);
+	}
+	ric(step);
+}
+
 // =============================
 // TEMA TERANG / GELAP MANUAL
 // =============================
@@ -1259,8 +1329,17 @@ const initAsli = init;
 document.addEventListener('DOMContentLoaded', () => {
 	initAsli();
 	optimisasiMobileInit();
+	aktifkanLiteModeJikaPerlu();
 	muatTemaAwal();
 	pasangToggleTema();
+	// Set CSS var --appbar-h agar konten tidak tertutup header fixed
+	try {
+		const ab = document.querySelector('.app-bar');
+		if (ab) {
+			const h = Math.round(ab.getBoundingClientRect().height);
+			document.documentElement.style.setProperty('--appbar-h', h + 'px');
+		}
+	} catch (_) {}
 	// Daftarkan Service Worker untuk offline-first
 	if ('serviceWorker' in navigator) {
 		try {
@@ -1273,5 +1352,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		console.info('[DOMContentLoaded] retry isiJenisBangunan langsung');
 		isiJenisBangunan();
 	}
+	// Jadwalkan hydration bertahap untuk sisanya (mengurangi puncak CPU)
+	try { jadwalkanHydrationRingan(); } catch (_) {}
 }, { once: true });
 

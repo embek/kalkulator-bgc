@@ -5,33 +5,34 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 	<meta name="theme-color" content="#0d47a1" />
-	<title>Kalkulator Penilaian BGC</title>
+	<title>Kalkulator Penilaian Kinerja BGC Tahap Pemanfaatan</title>
 	<link rel="stylesheet" href="style.css" />
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link id="fonts-css" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<!-- Font Awesome for icons -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
 	<header class="app-bar" role="banner">
-		<h1>Kalkulator Penilaian BGC</h1>
+		<h1>Kalkulator Penilaian Kinerja BGC Tahap Pemanfaatan</h1>
 		<button id="btn-tema" type="button" class="btn sekunder kecil" aria-pressed="false" aria-label="Toggle tema"
 			title="Ganti Tema">🌙</button>
 	</header>
 
 	<main id="utama" class="konten" role="main">
-		<p class="deskripsi">Isi data bangunan lalu centang / pilih indikator pada checklist terperinci setiap kriteria
-			untuk menghitung skor otomatis. Data disimpan lokal (tidak dikirim ke server).</p>
 
 		<form id="form-penilaian" novalidate autocomplete="off">
 			<details class="panel-bantuan">
 				<summary>Panduan Penggunaan</summary>
+				<p class="deskripsi">Kalkulator ini membantu menghitung skor penilaian BGC berdasarkan kriteria bangunan. Setiap pilihan Anda akan tersimpan otomatis di perangkat (autosave) dan tidak dikirim ke server.</p>
 				<ol>
-					<li>Pilih Jenis Bangunan lalu Klasifikasi.</li>
-					<li>Buka tiap parameter untuk mengisi skor (0 s/d maksimum).</li>
-					<li>Tekan Hitung Total atau biarkan sistem menghitung otomatis.</li>
-					<li>Gunakan Simpan / Muat untuk kelola penyimpanan lokal.</li>
-					<li>Reset akan menghapus semua input dan data simpanan.</li>
+					<li>Pilih Jenis Bangunan dan Klasifikasi yang sesuai</li>
+					<li>Centang catatan implementasi yang terpenuhi (jika ada)</li>
+					<li>Isi Daftar Simak Penilaian Kinerja BGC Tahap Pemanfaatan untuk setiap elemen</li>
+					<li>Hasil perhitungan akan muncul otomatis di bagian ringkasan</li>
+					<li>Gunakan tombol Reset untuk mengulang dari awal</li>
 				</ol>
 			</details>
 			<section class="data-bangunan" aria-labelledby="judul-data-bangunan">
@@ -70,7 +71,7 @@
 			</section>
 
 			<section class="parameter" aria-labelledby="judul-parameter">
-				<h2 id="judul-parameter">Checklist Penilaian Terperinci</h2>
+				<h2 id="judul-parameter">SImak Penilaian Kinerja BGC</h2>
 				<div id="parameter-checklist" class="parameter-checklist"><!-- Render dinamis --></div>
 			</section>
 
@@ -108,7 +109,7 @@
 	<nav id="param-nav" class="param-nav floating" aria-label="Navigasi Parameter"><!-- diisi dinamis --></nav>
 
 	<footer class="footer" role="contentinfo">
-		<small><strong>Kalkulator BGC</strong> • Versi <span id="versi-aplikasi"></span> • &copy; <span
+		<small><strong>Kalkulator Penilaian Kinerja BGC Tahap Pemanfaatan</strong> • Versi <span id="versi-aplikasi"></span> • &copy; <span
 				id="tahun"></span> Data lokal, tidak dikirim ke server.</small>
 	</footer>
 
