@@ -12,7 +12,8 @@ const CORE_ASSETS = [
   './index.html',
   './style.css',
   './main.js',
-  './tabel.js'
+  './tabel.js',
+  './manifest.webmanifest'
 ];
 
 self.addEventListener('install', (event) => {

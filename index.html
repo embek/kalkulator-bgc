@@ -5,18 +5,58 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 	<meta name="theme-color" content="#0d47a1" />
+	<!-- SEO basics -->
+	<title>Kalkulator Penilaian Bangunan Gedung Cerdas (BGC) – Tahap Pemanfaatan</title>
+	<meta name="description" content="Kalkulator Penilaian Bangunan Gedung Cerdas (BGC) untuk tahap pemanfaatan. Hitung skor, persentase, dan peringkat BGC secara cepat berdasarkan kriteria yang relevan." />
+	<meta name="keywords" content="penilaian bangunan gedung cerdas, bgc, kalkulator bgc, penilaian kinerja bgn cerdas, smart building assessment" />
+	<link rel="canonical" href="https://embek.github.io/kalkulator-bgc/" />
+	<link rel="manifest" href="manifest.webmanifest">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<link rel="apple-touch-icon" href="icons/icon-192.png">
+		<!-- Open Graph / Twitter -->
+		<meta property="og:locale" content="id_ID" />
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="Kalkulator Penilaian Bangunan Gedung Cerdas (BGC)" />
+		<meta property="og:title" content="Kalkulator Penilaian Bangunan Gedung Cerdas (BGC) – Tahap Pemanfaatan" />
+		<meta property="og:description" content="Hitung poin, persentase, dan peringkat Penilaian Bangunan Gedung Cerdas (BGC) secara cepat." />
+		<meta property="og:url" content="https://embek.github.io/kalkulator-bgc/" />
+		<meta property="og:image" content="icons/icon-512.png" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content="Kalkulator Penilaian Bangunan Gedung Cerdas (BGC) – Tahap Pemanfaatan" />
+		<meta name="twitter:description" content="Hitung poin, persentase, dan peringkat Penilaian Bangunan Gedung Cerdas (BGC) secara cepat." />
+		<meta name="twitter:image" content="icons/icon-512.png" />
+		<!-- JSON-LD: WebApplication -->
+		<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "WebApplication",
+			"name": "Kalkulator Penilaian Bangunan Gedung Cerdas (BGC)",
+			"url": "https://embek.github.io/kalkulator-bgc/",
+			"applicationCategory": "UtilitiesApplication",
+			"operatingSystem": "Any",
+			"inLanguage": "id-ID",
+			"description": "Kalkulator untuk Penilaian Bangunan Gedung Cerdas (BGC) tahap pemanfaatan—menghitung poin, persentase, dan peringkat.",
+			"keywords": ["penilaian bangunan gedung cerdas","kalkulator bgc","bgc","smart building assessment"],
+			"offers": {
+				"@type": "Offer",
+				"price": "0",
+				"priceCurrency": "IDR"
+			}
+		}
+		</script>
 	<title>Kalkulator Penilaian Kinerja BGC Tahap Pemanfaatan</title>
 	<link rel="stylesheet" href="style.css" />
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 	<link id="fonts-css" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-	<!-- Font Awesome for icons -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
 	<header class="app-bar" role="banner">
-		<h1>Kalkulator Penilaian Kinerja BGC Tahap Pemanfaatan</h1>
+		<button id="btn-menu" type="button" class="btn sekunder kecil" aria-controls="param-nav" aria-expanded="false" aria-label="Buka navigasi" title="Menu">☰</button>
+		<h1>Kalkulator Penilaian Bangunan Gedung Cerdas (BGC) – Tahap Pemanfaatan</h1>
 		<button id="btn-tema" type="button" class="btn sekunder kecil" aria-pressed="false" aria-label="Toggle tema"
 			title="Ganti Tema">🌙</button>
 	</header>
@@ -26,7 +66,7 @@
 		<form id="form-penilaian" novalidate autocomplete="off">
 			<details class="panel-bantuan">
 				<summary>Panduan Penggunaan</summary>
-				<p class="deskripsi">Kalkulator ini membantu menghitung skor penilaian BGC berdasarkan kriteria bangunan. Setiap pilihan Anda akan tersimpan otomatis di perangkat (autosave) dan tidak dikirim ke server.</p>
+				<p class="deskripsi">Kalkulator ini membantu menghitung poin Penilaian Bangunan Gedung Cerdas (BGC) berdasarkan kriteria yang relevan. Setiap pilihan Anda akan tersimpan otomatis di perangkat (autosave) dan tidak dikirim ke server.</p>
 				<ol>
 					<li>Pilih Jenis Bangunan dan Klasifikasi yang sesuai</li>
 					<li>Centang catatan implementasi yang terpenuhi (jika ada)</li>
@@ -86,11 +126,16 @@
 				<h2 id="judul-ringkasan">Hasil & Ringkasan</h2>
 				<div class="card-total" id="area-hasil">
 					<div class="hasil-grid">
-						<div class="hasil-item"><span>Total Skor</span><strong id="total-skor">0</strong></div>
-						<div class="hasil-item"><span>Skor Maks</span><strong id="total-maks">0</strong></div>
-						<div class="hasil-item besar"><span>Persentase</span><strong id="persentase">0%</strong></div>
-						<div class="hasil-item"><span>Klasifikasi</span><strong id="klasifikasi-level"
-								class="badge-klasifikasi" data-level="-">-</strong></div>
+						<div class="hasil-item hasil-total"><span>Total Poin</span><strong id="total-skor">0</strong></div>
+						<div class="hasil-item hasil-maks"><span>Poin Maks</span><strong id="total-maks">0</strong></div>
+						<div class="hasil-item besar hasil-persentase"><span>Persentase</span><strong id="persentase">0%</strong></div>
+						<div class="hasil-item hasil-peringkat"><span>Peringkat</span><strong id="klasifikasi-level"
+								class="badge-klasifikasi" data-level="-">-</strong>
+							<div class="peringkat-info">
+								<small class="peringkat-range" aria-hidden="true">Utama ≥ 80 • Madya ≥ 60 • Pratama ≥ 40</small>
+								<small id="peringkat-warning" class="peringkat-warning" hidden>Lengkapi seluruh elemen Wajib untuk mendapatkan peringkat. Saat ini ditampilkan "Belum".</small>
+							</div>
+						</div>
 					</div>
 					<div class="progress-wrapper" aria-label="Persentase total">
 						<progress id="progress-total" value="0" max="100">0%</progress>
@@ -106,11 +151,16 @@
 		</form>
 	</main>
 
-	<nav id="param-nav" class="param-nav floating" aria-label="Navigasi Parameter"><!-- diisi dinamis --></nav>
+	<nav id="param-nav" class="param-nav side" aria-label="Navigasi Parameter"><!-- diisi dinamis --></nav>
 
 	<footer class="footer" role="contentinfo">
-		<small><strong>Kalkulator Penilaian Kinerja BGC Tahap Pemanfaatan</strong> • Versi <span id="versi-aplikasi"></span> • &copy; <span
-				id="tahun"></span> Data lokal, tidak dikirim ke server.</small>
+		<small>
+			<strong>Kalkulator Penilaian Kinerja BGC Tahap Pemanfaatan</strong>
+			• Versi <span id="versi-aplikasi"></span>
+			• <a href="https://github.com/embek/kalkulator-bgc" target="_blank" rel="noopener noreferrer">GitHub</a>
+			• &copy; <span id="tahun"></span> embek
+			• Data lokal, tidak dikirim ke server.
+		</small>
 	</footer>
 
 	<!-- Dataset besar penilaian -->
