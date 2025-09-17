@@ -159,6 +159,7 @@ function perbaruiBadgeElemenF() {
 	if (!entry || !entry.implementasi) {
 
 		paramF.querySelectorAll('.pc-kriteria [data-elemen]').forEach(b => { b.classList.remove('f-elemen-w', 'f-elemen-d'); b.classList.add('f-elemen-s'); b.textContent = 'Sukarela (faktor pengali: 1.0)'; b.setAttribute('title', 'Elemen – Sukarela, faktor pengali: 1.0'); });
+		// Catatan: Elemen default ditampilkan sebagai Sukarela dengan faktor pengali netral 1.0 sampai jenis & klasifikasi terpilih.
 		return;
 	}
 	const parsed = parseImplementasiString(entry.implementasi);
@@ -176,7 +177,7 @@ function perbaruiBadgeElemenF() {
 		const f = parseFloat(faktorKategori[kat]) || 1;
 		const teks = `${labelKategori[kat]} (faktor pengali: ${f.toFixed(1)})`;
 		el.textContent = teks;
-		el.setAttribute('title', `Elemen ${p.index} — ${labelKategori[kat]}, faktor pengali: ${f}`);
+		el.setAttribute('title', `Elemen ${p.index} – ${labelKategori[kat]}. Faktor pengali ${f} (berdasarkan klasifikasi bangunan). Wajib harus terpenuhi untuk kelayakan peringkat. Sumber: Matriks Implementasi & faktor pengali internal.`);
 	});
 }
 function hapusChunked(kunciDasar) {
@@ -1336,6 +1337,33 @@ document.addEventListener('DOMContentLoaded', () => {
 	aktifkanLiteModeJikaPerlu();
 	muatTemaAwal();
 	pasangToggleTema();
+
+	function sejajarkanHeaderJudul() {
+		try {
+			const btn = document.getElementById('btn-menu');
+			const judul = document.querySelector('.app-bar h1');
+			if (!btn || !judul) return;
+			judul.style.transform = 'none';
+			const rBtn = btn.getBoundingClientRect();
+			const rJudul = judul.getBoundingClientRect();
+			const cs = getComputedStyle(judul);
+			let lineHeight = parseFloat(cs.lineHeight);
+			if (!lineHeight || isNaN(lineHeight)) {
+				const fontSize = parseFloat(cs.fontSize) || 16;
+				lineHeight = fontSize * 1.2;
+			}
+			const lines = Math.round(rJudul.height / lineHeight);
+			if (lines < 2) return;
+			const selisih = rJudul.top - rBtn.top;
+			if (Math.abs(selisih) > 0.5) {
+				judul.style.transform = `translateY(${-selisih}px)`;
+			}
+		} catch (_) { }
+	}
+	requestAnimationFrame(() => sejajarkanHeaderJudul());
+	setTimeout(sejajarkanHeaderJudul, 300);
+	window.addEventListener('resize', sejajarkanHeaderJudul, { passive: true });
+	window.addEventListener('orientationchange', () => setTimeout(sejajarkanHeaderJudul, 60), { passive: true });
 	try {
 		const btnMenu = document.getElementById('btn-menu');
 		const nav = document.getElementById('param-nav');

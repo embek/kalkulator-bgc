@@ -71,6 +71,16 @@ body {
 	progress { height:16px; }
 }
 .app-bar h1 { font-size: .98rem; margin:0; letter-spacing:.2px; white-space:normal; font-weight:800; text-align:center; position:static; left:auto; transform:none; flex:1 1 auto; min-width:0; }
+/* Variasi judul: default tampilkan lengkap */
+.app-bar h1 .judul-bgc-singkat { display:none; }
+/* Pastikan ada spasi sebelum BGC saat inline */
+.app-bar h1 .judul-bgc-singkat { white-space:nowrap; }
+@media (max-width: 520px) {
+	/* Layar kecil: gunakan singkatan BGC dan sembunyikan frasa panjang & tahap */
+	.app-bar h1 .judul-bgc-lengkap { display:none; }
+	.app-bar h1 .judul-tahap { display:none; }
+	.app-bar h1 .judul-bgc-singkat { display:inline; }
+}
 .app-bar #btn-tema { flex:0 0 auto; width:2.25rem; height:2.25rem; padding:0; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; line-height:1; text-transform:none; }
 /* Burger button mirrors theme button size, sits on the left */
 #btn-menu { flex:0 0 auto; width:2.25rem; height:2.25rem; padding:0; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; line-height:1; text-transform:none; }
@@ -120,7 +130,7 @@ body {
 	.keterangan-tombol { max-width:260px; }
 }
 .data-bangunan, .implementasi, .parameter, #judul-data-bangunan, #judul-ringkasan, .pc-parameter { scroll-margin-top: calc(var(--appbar-h) + 20px); }
-.deskripsi { font-size:.9rem; margin:0 0 1rem; color:#45515f; }
+.deskripsi { font-size:.9rem; margin:0 0 0; color:#45515f; }
 
 form { width:100%; }
 
@@ -319,7 +329,7 @@ progress::-moz-progress-bar { background: linear-gradient(90deg,#1976d2,#42a5f5)
 
 /* Data Bangunan */
 .data-bangunan { background: var(--warna-kartu); border:1px solid var(--warna-border); border-radius: var(--radius); padding: 1rem 1rem 1.1rem; box-shadow: var(--bayangan-kartu); margin-bottom:1.1rem; }
-.data-bangunan h2 { margin:0 0 .75rem; font-size: var(--fs-lg); line-height: 1.2; display:flex; align-items:center; min-height: 2.75rem; }
+.data-bangunan h2 { margin:0 0; font-size: var(--fs-lg); line-height: 1.2; display:flex; align-items:center; min-height: 2.75rem; }
 	.grid-form { display:flex; flex-wrap:wrap; gap:.85rem; }
 @media (min-width:560px){
 	.grid-form > .grup-form { flex:1 1 min(20rem, 48%); }
@@ -754,8 +764,10 @@ summary, label, select, input, button { touch-action: manipulation; }
 /* Radios for Data Bangunan */
 .radio-group { display:flex; flex-wrap:wrap; gap:.5rem .6rem; justify-content:center; }
 .data-bangunan .radio-group { justify-content:flex-start; }
-.radio-pill { display:inline-flex; align-items:flex-start; gap:.4rem; padding:.45rem .55rem; border:1px solid #c3cdd6; background:#fdfefe; border-radius:999px; font-size:.75rem; font-weight:600; color:#24313d; cursor:pointer; }
-.radio-pill input { appearance:none; width:16px; height:16px; border-radius:50%; border:2px solid #1976d2; margin:.05rem 0 0; display:inline-block; position:relative; }
+.radio-pill { display:inline-flex; align-items:center; gap:.45rem; padding:.45rem .6rem; border:1px solid #c3cdd6; background:#fdfefe; border-radius:999px; font-size:.75rem; font-weight:600; color:#24313d; cursor:pointer; line-height:1.25; }
+/* Radio custom: pastikan selalu lingkaran dan sejajar secara optik dengan teks (termasuk multi-line) */
+.radio-pill input { appearance:none; -webkit-appearance:none; width:16px; height:16px; aspect-ratio:1/1; border-radius:50%; border:2px solid #1976d2; margin:0; display:inline-flex; align-items:center; justify-content:center; position:relative; flex:0 0 16px; background:#fff; }
+.radio-pill input:focus-visible { outline:2px solid #0d47a1; outline-offset:2px; }
 .radio-pill input:checked { background:#1976d2; box-shadow:inset 0 0 0 3px #fff; }
 .radio-pill .opsi-teks { display:inline-flex; align-items:center; gap:.35rem; }
 .radio-pill .info-btn { width:16px; height:16px; border-radius:50%; background:#e3f2fd; color:#0d47a1; display:inline-flex; align-items:center; justify-content:center; font-size:.65rem; font-weight:900; cursor:pointer; border:1px solid #b3c6d8; }
