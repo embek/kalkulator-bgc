@@ -56,13 +56,21 @@ body {
 		box-shadow: 0 1px 0 var(--warna-border);
 	position: fixed;
 	top: 0; left: 0; right: 0; width: 100%;
-		z-index: 50;
-		display:flex; align-items:center; gap:.5rem; position:fixed;
+/* Responsive (>=620px) untuk kartu-parameter dikelompokkan dekat komponen */
+@media (min-width: 620px) {
+	/* Flex-wrap sudah aktif; atur basis kartu agar menyerupai kolom grid */
+	.kartu-parameter { min-height: clamp(9rem, 24vh, 10.75rem); flex: 1 1 clamp(14rem, 40vw, 20rem); }
 }
-.app-bar::before { content:""; flex:0 0 0; }
-.app-bar::after { content:""; flex:0 0 0; }
+		z-index: 50;
+		display:flex; align-items:center; justify-content:space-between; gap:.5rem; position:fixed;
+}
 .app-bar { position: fixed; }
-.app-bar h1 { font-size: .98rem; margin:0; letter-spacing:.3px; white-space:normal; font-weight:800; text-align:center; position:static; left:auto; transform:none; flex:1 1 auto; min-width:0; }
+/* Responsive tinggi progress pada 480-599px dikelompokkan dekat komponen */
+@media (min-width: 480px) and (max-width: 599px) {
+	/* Jaga tinggi progress, jangan override layout hasil */
+	progress { height:16px; }
+}
+.app-bar h1 { font-size: .98rem; margin:0; letter-spacing:.2px; white-space:normal; font-weight:800; text-align:center; position:static; left:auto; transform:none; flex:1 1 auto; min-width:0; }
 .app-bar #btn-tema { flex:0 0 auto; width:2.25rem; height:2.25rem; padding:0; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; line-height:1; text-transform:none; }
 /* Burger button mirrors theme button size, sits on the left */
 #btn-menu { flex:0 0 auto; width:2.25rem; height:2.25rem; padding:0; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; line-height:1; text-transform:none; }
@@ -97,6 +105,20 @@ body {
 
 .konten { flex:1; width:100%; max-width: min(92vw, 55rem); margin: 0 auto; padding: 1rem clamp(.75rem,3vw,1.25rem) 1.5rem; padding-bottom: 1.5rem; }
 .konten { padding-top: calc(1rem + var(--appbar-h)); }
+/* Responsive padding & layout terkait dikelompokkan dekat .konten */
+@media (min-width: 600px) and (max-width: 767px) {
+	.konten { padding: 1.25rem 1.25rem 2.5rem; }
+	.btn.besar { font-size:1rem; }
+}
+@media (min-width: 768px) {
+	.konten { padding: 1.5rem 1.75rem 3rem; }
+	/* Biarkan section data-bangunan satu kolom; atur dua dropdown di dalam .grid-form saja */
+	.data-bangunan { display:block; }
+	/* Dua kolom seimbang untuk dua dropdown kiri/kanan */
+	.grid-form { column-gap: var(--sp-5); }
+	.blok-tombol-hitung { flex-direction:row; align-items:center; }
+	.keterangan-tombol { max-width:260px; }
+}
 .data-bangunan, .implementasi, .parameter, #judul-data-bangunan, #judul-ringkasan, .pc-parameter { scroll-margin-top: calc(var(--appbar-h) + 20px); }
 .deskripsi { font-size:.9rem; margin:0 0 1rem; color:#45515f; }
 
@@ -159,7 +181,7 @@ progress::-moz-progress-bar { background: linear-gradient(90deg,#1976d2,#42a5f5)
 
 .aksi { display:flex; gap:.75rem; margin:1.25rem 0 .25rem; }
 .btn { flex:1; border:none; padding:.75rem .9rem; font-size:.8rem; font-weight:600; letter-spacing:.5px; text-transform:uppercase; border-radius:12px; cursor:pointer; transition:var(--transisi); display:inline-flex; justify-content:center; align-items:center; gap:.4rem; position:relative; }
-.btn.besar { font-size:.95rem; padding:1rem 1.1rem; letter-spacing:.8px; }
+.btn.besar { padding:1rem 1.1rem; letter-spacing:.8px; }
 .btn { min-height:2.75rem; line-height:1.2; }
 .btn:active { transform:translateY(2px); }
 .btn.sentuh-aktif { filter:brightness(1.08); transform:translateY(1px); }
@@ -173,18 +195,13 @@ progress::-moz-progress-bar { background: linear-gradient(90deg,#1976d2,#42a5f5)
 .btn.bahaya { background: linear-gradient(135deg,#e53935,#c62828); color:#fff; }
 .btn.bahaya:hover { filter:brightness(1.05); }
 
-.panel-bantuan { margin:1.5rem 0 2rem; background: var(--warna-kartu); border:1px solid var(--warna-border); border-radius: var(--radius); padding:.75rem 1rem 1rem; box-shadow: var(--bayangan-kartu); }
+.panel-bantuan { margin:1rem 0 1rem; background: var(--warna-kartu); border:1px solid var(--warna-border); border-radius: var(--radius); padding:.75rem 1rem 1rem; box-shadow: var(--bayangan-kartu); }
 .panel-bantuan summary { cursor:pointer; font-weight:600; font-size:.85rem; list-style:none; }
 .panel-bantuan[open] summary { margin-bottom:.5rem; }
 .panel-bantuan ol { margin:.25rem 0 0 1rem; padding:0; font-size:.75rem; line-height:1.35; }
 
 .footer { text-align:center; font-size:.65rem; padding: 1.25rem .75rem 2rem; color:#5d6a78; }
 
-/* Layout adaptif (Flex) untuk layar lebih lebar */
-@media (min-width: 620px) {
-	/* Flex-wrap sudah aktif; atur basis kartu agar menyerupai kolom grid */
-	.kartu-parameter { min-height: clamp(9rem, 24vh, 10.75rem); flex: 1 1 clamp(14rem, 40vw, 20rem); }
-}
 
 /* Tema gelap manual via atribut data-tema="gelap" di <html> atau <body> */
 [data-tema='gelap'] { --warna-latar:#0f141a; --warna-kartu:#1b242f; --warna-border:#2a3644; color-scheme:dark; }
@@ -228,24 +245,10 @@ progress::-moz-progress-bar { background: linear-gradient(90deg,#1976d2,#42a5f5)
 [data-tema='gelap'] .app-bar #btn-menu:hover { background:#1a2835; }
 
 .param-nav { background:transparent; border:none; }
-.param-nav .chip { border:1px solid var(--warna-border); background:#ffffff; color:var(--warna-aksen); box-shadow: 0 1px 2px rgba(16,24,40,.04); padding:.48rem .7rem; }
-.param-nav .chip[aria-current="true"], .param-nav .chip.aktif { background:var(--warna-aksen); color:#fff; border-color:var(--warna-aksen); box-shadow: 0 4px 10px -3px rgba(37,99,235,.35); }
-.param-nav.floating { background:#ffffff; border:1px solid var(--warna-border); box-shadow: 0 12px 34px rgba(16,24,40,.18), 0 6px 12px rgba(16,24,40,.10); max-width: min(55rem, 96vw); }
-.param-nav.floating .chip { border-color: var(--warna-border); background:#ffffff; color:var(--warna-aksen); }
+/* (duplikat chip visual dihapus; gunakan var themed di bagian bawah) */
+.param-nav.floating { box-shadow: 0 12px 34px rgba(16,24,40,.18), 0 6px 12px rgba(16,24,40,.10); max-width: min(55rem, 96vw); }
 
-.pc-kriteria { background:#ffffff; border:1px solid var(--warna-border); }
-.pc-indikator .indikator-item { border:1px solid var(--warna-border); }
-.pc-indikator .indikator-item:hover { border-color:#cfd8e3; }
-
-.hasil-item { background:#ffffff; border:1px solid var(--warna-border); box-shadow: var(--bayangan-kartu); }
-.hasil-item strong { color:#1f2a37; font-weight:800; font-size:1.1rem; }
-.hasil-item span { font-weight:700; }
-
-.badge-klasifikasi { background:#eef2f7; color:#0f172a; border:1px solid var(--warna-border); }
-.badge-utamanya { background:#e8f5e9; color:#1b5e20; }
-.badge-madya { background:#fff3e0; color:#b45309; }
-.badge-pratama { background:#e3f2fd; color:#0d47a1; }
-.badge-belum { background:#eceff1; color:#455a64; }
+/* (duplikat dihapus: definisi visual sudah ada di blok komponen masing-masing) */
 
 /* F element badges to lighter fills */
 .f-elemen-w { background:#e8f5e9; color:#1b5e20; }
@@ -383,11 +386,7 @@ details[open] .ikon-expand { background:#0d47a1; }
 [data-tema='gelap'] .peringkat-info .peringkat-warning { color:#ffddb0; background:#3a2a12; border-color:#5c4221; }
 
 /* Badge klasifikasi */
-.badge-klasifikasi { background:#eef2f7; color:#0f172a; border:1px solid var(--warna-border); }
-.badge-utamanya { background:#e8f5e9; color:#1b5e20; }
-.badge-madya { background:#fff3e0; color:#b45309; }
-.badge-pratama { background:#e3f2fd; color:#0d47a1; }
-.badge-belum { background:#eceff1; color:#455a64; }
+/* (duplikat badge dihapus; definisi menyatu di bagian hasil & ringkasan) */
 
 [data-tema='gelap'] .badge-klasifikasi { background:#2a3644; color:#b9c9d7; }
 [data-tema='gelap'] .ringkasan h2 { color:#d5dde5; }
@@ -475,25 +474,7 @@ summary, label, select, input, button { touch-action: manipulation; }
 	.input-grup input[type=number] { width:100px; }
 }
 
-@media (min-width: 480px) and (max-width: 599px) {
-	/* Jaga tinggi progress, jangan override layout hasil */
-	progress { height:16px; }
-}
 
-@media (min-width: 600px) and (max-width: 767px) {
-	.konten { padding: 1.25rem 1.25rem 2.5rem; }
-	.btn.besar { font-size:1rem; }
-}
-
-@media (min-width: 768px) {
-	.konten { padding: 1.5rem 1.75rem 3rem; }
-	/* Biarkan section data-bangunan satu kolom; atur dua dropdown di dalam .grid-form saja */
-	.data-bangunan { display:block; }
-	/* Dua kolom seimbang untuk dua dropdown kiri/kanan */
-	.grid-form { column-gap: var(--sp-5); }
-	.blok-tombol-hitung { flex-direction:row; align-items:center; }
-	.keterangan-tombol { max-width:260px; }
-}
 
 /* Safe area support (iOS notch) */
 @supports (padding: max(0px)) {
@@ -618,9 +599,16 @@ summary, label, select, input, button { touch-action: manipulation; }
 /* Content stays full-width; nav overlays. Optional body shift can be re-added if needed. */
 
 /* keep centered even on small screens; width already capped by 96vw */
-.pc-parameter { border:1px solid var(--warna-border); background:var(--warna-kartu); border-radius:16px; padding:.25rem .95rem .95rem; box-shadow: var(--bayangan-kartu); display:flex; flex-direction:column; gap:.75rem; }
+.pc-parameter { border:1px solid var(--warna-border); background:var(--warna-kartu); border-radius:16px; padding:.25rem .95rem .25rem; box-shadow: var(--bayangan-kartu); display:flex; flex-direction:column; }
+.pc-parameter:has(> details:not([open])) { justify-content: center; padding-bottom: 0; gap: 0; }
+.pc-parameter:has(> details[open]) { justify-content: flex-start; }
 .pc-parameter { content-visibility: auto; contain-intrinsic-size: 300px 400px; }
-.pc-parameter summary.pc-parameter-summary { cursor:pointer; list-style:none; display:flex; align-items:center; gap:.75rem; padding:.6rem .2rem; min-height: 2.75rem; }
+.pc-parameter summary.pc-parameter-summary { cursor:pointer; list-style:none; display:flex; align-items:center; gap:.75rem; padding:.6rem .2rem; min-height: 2.75rem; margin: 0; }
+.pc-parameter details:not([open]) { display:flex; align-items:center; }
+/* Remove any bottom space under summary when closed */
+.pc-parameter details:not([open]) > summary.pc-parameter-summary { padding-bottom: 0; }
+/* Ensure details itself adds no spacing inside pc-parameter */
+.pc-parameter > details { margin: 0; padding: 0; }
 .pc-parameter summary::-webkit-details-marker { display:none; }
 .pc-parameter summary .kode { background:var(--warna-primer); color:#fff; font-weight:700; font-size:.7rem; letter-spacing:.5px; padding:.35rem .6rem; border-radius:10px; box-shadow:0 2px 4px -1px rgba(0,0,0,.25); flex:0 0 auto; }
 .pc-parameter summary h3 { margin:0; font-size:.9rem; font-weight:600; line-height:1.25; white-space:normal; overflow-wrap:anywhere; flex:1 1 auto; }

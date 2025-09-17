@@ -368,7 +368,8 @@ function renderJenisRadios() {
 		const label = document.createElement('label');
 		label.className = 'radio-pill';
 		label.htmlFor = id;
-		label.innerHTML = `<input type="radio" id="${id}" name="__jenis_rb" value="${j}"><span class="opsi-teks">${j}</span>`;
+		let tampil = j.replace('BGN', 'Bangunan Gedung Negara');
+		label.innerHTML = `<input type="radio" id="${id}" name="__jenis_rb" value="${j}"><span class="opsi-teks">${tampil}</span>`;
 		jenisGroup.appendChild(label);
 	});
 	sudahIsiJenis = true;
@@ -567,7 +568,6 @@ function renderIsiParameter(section) {
 		} else {
 			wrapK.innerHTML = `<h4><span class="kjudul">${kriteria.nama}</span></h4><div class="pc-indikator"></div>`;
 		}
-		// Tambahkan tooltip penjelasan (jika ada) ke ujung h4
 		if (kriteria.penjelasan) {
 			try {
 				const judulWrap = wrapK.querySelector('h4 .kjudul');
@@ -606,9 +606,9 @@ function renderIsiParameter(section) {
 	});
 	kont.dataset.hydrated = '1';
 
-	try { perbaruiBadgeElemenF(); } catch (_) {}
-	try { tandaiIndikatorWajib(); } catch (_) {}
-	try { perbaruiPoinIndikator(); } catch (_) {}
+	try { perbaruiBadgeElemenF(); } catch (_) { }
+	try { tandaiIndikatorWajib(); } catch (_) { }
+	try { perbaruiPoinIndikator(); } catch (_) { }
 }
 
 function pasangLazyHydration() {
@@ -948,9 +948,9 @@ function muatStateChecklist(obj) {
 	setTimeout(() => hitungDariChecklist(), 0);
 }
 
-function gunakanModeGridParameter() {  }
+function gunakanModeGridParameter() { }
 
-function sinkronKeObjekKalkulator() {  }
+function sinkronKeObjekKalkulator() { }
 
 function perbaruiRingkasan() {
 	sinkronKeObjekKalkulator();
@@ -964,7 +964,6 @@ function perbaruiRingkasan() {
 	progressEl.value = clamp(persen, 0, 100);
 	progressEl.setAttribute('aria-valuenow', progressEl.value);
 
-	// Cek kelengkapan elemen Wajib (Parameter F) — jika ada yang wajib namun belum terisi, paksa "Belum"
 	let wajibKurang = false;
 	try {
 		const jenisNow = selectJenis ? selectJenis.value : '';
@@ -977,7 +976,6 @@ function perbaruiRingkasan() {
 				const kat = (stateImplementasi.kategoriElemen && stateImplementasi.kategoriElemen[elemenIndex]) || 's';
 				const wajib = (kat === 'w');
 				if (!wajib) return;
-				// Anggap "terisi" bila ada setidaknya satu indikator terpilih pada kriteria tersebut
 				const ada = stateChecklist['F'] && stateChecklist['F'][idxK] && Object.keys(stateChecklist['F'][idxK]).length > 0;
 				if (!ada) wajibKurang = true;
 			});
@@ -986,7 +984,7 @@ function perbaruiRingkasan() {
 
 	const warn = document.getElementById('peringkat-warning');
 	const target = tentukanPeringkat(persen);
-	const showWarning = wajibKurang && persen >= 40; // hanya beri peringatan jika sudah masuk range peringkat
+	const showWarning = wajibKurang && persen >= 40;
 	if (showWarning) {
 		if (warn) warn.hidden = false;
 		if (peringkatEl) {
@@ -1102,18 +1100,18 @@ function notifikasi(pesan) {
 		ele.id = 'toast';
 		ele.setAttribute('role', 'status');
 		ele.setAttribute('aria-live', 'polite');
-	ele.style.cssText = 'position:fixed;right:max(1rem, env(safe-area-inset-right));top:calc(.6rem + env(safe-area-inset-top));background:#ffffff;color:#0f172a;padding:.6rem .8rem;font-size:.8rem;font-weight:600;border-radius:10px;letter-spacing:.3px;border:1px solid #e2e8f0;box-shadow:0 6px 18px rgba(16,24,40,.16);z-index:999;opacity:0;transition:.35s cubic-bezier(.4,0,.2,1);pointer-events:none;transform:translate(8px, -8px)';
+		ele.style.cssText = 'position:fixed;right:max(1rem, env(safe-area-inset-right));top:calc(.6rem + env(safe-area-inset-top));background:#ffffff;color:#0f172a;padding:.6rem .8rem;font-size:.8rem;font-weight:600;border-radius:10px;letter-spacing:.3px;border:1px solid #e2e8f0;box-shadow:0 6px 18px rgba(16,24,40,.16);z-index:999;opacity:0;transition:.35s cubic-bezier(.4,0,.2,1);pointer-events:none;transform:translate(8px, -8px)';
 		document.body.appendChild(ele);
 	}
 	ele.textContent = pesan;
 	requestAnimationFrame(() => {
-	ele.style.opacity = '1';
-	ele.style.transform = 'translate(0, 0)';
+		ele.style.opacity = '1';
+		ele.style.transform = 'translate(0, 0)';
 	});
 	clearTimeout(timerNotifikasi);
 	timerNotifikasi = setTimeout(() => {
 		ele.style.opacity = '0';
-	ele.style.transform = 'translate(8px, -8px)';
+		ele.style.transform = 'translate(8px, -8px)';
 	}, 1800);
 }
 
@@ -1126,7 +1124,7 @@ function debounceUpdate() {
 	}, 280);
 }
 
-function pasangValidasiInput() {  }
+function pasangValidasiInput() { }
 
 function pasangTouchHandlers() {
 	const tombol = document.querySelectorAll('.btn');
@@ -1275,10 +1273,10 @@ function aktifkanLiteModeJikaPerlu() {
 	const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 	if (saveData || is2G || prefersReducedMotion) {
 		document.documentElement.setAttribute('data-lite', 'true');
-		try { window.__LITE_MODE__ = true; } catch (_) {}
+		try { window.__LITE_MODE__ = true; } catch (_) { }
 
-	const linkFonts = document.getElementById('fonts-css');
-	if (linkFonts) linkFonts.disabled = true;
+		const linkFonts = document.getElementById('fonts-css');
+		if (linkFonts) linkFonts.disabled = true;
 	}
 }
 
@@ -1343,15 +1341,13 @@ document.addEventListener('DOMContentLoaded', () => {
 		const nav = document.getElementById('param-nav');
 		const posisikanNavTerhadapBurger = () => {
 			if (!btnMenu || !nav || !document.body.classList.contains('nav-open')) return;
-			// Hitung posisi tengah tombol burger dan tempatkan nav agar pusatnya sejajar secara horizontal
 			const br = btnMenu.getBoundingClientRect();
 			const vw = document.documentElement.clientWidth || window.innerWidth || 0;
-			// Pastikan nav sudah terukur (sudah terlihat); nav sudah masuk state nav-open saat fungsi ini dipanggil
 			const nr = nav.getBoundingClientRect();
 			const navW = Math.round(nr.width || nav.offsetWidth || 0);
 			const burgerCenterX = br.left + (br.width / 2);
 			let left = Math.round(burgerCenterX - navW / 2);
-			const margin = 8; // jarak aman tepi kiri/kanan
+			const margin = 8;
 			if (left < margin) left = margin;
 			if (left + navW > vw - margin) left = Math.max(margin, vw - margin - navW);
 			nav.style.left = left + 'px';
@@ -1360,13 +1356,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		const openNav = () => {
 			document.body.classList.add('nav-open');
 			if (btnMenu) { btnMenu.setAttribute('aria-expanded', 'true'); btnMenu.setAttribute('aria-label', 'Tutup navigasi'); }
-			// Posisi horizontal nav disejajarkan ke tengah tombol burger tanpa mengubah posisi vertikal
 			requestAnimationFrame(() => posisikanNavTerhadapBurger());
 		};
 		const closeNav = () => {
 			document.body.classList.remove('nav-open');
 			if (btnMenu) { btnMenu.setAttribute('aria-expanded', 'false'); btnMenu.setAttribute('aria-label', 'Buka navigasi'); }
-			// Kembalikan posisi ke default CSS bila diperlukan
 			if (nav) { nav.style.left = ''; nav.style.right = ''; }
 		};
 		const toggleNav = () => { document.body.classList.contains('nav-open') ? closeNav() : openNav(); };
@@ -1381,10 +1375,9 @@ document.addEventListener('DOMContentLoaded', () => {
 				if (!withinNav && !withinBtn) closeNav();
 			}
 		}, true);
-		// Reposisikan saat resize/orientation jika nav sedang terbuka
 		window.addEventListener('resize', () => { if (document.body.classList.contains('nav-open')) requestAnimationFrame(posisikanNavTerhadapBurger); });
 		window.addEventListener('orientationchange', () => { if (document.body.classList.contains('nav-open')) setTimeout(() => posisikanNavTerhadapBurger(), 50); });
-	} catch (_) {}
+	} catch (_) { }
 
 	try {
 		const ab = document.querySelector('.app-bar');
@@ -1392,9 +1385,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			const h = Math.round(ab.getBoundingClientRect().height);
 			document.documentElement.style.setProperty('--appbar-h', h + 'px');
 		}
-	} catch (_) {}
+	} catch (_) { }
 
-	// Keep --appbar-h up to date on resize (desktop, orientation change)
 	try {
 		let rafId;
 		const syncAppbarHeight = () => {
@@ -1409,7 +1401,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		};
 		window.addEventListener('resize', syncAppbarHeight);
 		window.addEventListener('orientationchange', syncAppbarHeight);
-	} catch (_) {}
+	} catch (_) { }
 
 	if ('serviceWorker' in navigator) {
 		try {
@@ -1432,6 +1424,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		isiJenisBangunan();
 	}
 
-	try { jadwalkanHydrationRingan(); } catch (_) {}
+	try { jadwalkanHydrationRingan(); } catch (_) { }
 }, { once: true });
 
