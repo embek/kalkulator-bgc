@@ -359,14 +359,14 @@ const penilaian = {
                 maksPoinKUK: 24,
                 penjelasan: "Segmentasi jaringan untuk meningkatkan keamanan",
                 indikator: {
-                    "Jumlah segmentasi jaringan yang terisolasi": {
+                    "Jumlah segmen jaringan yang terisolasi": {
                         tipe: "radio",
                         poin: {
-                            "Kurang dari 3 segment terisolasi": 4,
-                            "≥ 3 segment terisolasi": 12
+                            "Kurang dari 3 segmen terisolasi": 4,
+                            "≥ 3 segmen terisolasi": 12
                         },
                         contohDokumentasi: "Diagram jaringan dan dokumentasi konfigurasi segmentasi",
-                        penjelasan: "Jumlah segmentasi jaringan yang telah diisolasi"
+                        penjelasan: "Jumlah segmen jaringan yang telah diisolasi"
                     },
                     "Persentase lalu lintas jaringan yang dipantau": {
                         tipe: "radio",
@@ -408,7 +408,7 @@ const penilaian = {
                         tipe: "radio",
                         poin: {
                             "Tidak dapat diukur": 0,
-                            "Kurang dari 98%": 9,
+                            "Kurang dari 98%": 3,
                             "Minimal 98%": 9
                         },
                         contohDokumentasi: "Laporan autentikasi dan log sistem",
@@ -478,12 +478,12 @@ const penilaian = {
             },
             {
                 nama: "Dapat dipastikan bahwa hanya pengguna yang terautentikasi yang dapat mengakses sistem serta mengotorisasi fitur dan data berdasarkan peran pengguna",
-                maksPoinKUK: 30,
+                maksPoinKUK: 27,
                 penjelasan: "Kontrol akses berdasarkan peran (RBAC)",
                 indikator: {
                     "100% akses dikendalikan dengan Role-Based Access Control (RBAC) secara konsisten": {
                         tipe: "checkbox",
-                        poin: 30,
+                        poin: 27,
                         contohDokumentasi: "Kebijakan RBAC dan dokumentasi implementasi",
                         penjelasan: "Semua akses harus dikendalikan melalui RBAC secara konsisten"
                     }
@@ -504,7 +504,7 @@ const penilaian = {
                         contohDokumentasi: "Log akses remote dan laporan performa sistem",
                         penjelasan: "Tingkat keberhasilan dalam memproses permintaan akses remote"
                     },
-                    "Waktu rata-rata untuk menyelesaikan permintaan remote": {
+                    "Waktu rata-rata untuk menyelesaikan permintaan remote, mulai dari saat permintaan diajukan hingga akses diberikan atau ditolak": {
                         tipe: "radio",
                         poin: {
                             "Selalu lebih dari 5 menit": 3,
@@ -564,7 +564,7 @@ const penilaian = {
                 }
             },
             {
-                nama: "Sistem masuk tunggal (single sign-on) memungkinkan pengguna terautentikasi langsung ke dalam sistem akses setelah terautentikasi di sistem operasi komputer",
+                nama: "Sistem masuk tunggal (single sign-on) memungkinkan pengguna terautentikasi langsung ke dalam sistem akses setelah terautentikasi di sistem operasi komputer workstation",
                 maksPoinKUK: 24,
                 penjelasan: "Sistem single sign-on (SSO)",
                 indikator: {
@@ -655,12 +655,12 @@ const penilaian = {
             },
             {
                 nama: "100% perangkat jaringan menggunakan protokol komunikasi yang kompatibel dengan TCP/IP, seperti BACnet/IP, Modbus TCP, dan lainnya",
-                maksPoinKUK: 21,
+                maksPoinKUK: 30,
                 penjelasan: "Kompatibilitas perangkat jaringan dengan TCP/IP",
                 indikator: {
                     "Tingkat kompatibilitas dengan TCP/IP": {
                         tipe: "checkbox",
-                        poin: 21,
+                        poin: 30,
                         contohDokumentasi: "a. Snapshot konfigurasi, integrasi atau protokol pada sistem atau software b. Manual perangkat atau software c. Report sampling",
                         penjelasan: "Semua perangkat jaringan harus kompatibel dengan protokol TCP/IP"
                     }
@@ -804,7 +804,7 @@ const penilaian = {
                 }
             },
             {
-                nama: "Jika digunakan, teknologi 5G dapat menjalankan fitur utama yang ada pada standar 3GPP release 17",
+                nama: "Jika digunakan, teknologi 5G dapat menjalankan fitur utama yang ada pada standar 3GPP release 17 atau lebih baru",
                 maksPoinKUK: 24,
                 penjelasan: "Implementasi teknologi 5G dengan fitur Ultra-Reliable Low Latency Communications (URLLC) dan Radio Access Network (RAN) Slicing",
                 indikator: {
@@ -1012,18 +1012,18 @@ const penilaian = {
             },
             {
                 nama: "Data yang digunakan dan dihasilkan oleh berbagai komponen dalam sistem dapat dipastikan tetap utuh, akurat, dan tidak ada konflik ketika dipertukarkan atau diakses di seluruh sistem",
-                maksPoinKUK: 30,
+                maksPoinKUK: 36,
                 penjelasan: "Integritas dan konsistensi data across systems",
                 indikator: {
                     "100% konsistensi data yang dipertukarkan atau diakses di seluruh sistem": {
                         tipe: "checkbox",
-                        poin: 15,
+                        poin: 18,
                         contohDokumentasi: "Laporan konsistensi data dan audit integritas",
                         penjelasan: "Tingkat konsistensi data across systems"
                     },
                     "100% kepatuhan terhadap standar data dan format yang disepakati": {
                         tipe: "checkbox",
-                        poin: 15,
+                        poin: 18,
                         contohDokumentasi: "Dokumentasi standar data dan format yang digunakan",
                         penjelasan: "Tingkat kepatuhan terhadap standar data dan format"
                     }
@@ -1404,7 +1404,7 @@ const penilaian = {
                         poin: {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 30 hari": 1,
-                            "30 hari": 3
+                            "≥ 30 hari": 3
                         },
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
                         penjelasan: "Lama waktu penyimpanan video"
@@ -1476,7 +1476,7 @@ const penilaian = {
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
                         penjelasan: "Kemudahan pengaturan akses berdasarkan area, tanggal dan waktu"
                     },
-                    "Tingkat ketersediaan fitur perhitungan penghuni di titik kumpul": {
+                    "Tingkat ketersediaan fitur perhitungan penghuni di titik kumpul (mustering point) saat kondisi darurat": {
                         tipe: "radio",
                         poin: {
                             "Tidak dapat diukur": 0,
@@ -1486,7 +1486,7 @@ const penilaian = {
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
                         penjelasan: "Ketersediaan fitur perhitungan penghuni di titik kumpul darurat"
                     },
-                    "Jumlah kendala dalam fitur penonaktifan kredensial akses secara otomatis": {
+                    "Jumlah kendala dalam fitur penonaktifan kredensial akses secara otomatis saat akun tidak digunakan sama sekali": {
                         tipe: "radio",
                         poin: {
                             "Tidak dapat diukur": 0,
@@ -1533,7 +1533,8 @@ const penilaian = {
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
                         penjelasan: "Waktu pengiriman data multimedia"
                     },
-                    "Throughput pengiriman data multimedia": {
+                    // "Throughput pengiriman data multimedia": {
+                    "Jumlah data yang berhasil dikirimkan dalam satuan waktu": {
                         tipe: "radio",
                         poin: {
                             "Selalu kurang dari 5 Mbps": 2,
@@ -1563,7 +1564,7 @@ const penilaian = {
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
                         penjelasan: "Tingkat dukungan Power over Ethernet pada perangkat aktif"
                     },
-                    "Persentase perangkat pasif jaringan yang mendukung PoE": {
+                    "Persentase perangkat pasif jaringan yang mendukung PoE, termasuk kabel": {
                         tipe: "radio",
                         poin: {
                             "Tidak ada perangkat yang mendukung PoE": 0,
@@ -1649,23 +1650,19 @@ const penilaian = {
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemeriksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
                         penjelasan: "Akurasi pengukuran penggunaan energi per perangkat"
                     },
-                    "Akurasi kontrol otomatis peralatan berdasarkan pola penggunaan energi": {
-                        tipe: "radio",
-                        poin: {
-                            "Tidak dapat diukur": 0,
-                            "Kurang dari 95% akurasi": 3,
-                            "≥ 95% akurasi": 9
-                        },
+                    "Akurasi kontrol otomatis peralatan berdasarkan pola penggunaan energi atau jadwal tertentu 100%": {
+                        tipe: "checkbox",
+                        poin: 9,
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
                         penjelasan: "Akurasi kontrol otomatis berdasarkan pola energi"
                     },
-                    "Kelengkapan data tren dan pola konsumsi energi pada dashboard": {
+                    "Kelengkapan data tren, pola konsumsi energi  100% dan identifikasi peluang penghematan energi pada dashboard": {
                         tipe: "checkbox",
                         poin: 9,
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
                         penjelasan: "Kelengkapan data arus, konsumsi energi, tegangan, dan faktor daya pada dashboard"
                     },
-                    "Persentase pengurangan konsumsi energi melalui demand response": {
+                    "Persentase pengurangan konsumsi energi melalui demand response pada waktu beban puncak": {
                         tipe: "radio",
                         poin: {
                             "Tidak dapat diukur": 0,
@@ -1734,7 +1731,7 @@ const penilaian = {
                             "Selalu ≤ 30 detik": 12
                         },
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemeriksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu respons dari deteksi perubahan hingga penyesuaian ventilasi selesai"
+                        penjelasan: "Waktu respons dari deteksi perubahan kualitas udara seperti suhu, kelembapan, kadar karbon monoksida dan dioksida serta kontamina lainnya hingga penyesuaian ventilasi selesai"
                     },
                     "Tingkat ketepatan deteksi kualitas udara luar": {
                         tipe: "radio",
@@ -1744,7 +1741,7 @@ const penilaian = {
                             "≥ 98% akurasi": 12
                         },
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Akurasi deteksi kualitas udara luar bangunan"
+                        penjelasan: "Akurasi deteksi kualitas udara luar bangunan untuk mengendalikan jumlah udara luar yang perlu diambil, kinerja filter atau kebutuhan resrkulasi udara"
                     },
                     "Akurasi kontrol otomatis berdasarkan kondisi lingkungan atau pola keberadaan penghuni": {
                         tipe: "radio",
@@ -1764,7 +1761,7 @@ const penilaian = {
                             "≥ 90% akurasi": 12
                         },
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Akurasi prediksi AI untuk perubahan kualitas udara"
+                        penjelasan: "Akurasi prediksi AI untuk perubahan kualitas udara berdasarkan data historis sensor"
                     }
                 }
             },
@@ -1773,18 +1770,18 @@ const penilaian = {
                 maksPoinKUK: 48,
                 penjelasan: "Sistem penyediaan air minum dengan monitoring dan kontrol cerdas",
                 indikator: {
-                    "Akurasi meter air cerdas dalam mengukur volume air": {
+                    "Akurasi meter air cerdas dalam mengukur volume air secara waktu-nyata ≥ 95%": {
                         tipe: "checkbox",
                         poin: 9,
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemeriksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
                         penjelasan: "Akurasi ≥ 95% pada meter air cerdas"
                     },
-                    "Waktu deteksi kebocoran air dan pemberitahuan": {
+                    "Waktu deteksi indikasi kebocoran air dan menginformasikan ke pihak terkait": {
                         tipe: "radio",
                         poin: {
                             "Selalu lebih dari 1 jam": 3,
                             "Tidak selalu, kadang-kadang ≤ 1 jam": 6,
-                            "Selau ≤ 1 jam": 9
+                            "Selalu ≤ 1 jam": 9
                         },
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
                         penjelasan: "Waktu dari deteksi kebocoran hingga pemberitahuan"
@@ -1797,13 +1794,13 @@ const penilaian = {
                             "Selalu ≤ 5 detik": 6
                         },
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu respons Automated Demand-Responsive System"
+                        penjelasan: "Waktu respons Automated Demand-Responsive System sesuai kebutuhan"
                     },
-                    "Tingkat kesesuaian waktu automated cleaning": {
+                    "Tingkat kesesuaian waktu automated cleaning 100%": {
                         tipe: "checkbox",
                         poin: 6,
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "100% kesesuaian waktu automated cleaning tanpa intervensi manual"
+                        penjelasan: "100% kesesuaian waktu automated cleaning sistem perpipaan dan perlatan plumbing tanpa intervensi manual"
                     },
                     "Waktu respons katup cerdas sejak perintah dikirim": {
                         tipe: "radio",
@@ -1813,7 +1810,7 @@ const penilaian = {
                             "Selalu ≤ 5 detik": 6
                         },
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu respons katup cerdas terhadap perintah kontrol"
+                        penjelasan: "Waktu respons katup cerdas terhadap perintah kontrol laju aliran dan tekanan air dalam sistem pipa"
                     },
                     "Persentase parameter kualitas air minum yang terpantau real-time": {
                         tipe: "radio",
@@ -1833,7 +1830,7 @@ const penilaian = {
                             "≥ 95% keberhasilan": 6
                         },
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Tingkat keberhasilan deteksi dini kebocoran menggunakan sensor dan algoritma"
+                        penjelasan: "Tingkat keberhasilan deteksi dini kebocoran menggunakan sensor, algoritma dan konektivitas"
                     }
                 }
             },
@@ -1870,7 +1867,7 @@ const penilaian = {
                             "Selalu ≤ 5 menit": 12
                         },
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu respons sistem untuk penggelontoran otomatis"
+                        penjelasan: "Waktu respons sistem untuk penggelontoran otomatis ketika mendeteksi kebutuhan pembersihan"
                     },
                     "Waktu respons deteksi kebocoran": {
                         tipe: "radio",
@@ -1882,7 +1879,7 @@ const penilaian = {
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
                         penjelasan: "Waktu respons deteksi kebocoran sistem pengelolaan air limbah"
                     },
-                    "Waktu ketersediaan data monitoring kualitas air limbah": {
+                    "Waktu ketersediaan data monitoring kualitas air limbah secara waktu-nyata": {
                         tipe: "radio",
                         poin: {
                             "Selalu lebih dari 30 detik": 4,
@@ -1890,7 +1887,7 @@ const penilaian = {
                             "Selalu ≤ 30 detik": 12
                         },
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu ketersediaan data monitoring kualitas air limbah real-time"
+                        penjelasan: "Waktu ketersediaan data monitoring kualitas air limbah real-time menggunakan sensor untuk parameter yang tepat(ion hidrogen, kekeruhan, spektofotometri, amonia dan debit)"
                     }
                 }
             },
@@ -1924,7 +1921,7 @@ const penilaian = {
             {
                 nama: "Sistem Transportasi dalam Gedung",
                 maksPoinKUK: 48,
-                penjelasan: "Sistem transportasi dalam gedung (lift) dengan fitur cerdas",
+                penjelasan: "Sistem transportasi dalam gedung (lift) yang dilengkapi dengan Tele Assistant System (TAS) yang dapat memberikan bantuan darurat kepada penumpang dengan menampilkan informasi di layar, memonitor kondisi lift, mengirim file log, dan membantu teknisi dalam mengevakuasi penumpang yang terjebak secara cepat",
                 indikator: {
                     "Ketersediaan informasi pada layar lift": {
                         tipe: "radio",
@@ -1954,7 +1951,7 @@ const penilaian = {
                             "Selalu ≤ 5 detik": 9
                         },
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu respons pengaturan parameter operasional lift"
+                        penjelasan: "Waktu respons pengaturan parameter operasional (kecepatan, prioritas lantai dan perilaku lift berdasarkan zona) lift"
                     },
                     "Waktu akses informasi di antarmuka pengguna lift": {
                         tipe: "radio",
@@ -1964,7 +1961,7 @@ const penilaian = {
                             "Selalu ≤ 3 detik": 9
                         },
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu akses informasi di antarmuka pengguna lift"
+                        penjelasan: "Waktu akses informasi di antarmuka pengguna lift yang intuitif (layar sentuh, sistem suara)"
                     },
                     "Tingkat keberhasilan monitor keadaan darurat oleh kamera IoT": {
                         tipe: "radio",
@@ -1974,7 +1971,7 @@ const penilaian = {
                             "100% berhasil": 6
                         },
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Keberhasilan kamera IoT dalam memantau keadaan darurat"
+                        penjelasan: "Keberhasilan kamera IoT dalam memantau keadaan darurat di sekitar lift"
                     },
                     "Waktu respons pengendalian lift jarak jauh": {
                         tipe: "radio",
@@ -1984,7 +1981,7 @@ const penilaian = {
                             "Selalu ≤ 2 detik": 6
                         },
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu respons pengendalian lift melalui aplikasi/web"
+                        penjelasan: "Waktu respons pengendalian lift melalui antarmuka web"
                     },
                     "Waktu pembaruan data pada aplikasi atau antarmuka web": {
                         tipe: "radio",
@@ -1994,14 +1991,14 @@ const penilaian = {
                             "Selalu ≤ 5 detik": 6
                         },
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu pembaruan data monitoring lift pada aplikasi/web"
+                        penjelasan: "Waktu pembaruan data monitoring lift pada antarmuka web"
                     }
                 }
             },
             {
                 nama: "Sistem Parkir",
                 maksPoinKUK: 48,
-                penjelasan: "Sistem parkir cerdas dengan sensor, IoT dan fitur cashless",
+                penjelasan: "Sistem parkir cerdas mampu menampilkan data keluar, masuk, posisi dan ketersediaan parkir dengan sensor, IoT dan fitur cashless ",
                 indikator: {
                     "Uptime sistem sensor dan perangkat IoT parkir": {
                         tipe: "radio",
@@ -2041,29 +2038,29 @@ const penilaian = {
                             "≥ 98% keberhasilan": 9
                         },
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Tingkat keberhasilan pembayaran parkir cashless"
+                        penjelasan: "Tingkat keberhasilan pembayaran parkir cashless menggunakan aplikasi mobile atau uang elektronik"
                     },
-                    "Waktu pembaruan informasi pada papan tampilan LED": {
+                    "Waktu pembaruan informasi ketersediaan parkir pada papan tampilan LED": {
                         tipe: "radio",
                         poin: {
-                            "Selalu lebih dari 10 detik": 3,
-                            "Tidak selalu, kadang-kadang ≤ 10 detik": 6,
+                            "Selalu lebih dari 5 detik": 3,
+                            "Tidak selalu, kadang-kadang ≤ 5 detik": 6,
                             "Selalu ≤ 10 detik": 9
                         },
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu pembaruan informasi ketersediaan parkir pada LED"
+                        penjelasan: "Waktu pembaruan informasi ketersediaan dan panduan lokasi parkir pada LED"
                     },
                     "Waktu pengolahan dan penyajian laporan visual analisis data parkir": {
                         tipe: "radio",
                         poin: {
-                            "Selalu lebih dari 5 menit": 2,
-                            "Tidak selalu, kadang-kadang ≤ 5 menit": 4,
-                            "Selalu ≤ 5 menit": 6
+                            "Selalu lebih dari 10 menit": 2,
+                            "Tidak selalu, kadang-kadang 10 menit": 4,
+                            "Selalu ≤ 10 menit": 6
                         },
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu pengolahan data penggunaan lahan parkir menjadi laporan visual"
+                        penjelasan: "Waktu pengolahan data parkir (penggunaan, waktu kunjungan dan pola pergerakan kendaraan) menjadi laporan visual"
                     },
-                    "Persentase perangkat aktif jaringan yang mendukung PoE": {
+                    "Persentase perangkat aktif jaringan sistem parkir yang mendukung PoE": {
                         tipe: "radio",
                         poin: {
                             "Tidak ada perangkat yang mendukung PoE": 0,
@@ -2073,7 +2070,7 @@ const penilaian = {
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
                         penjelasan: "Tingkat dukungan Power over Ethernet pada perangkat aktif"
                     },
-                    "Persentase perangkat pasif jaringan yang mendukung PoE": {
+                    "Persentase perangkat pasif jaringan sistem parkir yang mendukung PoE": {
                         tipe: "radio",
                         poin: {
                             "Tidak ada perangkat yang mendukung PoE": 0,
@@ -2088,7 +2085,7 @@ const penilaian = {
             {
                 nama: "Sistem Pengelolaan Utilitas",
                 maksPoinKUK: 48,
-                penjelasan: "Sistem pengelolaan utilitas untuk administrasi dan koordinasi",
+                penjelasan: "Aplikasi perangkat lunak pengelolaan utilitas bekerja secara efisien untuk administrasi pengelolaan utilitas, termasuk analisis perintah kerja dan pelacakan tenaga kerja, material, dan biaya.",
                 indikator: {
                     "Tingkat kesalahan dalam penjadwalan atau eksekusi perintah kerja": {
                         tipe: "radio",
@@ -2108,7 +2105,7 @@ const penilaian = {
                             "Selalu ≤ 3 menit": 24
                         },
                         contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu pencarian dokumen dalam sistem manajemen dokumen utilitas"
+                        penjelasan: "Sistem telah menerapkan manajemen dokumen yang efektif, konvensi penamaan, dan standar basis data untuk memudahkan pengelolaan dan koordinasi dengan grup dan aplikasi lain yang relevan."
                     }
                 }
             }
@@ -2117,6 +2114,6 @@ const penilaian = {
 };
 
 // Ekspos matriks ke window agar dapat diakses eksplisit (beberapa browser tidak menaruh const global ke window)
-try { if (typeof window !== 'undefined') { window.matriks = window.matriks || matriks; } } catch(_) {}
+try { if (typeof window !== 'undefined') { window.matriks = window.matriks || matriks; } } catch (_) { }
 // Trigger event siap agar skrip lain bisa mengisi dropdown tanpa polling panjang
-try { document.dispatchEvent(new Event('matriks:ready')); } catch(_) {}
+try { document.dispatchEvent(new Event('matriks:ready')); } catch (_) { }

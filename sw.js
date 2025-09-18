@@ -1,7 +1,7 @@
 // Simple offline-first service worker for Kalkulator BGC
 // Cache core assets and serve same-origin requests from cache first.
 
-const VERSION = 'v2';
+const VERSION = 'v3';
 const CACHE_STATIC = `bgc-static-${VERSION}`;
 const CACHE_RUNTIME = `bgc-runtime-${VERSION}`;
 const CACHE_FONTS = `bgc-fonts-${VERSION}`;
@@ -13,7 +13,10 @@ const CORE_ASSETS = [
   './style.css',
   './main.js',
   './tabel.js',
-  './manifest.webmanifest'
+  './manifest.webmanifest',
+  './icons/favicon.svg',
+  './icons/icon-192.png',
+  './icons/icon-512.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -59,22 +62,24 @@ self.addEventListener('fetch', (event) => {
 
   // Same-origin handling
   if (isSameOrigin(req.url)) {
-    // HTML: network-first, fallback to cache and then offline page (index)
+    // HTML: stale-while-revalidate with timeout fallback for resilient loads on poor networks
     if (isHTMLRequest(req)) {
       event.respondWith((async () => {
-        try {
-          const res = await fetch(req);
-          const cache = await caches.open(CACHE_RUNTIME);
-          cache.put(req, res.clone());
+        const runCache = await caches.open(CACHE_RUNTIME);
+        const cached = await runCache.match(req) || await caches.match('./index.html');
+
+        // Kick off network fetch in background to refresh cache
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 2000);
+        fetch(req, { signal: controller.signal }).then((res) => {
+          clearTimeout(timeout);
+          if (res && res.ok) runCache.put(req, res.clone());
           return res;
-        } catch (_) {
-          const cache = await caches.open(CACHE_RUNTIME);
-          const cached = await cache.match(req);
-          if (cached) return cached;
-          // fallback to cached index.html
-          const fallback = await caches.match('./index.html');
-          return fallback || new Response('<h1>Offline</h1>', { headers: { 'Content-Type': 'text/html' } });
-        }
+        }).catch(() => { /* ignore network errors */ });
+
+        // Serve cached immediately (fast), fallback to minimal offline page if nothing
+        if (cached) return cached;
+        return new Response('<!doctype html><meta charset="utf-8"><title>Offline</title><h1>Offline</h1>', { headers: { 'Content-Type': 'text/html; charset=utf-8' } });
       })());
       return;
     }

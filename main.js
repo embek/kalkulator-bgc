@@ -1271,13 +1271,19 @@ function aktifkanLiteModeJikaPerlu() {
 	const conn = nav.connection || nav.mozConnection || nav.webkitConnection;
 	const saveData = !!(conn && conn.saveData);
 	const is2G = !!(conn && /2g/i.test(conn.effectiveType || ''));
+	const downlinkLow = !!(conn && typeof conn.downlink === 'number' && conn.downlink > 0 && conn.downlink < 1.2);
+	const cpuLow = typeof nav.hardwareConcurrency === 'number' && nav.hardwareConcurrency > 0 && nav.hardwareConcurrency <= 2;
+	const memLow = typeof nav.deviceMemory === 'number' && nav.deviceMemory > 0 && nav.deviceMemory <= 2;
 	const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-	if (saveData || is2G || prefersReducedMotion) {
+	if (saveData || is2G || downlinkLow || cpuLow || memLow || prefersReducedMotion) {
 		document.documentElement.setAttribute('data-lite', 'true');
 		try { window.__LITE_MODE__ = true; } catch (_) { }
 
 		const linkFonts = document.getElementById('fonts-css');
 		if (linkFonts) linkFonts.disabled = true;
+
+		// Tunda hydration parameter lebih agresif di lite mode
+		try { window.__HYDRATION_DELAY__ = 300; } catch (_) { }
 	}
 }
 
@@ -1288,11 +1294,16 @@ function jadwalkanHydrationRingan() {
 	const sections = Array.from(document.querySelectorAll('.pc-parameter'));
 	let i = 2;
 	function step(deadline) {
+		const delay = (typeof window.__HYDRATION_DELAY__ === 'number') ? window.__HYDRATION_DELAY__ : 0;
 		while (i < sections.length && deadline.timeRemaining() > 4) {
 			renderIsiParameter(sections[i]);
 			i++;
+			if (delay) break; // hydrate satu per siklus bila lite mode
 		}
-		if (i < sections.length) ric(step);
+		if (i < sections.length) {
+			if (delay) setTimeout(() => ric(step), delay);
+			else ric(step);
+		}
 	}
 	ric(step);
 }
@@ -1392,6 +1403,52 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (nav) { nav.style.left = ''; nav.style.right = ''; }
 		};
 		const toggleNav = () => { document.body.classList.contains('nav-open') ? closeNav() : openNav(); };
+
+		// Cek otomatis: jika nav (saat terbuka) tidak overlap secara horizontal dengan #utama maka biarkan terbuka.
+		// Jika overlap (berpotongan) maka tutup. Dicek saat load, resize, dan orientationchange.
+		let jadwalAutoNav = null;
+		function evaluasiAutoNav() {
+			if (!nav) return;
+			const main = document.getElementById('utama');
+			if (!main) return;
+			// Pastikan kita bisa ukur posisi nav dalam keadaan "open".
+			const semulaOpen = document.body.classList.contains('nav-open');
+			if (!semulaOpen) {
+				// buka sementara untuk pengukuran; sembunyikan visual agar tidak flicker.
+				nav.style.visibility = 'hidden';
+				document.body.classList.add('nav-open');
+				requestAnimationFrame(() => lakukanEvaluasi(semulaOpen));
+			} else {
+				requestAnimationFrame(() => lakukanEvaluasi(semulaOpen));
+			}
+			function lakukanEvaluasi(semulaOpenFlag) {
+				try {
+					posisikanNavTerhadapBurger();
+					const nr = nav.getBoundingClientRect();
+					const mr = main.getBoundingClientRect();
+					// Overlap horizontal jika bukan kasus: (nr.right <= mr.left) atau (nr.left >= mr.right)
+					const overlap = !(nr.right <= mr.left || nr.left >= mr.right);
+					if (overlap) {
+						// Harus ditutup
+						closeNav();
+					} else {
+						openNav();
+					}
+				} catch (_) { /* abaikan */ }
+				finally {
+					nav.style.visibility = '';
+				}
+			}
+		}
+		function jadwalkanEvaluasiAutoNav() {
+			if (jadwalAutoNav) cancelAnimationFrame(jadwalAutoNav);
+			jadwalAutoNav = requestAnimationFrame(() => evaluasiAutoNav());
+		}
+		// Jalankan setelah initial layout siap
+		requestAnimationFrame(jadwalkanEvaluasiAutoNav);
+		setTimeout(jadwalkanEvaluasiAutoNav, 180);
+		window.addEventListener('resize', jadwalkanEvaluasiAutoNav, { passive: true });
+		window.addEventListener('orientationchange', () => setTimeout(jadwalkanEvaluasiAutoNav, 80), { passive: true });
 		if (btnMenu) btnMenu.addEventListener('click', toggleNav, { passive: true });
 		document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeNav(); });
 		document.addEventListener('click', (e) => {

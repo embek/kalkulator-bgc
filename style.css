@@ -789,3 +789,8 @@ summary, label, select, input, button { touch-action: manipulation; }
 .tooltip-content .isi { margin:0; opacity:.95; }
 [data-tema='gelap'] .tooltip-content { background:#0b2f68; }
 
+/* Lite mode: kurangi biaya layout/paint saat komponen di luar viewport */
+[data-lite='true'] .pc-parameter,
+[data-lite='true'] .pc-indikator .indikator-item { content-visibility: auto; contain-intrinsic-size: 600px 200px; }
+[data-lite='true'] .param-nav { content-visibility: auto; contain-intrinsic-size: 80px 320px; }
+
