@@ -373,6 +373,12 @@ progress::-moz-progress-bar { background: linear-gradient(90deg,#1976d2,#42a5f5)
 
 /* Section Parameter Expandable (details + summary) */
 .parameter { margin-bottom:1rem; min-height: clamp(420px, 55vh, 840px); }
+
+/* Layar lebar: hilangkan cadangan tinggi berlebih agar ruang kosong tidak menganga */
+@media (min-width: 1024px) {
+	#parameter-checklist { min-height: 0; }
+	.parameter { min-height: 0; }
+}
 .parameter h2 { font-size:1rem; margin:0 0 .75rem; }
 .kartu-parameter { padding-top:.75rem; }
 .kartu-parameter details { border:1px solid var(--warna-border); border-radius:12px; background: #fbfdff; overflow:hidden; }

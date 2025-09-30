@@ -121,11 +121,8 @@ document.addEventListener('change', e => {
 			const parsed = parseImplementasiString(entry.implementasi);
 			degradasiKategori(parsed);
 			perbaruiBadgeElemenF();
-			try { tandaiIndikatorWajib(); } catch (_) { }
-			// Perhitungan otomatis update saat catatan implementasi berubah
-			try { hitungDariChecklist(); } catch (_) { }
-			try { perbaruiPoinIndikator(); } catch (_) { }
-			simpanLocal(false);
+			// Recalc total & simpan
+			try { recalcSemua({ simpan: true }); } catch (_) { try { hitungDariChecklist(); simpanLocal(false); } catch (_) {} }
 		}
 	}
 });
@@ -162,10 +159,26 @@ function renderImplementasi() {
 	renderCatatanGlobal();
 	perbaruiBadgeElemenF();
 
-	try { tandaiIndikatorWajib(); } catch (_) { }
+	// Tampilkan/sembunyikan section implementasi sesuai ketersediaan matriks
+	try {
+		const implSec = document.getElementById('implementasi-section');
+		const entry = getEntryImplementasi();
+		if (implSec) {
+			// Sembunyikan bila belum pilih jenis/klas, atau tidak ada catatan relevan untuk ditampilkan
+			let tampil = false;
+			if (entry && entry.implementasi) {
+				try {
+					const parsed = parseImplementasiString(entry.implementasi);
+					const daftarCatatan = buildCatatanGlobalList(parsed);
+					tampil = Array.isArray(daftarCatatan) && daftarCatatan.length > 0;
+				} catch (_) { tampil = false; }
+			}
+			implSec.hidden = !tampil;
+		}
+	} catch (_) { }
+
 	// Perhitungan otomatis update setelah render implementasi
-	try { hitungDariChecklist(); } catch (_) { }
-	try { perbaruiPoinIndikator(); } catch (_) { }
+	try { recalcSemua({ simpan: true }); } catch (_) { try { hitungDariChecklist(); perbaruiPoinIndikator(); simpanLocal(false); } catch (_) {} }
 }
 
 function terapkanStateImplementasi() {
@@ -178,10 +191,8 @@ function terapkanStateImplementasi() {
 	const entry = getEntryImplementasi();
 	if (entry && entry.implementasi) { degradasiKategori(parseImplementasiString(entry.implementasi)); }
 	perbaruiBadgeElemenF();
-	try { tandaiIndikatorWajib(); } catch (_) { }
 	// Perhitungan otomatis update setelah apply state
-	try { hitungDariChecklist(); } catch (_) { }
-	try { perbaruiPoinIndikator(); } catch (_) { }
+	try { recalcSemua({ simpan: true }); } catch (_) { try { hitungDariChecklist(); perbaruiPoinIndikator(); simpanLocal(false); } catch (_) {} }
 }
 
 function perbaruiBadgeElemenF() {
@@ -373,6 +384,15 @@ function clamp(angka, min, max) { return Math.min(Math.max(angka, min), max); }
 function buatDebounce(fn, t = 250) { let id; return function (...args) { clearTimeout(id); id = setTimeout(() => fn.apply(this, args), t); }; }
 function buatThrottle(fn, t = 120) { let tunggu = false, simpan; return function (...args) { if (tunggu) { simpan = args; return; } fn.apply(this, args); tunggu = true; setTimeout(() => { tunggu = false; if (simpan) { fn.apply(this, simpan); simpan = null; } }, t); }; }
 
+// Helper terpusat untuk memperbarui seluruh dependensi kalkulasi dan tampilan
+function recalcSemua(opts = {}) {
+	const { simpan = false } = opts || {};
+	try { tandaiIndikatorWajib(); } catch (_) { }
+	try { hitungDariChecklist(); } catch (_) { try { perbaruiRingkasan(); } catch (_) {} }
+	try { perbaruiPoinIndikator(); } catch (_) { }
+	if (simpan) { try { simpanLocal(false); } catch (_) { } }
+}
+
 let sudahIsiJenis = false;
 const jenisGroup = document.getElementById('jenis-bangunan-group');
 const klasGroup = document.getElementById('klasifikasi-bangunan-group');
@@ -463,10 +483,7 @@ function pasangHandlerBangunan() {
 		isiKlasifikasi(rb.value);
 		renderImplementasi();
 		// Perhitungan otomatis update
-		try { tandaiIndikatorWajib(); } catch (_) { }
-		try { hitungDariChecklist(); } catch (_) { }
-		try { perbaruiPoinIndikator(); } catch (_) { }
-		simpanLocal(false);
+		try { recalcSemua({ simpan: true }); } catch (_) { try { hitungDariChecklist(); perbaruiPoinIndikator(); simpanLocal(false); } catch (_) {} }
 	});
 	if (klasGroup) klasGroup.addEventListener('change', () => {
 		const rb = klasGroup.querySelector('input[type=radio][name="__klas_rb"]:checked');
@@ -474,10 +491,7 @@ function pasangHandlerBangunan() {
 		if (rb && hiddenKlas2) hiddenKlas2.value = rb.value;
 		renderImplementasi();
 		// Perhitungan otomatis update
-		try { tandaiIndikatorWajib(); } catch (_) { }
-		try { hitungDariChecklist(); } catch (_) { }
-		try { perbaruiPoinIndikator(); } catch (_) { }
-		simpanLocal(false);
+		try { recalcSemua({ simpan: true }); } catch (_) { try { hitungDariChecklist(); perbaruiPoinIndikator(); simpanLocal(false); } catch (_) {} }
 	});
 
 	const stopInfo = (e) => {
@@ -505,6 +519,7 @@ function muatDataBangunan(d) {
 				if (rk) rk.checked = true;
 			}
 			renderImplementasi();
+			try { recalcSemua({ simpan: true }); } catch (_) { try { hitungDariChecklist(); perbaruiPoinIndikator(); simpanLocal(false); } catch (_) {} }
 		}
 	};
 	apply();
@@ -587,6 +602,8 @@ function renderChecklist() {
 	if (nav) { nav.innerHTML = ''; nav.appendChild(navFrag); pasangNavParameter(); }
 
 	pasangLazyHydration();
+	// Pastikan ringkasan awal diperbarui setelah struktur awal siap
+	try { hitungDariChecklist(); } catch (_) { try { perbaruiRingkasan(); } catch (_) {} }
 }
 
 function renderIsiParameter(section) {
@@ -821,6 +838,12 @@ function pasangChecklistListeners() {
 	const root = document.getElementById('parameter-checklist');
 	if (!root) return;
 	root.addEventListener('change', handleChecklistInput, { passive: true });
+	// Tambahkan juga listener 'input' sebagai fallback agar kalkulasi tetap berjalan real-time
+	root.addEventListener('input', (e) => {
+		if (e && e.target && e.target.matches('input[type=checkbox][data-tipe], input[type=radio][data-tipe]')) {
+			handleChecklistInput(e);
+		}
+	}, { passive: true });
 
 	root.addEventListener('mousedown', (e) => {
 		let tgt = e.target;
