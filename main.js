@@ -120,21 +120,50 @@ document.addEventListener('change', e => {
 		if (entry && entry.implementasi) {
 			const parsed = parseImplementasiString(entry.implementasi);
 			degradasiKategori(parsed);
-			simpanLocal(false);
 			perbaruiBadgeElemenF();
 			try { tandaiIndikatorWajib(); } catch (_) { }
-
+			// Perhitungan otomatis update saat catatan implementasi berubah
 			try { hitungDariChecklist(); } catch (_) { }
+			try { perbaruiPoinIndikator(); } catch (_) { }
+			simpanLocal(false);
 		}
 	}
 });
 
+function resetDanIsiCatatanGlobalRelevant() {
+	const entry = getEntryImplementasi();
+	if (!entry || !entry.implementasi) {
+		// Jika tidak ada implementasi, hapus semua catatan global
+		stateImplementasi.catatanGlobal = {};
+		stateImplementasi.kategoriElemen = {};
+		return;
+	}
+	
+	const parsed = parseImplementasiString(entry.implementasi);
+	const daftarRelevant = buildCatatanGlobalList(parsed);
+	
+	// Reset catatan global dan isi dengan yang relevan (default false/unchecked)
+	const catatanBaru = {};
+	daftarRelevant.forEach(c => {
+		// Pertahankan nilai lama jika ada, atau default false untuk yang baru
+		catatanBaru[c.no] = (stateImplementasi.catatanGlobal && stateImplementasi.catatanGlobal[c.no]) || false;
+	});
+	
+	stateImplementasi.catatanGlobal = catatanBaru;
+	
+	// Reset kategori elemen ke default dari matriks
+	parsed.forEach(p => {
+		stateImplementasi.kategoriElemen[p.index] = p.kategori;
+	});
+}
+
 function renderImplementasi() {
+	resetDanIsiCatatanGlobalRelevant();
 	renderCatatanGlobal();
 	perbaruiBadgeElemenF();
 
 	try { tandaiIndikatorWajib(); } catch (_) { }
-
+	// Perhitungan otomatis update setelah render implementasi
 	try { hitungDariChecklist(); } catch (_) { }
 	try { perbaruiPoinIndikator(); } catch (_) { }
 }
@@ -150,6 +179,9 @@ function terapkanStateImplementasi() {
 	if (entry && entry.implementasi) { degradasiKategori(parseImplementasiString(entry.implementasi)); }
 	perbaruiBadgeElemenF();
 	try { tandaiIndikatorWajib(); } catch (_) { }
+	// Perhitungan otomatis update setelah apply state
+	try { hitungDariChecklist(); } catch (_) { }
+	try { perbaruiPoinIndikator(); } catch (_) { }
 }
 
 function perbaruiBadgeElemenF() {
@@ -236,8 +268,10 @@ const progressEl = document.getElementById('progress-total');
 const peringkatEl = document.getElementById('klasifikasi-level');
 const form = document.getElementById('form-penilaian');
 const btnHitung = document.getElementById('btn-hitung');
-const btnSimpan = document.getElementById('btn-simpan');
-const btnMuat = document.getElementById('btn-muat');
+const btnEkspor = document.getElementById('btn-ekspor');
+const btnEksporCSV = document.getElementById('btn-ekspor-csv');
+const btnImpor = document.getElementById('btn-impor');
+const fileImpor = document.getElementById('file-impor');
 const btnReset = document.getElementById('btn-reset');
 const selectJenis = document.getElementById('jenis-bangunan');
 const selectKlasifikasi = document.getElementById('klasifikasi-bangunan');
@@ -428,20 +462,22 @@ function pasangHandlerBangunan() {
 		hiddenKlas.value = '';
 		isiKlasifikasi(rb.value);
 		renderImplementasi();
-		simpanLocal(false);
+		// Perhitungan otomatis update
 		try { tandaiIndikatorWajib(); } catch (_) { }
 		try { hitungDariChecklist(); } catch (_) { }
 		try { perbaruiPoinIndikator(); } catch (_) { }
+		simpanLocal(false);
 	});
 	if (klasGroup) klasGroup.addEventListener('change', () => {
 		const rb = klasGroup.querySelector('input[type=radio][name="__klas_rb"]:checked');
 		const hiddenKlas2 = document.getElementById('klasifikasi-bangunan');
 		if (rb && hiddenKlas2) hiddenKlas2.value = rb.value;
 		renderImplementasi();
-		simpanLocal(false);
+		// Perhitungan otomatis update
 		try { tandaiIndikatorWajib(); } catch (_) { }
 		try { hitungDariChecklist(); } catch (_) { }
 		try { perbaruiPoinIndikator(); } catch (_) { }
+		simpanLocal(false);
 	});
 
 	const stopInfo = (e) => {
@@ -1024,7 +1060,31 @@ function kelasBadge(level) {
 
 function simpanLocal(manual = false) {
 	try {
-		if (modeAktif !== MODE_CHECKLIST) sinkronKeObjekKalkulator();
+		if (modeAktif !== MODE_CHECKLIST) {
+			sinkronKeObjekKalkulator();
+		} else {
+			// Pastikan nilai terkini terhitung sebelum menyimpan
+			try { hitungDariChecklist(); } catch (_) { }
+		}
+
+		// Hanya simpan catatan global yang relevan dengan jenis/klasifikasi saat ini
+		const jenisNow = selectJenis ? selectJenis.value : '';
+		const klasNow = selectKlasifikasi ? selectKlasifikasi.value : '';
+		let catatanGlobalRelevant = {};
+		if (jenisNow && klasNow) {
+			const entry = getEntryImplementasi();
+			if (entry && entry.implementasi) {
+				const parsed = parseImplementasiString(entry.implementasi);
+				const daftarRelevant = buildCatatanGlobalList(parsed);
+				const nomorRelevant = new Set(daftarRelevant.map(c => c.no.toString()));
+				// Filter hanya catatan yang relevan
+				Object.entries(stateImplementasi.catatanGlobal || {}).forEach(([no, val]) => {
+					if (nomorRelevant.has(no.toString()) && val) {
+						catatanGlobalRelevant[no] = val;
+					}
+				});
+			}
+		}
 
 		const terbuka = Array.from(document.querySelectorAll('.pc-parameter[open]')).map(s => s.dataset.param);
 		const data = {
@@ -1035,16 +1095,151 @@ function simpanLocal(manual = false) {
 			mode: modeAktif,
 			openParams: terbuka,
 			bangunan: {
-				jenis: selectJenis ? selectJenis.value : '',
-				klasifikasi: selectKlasifikasi ? selectKlasifikasi.value : ''
+				jenis: jenisNow,
+				klasifikasi: klasNow
 			},
-			implementasi: stateImplementasi
+			implementasi: {
+				catatanGlobal: catatanGlobalRelevant,
+				kategoriElemen: stateImplementasi.kategoriElemen || {}
+			}
 		};
 		autosave(data, manual);
-		if (manual) notifikasi('Disimpan');
+		if (manual) notifikasi('Disimpan', { senyap: document.visibilityState === 'hidden' });
 	} catch (e) {
 		console.error('[simpanLocal] Gagal:', e);
 		notifikasi('Gagal Simpan');
+	}
+}
+
+function snapshotState() {
+	// Snapshot EKSPOR: data penilaian (pilihan) + poin per indikator terpilih
+	function buildRincianPenilaian() {
+		const jenisNow = selectJenis ? selectJenis.value : '';
+		const klasNow = selectKlasifikasi ? selectKlasifikasi.value : '';
+		const faktorKategori = kalkulator.getFaktorPengali(jenisNow, klasNow) || { w: 1, d: 1, s: 1 };
+		const hasilParam = [];
+		let totalSemua = 0;
+		let totalSemuaSebelumBatas = 0;
+		let totalMaks = 0;
+		Object.entries(penilaian).forEach(([kode, dataParam]) => {
+			const detParam = { kode, nama: dataParam.nama, maksParameter: dataParam.maksPoinParameter || 0, subtotalParameterSebelumBatas: 0, subtotalParameter: 0, kriteria: [] };
+			(dataParam.kriteriaUnjukKerja || []).forEach((kriteria, idxK) => {
+				const stateK = stateChecklist[kode] && stateChecklist[kode][idxK];
+				if (!stateK) return; // hanya kriteria yang punya pilihan
+				const elemenIndex = idxK + 1;
+				const kat = (kode === 'F') ? ((stateImplementasi.kategoriElemen && stateImplementasi.kategoriElemen[elemenIndex]) || 's') : null;
+				const mult = (kode === 'F') ? (parseFloat(faktorKategori[kat]) || 1) : 1;
+				const detK = { indeks: idxK, elemenIndex, nama: kriteria.nama, maksKriteria: kriteria.maksPoinKUK || 0, kategoriElemen: (kode === 'F') ? (kat || 's') : undefined, multiplier: (kode === 'F') ? mult : undefined, indikator: [], subtotalKriteriaSebelumBatas: 0, subtotalKriteria: 0 };
+				Object.entries(stateK).forEach(([indikatorKey, val]) => {
+					const detail = kriteria.indikator[indikatorKey];
+					if (!detail) return;
+					let base = 0; let akhir = 0; let pilihan = (typeof val === 'boolean') ? !!val : val;
+					if (detail.tipe === 'checkbox') {
+						base = detail.poin || 0;
+						akhir = (kode === 'F') ? base * mult : base;
+					} else if (detail.tipe === 'radio') {
+						const label = val;
+						base = (detail.poin && (label in detail.poin)) ? (detail.poin[label] || 0) : 0;
+						akhir = (kode === 'F') ? base * mult : base;
+					}
+					detK.indikator.push({ key: indikatorKey, tipe: detail.tipe, pilihan, poinDasar: base, multiplier: (kode === 'F') ? mult : undefined, poinAkhir: Number.isFinite(akhir) ? Math.round(akhir * 10) / 10 : 0 });
+					detK.subtotalKriteriaSebelumBatas += akhir;
+				});
+				// Terapkan batas KUK
+				detK.subtotalKriteria = Math.min(detK.subtotalKriteriaSebelumBatas, detK.maksKriteria || 0);
+				// Hanya masukkan kriteria bila ada indikator terpilih
+				if (detK.indikator.length) {
+					detParam.kriteria.push(detK);
+					detParam.subtotalParameterSebelumBatas += detK.subtotalKriteria;
+				}
+			});
+			// Terapkan batas parameter
+			detParam.subtotalParameter = Math.min(detParam.subtotalParameterSebelumBatas, detParam.maksParameter || 0);
+			if (detParam.kriteria.length) {
+				hasilParam.push(detParam);
+				totalSemuaSebelumBatas += detParam.subtotalParameter;
+				totalSemua += detParam.subtotalParameter;
+			}
+			totalMaks += detParam.maksParameter || 0;
+		});
+		const persen = totalMaks > 0 ? (totalSemua / totalMaks * 100) : 0;
+		return {
+			parameter: hasilParam,
+			ringkasan: {
+				total: Number.isFinite(totalSemua) ? Math.round(totalSemua * 10) / 10 : 0,
+				maks: totalMaks,
+				persentase: (Math.round(persen * 10) / 10)
+			}
+		};
+	}
+
+	return {
+		tipe: 'bgc-penilaian',
+		versi: 2,
+		diperbarui: new Date().toISOString(),
+		bangunan: {
+			jenis: selectJenis ? selectJenis.value : '',
+			klasifikasi: selectKlasifikasi ? selectKlasifikasi.value : ''
+		},
+		implementasi: { 
+			catatanGlobal: (() => {
+				const jenisNow = selectJenis ? selectJenis.value : '';
+				const klasNow = selectKlasifikasi ? selectKlasifikasi.value : '';
+				if (!jenisNow || !klasNow) return {};
+				const entry = getEntryImplementasi();
+				if (!entry || !entry.implementasi) return {};
+				const parsed = parseImplementasiString(entry.implementasi);
+				const daftarRelevant = buildCatatanGlobalList(parsed);
+				const nomorRelevant = new Set(daftarRelevant.map(c => c.no.toString()));
+				const hasil = {};
+				Object.entries(stateImplementasi.catatanGlobal || {}).forEach(([no, val]) => {
+					if (nomorRelevant.has(no.toString()) && val) hasil[no] = val;
+				});
+				return hasil;
+			})()
+		},
+		checklist: { ...stateChecklist },
+		poin: buildRincianPenilaian()
+	};
+}
+
+function muatDariObj(obj) {
+	if (!obj || typeof obj !== 'object') return false;
+	try {
+		// 1) Terapkan pilihan bangunan (jika ada)
+		if (obj.bangunan && (obj.bangunan.jenis || obj.bangunan.klasifikasi)) {
+			muatDataBangunan(obj.bangunan);
+		}
+
+		// 2) Terapkan implementasi: gunakan hanya catatanGlobal jika ada
+		if (obj.implementasi && obj.implementasi.catatanGlobal) {
+			stateImplementasi.catatanGlobal = { ...obj.implementasi.catatanGlobal };
+			// Kategori elemen akan dihitung ulang dari matriks + degradasi
+			const entry = getEntryImplementasi();
+			if (entry && entry.implementasi) {
+				const parsed = parseImplementasiString(entry.implementasi);
+				degradasiKategori(parsed);
+			}
+			requestAnimationFrame(() => terapkanStateImplementasi());
+		}
+
+		// 3) Terapkan checklist (indikator terpilih)
+		if (obj.checklist) {
+			gunakanModeChecklist(true);
+			requestAnimationFrame(() => muatStateChecklist(obj));
+		}
+
+		// 4) Back-compat: jika ada nilai lama, tetap muat tanpa ketergantungan
+		if (obj.nilai) {
+			kalkulator.nilaiParameter = { ...(obj.nilai || {}) };
+		}
+
+		// 5) Perbarui tampilan ringkasan
+		perbaruiRingkasan();
+		return true;
+	} catch (e) {
+		console.error('[muatDariObj] gagal:', e);
+		return false;
 	}
 }
 
@@ -1091,10 +1286,116 @@ function muatLocal() {
 	}
 }
 
+function eksporJSON() {
+	try {
+		if (modeAktif !== MODE_CHECKLIST) sinkronKeObjekKalkulator();
+		const data = snapshotState();
+		const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		const ts = new Date().toISOString().replace(/[:]/g, '-');
+		a.href = url;
+		a.download = `bgc-penilaian-${ts}.json`;
+		document.body.appendChild(a);
+		a.click();
+		setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 0);
+		notifikasi('Diekspor ke JSON');
+	} catch (e) {
+		console.error('[eksporJSON] gagal:', e);
+		notifikasi('Gagal Ekspor');
+	}
+}
+
+function toCSVRow(arr) { return arr.map(v => {
+	if (v == null) return '';
+	const s = String(v);
+	if (/[",\n]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+	return s;
+}).join(','); }
+
+function eksporCSV() {
+	try {
+		if (modeAktif !== MODE_CHECKLIST) sinkronKeObjekKalkulator();
+		const jenisNow = selectJenis ? selectJenis.value : '';
+		const klasNow = selectKlasifikasi ? selectKlasifikasi.value : '';
+		const header = ['Parameter','Kriteria Index','Indikator','Tipe','Pilihan/Checked','Poin Dasar','Multiplier(F)','Poin Akhir'];
+		const rows = [toCSVRow(['Jenis', jenisNow]), toCSVRow(['Klasifikasi', klasNow]), '', toCSVRow(header)];
+		let total = 0;
+		const faktorKategori = kalkulator.getFaktorPengali(jenisNow, klasNow) || { w: 1, d: 1, s: 1 };
+		Object.entries(penilaian).forEach(([kode, dataParam]) => {
+			(dataParam.kriteriaUnjukKerja || []).forEach((kriteria, idxK) => {
+				const elemenIndex = idxK + 1;
+				const kat = (kode === 'F') ? ((stateImplementasi.kategoriElemen && stateImplementasi.kategoriElemen[elemenIndex]) || 's') : null;
+				const mult = (kode === 'F') ? (parseFloat(faktorKategori[kat]) || 1) : 1;
+				const stateK = stateChecklist[kode] && stateChecklist[kode][idxK];
+				if (!stateK) return;
+				Object.entries(stateK).forEach(([indikatorKey, val]) => {
+					const detail = kriteria.indikator[indikatorKey];
+					if (!detail) return;
+					let base = 0; let akhir = 0; let pilihan = '';
+					if (detail.tipe === 'checkbox') {
+						base = detail.poin || 0; akhir = (kode === 'F') ? base * mult : base; pilihan = val ? 'true' : 'false';
+					} else if (detail.tipe === 'radio') {
+						pilihan = val; base = (detail.poin && (val in detail.poin)) ? (detail.poin[val] || 0) : 0; akhir = (kode === 'F') ? base * mult : base;
+					}
+					total += akhir;
+					rows.push(toCSVRow([kode, elemenIndex, indikatorKey, detail.tipe, pilihan, base, (kode === 'F') ? mult : '', akhir]));
+				});
+			});
+		});
+		const maks = kalkulator.getTotalMaks();
+		const persen = maks > 0 ? (total / maks * 100) : 0;
+		rows.push('', toCSVRow(['Total Poin', total.toFixed(1)]), toCSVRow(['Poin Maks', maks]), toCSVRow(['Persentase', (Math.round(persen * 10) / 10).toFixed(1) + '%']));
+		const csv = rows.join('\n');
+		const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		const ts = new Date().toISOString().replace(/[:]/g, '-');
+		a.href = url;
+		a.download = `bgc-penilaian-${ts}.csv`;
+		document.body.appendChild(a);
+		a.click();
+		setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 0);
+		notifikasi('Diekspor ke CSV');
+	} catch (e) {
+		console.error('[eksporCSV] gagal:', e);
+		notifikasi('Gagal Ekspor CSV');
+	}
+}
+
+function imporJSONDariFile(file) {
+	if (!file) return;
+	const reader = new FileReader();
+	reader.onload = () => {
+		try {
+			const obj = JSON.parse(reader.result);
+			const ok = muatDariObj(obj);
+			if (ok) {
+				notifikasi('Impor sukses');
+				// Pastikan status tersimpan setelah render/async apply selesai
+				setTimeout(() => { try { simpanLocal(true); } catch (_) {} }, 120);
+			} else {
+				notifikasi('Gagal Impor');
+			}
+		} catch (e) {
+			console.error('[imporJSON] parse gagal:', e);
+			notifikasi('JSON tidak valid');
+		}
+	};
+	reader.onerror = () => { notifikasi('Gagal membaca berkas'); };
+	reader.readAsText(file);
+}
+
 function hapusLocal() { try { hapusDataTersimpan(); } catch (e) { console.error('[hapusLocal]', e); } }
 
 let timerNotifikasi;
-function notifikasi(pesan) {
+let lastToast = { msg: '', at: 0 };
+function notifikasi(pesan, opsi = {}) {
+	// Jangan tampilkan toast ketika sedang proses latar (unload/hidden) untuk mencegah "menyala terus"
+	if (document.visibilityState === 'hidden' || opsi.senyap) return;
+	// Cegah spam: jika pesan sama dalam 1.2s, abaikan
+	const now = Date.now();
+	if (lastToast.msg === pesan && (now - lastToast.at) < 1200) return;
 	let ele = document.getElementById('toast');
 	if (!ele) {
 		ele = document.createElement('div');
@@ -1105,6 +1406,7 @@ function notifikasi(pesan) {
 		document.body.appendChild(ele);
 	}
 	ele.textContent = pesan;
+	lastToast = { msg: pesan, at: now };
 	requestAnimationFrame(() => {
 		ele.style.opacity = '1';
 		ele.style.transform = 'translate(0, 0)';
@@ -1120,8 +1422,8 @@ let tDebounce;
 function debounceUpdate() {
 	clearTimeout(tDebounce);
 	tDebounce = setTimeout(() => {
-		perbaruiRingkasan();
-		simpanLocal(false);
+		try { hitungDariChecklist(); } catch (_) { perbaruiRingkasan(); }
+		try { simpanLocal(false); } catch (_) { }
 	}, 280);
 }
 
@@ -1136,8 +1438,16 @@ function pasangTouchHandlers() {
 }
 
 function pasangAksiTombol() {
-	if (btnSimpan) btnSimpan.addEventListener('click', () => simpanLocal(true));
-	if (btnMuat) btnMuat.addEventListener('click', () => muatLocal());
+	if (btnEkspor) btnEkspor.addEventListener('click', () => eksporJSON());
+	if (btnImpor) btnImpor.addEventListener('click', () => fileImpor && fileImpor.click());
+	if (fileImpor && !fileImpor.dataset.listener) {
+		fileImpor.addEventListener('change', () => {
+			const f = fileImpor.files && fileImpor.files[0];
+			imporJSONDariFile(f);
+			fileImpor.value = '';
+		});
+		fileImpor.dataset.listener = '1';
+	}
 	if (btnReset) btnReset.addEventListener('click', () => {
 		if (confirm('Hapus semua input dan data tersimpan?')) {
 			resetSemua();
@@ -1145,9 +1455,10 @@ function pasangAksiTombol() {
 		}
 	});
 	if (btnHitung && !btnHitung.dataset.listener) {
-		btnHitung.addEventListener('click', () => { hitungDariChecklist(); notifikasi('Dihitung'); });
+		btnHitung.addEventListener('click', () => { hitungDariChecklist(); try { simpanLocal(true); } catch (_) {} notifikasi('Dihitung'); });
 		btnHitung.dataset.listener = '1';
 	}
+	if (btnEksporCSV) btnEksporCSV.addEventListener('click', () => eksporCSV());
 }
 
 function resetSemua() {
@@ -1266,6 +1577,40 @@ function optimisasiMobileInit() {
 	optimisasiPerforma();
 }
 
+function pasangAutosaveGlobalListeners() {
+	try {
+		const formEl = document.getElementById('form-penilaian');
+		if (formEl) {
+			// Fallback autosave untuk semua perubahan input di halaman
+			formEl.addEventListener('input', debounceUpdate, true);
+			formEl.addEventListener('change', debounceUpdate, true);
+		}
+		// Simpan saat pengguna membuka/menutup section parameter (agar openParams tersimpan)
+		document.addEventListener('toggle', (e) => {
+			const d = e && e.target;
+			if (d && d.matches && d.matches('details.pc-parameter')) {
+				debounceUpdate();
+			}
+		}, true);
+		// Flush simpan saat akan menutup/meninggalkan halaman
+		window.addEventListener('beforeunload', () => {
+			try { hitungDariChecklist(); } catch (_) { }
+			try { simpanLocal(true); } catch (_) { }
+			// Jangan munculkan toast pada saat beforeunload
+			try { notifikasi('', { senyap: true }); } catch (_) {}
+		});
+		// Simpan saat tab disembunyikan (mis. pindah tab/app)
+		document.addEventListener('visibilitychange', () => {
+			if (document.visibilityState === 'hidden') {
+				try { hitungDariChecklist(); } catch (_) { }
+				try { simpanLocal(true); } catch (_) { }
+				// Jangan munculkan toast saat hidden
+				try { notifikasi('', { senyap: true }); } catch (_) {}
+			}
+		});
+	} catch (_) { /* abaikan */ }
+}
+
 function aktifkanLiteModeJikaPerlu() {
 	const nav = navigator || {};
 	const conn = nav.connection || nav.mozConnection || nav.webkitConnection;
@@ -1348,6 +1693,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	aktifkanLiteModeJikaPerlu();
 	muatTemaAwal();
 	pasangToggleTema();
+	pasangAutosaveGlobalListeners();
 
 	function sejajarkanHeaderJudul() {
 		try {
@@ -1465,11 +1811,19 @@ document.addEventListener('DOMContentLoaded', () => {
 	} catch (_) { }
 
 	try {
-		const ab = document.querySelector('.app-bar');
-		if (ab) {
-			const h = Math.round(ab.getBoundingClientRect().height);
-			document.documentElement.style.setProperty('--appbar-h', h + 'px');
+		const setAppbarH = () => {
+			const ab = document.querySelector('.app-bar');
+			if (ab) {
+				const h = Math.round(ab.getBoundingClientRect().height);
+				document.documentElement.style.setProperty('--appbar-h', h + 'px');
+			}
+		};
+		setAppbarH();
+		// Re-sync after fonts load to avoid height jump
+		if (document.fonts && document.fonts.ready) {
+			document.fonts.ready.then(() => requestAnimationFrame(setAppbarH)).catch(() => {});
 		}
+		window.addEventListener('load', () => setTimeout(setAppbarH, 60), { once: true });
 	} catch (_) { }
 
 	try {

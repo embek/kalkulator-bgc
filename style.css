@@ -1,3 +1,27 @@
+/* --- CLS mitigation: reserve stable space and avoid big reflows --- */
+/* Pastikan tinggi header tidak dipaksa terlalu besar; gunakan tinggi alami + kalkulasi JS */
+/* Hilangkan min-height besar yang membuat banner tampak terlalu tinggi */
+.app-bar { min-height: unset; }
+
+/* Reserve space for dynamic checklist content so first paint layout is stable */
+#parameter-checklist { min-height: clamp(480px, 65vh, 960px); }
+
+/* Defer rendering of offscreen parameter blocks while reserving intrinsic size to prevent jumps */
+.pc-parameter { content-visibility: auto; contain-intrinsic-size: 720px; }
+
+@media (max-width: 640px) {
+	.pc-parameter { contain-intrinsic-size: 880px; }
+}
+
+/* Ensure radio groups area has some initial height before JS populates */
+#jenis-bangunan-group, #klasifikasi-bangunan-group { min-height: 3rem; }
+
+/* Stabilize ringkasan and action blocks to avoid shifting when data appears */
+.ringkasan .card-total { min-height: 9.5rem; }
+.aksi { min-height: 3.25rem; }
+
+/* Font fallback alignment to reduce swap-induced shifts */
+body { font-size-adjust: 0.52; }
 /*
 	Style Kalkulator Penilaian BGC
 	Fokus: Mobile-first, aksesibilitas, dan keterbacaan.
@@ -15,7 +39,8 @@
 	--radius: 0.875rem; /* ~14px */
 	--bayangan-kartu: 0 2px 6px rgba(16,24,40,.06), 0 4px 10px -2px rgba(16,24,40,.06);
 	--transisi: .25s cubic-bezier(.4,0,.2,1);
-	--appbar-h: clamp(3rem, 7vh, 3.75rem); /* default, akan diset dinamis via JS */
+	/* Tinggi header aktual akan diset via JS; fallback kecil agar tidak terlalu tinggi */
+	--appbar-h: clamp(2.75rem, 6vh, 3.25rem);
 	/* Skala Spasi */
 	--sp-0: 0;
 	--sp-1: clamp(0.25rem, 0.6vw, 0.35rem);
@@ -50,10 +75,11 @@ body {
 }
 
 .app-bar {
-		background: #ffffff;
-		color: #0f172a;
-	padding: .35rem max(.75rem, env(safe-area-inset-left)) .35rem max(1rem, env(safe-area-inset-right));
-		box-shadow: 0 1px 0 var(--warna-border);
+	background: #ffffff;
+	color: #0f172a;
+	/* Kompakkan padding vertikal */
+	padding: .25rem max(.75rem, env(safe-area-inset-left)) .25rem max(1rem, env(safe-area-inset-right));
+	box-shadow: 0 1px 0 var(--warna-border);
 	position: fixed;
 	top: 0; left: 0; right: 0; width: 100%;
 /* Responsive (>=620px) untuk kartu-parameter dikelompokkan dekat komponen */
@@ -62,7 +88,7 @@ body {
 	.kartu-parameter { min-height: clamp(9rem, 24vh, 10.75rem); flex: 1 1 clamp(14rem, 40vw, 20rem); }
 }
 		z-index: 50;
-		display:flex; align-items:center; justify-content:space-between; gap:.5rem; position:fixed;
+	display:flex; align-items:center; justify-content:space-between; gap:.5rem; position:fixed;
 }
 .app-bar { position: fixed; }
 /* Responsive tinggi progress pada 480-599px dikelompokkan dekat komponen */
@@ -114,7 +140,7 @@ body {
 .app-bar .btn.sekunder:hover { background:#f8fafc; }
 
 .konten { flex:1; width:100%; max-width: min(92vw, 55rem); margin: 0 auto; padding: 1rem clamp(.75rem,3vw,1.25rem) 1.5rem; padding-bottom: 1.5rem; }
-.konten { padding-top: calc(1rem + var(--appbar-h)); }
+.konten { padding-top: calc(0.75rem + var(--appbar-h)); }
 /* Responsive padding & layout terkait dikelompokkan dekat .konten */
 @media (min-width: 600px) and (max-width: 767px) {
 	.konten { padding: 1.25rem 1.25rem 2.5rem; }
@@ -176,7 +202,7 @@ form { width:100%; }
 
 .nilai-maks { background:#eef5ff; color:#0d47a1; font-size:.6rem; padding:.2rem .45rem; border-radius:20px; font-weight:600; letter-spacing:.5px; }
 
-.ringkasan { margin-top: .5rem; }
+.ringkasan { margin-top: .5rem; min-height: clamp(260px, 32vh, 520px); }
 .ringkasan h2 { font-size:1rem; margin:0 0 .65rem; }
 
 .card-total { background: var(--warna-kartu); padding: .9rem 1rem 1rem; border:1px solid var(--warna-border); border-radius: var(--radius); box-shadow: var(--bayangan-kartu); display:flex; flex-direction:column; gap:.4rem; }
@@ -189,7 +215,12 @@ progress::-webkit-progress-bar { background:#e7edf3; }
 progress::-webkit-progress-value { background: linear-gradient(90deg,#1976d2,#42a5f5); border-radius:8px; }
 progress::-moz-progress-bar { background: linear-gradient(90deg,#1976d2,#42a5f5); }
 
-.aksi { display:flex; gap:.75rem; margin:1.25rem 0 .25rem; }
+.aksi { display:flex; gap:.75rem; margin:1.25rem 0 .25rem; flex-direction: column; align-items: stretch; }
+.aksi .btn { flex: 0 0 auto; width: 100%; }
+@media (min-width: 640px) {
+	.aksi { flex-direction: row; flex-wrap: wrap; align-items: center; }
+	.aksi .btn { flex: 1 1 auto; width: auto; }
+}
 .btn { flex:1; border:none; padding:.75rem .9rem; font-size:.8rem; font-weight:600; letter-spacing:.5px; text-transform:uppercase; border-radius:12px; cursor:pointer; transition:var(--transisi); display:inline-flex; justify-content:center; align-items:center; gap:.4rem; position:relative; }
 .btn.besar { padding:1rem 1.1rem; letter-spacing:.8px; }
 .btn { min-height:2.75rem; line-height:1.2; }
@@ -341,7 +372,7 @@ progress::-moz-progress-bar { background: linear-gradient(90deg,#1976d2,#42a5f5)
 .grup-form select:focus { outline:none; border-color: var(--warna-aksen); box-shadow:0 0 0 2px rgba(25,118,210,.25); }
 
 /* Section Parameter Expandable (details + summary) */
-.parameter { margin-bottom:1rem; }
+.parameter { margin-bottom:1rem; min-height: clamp(420px, 55vh, 840px); }
 .parameter h2 { font-size:1rem; margin:0 0 .75rem; }
 .kartu-parameter { padding-top:.75rem; }
 .kartu-parameter details { border:1px solid var(--warna-border); border-radius:12px; background: #fbfdff; overflow:hidden; }
@@ -487,8 +518,10 @@ summary, label, select, input, button { touch-action: manipulation; }
 
 
 /* Safe area support (iOS notch) */
+
 @supports (padding: max(0px)) {
-	.app-bar { padding-left: max(1rem, env(safe-area-inset-left)); padding-right:max(1rem, env(safe-area-inset-right)); padding-top: calc(.6rem + env(safe-area-inset-top)); }
+	/* Tetap hormati safe-area namun tetap kompak */
+	.app-bar { padding-left: max(1rem, env(safe-area-inset-left)); padding-right:max(1rem, env(safe-area-inset-right)); padding-top: calc(.4rem + env(safe-area-inset-top)); }
 	.footer { padding-bottom: calc(2rem + env(safe-area-inset-bottom)); }
 }
 
@@ -590,7 +623,6 @@ summary, label, select, input, button { touch-action: manipulation; }
 .param-nav.floating .chip[aria-current="true"], .param-nav.floating .chip.aktif { background:#1976d2; color:#fff; border-color:#1976d2; box-shadow: 0 4px 10px -3px rgba(25,118,210,.45); }
 [data-tema='gelap'] .param-nav.floating .chip[aria-current="true"], [data-tema='gelap'] .param-nav.floating .chip.aktif { background:#0d47a1; border-color:#0d47a1; color:#e3f2fd; }
 
-/* Left vertical sidebar variant */
 .param-nav.side { position: fixed; top: calc(var(--appbar-h) + .5rem); left: max(.5rem, env(safe-area-inset-left)); right: auto; bottom: auto; z-index: 70; width: 56px; max-height: calc(100vh - var(--appbar-h) - 1rem); padding: .5rem .4rem; display: flex; flex-direction: column; gap: .4rem; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; background: var(--nav-bg); border: 1px solid var(--nav-border); border-radius: 14px; box-shadow: 0 8px 18px rgba(16,24,40,.12); transform: translateX(-120%); opacity: 0; transition: transform var(--transisi), opacity var(--transisi); }
 .nav-open .param-nav.side { transform: translateX(0); opacity: 1; }
 @supports (padding: max(0px)) {
@@ -612,7 +644,11 @@ summary, label, select, input, button { touch-action: manipulation; }
 .pc-parameter { border:1px solid var(--warna-border); background:var(--warna-kartu); border-radius:16px; padding:.25rem .95rem .25rem; box-shadow: var(--bayangan-kartu); display:flex; flex-direction:column; }
 .pc-parameter:has(> details:not([open])) { justify-content: center; padding-bottom: 0; gap: 0; }
 .pc-parameter:has(> details[open]) { justify-content: flex-start; }
-.pc-parameter { content-visibility: auto; contain-intrinsic-size: 300px 400px; }
+/* Intrinsic reservation for parameter cards (second pass removed to avoid conflicts) */
+.pc-parameter { content-visibility: auto; }
+/* Reserve space per kriteria and indikator item */
+.pc-kriteria { contain-intrinsic-size: 220px; content-visibility: auto; }
+.pc-indikator .indikator-item { contain-intrinsic-size: 96px; content-visibility: auto; }
 .pc-parameter summary.pc-parameter-summary { cursor:pointer; list-style:none; display:flex; align-items:center; gap:.75rem; padding:.6rem .2rem; min-height: 2.75rem; margin: 0; }
 .pc-parameter details:not([open]) { display:flex; align-items:center; }
 /* Remove any bottom space under summary when closed */

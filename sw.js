@@ -28,9 +28,15 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => Promise.all(
-      keys.filter((k) => ![CACHE_STATIC, CACHE_RUNTIME, CACHE_FONTS].includes(k)).map((k) => caches.delete(k))
-    )).then(() => self.clients.claim())
+    (async () => {
+      const keys = await caches.keys();
+      await Promise.all(keys.filter((k) => ![CACHE_STATIC, CACHE_RUNTIME, CACHE_FONTS].includes(k)).map((k) => caches.delete(k)));
+      // Enable navigation preload where supported for faster HTML responses
+      if ('navigationPreload' in self.registration) {
+        try { await self.registration.navigationPreload.enable(); } catch (_) {}
+      }
+      await self.clients.claim();
+    })()
   );
 });
 
@@ -84,7 +90,7 @@ self.addEventListener('fetch', (event) => {
       return;
     }
 
-    // Static assets: cache-first, then network
+    // Static assets: cache-first, then network with small offline fallback
     event.respondWith((async () => {
       const cache = await caches.open(CACHE_STATIC);
       const cached = await cache.match(req);
@@ -96,8 +102,8 @@ self.addEventListener('fetch', (event) => {
         runCache.put(req, res.clone());
         return res;
       } catch (_) {
-        // final fallback for non-HTML: nothing
-        return new Response('', { status: 504 });
+        // final fallback for non-HTML: a tiny empty response with 204 to reduce error noise
+        return new Response('', { status: 204 });
       }
     })());
     return;

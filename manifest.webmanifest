@@ -1,13 +1,23 @@
 {
   "name": "Kalkulator Penilaian Kinerja BGC",
   "short_name": "BGC Kalkulator",
+  "id": "./",
   "start_url": ".",
+  "scope": ".",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "background_color": "#ffffff",
   "theme_color": "#0d47a1",
   "lang": "id",
+  "orientation": "any",
+  "categories": ["productivity", "utilities"],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    { "name": "Data Bangunan", "short_name": "Data", "url": "#judul-data-bangunan", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Ringkasan Hasil", "short_name": "Hasil", "url": "#judul-ringkasan", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] }
+  ],
   "icons": [
-    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
   ]
 }

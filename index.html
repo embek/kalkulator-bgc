@@ -170,8 +170,10 @@
 			</section>
 
 			<div class="aksi">
-				<button type="button" id="btn-simpan" class="btn sekunder">Simpan</button>
-				<button type="button" id="btn-muat" class="btn sekunder">Muat</button>
+				<button type="button" id="btn-ekspor" class="btn sekunder" aria-label="Ekspor data ke berkas JSON">Ekspor JSON</button>
+				<button type="button" id="btn-ekspor-csv" class="btn sekunder" aria-label="Ekspor data ke berkas CSV">Ekspor CSV</button>
+				<button type="button" id="btn-impor" class="btn sekunder" aria-label="Impor data dari berkas JSON">Impor JSON</button>
+				<input type="file" id="file-impor" accept="application/json" hidden />
 				<button type="reset" id="btn-reset" class="btn bahaya">Reset</button>
 			</div>
 		</form>
