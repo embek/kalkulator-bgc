@@ -125,12 +125,6 @@
 				</div>
 			</section>
 
-			<section id="implementasi-section" class="implementasi" aria-labelledby="judul-implementasi" hidden>
-				<h2 id="judul-implementasi">Matriks Implementasi Elemen (Jenis & Klasifikasi)</h2>
-				<p class="ket-impl">16 elemen sistem cerdas. Kategori: <abbr title="Wajib">W</abbr>, <abbr title="Disarankan">D</abbr>, <abbr title="Sukarela">S</abbr>. Catatan yang tidak terpenuhi menurunkan elemen menjadi Sukarela. Faktor pengali tiap kategori mengikuti klasifikasi bangunan.</p>
-				<div id="implementasi-list" class="implementasi-list"><!-- diisi dinamis --></div>
-			</section>
-
 			<section class="parameter" aria-labelledby="judul-parameter">
 				<h2 id="judul-parameter">Daftar Simak Penilaian Kinerja BGC Tahap Pemanfaatan</h2>
 				<div id="parameter-checklist" class="parameter-checklist"><!-- Render dinamis --></div>
@@ -180,6 +174,16 @@
 	</main>
 
 	<nav id="param-nav" class="param-nav side" aria-label="Navigasi Parameter"><!-- diisi dinamis --></nav>
+
+	<!-- Modal Info (untuk penjelasan & dokumentasi indikator) -->
+	<div id="modal-info" class="modal-info" aria-hidden="true">
+		<div class="modal-backdrop" data-close="modal"></div>
+		<div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-info-title">
+			<button type="button" class="modal-close" aria-label="Tutup" data-close="modal">×</button>
+			<h3 id="modal-info-title" class="modal-title">Info</h3>
+			<div id="modal-info-content" class="modal-content"></div>
+		</div>
+	</div>
 
 	<footer class="footer" role="contentinfo">
 		<small>

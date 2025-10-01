@@ -406,12 +406,69 @@ function buatInfoBtn(title, isi) {
 	btn.setAttribute('role', 'button');
 	btn.tabIndex = 0;
 	btn.textContent = 'i';
-	const konten = document.createElement('div');
-	konten.className = 'tooltip-content';
-	konten.innerHTML = `<div class="judul">${title}</div><div class="isi">${isi}</div>`;
-	wrap.appendChild(btn); wrap.appendChild(konten);
+	// Matikan tooltip inline; gunakan modal saja untuk keterbacaan
+	wrap.appendChild(btn);
+
+	// Klik/tombol pada info-btn: buka modal agar mudah dibaca
+	btn.addEventListener('click', (e) => { e.preventDefault(); bukaModalInfo(title, isi); });
+	btn.addEventListener('keydown', (e) => {
+		const key = e.key || e.code;
+		if (key === 'Enter' || key === ' ' || key === 'Spacebar' || key === 'Space') { e.preventDefault(); bukaModalInfo(title, isi); }
+	});
 	return wrap;
 }
+
+// Modal helpers
+function bukaModalInfo(judul, isiHTML) {
+	try {
+		const modal = document.getElementById('modal-info');
+		if (!modal) return;
+		const ttl = modal.querySelector('#modal-info-title');
+		const konten = modal.querySelector('#modal-info-content');
+		if (ttl) ttl.textContent = judul || 'Info';
+		if (konten) {
+			const frag = document.createDocumentFragment();
+			const wrap = document.createElement('div');
+			wrap.innerHTML = formatKontenInfo(isiHTML || '');
+			frag.appendChild(wrap);
+			konten.innerHTML = '';
+			konten.appendChild(frag);
+		}
+		modal.setAttribute('aria-hidden', 'false');
+		document.body.style.overflow = 'hidden';
+		setTimeout(() => {
+			const close = modal.querySelector('.modal-close');
+			if (close) close.focus();
+		}, 0);
+	} catch (_) { }
+}
+function tutupModalInfo() {
+	try {
+		const modal = document.getElementById('modal-info');
+		if (!modal) return;
+		modal.setAttribute('aria-hidden', 'true');
+		document.body.style.overflow = '';
+	} catch (_) { }
+}
+function formatKontenInfo(isiHTML) {
+	// Bungkus potongan menjadi blok yang mudah dibaca
+	const s = String(isiHTML || '');
+	// Jika pengguna menyuplai dua bagian, bagi sesuai label yang kita pakai di penyusunan
+	// Namun kita sudah mengirim markup dengan <div><strong>Penjelasan:</strong>...</div> dsb.
+	// Di sini cukup tambahkan estetika tambahan.
+	return `<div class="blok">${s}</div>`;
+}
+
+// Global modal listeners
+document.addEventListener('click', (e) => {
+	const t = e.target;
+	if (!t) return;
+	const isClose = t.matches('[data-close="modal"], .modal-backdrop');
+	if (isClose) { e.preventDefault(); e.stopPropagation(); tutupModalInfo(); }
+}, true);
+document.addEventListener('keydown', (e) => {
+	if (e.key === 'Escape') tutupModalInfo();
+});
 function renderJenisRadios() {
 	if (!jenisGroup) return;
 	const dataMatriks = (typeof matriks !== 'undefined') ? matriks : (window.matriks || undefined);
@@ -441,7 +498,8 @@ function renderKlasRadios(jenis) {
 		label.className = 'radio-pill';
 		label.htmlFor = id;
 		const judul = k.nama;
-		const info = buatInfoBtn('Definisi & Contoh', `<div><strong>Definisi:</strong> ${k.definisi || '-'}<br><strong>Contoh:</strong> ${k.contoh || '-'}</div>`);
+		// Modal title harus nama klasifikasi
+		const info = buatInfoBtn(judul, `<div><strong>Definisi:</strong> ${k.definisi || '-'}<br><strong>Contoh:</strong> ${k.contoh || '-'}</div>`);
 		const span = document.createElement('span');
 		span.className = 'opsi-teks';
 		span.textContent = judul + ' ';
@@ -494,9 +552,32 @@ function pasangHandlerBangunan() {
 		try { recalcSemua({ simpan: true }); } catch (_) { try { hitungDariChecklist(); perbaruiPoinIndikator(); simpanLocal(false); } catch (_) {} }
 	});
 
+	// Fallback listeners: jika ada perubahan langsung pada input tersembunyi,
+	// tetap render ulang implementasi dan hitung kembali otomatis.
+	// Pasang sekali saja per elemen
+	if (hiddenJenis && !hiddenJenis.dataset.listener) {
+		['input', 'change'].forEach(ev => {
+			hiddenJenis.addEventListener(ev, () => {
+				try { isiKlasifikasi(hiddenJenis.value); } catch (_) {}
+				try { renderImplementasi(); } catch (_) {}
+				try { recalcSemua({ simpan: true }); } catch (_) { try { hitungDariChecklist(); perbaruiPoinIndikator(); simpanLocal(false); } catch (_) {} }
+			}, { passive: true });
+		});
+		hiddenJenis.dataset.listener = '1';
+	}
+	if (hiddenKlas && !hiddenKlas.dataset.listener) {
+		['input', 'change'].forEach(ev => {
+			hiddenKlas.addEventListener(ev, () => {
+				try { renderImplementasi(); } catch (_) {}
+				try { recalcSemua({ simpan: true }); } catch (_) { try { hitungDariChecklist(); perbaruiPoinIndikator(); simpanLocal(false); } catch (_) {} }
+			}, { passive: true });
+		});
+		hiddenKlas.dataset.listener = '1';
+	}
+
 	const stopInfo = (e) => {
 		const b = e.target.closest && e.target.closest('.info-btn');
-		if (b) { e.preventDefault(); e.stopPropagation(); b.focus(); }
+		if (b) { e.preventDefault(); /* jangan stopPropagation agar handler klik .info-btn tetap berjalan */ b.focus(); }
 	};
 	if (jenisGroup) jenisGroup.addEventListener('click', stopInfo, true);
 	if (klasGroup) klasGroup.addEventListener('click', stopInfo, true);
@@ -626,7 +707,8 @@ function renderIsiParameter(section) {
 			try {
 				const judulWrap = wrapK.querySelector('h4 .kjudul');
 				if (judulWrap) {
-					const info = buatInfoBtn('Penjelasan', `<div>${kriteria.penjelasan}</div>`);
+					// Modal title harus judul kriteria
+					const info = buatInfoBtn(kriteria.nama || 'Penjelasan', `<div>${kriteria.penjelasan}</div>`);
 					judulWrap.appendChild(info);
 				}
 			} catch (_) { }
@@ -653,6 +735,22 @@ function renderIsiParameter(section) {
 					radioHTML += '</div></div><div class=\"ind-right\">' + klaimHTML + '</div>';
 					item.innerHTML = radioHTML;
 				}
+
+				// Tambah ikon info + modal pada judul indikator; title = judul indikator
+				try {
+					const judulNode = item.querySelector('.judul');
+					if (judulNode) {
+						const penjelasan = (detailInd && detailInd.penjelasan) ? String(detailInd.penjelasan) : '';
+						const contoh = (detailInd && detailInd.contohDokumentasi) ? String(detailInd.contohDokumentasi) : '';
+						let isi = '';
+						if (penjelasan) isi += `<div class=\"blok\"><h4>Penjelasan</h4><div>${penjelasan}</div></div>`;
+						if (contoh) isi += `<div class=\"blok\"><h4>Dokumentasi</h4><div>${contoh}</div></div>`;
+						if (isi) {
+							const info = buatInfoBtn(judulInd, isi);
+							judulNode.appendChild(info);
+						}
+					}
+				} catch (_) { }
 				kontInd.appendChild(item);
 			});
 		}
@@ -837,6 +935,13 @@ function handleChecklistInput(e) {
 function pasangChecklistListeners() {
 	const root = document.getElementById('parameter-checklist');
 	if (!root) return;
+	// Cegah klik pada ikon info di judul indikator memicu toggle input
+	root.addEventListener('click', (e) => {
+		const infoBtn = e.target && (e.target.closest ? e.target.closest('.info-btn') : null);
+		if (infoBtn) {
+			e.preventDefault();
+		}
+	}, true);
 	root.addEventListener('change', handleChecklistInput, { passive: true });
 	// Tambahkan juga listener 'input' sebagai fallback agar kalkulasi tetap berjalan real-time
 	root.addEventListener('input', (e) => {
@@ -954,10 +1059,10 @@ function tandaiIndikatorWajib() {
 	};
 	if (!jenisNow || !klasNow) { allItems.forEach(bersihkanItem); return; }
 
-	document.querySelectorAll('.pc-parameter').forEach(section => {
+		document.querySelectorAll('.pc-parameter').forEach(section => {
 		const kode = section.getAttribute('data-param');
 
-		section.querySelectorAll('.pc-kriteria').forEach(wrapK => {
+			section.querySelectorAll('.pc-kriteria').forEach(wrapK => {
 			const idxK = parseInt(wrapK.getAttribute('data-kriteria-index'), 10);
 			const elemenIndex = idxK + 1;
 			let wajib = false;
@@ -965,22 +1070,39 @@ function tandaiIndikatorWajib() {
 				const kat = (stateImplementasi.kategoriElemen && stateImplementasi.kategoriElemen[elemenIndex]) || 's';
 				wajib = (kat === 'w');
 			}
-			wrapK.querySelectorAll('.indikator-item').forEach(item => {
-				if (!wajib) { bersihkanItem(item); return; }
+				wrapK.querySelectorAll('.indikator-item').forEach(item => {
+					if (!wajib) { bersihkanItem(item); return; }
 
-				item.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(inp => {
-					inp.setAttribute('required', '');
+					const hasRadio = !!item.querySelector('input[type="radio"][data-tipe]');
+					const hasCheckbox = !!item.querySelector('input[type="checkbox"][data-tipe]');
+
+					if (hasRadio) {
+						// Wajib hanya berlaku sebagai keharusan memilih salah satu opsi (radio)
+						item.querySelectorAll('input[type="radio"][data-tipe]').forEach(inp => {
+							inp.setAttribute('required', '');
+						});
+						const judulSpan = item.querySelector('label > .judul, .judul');
+						if (judulSpan && !judulSpan.querySelector('.asterisk')) {
+							const bintang = document.createElement('span');
+							bintang.className = 'asterisk';
+							bintang.textContent = ' *';
+							judulSpan.appendChild(bintang);
+							judulSpan.classList.add('is-required');
+						}
+					} else if (hasCheckbox) {
+						// Untuk checkbox, JANGAN tandai required atau asterisk.
+						item.querySelectorAll('input[type="checkbox"][data-tipe]').forEach(inp => inp.removeAttribute('required'));
+						const judulSpan = item.querySelector('label > .judul, .judul');
+						if (judulSpan) {
+							judulSpan.classList.remove('is-required');
+							const star = judulSpan.querySelector('.asterisk');
+							if (star) star.remove();
+						}
+					} else {
+						// Tidak ada input yang dikenali: pastikan bersih
+						bersihkanItem(item);
+					}
 				});
-
-				const judulSpan = item.querySelector('label > .judul, .judul');
-				if (judulSpan && !judulSpan.querySelector('.asterisk')) {
-					const bintang = document.createElement('span');
-					bintang.className = 'asterisk';
-					bintang.textContent = ' *';
-					judulSpan.appendChild(bintang);
-					judulSpan.classList.add('is-required');
-				}
-			});
 		});
 	});
 }
