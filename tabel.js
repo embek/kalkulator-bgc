@@ -142,7 +142,7 @@ const catatanImplementasi = {
 }
 
 const pengali = {
-    "Non-BGN": {
+    "BGN": {
         "Sederhana": {
             katergori: {
                 "w": 5.0,
@@ -165,7 +165,7 @@ const pengali = {
             }
         }
     },
-    "BGN": {
+    "Non-BGN": {
         "1a": {
             katergori: {
                 "w": 4.3,

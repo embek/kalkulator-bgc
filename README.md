@@ -1,30 +1,28 @@
 # Kalkulator Penilaian Kinerja Bangunan Gedung Cerdas (BGC) – Tahap Pemanfaatan
 
-Dokumentasi lengkap fitur, alur, data, dan mekanisme perhitungan aplikasi kalkulator BGC berbasis HTML/CSS/JavaScript (tanpa backend, berjalan sepenuhnya di browser).
+Dokumentasi aplikasi kalkulator BGC berbasis HTML/CSS/JavaScript murni (tanpa backend, berjalan sepenuhnya di browser).
 
-Versi aplikasi: 1.2.0
+Versi aplikasi: 1.2.1
 
 ## Ringkasan
 
-Aplikasi ini membantu melakukan penilaian mandiri (self‑assessment) untuk Penilaian Kinerja Bangunan Gedung Cerdas (Tahap Pemanfaatan). Pengguna memilih Jenis/ Klasifikasi bangunan, menandai Catatan Implementasi (jika relevan), lalu mengisi daftar simak indikator per parameter. Kalkulator akan menghitung:
+Aplikasi ini membantu penilaian mandiri (self‑assessment) untuk Penilaian Kinerja BGC (Tahap Pemanfaatan). Alur: pilih Jenis/Klasifikasi bangunan, tandai Catatan Implementasi (jika relevan), lalu isi daftar simak indikator per parameter. Sistem menghitung otomatis:
 
-- Poin per indikator dan subtotal per kriteria (dibatasi Maks Poin KUK)
+- Poin indikator dan subtotal per kriteria (dibatasi Maks Poin KUK)
 - Subtotal per parameter (dibatasi Maks Poin Parameter)
-- Total poin, Persentase terhadap maksimum, dan Peringkat (Utama/Madya/Pratama/Belum) dengan aturan pengunci (gating) untuk elemen Wajib
+- Total poin, Persentase, dan Peringkat (Utama/Madya/Pratama/Belum) dengan pengunci (gating) untuk elemen Wajib
 
-Semua data hanya tersimpan lokal di perangkat pengguna (localStorage) dan dapat diekspor ke JSON/CSV atau diimpor kembali dari JSON.
+Data tersimpan lokal (localStorage). Ekspor/impor tersedia; UI menampilkan ekspor CSV, sedangkan ekspor/impor JSON disembunyikan secara default namun tetap ada di kode.
 
 ## Fitur Utama
 
-- Penilaian berbasis checklist untuk seluruh parameter A–F
-- Otomatis hitung ulang setiap perubahan (indikator, catatan implementasi, jenis, klasifikasi)
-- Pengunci peringkat (gating) untuk elemen kategori Wajib
-- Ekspor hasil ke JSON (dengan rincian poin) dan CSV
-- Impor dari JSON untuk melanjutkan penilaian
-- Autosave andal (input/change, buka/tutup section, pindah tab, sebelum tutup halaman)
-- PWA-ready (bisa di-install; Service Worker didaftarkan pada https/localhost)
-- Responsif (mobile-first), aksesibilitas dasar, dan mitigasi CLS
-- Tema Terang/Gelap tersimpan per pengguna
+- Checklist parameter A–F dengan perhitungan otomatis pada setiap perubahan
+- Pengunci peringkat (gating) untuk elemen F kategori Wajib
+- Ekspor CSV (tombol terlihat). Ekspor/Impor JSON tersedia namun tombolnya disembunyikan default
+- Autosave (input/change/toggle/visibility/unload) dengan penyimpanan chunk untuk objek besar
+- PWA-ready (Service Worker + manifest; pendaftaran pada https/localhost)
+- Responsif mobile‑first dengan skala spacing konsisten; tema Terang/Gelap tersimpan per pengguna
+- Aksesibilitas: ARIA dasar, radiobutton dapat di‑uncheck dengan Space/Enter, serta modal info dengan focus‑trap, inert background, dan pengembalian fokus ke pemicu
 
 ## Cara Pakai
 
@@ -33,10 +31,11 @@ Semua data hanya tersimpan lokal di perangkat pengguna (localStorage) dan dapat 
 3) Isi Daftar Simak indikator untuk tiap parameter. Gunakan checkbox/radio sesuai deskripsi masing-masing indikator.
 4) Ringkasan Hasil (Total, Maks, Persentase, Peringkat) otomatis ter-update.
 5) Gunakan tombol:
-   - Ekspor JSON: menyimpan snapshot data penilaian beserta rincian poin
-   - Ekspor CSV: menyimpan daftar indikator terpilih beserta poinnya
-   - Impor JSON: memuat kembali penilaian sebelumnya
-   - Reset: menghapus data tersimpan lokal dan mengosongkan input
+  - Ekspor CSV: menyimpan daftar indikator terpilih beserta poinnya
+  - Reset: menghapus data tersimpan lokal dan mengosongkan input
+
+Catatan:
+- Ekspor/Impor JSON ada di kode namun tombol disembunyikan (atribut `hidden` pada `#btn-ekspor` dan `#btn-impor`). Aktifkan dengan menghapus `hidden` di `index.html` bila diperlukan.
 
 Catatan: Tombol “Hitung Total” bersifat opsional; semua perhitungan berjalan otomatis pada setiap perubahan.
 
@@ -48,7 +47,7 @@ Sumber data berada di `tabel.js`.
   - `w` → Wajib, `d` → Disarankan, `s` → Sukarela
   - Angka setelah huruf mereferensikan nomor Catatan Implementasi yang harus terpenuhi agar kategori elemen tidak turun (degradasi). Contoh: `w3` berarti elemen default Wajib, namun akan turun menjadi Sukarela bila catatan #3 tidak terpenuhi.
 - `catatanImplementasi`: Peta nomor → teks catatan per jenis. Digunakan untuk menampilkan daftar Catatan Implementasi yang relevan sesuai Jenis/Klasifikasi terpilih.
-- `pengali`: Faktor pengali untuk Parameter F per kategori elemen (w/d/s) berdasarkan Jenis & Klasifikasi bangunan. Struktur internal menggunakan properti `katergori` berisi `{ w, d, s }` (ejaan ini memang apa adanya di dataset).
+- `pengali`: Faktor pengali untuk Parameter F per kategori elemen (w/d/s) berdasarkan Jenis & Klasifikasi bangunan. Struktur internal menggunakan properti `katergori` berisi `{ w, d, s }` (ejaan sesuai dataset asli).
 - `penilaian`: Definisi Parameter A–F. Setiap parameter memiliki:
   - `maksPoinParameter`
   - `kriteriaUnjukKerja`: array berisi objek kriteria yang memiliki `maksPoinKUK`, `nama`, `penjelasan` (opsional), dan `indikator`.
@@ -95,7 +94,7 @@ Catatan: Nilai kontribusi F ditampilkan dengan satu angka desimal saat relevan.
   - Saat buka/tutup section parameter (`<details>`) agar daftar terbuka tersimpan
   - Saat tab disembunyikan (visibilitychange) dan sebelum halaman ditutup (beforeunload)
   - Setelah impor sukses (dengan sedikit penundaan untuk memastikan render selesai)
-- Kunci utama penyimpanan: `bgc_data_v4` (menggunakan strategi chunk bila ukuran data besar), serta cap waktu `bgc_waktu_v4`, dan metadata chunk `bgc_chunk_meta_v4`.
+- Kunci utama penyimpanan: `bgc_data_v4` (menggunakan strategi chunk bila ukuran data besar), cap waktu `bgc_waktu_v4`, dan metadata chunk `bgc_chunk_meta_v4`.
 - Data yang disimpan mencakup:
   - bangunan: `{ jenis, klasifikasi }`
   - implementasi: `{ catatanGlobal: hanya yang relevan, kategoriElemen }`
@@ -108,45 +107,24 @@ Catatan: Nilai kontribusi F ditampilkan dengan satu angka desimal saat relevan.
 
 ## Ekspor / Impor
 
-### Ekspor JSON (versi 2)
+### Ekspor CSV (tombol terlihat)
 
-- Tombol: “Ekspor JSON”
-- Isi snapshot:
-  - tipe: `bgc-penilaian`
-  - versi: `2`
-  - diperbarui: ISO timestamp
-  - bangunan: `{ jenis, klasifikasi }`
-  - implementasi: `{ catatanGlobal: hanya yang relevan }`
-  - checklist: seluruh pilihan indikator
-  - poin: rincian terhitung untuk pelaporan
-    - parameter: array berisi objek `{ kode, nama, maksParameter, subtotalParameter, kriteria: [...] }`
-    - kriteria: `{ elemenIndex, nama, maksKriteria, kategoriElemen?, multiplier?, indikator: [...], subtotalKriteria }`
-    - indikator: `{ key, tipe, pilihan, poinDasar, multiplier?, poinAkhir }`
-    - ringkasan: `{ total, maks, persentase }`
-- Importer tetap kompatibel mundur: hanya menggunakan `{ bangunan, implementasi.catatanGlobal, checklist }`, lalu menghitung ulang.
-
-### Ekspor CSV
-
-- Tombol: “Ekspor CSV”
 - Kolom: `Parameter, Kriteria Index (elemenIndex), Indikator, Tipe, Pilihan/Checked, Poin Dasar, Multiplier(F), Poin Akhir`
-- Disertakan juga baris ringkasan Total Poin, Poin Maks, dan Persentase.
+- Disertakan baris ringkasan Total Poin, Poin Maks, dan Persentase.
 
-### Impor JSON
+### Ekspor/Impor JSON (opsional, tombol disembunyikan)
 
-- Tombol: “Impor JSON” → pilih berkas hasil ekspor sebelumnya
-- Yang diterapkan saat impor:
-  - bangunan (Jenis & Klasifikasi)
-  - implementasi.catatanGlobal (relevan, lalu re‑derive kategori elemen)
-  - checklist indikator
-- Nilai/hasil akan dihitung ulang otomatis setelah state diterapkan.
+- Snapshot JSON (versi 2):
+  - tipe: `bgc-penilaian`, versi: `2`, diperbarui: ISO timestamp
+  - bangunan `{ jenis, klasifikasi }`, implementasi `{ catatanGlobal: hanya relevan }`, checklist seluruh pilihan
+  - poin terhitung: rincian parameter/kriteria/indikator dan ringkasan `{ total, maks, persentase }`
+- Impor JSON: menerapkan `{ bangunan, implementasi.catatanGlobal, checklist }` lalu menghitung ulang.
+- Untuk menampilkan tombolnya, hapus atribut `hidden` pada `#btn-ekspor` dan `#btn-impor` di `index.html`.
 
 ## UI & Interaksi
 
 - Mode tampilan: Checklist (default; grid alternatif belum digunakan)
-- Navigasi Parameter (param‑nav):
-  - Floating/side chips untuk melompat ke parameter
-  - Penempatan sidebar di kiri, selalu di bawah app‑bar
-  - Auto buka/tutup berdasarkan overlap agar tidak menutupi konten
+- Navigasi Parameter (param‑nav): floating chips di bawah (dengan tema terang/gelap). Posisi disesuaikan oleh JS.
 - Daftar Simak Parameter (A–F): struktur expandable per parameter dan kriteria
 - Catatan Implementasi: panel dinamis (tampil bila relevan)
 - Ringkasan Hasil: Total, Maks, Persentase, Peringkat, dan progress bar
@@ -154,24 +132,29 @@ Catatan: Nilai kontribusi F ditampilkan dengan satu angka desimal saat relevan.
 - Tema: tombol toggle tema, disimpan ke localStorage; meta theme-color ikut disesuaikan
 - Aksesibilitas: ARIA dasar; radio dapat di-untick dengan Space/Enter saat sudah terpilih (untuk memudahkan koreksi)
 
+Detail UI terbaru:
+- CSS mobile‑first ringkas (~500 baris) dengan breakpoint: 600px, 768px, 1024px
+- Skala spacing konsisten (variabel `--sp-*`) untuk margin/gap/padding
+- Offset header akurat via `--appbar-h` (disetel dinamis oleh JS); toast diposisikan tepat di bawah app bar agar tidak menutupi banner
+- Panel bantuan memiliki `scroll-margin-top` dan margin adaptif (termasuk di rentang 600–680 px) agar kartu tidak tertutup banner
+- Radio pill “Jenis Bangunan”: lebar diselaraskan secara kondisional via JavaScript hanya ketika salah satu opsi membungkus baris terlebih dahulu (umumnya Non‑BGN). Bila Non‑BGN wrap dan BGN tidak, BGN diberi `min-width` mengikuti Non‑BGN; jika tidak ada wrap, tampilan dibiarkan alami (tidak memaksakan grid lebar sama)
+- Modal Info: focus trap aktif, latar belakang dibuat inert selama modal terbuka, dan fokus kembali ke tombol pemicu setelah modal ditutup
+
 ## PWA & Offline
 
 - Manifest dirujuk dari `index.html`; Service Worker didaftarkan hanya pada `https:` atau `localhost`
 - Mode offline tergantung ketersediaan berkas `sw.js` dan strategi cache di dalamnya
 - Instalasi sebagai aplikasi (Add to Home Screen) dimungkinkan pada browser yang mendukung
 
-## Performa & Stabilitas Layout (CLS)
+## Performa
 
-- Lazy hydration untuk isi parameter yang belum terlihat
-- `content-visibility` dan `contain-intrinsic-size` untuk meminimalkan reflow
-- Min-height terukur pada area checklist, ringkasan, dan tombol aksi
+- Lazy hydration/hydration bertahap via `IntersectionObserver` dan `requestIdleCallback`
 - Sinkron tinggi app‑bar ke variabel CSS `--appbar-h` untuk offset/scroll yang akurat
 
 ## Responsif
 
-- Mobile‑first, layar lebar menata ulang komponen agar lebih efisien
-- `.aksi` (tombol aksi) menurun di layar kecil, berjajar di layar lebar (≥ 640px)
-- Grid hasil menyesuaikan agar informasi utama tetap terbaca
+- Mobile‑first, layar lebar menata ulang komponen
+- Breakpoint: ≥600px (penataan tombol aksi dan grid-form dua kolom), ≥768px (kriteria & indikator berdampingan), ≥1024px (lebar maksimal konten)
 
 ## Ketentuan Peringkat (Ringkasan)
 
@@ -192,6 +175,15 @@ Catatan: Nilai kontribusi F ditampilkan dengan satu angka desimal saat relevan.
 - Ingin memulai ulang
   - Gunakan tombol Reset; data localStorage akan dihapus dan input dibersihkan
 
+## Struktur Proyek Singkat
+
+- `index.html` — markup utama, termasuk panel bantuan, form penilaian, nav chips, dan modal info
+- `style.css` — stylesheet ringkas mobile‑first (~500 baris) dengan spacing konsisten dan sedikit breakpoint
+- `main.js` — logika state, render checklist, kalkulasi poin, autosave, tema, dan interaksi UI
+- `tabel.js` — dataset penilaian (matriks, catatan, pengali, penilaian A–F)
+- `sw.js` — service worker sederhana (cache core assets)
+- `manifest.webmanifest` + `icons/*` — PWA meta & ikon
+
 ## Pengembangan Lokal (opsional)
 
 Aplikasi ini statis; Anda dapat langsung membuka `index.html` di browser. Untuk pengalaman PWA (Service Worker), jalankan melalui server lokal.
@@ -208,13 +200,19 @@ Lalu buka `http://localhost:8080/`.
 
 ## Versi & Perubahan Ringkas
 
+- 1.2.1
+  - Modal Info: perbaikan aksesibilitas (focus trap, inert background, kembalikan fokus ke pemicu)
+  - Radio pill Jenis Bangunan: penyeragaman lebar kondisional via JS saat terjadi wrapping; tanpa memaksakan tampilan dua kolom tetap
+  - Perbaikan overlap: toast tidak menutupi banner; konten memiliki padding‑top mengikuti tinggi header; panel bantuan aman di berbagai ukuran layar (termasuk 600–680 px)
+  - Pembaruan dokumentasi agar sejalan dengan kode
+
 - 1.2.0
   - Perhitungan otomatis penuh (termasuk saat ganti jenis/klasifikasi/implementasi)
   - Ekspor JSON versi 2 menyertakan rincian poin
   - Ekspor CSV indikator + poin
   - Autosave global (input/change/toggle/visibility/unload) dan simpan paksa setelah impor
   - Catatan Implementasi: hanya relevan yang ditampilkan/disimpan
-  - Responsive `.aksi`, mitigasi CLS, dan peningkatan UX/aksesibilitas
+  - Responsif mobile‑first, spacing konsisten, dan peningkatan UX/aksesibilitas
 
 ## Lisensi
 

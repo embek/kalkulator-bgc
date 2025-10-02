@@ -3,6 +3,7 @@
 const KUNCI_DATA = 'bgc_data_v4';
 const KUNCI_WAKTU = 'bgc_waktu_v4';
 const KUNCI_CHUNK_META = 'bgc_chunk_meta_v4';
+const ELEM_IMPLEMENTASI = 16;
 
 function storageSet(k, v) { try { localStorage.setItem(k, v); } catch (e) { console.warn('[storageSet]', e); } }
 function storageGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
@@ -29,13 +30,91 @@ function muatChunked(prefix) {
 		if (!metaRaw) { const s = storageGet(prefix); return s ? JSON.parse(s) : null; }
 		const meta = JSON.parse(metaRaw);
 		if (meta.prefix !== prefix) return null;
-		const arr = []; for (let i = 0; i < meta.jumlah; i++) { const part = storageGet(`${prefix}_part_${i}`); if (part == null) return null; arr.push(part); }
+		const arr = [];
+		for (let i = 0; i < meta.jumlah; i++) {
+			const part = storageGet(`${prefix}_part_${i}`);
+			if (part == null) return null;
+			arr.push(part);
+		}
 		return JSON.parse(arr.join(''));
 	} catch (e) { console.error('[muatChunked] gagal', e); return null; }
 }
 
-const ELEM_IMPLEMENTASI = 16;
-let stateImplementasi = { catatanGlobal: {}, kategoriElemen: {} };
+let stateChecklist = {};
+
+(function createApp() {
+	const initialState = {
+		versi: 5,
+		diperbarui: '',
+		mode: 'checklist',
+		openParams: [],
+		bangunan: { jenis: '', klasifikasi: '' },
+		checklist: {},
+		implementasi: { catatanGlobal: {}, kategoriElemen: {} }
+	};
+
+	let state = (() => {
+		try {
+			const loaded = muatChunked(KUNCI_DATA);
+			if (loaded && typeof loaded === 'object') return { ...initialState, ...loaded };
+		} catch (_) { }
+		return { ...initialState };
+	})();
+
+	stateChecklist = state.checklist || {};
+	stateImplementasi = state.implementasi || { catatanGlobal: {}, kategoriElemen: {} };
+
+	function buildPersistable(next) {
+		const terbuka = Array.from(document.querySelectorAll('.pc-parameter[open]')).map(s => s.dataset.param);
+		return { ...next, versi: 5, diperbarui: new Date().toISOString(), openParams: terbuka };
+	}
+
+	function save(next, immediate = false) {
+		const data = buildPersistable(next);
+		autosave(data, immediate);
+		try { storageSet(KUNCI_WAKTU, Date.now().toString()); } catch (_) { }
+	}
+
+	function render(next) {
+		stateChecklist = next.checklist || {};
+		stateImplementasi = next.implementasi || { catatanGlobal: {}, kategoriElemen: {} };
+
+		if (selectJenis) selectJenis.value = next.bangunan?.jenis || '';
+		if (selectKlasifikasi) selectKlasifikasi.value = next.bangunan?.klasifikasi || '';
+
+		try {
+			if (!sudahIsiJenis) isiJenisBangunan();
+			if (sudahIsiJenis && next.bangunan?.jenis) {
+				isiKlasifikasi(next.bangunan.jenis);
+				const rbJ = jenisGroup && jenisGroup.querySelector(`input[type=radio][name='__jenis_rb'][value="${escCSS(next.bangunan.jenis)}"]`);
+				if (rbJ) rbJ.checked = true;
+				if (next.bangunan.klasifikasi) {
+					const rbK = klasGroup && klasGroup.querySelector(`input[type=radio][name='__klas_rb'][value="${escCSS(next.bangunan.klasifikasi)}"]`);
+					if (rbK) rbK.checked = true;
+				}
+			}
+		} catch (_) { }
+
+		try { renderImplementasi(); } catch (_) { }
+		try { muatStateChecklist({ checklist: next.checklist }); } catch (_) { }
+		try { tandaiIndikatorWajib(); } catch (_) { }
+		try { perbaruiPoinIndikator(); } catch (_) { }
+		try { perbaruiRingkasan(); } catch (_) { }
+	}
+
+	function setState(update, immediate = false) {
+		const patch = (typeof update === 'function') ? update(state) : update;
+		const next = { ...state, ...(patch || {}) };
+		if (patch && patch.checklist) next.checklist = patch.checklist;
+		if (patch && patch.implementasi) next.implementasi = patch.implementasi;
+		if (patch && patch.bangunan) next.bangunan = patch.bangunan;
+		state = next;
+		save(state, immediate);
+		render(state);
+	}
+
+	App = { get state() { return state; }, setState, save: (s, imm) => save(s ?? state, imm), render: (s) => render(s ?? state) };
+})();
 
 function parseImplementasiString(str) {
 	if (!str || typeof str !== 'string') return [];
@@ -97,58 +176,31 @@ function renderCatatanGlobal() {
 }
 
 function degradasiKategori(parsed) {
-
 	parsed.forEach(p => {
 		if (!p.catatan.length) return;
-		const semuaTerpenuhi = p.catatan.every(no => !!stateImplementasi.catatanGlobal[no]);
-		if (!semuaTerpenuhi) {
-			stateImplementasi.kategoriElemen[p.index] = 's';
-		} else {
-
-			stateImplementasi.kategoriElemen[p.index] = p.kategori;
-		}
+		const semua = p.catatan.every(no => !!stateImplementasi.catatanGlobal[no]);
+		stateImplementasi.kategoriElemen[p.index] = semua ? p.kategori : 's';
 	});
-
 }
-
-document.addEventListener('change', e => {
-	const t = e.target;
-	if (t && t.matches('input[type=checkbox][data-catatan-global]')) {
-		const no = t.getAttribute('data-catatan-global');
-		stateImplementasi.catatanGlobal[no] = t.checked;
-		const entry = getEntryImplementasi();
-		if (entry && entry.implementasi) {
-			const parsed = parseImplementasiString(entry.implementasi);
-			degradasiKategori(parsed);
-			perbaruiBadgeElemenF();
-			// Recalc total & simpan
-			try { recalcSemua({ simpan: true }); } catch (_) { try { hitungDariChecklist(); simpanLocal(false); } catch (_) {} }
-		}
-	}
-});
 
 function resetDanIsiCatatanGlobalRelevant() {
 	const entry = getEntryImplementasi();
 	if (!entry || !entry.implementasi) {
-		// Jika tidak ada implementasi, hapus semua catatan global
 		stateImplementasi.catatanGlobal = {};
 		stateImplementasi.kategoriElemen = {};
 		return;
 	}
-	
+
 	const parsed = parseImplementasiString(entry.implementasi);
 	const daftarRelevant = buildCatatanGlobalList(parsed);
-	
-	// Reset catatan global dan isi dengan yang relevan (default false/unchecked)
+
 	const catatanBaru = {};
 	daftarRelevant.forEach(c => {
-		// Pertahankan nilai lama jika ada, atau default false untuk yang baru
 		catatanBaru[c.no] = (stateImplementasi.catatanGlobal && stateImplementasi.catatanGlobal[c.no]) || false;
 	});
-	
+
 	stateImplementasi.catatanGlobal = catatanBaru;
-	
-	// Reset kategori elemen ke default dari matriks
+
 	parsed.forEach(p => {
 		stateImplementasi.kategoriElemen[p.index] = p.kategori;
 	});
@@ -158,13 +210,10 @@ function renderImplementasi() {
 	resetDanIsiCatatanGlobalRelevant();
 	renderCatatanGlobal();
 	perbaruiBadgeElemenF();
-
-	// Tampilkan/sembunyikan section implementasi sesuai ketersediaan matriks
 	try {
 		const implSec = document.getElementById('implementasi-section');
 		const entry = getEntryImplementasi();
 		if (implSec) {
-			// Sembunyikan bila belum pilih jenis/klas, atau tidak ada catatan relevan untuk ditampilkan
 			let tampil = false;
 			if (entry && entry.implementasi) {
 				try {
@@ -176,23 +225,6 @@ function renderImplementasi() {
 			implSec.hidden = !tampil;
 		}
 	} catch (_) { }
-
-	// Perhitungan otomatis update setelah render implementasi
-	try { recalcSemua({ simpan: true }); } catch (_) { try { hitungDariChecklist(); perbaruiPoinIndikator(); simpanLocal(false); } catch (_) {} }
-}
-
-function terapkanStateImplementasi() {
-
-	Object.entries(stateImplementasi.catatanGlobal || {}).forEach(([no, val]) => {
-		const el = document.querySelector(`input[type=checkbox][data-catatan-global="${no}"]`);
-		if (el) el.checked = !!val;
-	});
-
-	const entry = getEntryImplementasi();
-	if (entry && entry.implementasi) { degradasiKategori(parseImplementasiString(entry.implementasi)); }
-	perbaruiBadgeElemenF();
-	// Perhitungan otomatis update setelah apply state
-	try { recalcSemua({ simpan: true }); } catch (_) { try { hitungDariChecklist(); perbaruiPoinIndikator(); simpanLocal(false); } catch (_) {} }
 }
 
 function perbaruiBadgeElemenF() {
@@ -200,9 +232,7 @@ function perbaruiBadgeElemenF() {
 	if (!paramF) return;
 	const entry = getEntryImplementasi();
 	if (!entry || !entry.implementasi) {
-
 		paramF.querySelectorAll('.pc-kriteria [data-elemen]').forEach(b => { b.classList.remove('f-elemen-w', 'f-elemen-d'); b.classList.add('f-elemen-s'); b.textContent = 'Sukarela (faktor pengali: 1.0)'; b.setAttribute('title', 'Elemen – Sukarela, faktor pengali: 1.0'); });
-		// Catatan: Elemen default ditampilkan sebagai Sukarela dengan faktor pengali netral 1.0 sampai jenis & klasifikasi terpilih.
 		return;
 	}
 	const parsed = parseImplementasiString(entry.implementasi);
@@ -223,6 +253,17 @@ function perbaruiBadgeElemenF() {
 		el.setAttribute('title', `Elemen ${p.index} – ${labelKategori[kat]}. Faktor pengali ${f} (berdasarkan klasifikasi bangunan). Wajib harus terpenuhi untuk kelayakan peringkat. Sumber: Matriks Implementasi & faktor pengali internal.`);
 	});
 }
+
+document.addEventListener('change', (e) => {
+	const t = e.target;
+	if (!t || !t.matches('input[type=checkbox][data-catatan-global]')) return;
+	const no = t.getAttribute('data-catatan-global');
+	const nextImpl = {
+		...(App.state.implementasi || {}),
+		catatanGlobal: { ...(App.state.implementasi?.catatanGlobal || {}), [no]: !!t.checked }
+	};
+	App.setState({ implementasi: nextImpl });
+}, { passive: true });
 function hapusChunked(kunciDasar) {
 	try {
 		const metaRaw = storageGet(KUNCI_CHUNK_META);
@@ -257,14 +298,6 @@ function autosave(dataObj, paksa = false) {
 	}, 400);
 }
 
-function muatDataTersimpan() {
-	let data = muatChunked(KUNCI_DATA);
-	if (!data) {
-
-		data = (typeof window !== 'undefined' && window.__cacheTerakhirBGC) ? window.__cacheTerakhirBGC : null;
-	}
-	return data;
-}
 
 function hapusDataTersimpan() {
 	hapusChunked(KUNCI_DATA);
@@ -315,7 +348,7 @@ class KalkulatorBGC {
 
 	setNilai(kode, nilaiBaru) {
 		const maks = this.getMaksParameter(kode);
-		const bersih = parseFloat(valor(nilaiBaru));
+		const bersih = parseFloat(nilaiBaru);
 		const final = isNaN(bersih) ? 0 : KalkulatorBGC.clamp(bersih, 0, maks);
 		this.nilaiParameter[kode] = final;
 		return final;
@@ -329,34 +362,21 @@ class KalkulatorBGC {
 
 	getFaktorPengali(jenis, klasifikasi) {
 		if (!jenis || !klasifikasi || typeof pengali !== 'object') return null;
-		const jen = (jenis || '').toString();
-		const klasRaw = (klasifikasi || '').toString().trim();
-		const hapusKlasPrefix = s => s.replace(/^Klas\s*/i, '').trim();
-		const normLower = s => s.toLowerCase();
-		let kandidat = null;
+		const jen = String(jenis).trim();
+		const klasRaw = String(klasifikasi).trim();
+		const stripKlas = s => s.replace(/^Klas\s*/i, '').trim();
+		if (jen === 'BGN') {
+			const entry = pengali['BGN'] && pengali['BGN'][klasRaw];
+			return entry && entry.katergori ? entry.katergori : null;
+		}
 		if (jen === 'Non-BGN') {
-
-			const kode = hapusKlasPrefix(klasRaw);
-			kandidat = pengali['BGN'] && (pengali['BGN'][kode] || pengali['BGN'][kode.toLowerCase()] || pengali['BGN'][kode.toUpperCase()]);
-			if (!kandidat && pengali['BGN']) {
-				try { tandaiIndikatorWajib(); } catch (_) { }
-
-				const ent = Object.entries(pengali['BGN']).find(([k]) => normLower(k) === normLower(kode));
-				if (ent) kandidat = ent[1];
-			}
-		} else if (jen === 'BGN') {
-
-			kandidat = pengali['Non-BGN'] && (pengali['Non-BGN'][klasRaw] || pengali['Non-BGN'][klasRaw.toLowerCase()] || pengali['Non-BGN'][klasRaw.toUpperCase()]);
-			if (!kandidat && pengali['Non-BGN']) {
-				const ent = Object.entries(pengali['Non-BGN']).find(([k]) => normLower(k) === normLower(klasRaw));
-				if (ent) kandidat = ent[1];
-			}
+			const code = stripKlas(klasRaw);
+			const entry = pengali['Non-BGN'] && pengali['Non-BGN'][code];
+			return entry && entry.katergori ? entry.katergori : null;
 		}
 
-		if (!kandidat) {
-			kandidat = pengali[jen] && (pengali[jen][klasRaw] || pengali[jen][hapusKlasPrefix(klasRaw)]);
-		}
-		return kandidat && kandidat.katergori ? kandidat.katergori : null;
+		const fallback = pengali[jen] && (pengali[jen][klasRaw] || pengali[jen][stripKlas(klasRaw)]);
+		return fallback && fallback.katergori ? fallback.katergori : null;
 	}
 
 	hitungTotalDenganPengali(jenis, klasifikasi) {
@@ -378,20 +398,11 @@ class KalkulatorBGC {
 	}
 }
 
-function valor(v) { return v; }
 function formatPersentase(nilai) { return (Math.round(nilai * 10) / 10).toFixed(1) + '%'; }
 function clamp(angka, min, max) { return Math.min(Math.max(angka, min), max); }
 function buatDebounce(fn, t = 250) { let id; return function (...args) { clearTimeout(id); id = setTimeout(() => fn.apply(this, args), t); }; }
 function buatThrottle(fn, t = 120) { let tunggu = false, simpan; return function (...args) { if (tunggu) { simpan = args; return; } fn.apply(this, args); tunggu = true; setTimeout(() => { tunggu = false; if (simpan) { fn.apply(this, simpan); simpan = null; } }, t); }; }
 
-// Helper terpusat untuk memperbarui seluruh dependensi kalkulasi dan tampilan
-function recalcSemua(opts = {}) {
-	const { simpan = false } = opts || {};
-	try { tandaiIndikatorWajib(); } catch (_) { }
-	try { hitungDariChecklist(); } catch (_) { try { perbaruiRingkasan(); } catch (_) {} }
-	try { perbaruiPoinIndikator(); } catch (_) { }
-	if (simpan) { try { simpanLocal(false); } catch (_) { } }
-}
 
 let sudahIsiJenis = false;
 const jenisGroup = document.getElementById('jenis-bangunan-group');
@@ -406,10 +417,8 @@ function buatInfoBtn(title, isi) {
 	btn.setAttribute('role', 'button');
 	btn.tabIndex = 0;
 	btn.textContent = 'i';
-	// Matikan tooltip inline; gunakan modal saja untuk keterbacaan
 	wrap.appendChild(btn);
 
-	// Klik/tombol pada info-btn: buka modal agar mudah dibaca
 	btn.addEventListener('click', (e) => { e.preventDefault(); bukaModalInfo(title, isi); });
 	btn.addEventListener('keydown', (e) => {
 		const key = e.key || e.code;
@@ -418,7 +427,68 @@ function buatInfoBtn(title, isi) {
 	return wrap;
 }
 
-// Modal helpers
+// =============================
+// Modal A11y helpers: inert background + focus trap
+// =============================
+let _modalPrevFocus = null;
+let _modalKeydownHandler = null;
+function _getFocusable(container) {
+    if (!container) return [];
+    const sel = [
+        'a[href]', 'area[href]', 'input:not([disabled]):not([type="hidden"])',
+        'select:not([disabled])', 'textarea:not([disabled])', 'button:not([disabled])',
+        'iframe', 'object', 'embed', '[tabindex]:not([tabindex="-1"])', '[contenteditable="true"]'
+    ].join(',');
+    return Array.from(container.querySelectorAll(sel)).filter(el => el.offsetParent !== null || el === document.activeElement);
+}
+function _setInertBackground(aktif) {
+    const elems = [
+        document.querySelector('header.app-bar'),
+        document.getElementById('utama'),
+        document.getElementById('param-nav'),
+        document.querySelector('footer.footer')
+    ].filter(Boolean);
+    elems.forEach(el => {
+        if (aktif) {
+            el.setAttribute('inert', '');
+            el.setAttribute('aria-hidden', 'true');
+        } else {
+            el.removeAttribute('inert');
+            el.removeAttribute('aria-hidden');
+        }
+    });
+}
+function _pasangPerangkapFokus(modal) {
+    const dlg = modal && modal.querySelector('.modal-dialog');
+    if (!dlg) return;
+    const fokusAwal = _getFocusable(dlg);
+    if (fokusAwal.length) fokusAwal[0].focus(); else { dlg.setAttribute('tabindex', '-1'); dlg.focus(); }
+    const handler = (e) => {
+        if (e.key !== 'Tab') return;
+        const fokus = _getFocusable(dlg);
+        if (!fokus.length) return;
+        const pertama = fokus[0];
+        const terakhir = fokus[fokus.length - 1];
+        if (e.shiftKey) {
+            if (document.activeElement === pertama || !dlg.contains(document.activeElement)) {
+                e.preventDefault(); terakhir.focus();
+            }
+        } else {
+            if (document.activeElement === terakhir) {
+                e.preventDefault(); pertama.focus();
+            }
+        }
+    };
+    _modalKeydownHandler = handler;
+    modal.addEventListener('keydown', handler);
+}
+function _lepasPerangkapFokus(modal) {
+    if (_modalKeydownHandler && modal) {
+        modal.removeEventListener('keydown', _modalKeydownHandler);
+    }
+    _modalKeydownHandler = null;
+}
+
 function bukaModalInfo(judul, isiHTML) {
 	try {
 		const modal = document.getElementById('modal-info');
@@ -434,8 +504,12 @@ function bukaModalInfo(judul, isiHTML) {
 			konten.innerHTML = '';
 			konten.appendChild(frag);
 		}
+		// Simpan fokus sebelumnya & aktifkan inert + perangkap fokus
+		_modalPrevFocus = (document.activeElement && typeof document.activeElement.focus === 'function') ? document.activeElement : null;
 		modal.setAttribute('aria-hidden', 'false');
 		document.body.style.overflow = 'hidden';
+		_setInertBackground(true);
+		_pasangPerangkapFokus(modal);
 		setTimeout(() => {
 			const close = modal.querySelector('.modal-close');
 			if (close) close.focus();
@@ -448,18 +522,20 @@ function tutupModalInfo() {
 		if (!modal) return;
 		modal.setAttribute('aria-hidden', 'true');
 		document.body.style.overflow = '';
+		_lepasPerangkapFokus(modal);
+		_setInertBackground(false);
+		// Kembalikan fokus ke pemicu sebelumnya bila masih ada di dokumen
+		if (_modalPrevFocus && typeof _modalPrevFocus.focus === 'function') {
+			try { _modalPrevFocus.focus(); } catch (_) { }
+		}
+		_modalPrevFocus = null;
 	} catch (_) { }
 }
 function formatKontenInfo(isiHTML) {
-	// Bungkus potongan menjadi blok yang mudah dibaca
 	const s = String(isiHTML || '');
-	// Jika pengguna menyuplai dua bagian, bagi sesuai label yang kita pakai di penyusunan
-	// Namun kita sudah mengirim markup dengan <div><strong>Penjelasan:</strong>...</div> dsb.
-	// Di sini cukup tambahkan estetika tambahan.
 	return `<div class="blok">${s}</div>`;
 }
 
-// Global modal listeners
 document.addEventListener('click', (e) => {
 	const t = e.target;
 	if (!t) return;
@@ -485,6 +561,9 @@ function renderJenisRadios() {
 		jenisGroup.appendChild(label);
 	});
 	sudahIsiJenis = true;
+
+	// Setelah render, sesuaikan lebar bila terjadi wrap
+	try { requestAnimationFrame(() => samakanLebarJenisJikaWrap()); } catch (_) { }
 }
 function renderKlasRadios(jenis) {
 	if (!klasGroup) return;
@@ -498,7 +577,6 @@ function renderKlasRadios(jenis) {
 		label.className = 'radio-pill';
 		label.htmlFor = id;
 		const judul = k.nama;
-		// Modal title harus nama klasifikasi
 		const info = buatInfoBtn(judul, `<div><strong>Definisi:</strong> ${k.definisi || '-'}<br><strong>Contoh:</strong> ${k.contoh || '-'}</div>`);
 		const span = document.createElement('span');
 		span.className = 'opsi-teks';
@@ -516,6 +594,7 @@ function isiJenisBangunan() {
 		const dataMatriks = (typeof matriks !== 'undefined') ? matriks : (window.matriks || undefined);
 		if (!dataMatriks || typeof dataMatriks !== 'object') return;
 		renderJenisRadios();
+		try { requestAnimationFrame(() => samakanLebarJenisJikaWrap()); } catch (_) { }
 	} catch (e) { console.warn('[isiJenisBangunan] gagal:', e); }
 }
 function isiKlasifikasi(jenis) {
@@ -539,28 +618,20 @@ function pasangHandlerBangunan() {
 		hiddenJenis.value = rb.value;
 		hiddenKlas.value = '';
 		isiKlasifikasi(rb.value);
-		renderImplementasi();
-		// Perhitungan otomatis update
-		try { recalcSemua({ simpan: true }); } catch (_) { try { hitungDariChecklist(); perbaruiPoinIndikator(); simpanLocal(false); } catch (_) {} }
+		App.setState({ bangunan: { jenis: rb.value, klasifikasi: '' } });
 	});
 	if (klasGroup) klasGroup.addEventListener('change', () => {
 		const rb = klasGroup.querySelector('input[type=radio][name="__klas_rb"]:checked');
 		const hiddenKlas2 = document.getElementById('klasifikasi-bangunan');
 		if (rb && hiddenKlas2) hiddenKlas2.value = rb.value;
-		renderImplementasi();
-		// Perhitungan otomatis update
-		try { recalcSemua({ simpan: true }); } catch (_) { try { hitungDariChecklist(); perbaruiPoinIndikator(); simpanLocal(false); } catch (_) {} }
+		App.setState({ bangunan: { jenis: hiddenJenis.value || App.state.bangunan.jenis, klasifikasi: rb ? rb.value : '' } });
 	});
 
-	// Fallback listeners: jika ada perubahan langsung pada input tersembunyi,
-	// tetap render ulang implementasi dan hitung kembali otomatis.
-	// Pasang sekali saja per elemen
 	if (hiddenJenis && !hiddenJenis.dataset.listener) {
 		['input', 'change'].forEach(ev => {
 			hiddenJenis.addEventListener(ev, () => {
-				try { isiKlasifikasi(hiddenJenis.value); } catch (_) {}
-				try { renderImplementasi(); } catch (_) {}
-				try { recalcSemua({ simpan: true }); } catch (_) { try { hitungDariChecklist(); perbaruiPoinIndikator(); simpanLocal(false); } catch (_) {} }
+				try { isiKlasifikasi(hiddenJenis.value); } catch (_) { }
+				App.setState({ bangunan: { jenis: hiddenJenis.value, klasifikasi: '' } });
 			}, { passive: true });
 		});
 		hiddenJenis.dataset.listener = '1';
@@ -568,8 +639,7 @@ function pasangHandlerBangunan() {
 	if (hiddenKlas && !hiddenKlas.dataset.listener) {
 		['input', 'change'].forEach(ev => {
 			hiddenKlas.addEventListener(ev, () => {
-				try { renderImplementasi(); } catch (_) {}
-				try { recalcSemua({ simpan: true }); } catch (_) { try { hitungDariChecklist(); perbaruiPoinIndikator(); simpanLocal(false); } catch (_) {} }
+				App.setState({ bangunan: { jenis: hiddenJenis.value || App.state.bangunan.jenis, klasifikasi: hiddenKlas.value } });
 			}, { passive: true });
 		});
 		hiddenKlas.dataset.listener = '1';
@@ -577,7 +647,7 @@ function pasangHandlerBangunan() {
 
 	const stopInfo = (e) => {
 		const b = e.target.closest && e.target.closest('.info-btn');
-		if (b) { e.preventDefault(); /* jangan stopPropagation agar handler klik .info-btn tetap berjalan */ b.focus(); }
+		if (b) { e.preventDefault(); b.focus(); }
 	};
 	if (jenisGroup) jenisGroup.addEventListener('click', stopInfo, true);
 	if (klasGroup) klasGroup.addEventListener('click', stopInfo, true);
@@ -599,8 +669,7 @@ function muatDataBangunan(d) {
 				const rk = klasGroup && klasGroup.querySelector(`input[type=radio][name='__klas_rb'][value="${escCSS(d.klasifikasi)}"]`);
 				if (rk) rk.checked = true;
 			}
-			renderImplementasi();
-			try { recalcSemua({ simpan: true }); } catch (_) { try { hitungDariChecklist(); perbaruiPoinIndikator(); simpanLocal(false); } catch (_) {} }
+			App.setState({ bangunan: { jenis: d.jenis, klasifikasi: d.klasifikasi || '' } });
 		}
 	};
 	apply();
@@ -608,7 +677,6 @@ function muatDataBangunan(d) {
 
 const MODE_CHECKLIST = 'checklist';
 let modeAktif = 'grid';
-let stateChecklist = {};
 
 function gunakanModeChecklist(aktif = true) {
 	const elChecklist = document.getElementById('parameter-checklist');
@@ -623,7 +691,6 @@ function gunakanModeChecklist(aktif = true) {
 	} else {
 		modeAktif = 'grid';
 		elChecklist.hidden = true; elChecklist.setAttribute('aria-hidden', 'true');
-		gunakanModeGridParameter(true);
 	}
 }
 
@@ -683,8 +750,7 @@ function renderChecklist() {
 	if (nav) { nav.innerHTML = ''; nav.appendChild(navFrag); pasangNavParameter(); }
 
 	pasangLazyHydration();
-	// Pastikan ringkasan awal diperbarui setelah struktur awal siap
-	try { hitungDariChecklist(); } catch (_) { try { perbaruiRingkasan(); } catch (_) {} }
+	try { hitungDariChecklist(); } catch (_) { try { perbaruiRingkasan(); } catch (_) { } }
 }
 
 function renderIsiParameter(section) {
@@ -707,7 +773,6 @@ function renderIsiParameter(section) {
 			try {
 				const judulWrap = wrapK.querySelector('h4 .kjudul');
 				if (judulWrap) {
-					// Modal title harus judul kriteria
 					const info = buatInfoBtn(kriteria.nama || 'Penjelasan', `<div>${kriteria.penjelasan}</div>`);
 					judulWrap.appendChild(info);
 				}
@@ -736,7 +801,6 @@ function renderIsiParameter(section) {
 					item.innerHTML = radioHTML;
 				}
 
-				// Tambah ikon info + modal pada judul indikator; title = judul indikator
 				try {
 					const judulNode = item.querySelector('.judul');
 					if (judulNode) {
@@ -761,6 +825,30 @@ function renderIsiParameter(section) {
 	try { perbaruiBadgeElemenF(); } catch (_) { }
 	try { tandaiIndikatorWajib(); } catch (_) { }
 	try { perbaruiPoinIndikator(); } catch (_) { }
+
+	try { sinkronkanInputSectionDenganState(section); } catch (_) { }
+}
+
+function sinkronkanInputSectionDenganState(section) {
+	if (!section) return;
+	const kode = section.getAttribute('data-param');
+	if (!kode || !stateChecklist[kode]) return;
+	const mapK = stateChecklist[kode];
+	Object.entries(mapK).forEach(([idxK, indikatorMap]) => {
+		Object.entries(indikatorMap).forEach(([indikatorKey, val]) => {
+			const encKey = encodeURIComponent(indikatorKey);
+			if (typeof val === 'boolean') {
+				const sel = `input[type=checkbox][data-tipe="checkbox"][data-param="${kode}"][data-kriteria="${idxK}"][data-indikator="${encKey}"]`;
+				const inp = section.querySelector(sel);
+				if (inp) inp.checked = true;
+			} else {
+				const encVal = encodeURIComponent(val);
+				const sel = `input[type=radio][data-tipe="radio"][data-param="${kode}"][data-kriteria="${idxK}"][data-indikator="${encKey}"][value="${encVal}"]`;
+				const inp = section.querySelector(sel);
+				if (inp) inp.checked = true;
+			}
+		});
+	});
 }
 
 function pasangLazyHydration() {
@@ -780,7 +868,7 @@ function pasangLazyHydration() {
 	sections.forEach(sec => {
 		const sum = sec.querySelector('summary');
 		if (!sum) return;
-		sum.addEventListener('click', () => renderIsiParameter(sec), { passive: true });
+		sum.addEventListener('click', () => { renderIsiParameter(sec); }, { passive: true });
 	});
 }
 
@@ -935,7 +1023,6 @@ function handleChecklistInput(e) {
 function pasangChecklistListeners() {
 	const root = document.getElementById('parameter-checklist');
 	if (!root) return;
-	// Cegah klik pada ikon info di judul indikator memicu toggle input
 	root.addEventListener('click', (e) => {
 		const infoBtn = e.target && (e.target.closest ? e.target.closest('.info-btn') : null);
 		if (infoBtn) {
@@ -943,7 +1030,6 @@ function pasangChecklistListeners() {
 		}
 	}, true);
 	root.addEventListener('change', handleChecklistInput, { passive: true });
-	// Tambahkan juga listener 'input' sebagai fallback agar kalkulasi tetap berjalan real-time
 	root.addEventListener('input', (e) => {
 		if (e && e.target && e.target.matches('input[type=checkbox][data-tipe], input[type=radio][data-tipe]')) {
 			handleChecklistInput(e);
@@ -1059,10 +1145,10 @@ function tandaiIndikatorWajib() {
 	};
 	if (!jenisNow || !klasNow) { allItems.forEach(bersihkanItem); return; }
 
-		document.querySelectorAll('.pc-parameter').forEach(section => {
+	document.querySelectorAll('.pc-parameter').forEach(section => {
 		const kode = section.getAttribute('data-param');
 
-			section.querySelectorAll('.pc-kriteria').forEach(wrapK => {
+		section.querySelectorAll('.pc-kriteria').forEach(wrapK => {
 			const idxK = parseInt(wrapK.getAttribute('data-kriteria-index'), 10);
 			const elemenIndex = idxK + 1;
 			let wajib = false;
@@ -1070,39 +1156,36 @@ function tandaiIndikatorWajib() {
 				const kat = (stateImplementasi.kategoriElemen && stateImplementasi.kategoriElemen[elemenIndex]) || 's';
 				wajib = (kat === 'w');
 			}
-				wrapK.querySelectorAll('.indikator-item').forEach(item => {
-					if (!wajib) { bersihkanItem(item); return; }
+			wrapK.querySelectorAll('.indikator-item').forEach(item => {
+				if (!wajib) { bersihkanItem(item); return; }
 
-					const hasRadio = !!item.querySelector('input[type="radio"][data-tipe]');
-					const hasCheckbox = !!item.querySelector('input[type="checkbox"][data-tipe]');
+				const hasRadio = !!item.querySelector('input[type="radio"][data-tipe]');
+				const hasCheckbox = !!item.querySelector('input[type="checkbox"][data-tipe]');
 
-					if (hasRadio) {
-						// Wajib hanya berlaku sebagai keharusan memilih salah satu opsi (radio)
-						item.querySelectorAll('input[type="radio"][data-tipe]').forEach(inp => {
-							inp.setAttribute('required', '');
-						});
-						const judulSpan = item.querySelector('label > .judul, .judul');
-						if (judulSpan && !judulSpan.querySelector('.asterisk')) {
-							const bintang = document.createElement('span');
-							bintang.className = 'asterisk';
-							bintang.textContent = ' *';
-							judulSpan.appendChild(bintang);
-							judulSpan.classList.add('is-required');
-						}
-					} else if (hasCheckbox) {
-						// Untuk checkbox, JANGAN tandai required atau asterisk.
-						item.querySelectorAll('input[type="checkbox"][data-tipe]').forEach(inp => inp.removeAttribute('required'));
-						const judulSpan = item.querySelector('label > .judul, .judul');
-						if (judulSpan) {
-							judulSpan.classList.remove('is-required');
-							const star = judulSpan.querySelector('.asterisk');
-							if (star) star.remove();
-						}
-					} else {
-						// Tidak ada input yang dikenali: pastikan bersih
-						bersihkanItem(item);
+				if (hasRadio) {
+					item.querySelectorAll('input[type="radio"][data-tipe]').forEach(inp => {
+						inp.setAttribute('required', '');
+					});
+					const judulSpan = item.querySelector('label > .judul, .judul');
+					if (judulSpan && !judulSpan.querySelector('.asterisk')) {
+						const bintang = document.createElement('span');
+						bintang.className = 'asterisk';
+						bintang.textContent = ' *';
+						judulSpan.appendChild(bintang);
+						judulSpan.classList.add('is-required');
 					}
-				});
+				} else if (hasCheckbox) {
+					item.querySelectorAll('input[type="checkbox"][data-tipe]').forEach(inp => inp.removeAttribute('required'));
+					const judulSpan = item.querySelector('label > .judul, .judul');
+					if (judulSpan) {
+						judulSpan.classList.remove('is-required');
+						const star = judulSpan.querySelector('.asterisk');
+						if (star) star.remove();
+					}
+				} else {
+					bersihkanItem(item);
+				}
+			});
 		});
 	});
 }
@@ -1130,13 +1213,9 @@ function muatStateChecklist(obj) {
 	setTimeout(() => hitungDariChecklist(), 0);
 }
 
-function gunakanModeGridParameter() { }
-
-function sinkronKeObjekKalkulator() { }
 
 function perbaruiRingkasan() {
-	sinkronKeObjekKalkulator();
-	const total = kalkulator.hitungTotal();
+	const total = hitungTotalSepertiCSV();
 	const maks = kalkulator.getTotalMaks();
 
 	totalSkorEl.textContent = Number.isFinite(total) ? total.toFixed(1) : '0.0';
@@ -1162,7 +1241,7 @@ function perbaruiRingkasan() {
 				if (!ada) wajibKurang = true;
 			});
 		}
-	} catch (_) { /* abaikan */ }
+	} catch (_) { }
 
 	const warn = document.getElementById('peringkat-warning');
 	const target = tentukanPeringkat(persen);
@@ -1187,6 +1266,38 @@ function perbaruiRingkasan() {
 	}
 }
 
+function hitungTotalSepertiCSV() {
+	try {
+		const jenisNow = selectJenis ? selectJenis.value : '';
+		const klasNow = selectKlasifikasi ? selectKlasifikasi.value : '';
+		const faktorKategori = kalkulator.getFaktorPengali(jenisNow, klasNow) || { w: 1, d: 1, s: 1 };
+		let total = 0;
+		Object.entries(penilaian).forEach(([kode, dataParam]) => {
+			(dataParam.kriteriaUnjukKerja || []).forEach((kriteria, idxK) => {
+				const elemenIndex = idxK + 1;
+				const kat = (kode === 'F') ? ((stateImplementasi.kategoriElemen && stateImplementasi.kategoriElemen[elemenIndex]) || 's') : null;
+				const mult = (kode === 'F') ? (parseFloat(faktorKategori[kat]) || 1) : 1;
+				const stateK = stateChecklist[kode] && stateChecklist[kode][idxK];
+				if (!stateK) return;
+				Object.entries(stateK).forEach(([indikatorKey, val]) => {
+					const detail = kriteria.indikator[indikatorKey];
+					if (!detail) return;
+					let base = 0; let akhir = 0;
+					if (detail.tipe === 'checkbox') {
+						base = detail.poin || 0; akhir = (kode === 'F') ? base * mult : base;
+					} else if (detail.tipe === 'radio') {
+						const label = val;
+						base = (detail.poin && (label in detail.poin)) ? (detail.poin[label] || 0) : 0;
+						akhir = (kode === 'F') ? base * mult : base;
+					}
+					total += akhir;
+				});
+			});
+		});
+		return Number.isFinite(total) ? Math.round(total * 10) / 10 : 0;
+	} catch (_) { return 0; }
+}
+
 function tentukanPeringkat(persen) {
 
 	if (persen >= 80) return { level: 'utama', label: 'Utama' };
@@ -1205,50 +1316,7 @@ function kelasBadge(level) {
 
 function simpanLocal(manual = false) {
 	try {
-		if (modeAktif !== MODE_CHECKLIST) {
-			sinkronKeObjekKalkulator();
-		} else {
-			// Pastikan nilai terkini terhitung sebelum menyimpan
-			try { hitungDariChecklist(); } catch (_) { }
-		}
-
-		// Hanya simpan catatan global yang relevan dengan jenis/klasifikasi saat ini
-		const jenisNow = selectJenis ? selectJenis.value : '';
-		const klasNow = selectKlasifikasi ? selectKlasifikasi.value : '';
-		let catatanGlobalRelevant = {};
-		if (jenisNow && klasNow) {
-			const entry = getEntryImplementasi();
-			if (entry && entry.implementasi) {
-				const parsed = parseImplementasiString(entry.implementasi);
-				const daftarRelevant = buildCatatanGlobalList(parsed);
-				const nomorRelevant = new Set(daftarRelevant.map(c => c.no.toString()));
-				// Filter hanya catatan yang relevan
-				Object.entries(stateImplementasi.catatanGlobal || {}).forEach(([no, val]) => {
-					if (nomorRelevant.has(no.toString()) && val) {
-						catatanGlobalRelevant[no] = val;
-					}
-				});
-			}
-		}
-
-		const terbuka = Array.from(document.querySelectorAll('.pc-parameter[open]')).map(s => s.dataset.param);
-		const data = {
-			versi: 4,
-			diperbarui: new Date().toISOString(),
-			nilai: kalkulator.getSemuaNilai(),
-			checklist: stateChecklist,
-			mode: modeAktif,
-			openParams: terbuka,
-			bangunan: {
-				jenis: jenisNow,
-				klasifikasi: klasNow
-			},
-			implementasi: {
-				catatanGlobal: catatanGlobalRelevant,
-				kategoriElemen: stateImplementasi.kategoriElemen || {}
-			}
-		};
-		autosave(data, manual);
+		App.save(App.state, manual);
 		if (manual) notifikasi('Disimpan', { senyap: document.visibilityState === 'hidden' });
 	} catch (e) {
 		console.error('[simpanLocal] Gagal:', e);
@@ -1257,7 +1325,6 @@ function simpanLocal(manual = false) {
 }
 
 function snapshotState() {
-	// Snapshot EKSPOR: data penilaian (pilihan) + poin per indikator terpilih
 	function buildRincianPenilaian() {
 		const jenisNow = selectJenis ? selectJenis.value : '';
 		const klasNow = selectKlasifikasi ? selectKlasifikasi.value : '';
@@ -1290,15 +1357,12 @@ function snapshotState() {
 					detK.indikator.push({ key: indikatorKey, tipe: detail.tipe, pilihan, poinDasar: base, multiplier: (kode === 'F') ? mult : undefined, poinAkhir: Number.isFinite(akhir) ? Math.round(akhir * 10) / 10 : 0 });
 					detK.subtotalKriteriaSebelumBatas += akhir;
 				});
-				// Terapkan batas KUK
 				detK.subtotalKriteria = Math.min(detK.subtotalKriteriaSebelumBatas, detK.maksKriteria || 0);
-				// Hanya masukkan kriteria bila ada indikator terpilih
 				if (detK.indikator.length) {
 					detParam.kriteria.push(detK);
 					detParam.subtotalParameterSebelumBatas += detK.subtotalKriteria;
 				}
 			});
-			// Terapkan batas parameter
 			detParam.subtotalParameter = Math.min(detParam.subtotalParameterSebelumBatas, detParam.maksParameter || 0);
 			if (detParam.kriteria.length) {
 				hasilParam.push(detParam);
@@ -1326,7 +1390,7 @@ function snapshotState() {
 			jenis: selectJenis ? selectJenis.value : '',
 			klasifikasi: selectKlasifikasi ? selectKlasifikasi.value : ''
 		},
-		implementasi: { 
+		implementasi: {
 			catatanGlobal: (() => {
 				const jenisNow = selectJenis ? selectJenis.value : '';
 				const klasNow = selectKlasifikasi ? selectKlasifikasi.value : '';
@@ -1351,36 +1415,11 @@ function snapshotState() {
 function muatDariObj(obj) {
 	if (!obj || typeof obj !== 'object') return false;
 	try {
-		// 1) Terapkan pilihan bangunan (jika ada)
-		if (obj.bangunan && (obj.bangunan.jenis || obj.bangunan.klasifikasi)) {
-			muatDataBangunan(obj.bangunan);
-		}
-
-		// 2) Terapkan implementasi: gunakan hanya catatanGlobal jika ada
-		if (obj.implementasi && obj.implementasi.catatanGlobal) {
-			stateImplementasi.catatanGlobal = { ...obj.implementasi.catatanGlobal };
-			// Kategori elemen akan dihitung ulang dari matriks + degradasi
-			const entry = getEntryImplementasi();
-			if (entry && entry.implementasi) {
-				const parsed = parseImplementasiString(entry.implementasi);
-				degradasiKategori(parsed);
-			}
-			requestAnimationFrame(() => terapkanStateImplementasi());
-		}
-
-		// 3) Terapkan checklist (indikator terpilih)
-		if (obj.checklist) {
-			gunakanModeChecklist(true);
-			requestAnimationFrame(() => muatStateChecklist(obj));
-		}
-
-		// 4) Back-compat: jika ada nilai lama, tetap muat tanpa ketergantungan
-		if (obj.nilai) {
-			kalkulator.nilaiParameter = { ...(obj.nilai || {}) };
-		}
-
-		// 5) Perbarui tampilan ringkasan
-		perbaruiRingkasan();
+		App.setState({
+			bangunan: { ...(obj.bangunan || {}) },
+			implementasi: { ...(App.state.implementasi || {}), ...(obj.implementasi || {}) },
+			checklist: { ...(obj.checklist || {}) }
+		}, true);
 		return true;
 	} catch (e) {
 		console.error('[muatDariObj] gagal:', e);
@@ -1390,40 +1429,12 @@ function muatDariObj(obj) {
 
 function muatLocal() {
 	try {
-		const obj = muatDataTersimpan();
+		let obj = muatChunked(KUNCI_DATA);
+		if (!obj) {
+			obj = (typeof window !== 'undefined' && window.__cacheTerakhirBGC) ? window.__cacheTerakhirBGC : null;
+		}
 		if (!obj || typeof obj !== 'object') return;
-		Object.keys(obj.nilai || {}).forEach(k => {
-			const input = document.getElementById(`skor-${k}`);
-			if (input) {
-				const maks = parseFloat(input.max) || 0;
-
-				const val = clamp(parseFloat(obj.nilai[k]) || 0, 0, maks);
-				input.value = val;
-			}
-		});
-		muatDataBangunan(obj.bangunan);
-
-		kalkulator.nilaiParameter = { ...(obj.nilai || {}) };
-		if (obj.mode === MODE_CHECKLIST) {
-			gunakanModeChecklist(true);
-
-			requestAnimationFrame(() => {
-				muatStateChecklist(obj);
-
-				if (Array.isArray(obj.openParams)) {
-					obj.openParams.forEach(k => {
-						const det = document.querySelector(`.pc-parameter[data-param="${k}"]`);
-						if (det && det.tagName === 'DETAILS') det.open = true;
-					});
-				}
-			});
-		}
-		if (obj.implementasi) {
-			stateImplementasi = obj.implementasi;
-
-			requestAnimationFrame(() => terapkanStateImplementasi());
-		}
-		perbaruiRingkasan();
+		App.setState(obj, true);
 		notifikasi('Dimuat');
 	} catch (e) {
 		console.error('Gagal muat data:', e);
@@ -1433,7 +1444,6 @@ function muatLocal() {
 
 function eksporJSON() {
 	try {
-		if (modeAktif !== MODE_CHECKLIST) sinkronKeObjekKalkulator();
 		const data = snapshotState();
 		const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
 		const url = URL.createObjectURL(blob);
@@ -1451,19 +1461,20 @@ function eksporJSON() {
 	}
 }
 
-function toCSVRow(arr) { return arr.map(v => {
-	if (v == null) return '';
-	const s = String(v);
-	if (/[",\n]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
-	return s;
-}).join(','); }
+function toCSVRow(arr) {
+	return arr.map(v => {
+		if (v == null) return '';
+		const s = String(v);
+		if (/[",\n]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+		return s;
+	}).join(',');
+}
 
 function eksporCSV() {
 	try {
-		if (modeAktif !== MODE_CHECKLIST) sinkronKeObjekKalkulator();
 		const jenisNow = selectJenis ? selectJenis.value : '';
 		const klasNow = selectKlasifikasi ? selectKlasifikasi.value : '';
-		const header = ['Parameter','Kriteria Index','Indikator','Tipe','Pilihan/Checked','Poin Dasar','Multiplier(F)','Poin Akhir'];
+		const header = ['Parameter', 'Kriteria Index', 'Indikator', 'Tipe', 'Pilihan/Checked', 'Poin Dasar', 'Multiplier(F)', 'Poin Akhir'];
 		const rows = [toCSVRow(['Jenis', jenisNow]), toCSVRow(['Klasifikasi', klasNow]), '', toCSVRow(header)];
 		let total = 0;
 		const faktorKategori = kalkulator.getFaktorPengali(jenisNow, klasNow) || { w: 1, d: 1, s: 1 };
@@ -1517,8 +1528,7 @@ function imporJSONDariFile(file) {
 			const ok = muatDariObj(obj);
 			if (ok) {
 				notifikasi('Impor sukses');
-				// Pastikan status tersimpan setelah render/async apply selesai
-				setTimeout(() => { try { simpanLocal(true); } catch (_) {} }, 120);
+				setTimeout(() => { try { simpanLocal(true); } catch (_) { } }, 120);
 			} else {
 				notifikasi('Gagal Impor');
 			}
@@ -1536,9 +1546,7 @@ function hapusLocal() { try { hapusDataTersimpan(); } catch (e) { console.error(
 let timerNotifikasi;
 let lastToast = { msg: '', at: 0 };
 function notifikasi(pesan, opsi = {}) {
-	// Jangan tampilkan toast ketika sedang proses latar (unload/hidden) untuk mencegah "menyala terus"
 	if (document.visibilityState === 'hidden' || opsi.senyap) return;
-	// Cegah spam: jika pesan sama dalam 1.2s, abaikan
 	const now = Date.now();
 	if (lastToast.msg === pesan && (now - lastToast.at) < 1200) return;
 	let ele = document.getElementById('toast');
@@ -1547,7 +1555,7 @@ function notifikasi(pesan, opsi = {}) {
 		ele.id = 'toast';
 		ele.setAttribute('role', 'status');
 		ele.setAttribute('aria-live', 'polite');
-		ele.style.cssText = 'position:fixed;right:max(1rem, env(safe-area-inset-right));top:calc(.6rem + env(safe-area-inset-top));background:#ffffff;color:#0f172a;padding:.6rem .8rem;font-size:.8rem;font-weight:600;border-radius:10px;letter-spacing:.3px;border:1px solid #e2e8f0;box-shadow:0 6px 18px rgba(16,24,40,.16);z-index:999;opacity:0;transition:.35s cubic-bezier(.4,0,.2,1);pointer-events:none;transform:translate(8px, -8px)';
+			ele.style.cssText = 'position:fixed;right:max(1rem, env(safe-area-inset-right));top:calc(var(--appbar-h, 3.25rem) + .6rem + env(safe-area-inset-top));background:#ffffff;color:#0f172a;padding:.6rem .8rem;font-size:.8rem;font-weight:600;border-radius:10px;letter-spacing:.3px;border:1px solid #e2e8f0;box-shadow:0 6px 18px rgba(16,24,40,.16);z-index:999;opacity:0;transition:.35s cubic-bezier(.4,0,.2,1);pointer-events:none;transform:translate(8px, -8px)';
 		document.body.appendChild(ele);
 	}
 	ele.textContent = pesan;
@@ -1572,7 +1580,6 @@ function debounceUpdate() {
 	}, 280);
 }
 
-function pasangValidasiInput() { }
 
 function pasangTouchHandlers() {
 	const tombol = document.querySelectorAll('.btn');
@@ -1600,7 +1607,7 @@ function pasangAksiTombol() {
 		}
 	});
 	if (btnHitung && !btnHitung.dataset.listener) {
-		btnHitung.addEventListener('click', () => { hitungDariChecklist(); try { simpanLocal(true); } catch (_) {} notifikasi('Dihitung'); });
+		btnHitung.addEventListener('click', () => { hitungDariChecklist(); try { simpanLocal(true); } catch (_) { } notifikasi('Dihitung'); });
 		btnHitung.dataset.listener = '1';
 	}
 	if (btnEksporCSV) btnEksporCSV.addEventListener('click', () => eksporCSV());
@@ -1611,6 +1618,11 @@ function resetSemua() {
 	stateChecklist = {};
 	if (kalkulator) kalkulator.nilaiParameter = {};
 	document.querySelectorAll('#parameter-checklist input[type=checkbox], #parameter-checklist input[type=radio]').forEach(inp => { inp.checked = false; });
+
+	if (selectJenis) selectJenis.value = '';
+	if (selectKlasifikasi) selectKlasifikasi.value = '';
+	if (jenisGroup) jenisGroup.querySelectorAll('input[type=radio][name="__jenis_rb"]').forEach(rb => rb.checked = false);
+	if (klasGroup) klasGroup.querySelectorAll('input[type=radio][name="__klas_rb"]').forEach(rb => rb.checked = false);
 
 	if (totalSkorEl) totalSkorEl.textContent = '0';
 	if (totalMaksEl) totalMaksEl.textContent = kalkulator ? kalkulator.getTotalMaks() : '0';
@@ -1631,6 +1643,22 @@ function resetSemua() {
 		if (paramF) { const lama = paramF.querySelector('#f-elemen-kategori-wrapper'); if (lama) lama.remove(); }
 		catWrap.hidden = true;
 	}
+
+	document.querySelectorAll('[data-claimed-base]').forEach(el => el.textContent = '0');
+	document.querySelectorAll('[data-claimed-mult]').forEach(el => el.textContent = '0.0');
+	document.querySelectorAll('[data-claimed-multiplier]').forEach(el => el.textContent = 'x1.0');
+	try { perbaruiBadgeElemenF(); } catch (_) {}
+	try { tandaiIndikatorWajib(); } catch (_) {}
+	try { perbaruiPoinIndikator(); } catch (_) {}
+	try { perbaruiRingkasan(); } catch (_) {}
+
+	try {
+		App.setState({
+			bangunan: { jenis: '', klasifikasi: '' },
+			checklist: {},
+			implementasi: { catatanGlobal: {}, kategoriElemen: {} }
+		}, true);
+	} catch (_) {}
 }
 
 let kalkulator;
@@ -1647,13 +1675,12 @@ function init() {
 	pasangHandlerBangunan();
 
 	renderImplementasi();
-	pasangValidasiInput();
 	pasangAksiTombol();
 	pasangTouchHandlers();
 
 	muatLocal();
 	perbaruiRingkasan();
-	if (versiEl) versiEl.textContent = '1.2.0';
+	if (versiEl) versiEl.textContent = '1.2.1';
 	console.info('[init] selesai');
 }
 
@@ -1726,34 +1753,28 @@ function pasangAutosaveGlobalListeners() {
 	try {
 		const formEl = document.getElementById('form-penilaian');
 		if (formEl) {
-			// Fallback autosave untuk semua perubahan input di halaman
 			formEl.addEventListener('input', debounceUpdate, true);
 			formEl.addEventListener('change', debounceUpdate, true);
 		}
-		// Simpan saat pengguna membuka/menutup section parameter (agar openParams tersimpan)
 		document.addEventListener('toggle', (e) => {
 			const d = e && e.target;
 			if (d && d.matches && d.matches('details.pc-parameter')) {
 				debounceUpdate();
 			}
 		}, true);
-		// Flush simpan saat akan menutup/meninggalkan halaman
 		window.addEventListener('beforeunload', () => {
 			try { hitungDariChecklist(); } catch (_) { }
 			try { simpanLocal(true); } catch (_) { }
-			// Jangan munculkan toast pada saat beforeunload
-			try { notifikasi('', { senyap: true }); } catch (_) {}
+			try { notifikasi('', { senyap: true }); } catch (_) { }
 		});
-		// Simpan saat tab disembunyikan (mis. pindah tab/app)
 		document.addEventListener('visibilitychange', () => {
 			if (document.visibilityState === 'hidden') {
 				try { hitungDariChecklist(); } catch (_) { }
 				try { simpanLocal(true); } catch (_) { }
-				// Jangan munculkan toast saat hidden
-				try { notifikasi('', { senyap: true }); } catch (_) {}
+				try { notifikasi('', { senyap: true }); } catch (_) { }
 			}
 		});
-	} catch (_) { /* abaikan */ }
+	} catch (_) { }
 }
 
 function aktifkanLiteModeJikaPerlu() {
@@ -1772,7 +1793,6 @@ function aktifkanLiteModeJikaPerlu() {
 		const linkFonts = document.getElementById('fonts-css');
 		if (linkFonts) linkFonts.disabled = true;
 
-		// Tunda hydration parameter lebih agresif di lite mode
 		try { window.__HYDRATION_DELAY__ = 300; } catch (_) { }
 	}
 }
@@ -1895,17 +1915,13 @@ document.addEventListener('DOMContentLoaded', () => {
 		};
 		const toggleNav = () => { document.body.classList.contains('nav-open') ? closeNav() : openNav(); };
 
-		// Cek otomatis: jika nav (saat terbuka) tidak overlap secara horizontal dengan #utama maka biarkan terbuka.
-		// Jika overlap (berpotongan) maka tutup. Dicek saat load, resize, dan orientationchange.
 		let jadwalAutoNav = null;
 		function evaluasiAutoNav() {
 			if (!nav) return;
 			const main = document.getElementById('utama');
 			if (!main) return;
-			// Pastikan kita bisa ukur posisi nav dalam keadaan "open".
 			const semulaOpen = document.body.classList.contains('nav-open');
 			if (!semulaOpen) {
-				// buka sementara untuk pengukuran; sembunyikan visual agar tidak flicker.
 				nav.style.visibility = 'hidden';
 				document.body.classList.add('nav-open');
 				requestAnimationFrame(() => lakukanEvaluasi(semulaOpen));
@@ -1917,15 +1933,13 @@ document.addEventListener('DOMContentLoaded', () => {
 					posisikanNavTerhadapBurger();
 					const nr = nav.getBoundingClientRect();
 					const mr = main.getBoundingClientRect();
-					// Overlap horizontal jika bukan kasus: (nr.right <= mr.left) atau (nr.left >= mr.right)
 					const overlap = !(nr.right <= mr.left || nr.left >= mr.right);
 					if (overlap) {
-						// Harus ditutup
 						closeNav();
 					} else {
 						openNav();
 					}
-				} catch (_) { /* abaikan */ }
+				} catch (_) { }
 				finally {
 					nav.style.visibility = '';
 				}
@@ -1935,7 +1949,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (jadwalAutoNav) cancelAnimationFrame(jadwalAutoNav);
 			jadwalAutoNav = requestAnimationFrame(() => evaluasiAutoNav());
 		}
-		// Jalankan setelah initial layout siap
 		requestAnimationFrame(jadwalkanEvaluasiAutoNav);
 		setTimeout(jadwalkanEvaluasiAutoNav, 180);
 		window.addEventListener('resize', jadwalkanEvaluasiAutoNav, { passive: true });
@@ -1964,9 +1977,13 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		};
 		setAppbarH();
-		// Re-sync after fonts load to avoid height jump
 		if (document.fonts && document.fonts.ready) {
-			document.fonts.ready.then(() => requestAnimationFrame(setAppbarH)).catch(() => {});
+			document.fonts.ready.then(() => {
+				requestAnimationFrame(() => {
+					setAppbarH();
+					try { samakanLebarJenisJikaWrap(); } catch (_) { }
+				});
+			}).catch(() => { });
 		}
 		window.addEventListener('load', () => setTimeout(setAppbarH, 60), { once: true });
 	} catch (_) { }
@@ -2010,4 +2027,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	try { jadwalkanHydrationRingan(); } catch (_) { }
 }, { once: true });
+
+// =============================
+// UI: Samakan lebar radio "Jenis Bangunan" bila terjadi wrap
+// =============================
+function samakanLebarJenisJikaWrap() {
+	try {
+		const grup = document.getElementById('jenis-bangunan-group');
+		if (!grup) return;
+		const pills = Array.from(grup.querySelectorAll('label.radio-pill'));
+		if (pills.length < 2) return;
+
+		// Reset width sebelum ukur
+		pills.forEach(p => { p.style.width = ''; p.style.minWidth = ''; });
+
+		const getOpsitek = (pill) => pill.querySelector('.opsi-teks') || pill;
+		const isWrap = (el) => {
+			const cs = window.getComputedStyle(el);
+			let lh = parseFloat(cs.lineHeight);
+			if (!lh || isNaN(lh)) { const fs = parseFloat(cs.fontSize) || 16; lh = fs * 1.2; }
+			const h = el.getBoundingClientRect().height;
+			return h > lh * 1.25; // ambang aman untuk mendeteksi >1 baris
+		};
+
+		const info = pills.map(p => ({ pill: p, teks: getOpsitek(p), wrap: false, val: (p.querySelector('input') || {}).value || '' }));
+		info.forEach(i => { i.wrap = isWrap(i.teks); i.width = Math.ceil(i.pill.getBoundingClientRect().width); });
+
+		const adaWrap = info.some(i => i.wrap);
+		if (!adaWrap) return; // tidak ada wrap – biarkan apa adanya
+
+		// Targetkan kasus umum: Non-BGN wrap lebih dulu → samakan lebar BGN
+		const non = info.find(i => i.val === 'Non-BGN');
+		const bgn = info.find(i => i.val === 'BGN');
+		if (non && bgn && non.wrap && !bgn.wrap) {
+			bgn.pill.style.minWidth = non.width + 'px';
+			return;
+		}
+
+		// General fallback: samakan ke lebar maksimum di antara yang wrap
+		const maxW = Math.max(...info.map(i => i.width));
+		info.filter(i => !i.wrap).forEach(i => { i.pill.style.minWidth = maxW + 'px'; });
+	} catch (_) { }
+}
+
+// Jalankan saat jendela berubah ukuran/orientasi
+window.addEventListener('resize', buatThrottle(() => samakanLebarJenisJikaWrap(), 120));
+window.addEventListener('orientationchange', () => setTimeout(() => samakanLebarJenisJikaWrap(), 80));
 

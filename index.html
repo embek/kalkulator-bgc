@@ -90,7 +90,7 @@
 					<li><strong>Perhitungan</strong>: Sistem menghitung poin, persentase, dan peringkat (Utama / Madya / Pratama / Belum).</li>
 					<li><strong>Pengajuan Resmi</strong>: Untuk sertifikasi, lakukan proses sesuai ketentuan melalui sistem/TPA terkait (di luar aplikasi ini).</li>
 				</ol>
-				<p class="deskripsi kecil">Kategori elemen: <strong>Wajib (W)</strong>, <strong>Disarankan (D)</strong>, <strong>Sukarela (S)</strong>. Faktor pengali mengikuti klasifikasi bangunan (lihat tooltip pada label elemen). Jika elemen Wajib belum terpenuhi lengkap, peringkat ditahan di "Belum" meskipun persentase sudah tinggi.</p>
+				<p class="deskripsi kecil">Kategori elemen: <strong>Wajib (W)</strong>, <strong>Disarankan (D)</strong>, <strong>Sukarela (S)</strong>. Faktor pengali mengikuti klasifikasi bangunan (lihat tooltip pada label elemen). Jika elemen Wajib belum terpenuhi lengkap, peringkat ditahan di "Belum" meskipun persentase memenuhi batas pemeringkatan.</p>
 			</details>
 
 			<details class="panel-bantuan">
@@ -101,7 +101,7 @@
 				<h2 id="judul-data-bangunan">Data Bangunan</h2>
 				<div class="grid-form">
 					<div class="grup-form">
-						<label id="label-jenis-bangunan">Jenis Bangunan</label>
+						<div id="label-jenis-bangunan" class="judul-grup">Jenis Bangunan</div>
 						<input type="hidden" id="jenis-bangunan" name="jenis_bangunan" />
 						<div id="jenis-bangunan-group" class="radio-group" role="radiogroup"
 							aria-labelledby="label-jenis-bangunan">
@@ -109,7 +109,7 @@
 						</div>
 					</div>
 					<div class="grup-form">
-						<label id="label-klasifikasi-bangunan">Klasifikasi</label>
+						<div id="label-klasifikasi-bangunan" class="judul-grup">Klasifikasi</div>
 						<input type="hidden" id="klasifikasi-bangunan" name="klasifikasi_bangunan" />
 						<div id="klasifikasi-bangunan-group" class="radio-group" role="radiogroup"
 							aria-labelledby="label-klasifikasi-bangunan">
@@ -126,7 +126,7 @@
 			</section>
 
 			<section class="parameter" aria-labelledby="judul-parameter">
-				<h2 id="judul-parameter">Daftar Simak Penilaian Kinerja BGC Tahap Pemanfaatan</h2>
+				<h2 id="judul-parameter">Simak Penilaian Kinerja BGC Tahap Pemanfaatan</h2>
 				<div id="parameter-checklist" class="parameter-checklist"><!-- Render dinamis --></div>
 			</section>
 
@@ -150,8 +150,8 @@
 						<div class="hasil-item hasil-peringkat"><span>Peringkat</span><strong id="klasifikasi-level"
 								class="badge-klasifikasi" data-level="-">-</strong>
 							<div class="peringkat-info">
-								<small class="peringkat-range" aria-hidden="true">Utama ≥ 80 • Madya ≥ 60 • Pratama ≥
-									40</small>
+								<small class="peringkat-range" aria-hidden="true">Utama ≥ 80% • Madya ≥ 60% • Pratama ≥
+									40%</small>
 								<small id="peringkat-warning" class="peringkat-warning" hidden>Lengkapi seluruh elemen
 									Wajib untuk mendapatkan peringkat. Saat ini ditampilkan "Belum".</small>
 							</div>
@@ -164,9 +164,9 @@
 			</section>
 
 			<div class="aksi">
-				<button type="button" id="btn-ekspor" class="btn sekunder" aria-label="Ekspor data ke berkas JSON">Ekspor JSON</button>
+				<button type="button" id="btn-ekspor" class="btn sekunder" aria-label="Ekspor data ke berkas JSON" hidden>Ekspor JSON</button>
 				<button type="button" id="btn-ekspor-csv" class="btn sekunder" aria-label="Ekspor data ke berkas CSV">Ekspor CSV</button>
-				<button type="button" id="btn-impor" class="btn sekunder" aria-label="Impor data dari berkas JSON">Impor JSON</button>
+				<button type="button" id="btn-impor" class="btn sekunder" aria-label="Impor data dari berkas JSON" hidden>Impor JSON</button>
 				<input type="file" id="file-impor" accept="application/json" hidden />
 				<button type="reset" id="btn-reset" class="btn bahaya">Reset</button>
 			</div>
