@@ -806,11 +806,12 @@ function renderIsiParameter(section) {
 					if (judulNode) {
 						const penjelasan = (detailInd && detailInd.penjelasan) ? String(detailInd.penjelasan) : '';
 						const contoh = (detailInd && detailInd.contohDokumentasi) ? String(detailInd.contohDokumentasi) : '';
-						let isi = '';
-						if (penjelasan) isi += `<div class=\"blok\"><h4>Penjelasan</h4><div>${penjelasan}</div></div>`;
-						if (contoh) isi += `<div class=\"blok\"><h4>Dokumentasi</h4><div>${contoh}</div></div>`;
-						if (isi) {
-							const info = buatInfoBtn(judulInd, isi);
+							let isi = '';
+							// Gabungkan ke dalam satu card (satu .blok via formatKontenInfo)
+							if (penjelasan) isi += `<h4>Penjelasan</h4><div>${penjelasan}</div>`;
+							if (contoh) isi += `<h4>Contoh Dokumentasi</h4><div>${contoh}</div>`;
+							if (isi) {
+								const info = buatInfoBtn(judulInd, isi);
 							judulNode.appendChild(info);
 						}
 					}

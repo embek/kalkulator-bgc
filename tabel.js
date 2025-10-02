@@ -262,1856 +262,1856 @@ const pengali = {
 
 const penilaian = {
     "A": {
-        nama: "Keamanan Siber",
-        maksPoinParameter: 384,
-        kriteriaUnjukKerja: [
+        "nama": "Keamanan Siber",
+        "maksPoinParameter": 384,
+        "kriteriaUnjukKerja": [
             {
-                nama: "Integritas data yang disimpan di pusat data telah dipastikan melalui proses",
-                maksPoinKUK: 24,
-                penjelasan: "Verifikasi data dengan checksum atau hashing. Pembuatan versi data dan stempel waktu (timestamp).",
-                indikator: {
+                "nama": "Integritas data yang disimpan di pusat data telah dipastikan melalui proses",
+                "maksPoinKUK": 24,
+                "penjelasan": "Sistem memastikan data tidak berubah selama disimpan atau dikirim dengan menggunakan tanda verifikasi digital dan pencatatan riwayat perubahan",
+                "indikator": {
                     "100% data berhasil diverifikasi menggunakan checksum atau hashing": {
-                        tipe: "checkbox",
-                        poin: 12,
-                        contohDokumentasi: "a. Snapshot konfigurasi, integrasi atau protokol pada sistem atau software b. Manual perangkat atau software c. Report sampling",
-                        penjelasan: "Semua data harus terverifikasi dengan checksum atau hashing untuk memastikan integritas"
+                        "tipe": "checkbox",
+                        "poin": 12,
+                        "contohDokumentasi": "Laporan hasil verifikasi checksum/hashing; konfigurasi algoritma hashing (SHA-256, MD5); log sistem verifikasi data",
+                        "penjelasan": "Sistem memastikan semua data tidak berubah dengan cara membuat 'cap jempol digital' unik untuk setiap data. Setiap kali data digunakan, sistem mengecek apakah cap jempolnya masih sama dengan aslinya"
                     },
                     "100% perubahan data atau riwayat versi data terdokumentasi": {
-                        tipe: "checkbox",
-                        poin: 12,
-                        contohDokumentasi: "a. Snapshot konfigurasi, integrasi atau protokol pada sistem atau software b. Manual perangkat atau software c. Report sampling",
-                        penjelasan: "Semua perubahan data harus memiliki riwayat versi yang terdokumentasi"
+                        "tipe": "checkbox",
+                        "poin": 12,
+                        "contohDokumentasi": "Audit trail database; version control log; change management report",
+                        "penjelasan": "Setiap perubahan data dicatat dengan rinci seperti siapa, kapan, dan apa yang diubah, mirip dengan fitur 'riwayat revisi' di dokumen digital"
                     }
                 }
             },
             {
-                nama: "Redundansi perangkat keras",
-                maksPoinKUK: 24,
-                penjelasan: "Redundansi perangkat keras untuk memastikan ketersediaan sistem",
-                indikator: {
+                "nama": "Redundansi perangkat keras",
+                "maksPoinKUK": 24,
+                "penjelasan": "Komponen kritis seperti server dan jaringan memiliki cadangan yang siap mengambil alih jika terjadi kegagalan",
+                "indikator": {
                     "Persentase redundansi perangkat kritikal": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Kurang dari 100% redundansi": 4,
-                            "100% redundansi": 12,
+                            "100% redundansi": 12
                         },
-                        contohDokumentasi: "Dokumentasi spesifikasi perangkat dan konfigurasi redundansi",
-                        penjelasan: "Tingkat redundansi perangkat kritikal yang diterapkan"
+                        "contohDokumentasi": "Diagram infrastruktur redundansi; laporan failover test; dokumentasi RTO/RPO",
+                        "penjelasan": "Pengukur seberapa banyak perangkat penting memiliki 'cadangan' yang siap menggantikan jika perangkat utama rusak"
                     },
                     "Jumlah failover tanpa gangguan layanan": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak ada informasi mengenai jumlahnya": 0,
                             "Terjadi gangguan selama failover": 4,
-                            "Tidak ada gangguan selama failover": 12,
+                            "Tidak ada gangguan selama failover": 12
                         },
-                        contohDokumentasi: "Laporan insiden dan failover testing",
-                        penjelasan: "Kemampuan sistem untuk melakukan failover tanpa mengganggu layanan"
+                        "contohDokumentasi": "Incident report; availability monitoring log; failover test result",
+                        "penjelasan": "Berapa kali sistem berhasil beralih ke cadangan tanpa terputus layanannya ke pengguna"
                     }
                 }
             },
             {
-                nama: "Analisis event log telah dilakukan",
-                maksPoinKUK: 24,
-                penjelasan: "Analisis log peristiwa untuk mendeteksi insiden keamanan",
-                indikator: {
+                "nama": "Analisis event log telah dilakukan",
+                "maksPoinKUK": 24,
+                "penjelasan": "Seluruh aktivitas sistem dicatat dan dianalisis untuk mendeteksi pola mencurigakan atau kesalahan operasional",
+                "indikator": {
                     "Frekuensi analisis log otomatis": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Setiap lebih dari 1 menit": 4,
                             "Kadang-kadang setiap 1 menit": 8,
                             "Instant atau real-time dengan maksimal setiap 1 menit": 12
                         },
-                        contohDokumentasi: "Konfigurasi sistem analisis log dan laporan monitoring",
-                        penjelasan: "Seberapa sering analisis log dilakukan secara otomatis"
+                        "contohDokumentasi": "Jadwal analisis log; configuration SIEM tools; laporan periodic review",
+                        "penjelasan": "Seberapa sering sistem secara otomatis memeriksa catatan aktivitas untuk mencari pola mencurigakan"
                     },
                     "Tingkat deteksi insiden berdasarkan hasil analisis log": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Insiden keamanan tidak dapat dideteksi": 0,
                             "Kurang dari 95% insiden keamanan terdeteksi": 4,
                             "Lebih dari 95% insiden keamanan terdeteksi": 12
                         },
-                        contohDokumentasi: "Laporan deteksi insiden dan hasil analisis log",
-                        penjelasan: "Tingkat keberhasilan sistem dalam mendeteksi insiden keamanan"
+                        "contohDokumentasi": "Incident detection report; false positive/negative ratio; threat intelligence feed",
+                        "penjelasan": "Kemampuan sistem menemukan kejadian tidak normal dari pemeriksaan catatan aktivitas"
                     }
                 }
             },
             {
-                nama: "Kontrol akses (hardware dan software) pada setiap lapisan Open System Interconnection (OSI) telah diterapkan",
-                maksPoinKUK: 27,
-                penjelasan: "Penerapan kontrol akses pada semua layer OSI",
-                indikator: {
+                "nama": "Kontrol akses (hardware dan software) pada setiap lapisan Open System Interconnection (OSI) telah diterapkan",
+                "maksPoinKUK": 27,
+                "penjelasan": "Pembatasan akses diterapkan secara menyeluruh mulai dari tingkat fisik hingga aplikasi",
+                "indikator": {
                     "Tingkat penerapan kontrol akses pada layer OSI": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Kurang dari 100% layer diterapkan kontrol akses": 9,
                             "100% layer diterapkan kontrol akses tetapi tidak konsisten": 18,
                             "100% layer selalu diterapkan kontrol akses": 27
                         },
-                        contohDokumentasi: "Dokumentasi konfigurasi kontrol akses dan audit keamanan",
-                        penjelasan: "Tingkat konsistensi penerapan kontrol akses pada semua layer OSI"
+                        "contohDokumentasi": "Network security architecture diagram; access control matrix; firewall rules",
+                        "penjelasan": "Penerapan pengamanan di semua tingkat jaringan, dari fisik (pintu terkunci) hingga aplikasi (login user)"
                     }
                 }
             },
             {
-                nama: "Segmentasi jaringan untuk membatasi akses dan meminimalkan permukaan serangan",
-                maksPoinKUK: 24,
-                penjelasan: "Segmentasi jaringan untuk meningkatkan keamanan",
-                indikator: {
+                "nama": "Segmentasi jaringan untuk membatasi akses dan meminimalkan permukaan serangan",
+                "maksPoinKUK": 24,
+                "penjelasan": "Jaringan dibagi menjadi zona-zona terpisah untuk membatasi penyebaran gangguan",
+                "indikator": {
                     "Jumlah segmen jaringan yang terisolasi": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Kurang dari 3 segmen terisolasi": 4,
                             "≥ 3 segmen terisolasi": 12
                         },
-                        contohDokumentasi: "Diagram jaringan dan dokumentasi konfigurasi segmentasi",
-                        penjelasan: "Jumlah segmen jaringan yang telah diisolasi"
+                        "contohDokumentasi": "Network segmentation diagram; VLAN configuration; micro-segmentation policy",
+                        "penjelasan": "Banyaknya pembagian jaringan menjadi area-area terpisah untuk membatasi penyebaran masalah"
                     },
                     "Persentase lalu lintas jaringan yang dipantau": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Kurang dari 100% lalu lintas jaringan dipantau": 4,
                             "100% lalu lintas jaringan dipantau tetapi tidak konsisten": 8,
                             "100% lalu lintas jaringan selalu dipantau": 12
                         },
-                        contohDokumentasi: "Laporan monitoring jaringan dan konfigurasi tools monitoring",
-                        penjelasan: "Tingkat pemantauan lalu lintas jaringan"
+                        "contohDokumentasi": "Network monitoring report; traffic analysis dashboard; NetFlow data",
+                        "penjelasan": "Seberapa banyak traffic data yang diawasi untuk mendeteksi aktivitas mencurigakan"
                     }
                 }
             },
             {
-                nama: "Dilakukannya enkripsi end-to-end pada data yang dikirim melalui jaringan komunikasi",
-                maksPoinKUK: 30,
-                penjelasan: "Enkripsi end-to-end untuk melindungi data selama transmisi",
-                indikator: {
+                "nama": "Dilakukannya enkripsi end-to-end pada data yang dikirim melalui jaringan komunikasi",
+                "maksPoinKUK": 30,
+                "penjelasan": "Data dienkripsi dari sumber hingga tujuan sehingga tidak dapat dibaca pihak lain selama transmisi",
+                "indikator": {
                     "100% data yang dikirim dienkripsi menggunakan standar enkripsi tertentu": {
-                        tipe: "checkbox",
-                        poin: 15,
-                        contohDokumentasi: "Dokumentasi konfigurasi enkripsi dan sertifikat keamanan",
-                        penjelasan: "Semua data yang dikirim harus dienkripsi dengan standar yang ditetapkan"
+                        "tipe": "checkbox",
+                        "poin": 15,
+                        "contohDokumentasi": "SSL/TLS certificate; encryption protocol configuration; cryptographic key management",
+                        "penjelasan": "Semua data yang dikirim antar sistem dilindungi dengan 'kode rahasia' sehingga tidak bisa dibaca pihak lain"
                     },
                     "100% komunikasi data sensitif menggunakan enkripsi": {
-                        tipe: "checkbox",
-                        poin: 15,
-                        contohDokumentasi: "Kebijakan keamanan data dan dokumentasi implementasi enkripsi",
-                        penjelasan: "Semua komunikasi data sensitif harus menggunakan enkripsi"
+                        "tipe": "checkbox",
+                        "poin": 15,
+                        "contohDokumentasi": "Data classification policy; encryption implementation report; secure communication protocol",
+                        "penjelasan": "Khusus untuk data rahasia seperti password atau informasi pribadi, harus selalu menggunakan pengamanan ekstra"
                     }
                 }
             },
             {
-                nama: "Sistem kendali akses jaringan pada level kontroler memiliki fitur: Pelaporan dan Analitik, Audit Trail",
-                maksPoinKUK: 27,
-                penjelasan: "Sistem kendali akses dengan fitur pelaporan dan audit trail",
-                indikator: {
+                "nama": "Sistem kendali akses jaringan pada level kontroler memiliki fitur: Pelaporan dan Analitik, Audit Trail",
+                "maksPoinKUK": 27,
+                "penjelasan": "Terpusatnya pengelolaan akses jaringan dengan kemampuan pelaporan dan pencatatan aktivitas",
+                "indikator": {
                     "Tingkat keberhasilan autentikasi": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 98%": 3,
                             "Minimal 98%": 9
                         },
-                        contohDokumentasi: "Laporan autentikasi dan log sistem",
-                        penjelasan: "Tingkat keberhasilan proses autentikasi"
+                        "contohDokumentasi": "Authentication success rate report; failed login analysis; MFA effectiveness report",
+                        "penjelasan": "Persentase keberhasilan proses login atau verifikasi identitas pengguna"
                     },
                     "Waktu rata-rata autentikasi": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari dua detik": 3,
                             "Tidak selalu, kadang-kadang 2 detik atau lebih": 6,
                             "Selalu kurang dari 2 detik": 9
                         },
-                        contohDokumentasi: "Log performa sistem dan laporan monitoring",
-                        penjelasan: "Waktu rata-rata yang dibutuhkan untuk proses autentikasi"
+                        "contohDokumentasi": "Authentication latency metrics; performance monitoring data; user experience report",
+                        "penjelasan": "Rata-rata waktu yang dibutuhkan dari memasukkan password sampai berhasil masuk sistem"
                     },
                     "Cakupan logging aktivitas": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak ada pencatatan": 0,
                             "Kurang dari 100% tercatat": 3,
                             "Mencakup 100% aktivitas penting (autentikasi dan perubahan konfigurasi terkait kendali akses)": 9
                         },
-                        contohDokumentasi: "Kebijakan logging dan contoh log aktivitas",
-                        penjelasan: "Tingkat cakupan pencatatan aktivitas sistem"
+                        "contohDokumentasi": "Log coverage assessment; audit trail completeness check; logging policy compliance",
+                        "penjelasan": "Seberapa lengkap sistem mencatat semua aktivitas yang terjadi, seperti siapa melakukan apa dan kapan"
                     }
                 }
             },
             {
-                nama: "100% tingkat kepatuhan dalam mengimplementasikan mekanisme penggantian password standar saat pertama kali digunakan",
-                maksPoinKUK: 15,
-                penjelasan: "Penerapan mekanisme penggantian password standar",
-                indikator: {
+                "nama": "100% tingkat kepatuhan dalam mengimplementasikan mekanisme penggantian password standar saat pertama kali digunakan",
+                "maksPoinKUK": 15,
+                "penjelasan": "Pengguna diwajibkan mengganti kata sandi default saat pertama kali masuk",
+                "indikator": {
                     "Kepatuhan implementasi mekanisme penggantian password": {
-                        tipe: "checkbox",
-                        poin: 15,
-                        contohDokumentasi: "Kebijakan password dan dokumentasi implementasi",
-                        penjelasan: "Tingkat kepatuhan dalam menerapkan mekanisme penggantian password standar"
+                        "tipe": "checkbox",
+                        "poin": 15,
+                        "contohDokumentasi": "Password policy compliance report; user account audit; security configuration check",
+                        "penjelasan": "Ketaatan terhadap aturan wajib ganti password pertama kali dan periodic password change"
                     }
                 }
             },
             {
-                nama: "Kinerja proteksi login jika ada upaya ganti password gagal sebanyak tiga kali",
-                maksPoinKUK: 24,
-                penjelasan: "Proteksi login terhadap upaya ganti password yang gagal",
-                indikator: {
+                "nama": "Kinerja proteksi login jika ada upaya ganti password gagal sebanyak tiga kali",
+                "maksPoinKUK": 24,
+                "penjelasan": "Sistem mengunci akun setelah tiga kali percobaan gagal mengganti kata sandi",
+                "indikator": {
                     "Waktu blokir akun": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 1 jam": 4,
                             "Tidak selalu, kadang-kadang 1 jam": 8,
                             "Selalu 1 jam": 12
                         },
-                        contohDokumentasi: "Konfigurasi sistem keamanan dan log insiden",
-                        penjelasan: "Lama waktu blokir akun setelah multiple failed attempts"
+                        "contohDokumentasi": "Account lockout policy; incident response time; security event log",
+                        "penjelasan": "Lama waktu akun terkunci setelah beberapa kali salah password atau percobaan tidak sah"
                     },
                     "Kecepatan notifikasi pengguna": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak ada notifikasi pengguna": 0,
                             "Tidak langsung saat blokir terjadi": 4,
                             "Notifikasi langsung saat blokir terjadi": 12
                         },
-                        contohDokumentasi: "Sistem notifikasi dan contoh notifikasi yang dikirim",
-                        penjelasan: "Kecepatan sistem dalam memberikan notifikasi kepada pengguna"
+                        "contohDokumentasi": "Notification system log; alert response time; user communication record",
+                        "penjelasan": "Cepatnya sistem memberi tahu user tentang aktivitas mencurigakan atau perubahan penting"
                     }
                 }
             },
             {
-                nama: "Dapat dipastikan bahwa hanya pengguna yang terautentikasi yang dapat mengakses sistem serta mengotorisasi fitur dan data berdasarkan peran pengguna",
-                maksPoinKUK: 27,
-                penjelasan: "Kontrol akses berdasarkan peran (RBAC)",
-                indikator: {
+                "nama": "Dapat dipastikan bahwa hanya pengguna yang terautentikasi yang dapat mengakses sistem serta mengotorisasi fitur dan data berdasarkan peran pengguna",
+                "maksPoinKUK": 27,
+                "penjelasan": "Hak akses pengguna dibatasi sesuai perannya dalam organisasi",
+                "indikator": {
                     "100% akses dikendalikan dengan Role-Based Access Control (RBAC) secara konsisten": {
-                        tipe: "checkbox",
-                        poin: 27,
-                        contohDokumentasi: "Kebijakan RBAC dan dokumentasi implementasi",
-                        penjelasan: "Semua akses harus dikendalikan melalui RBAC secara konsisten"
+                        "tipe": "checkbox",
+                        "poin": 27,
+                        "contohDokumentasi": "RBAC matrix; user role assignment; access review report",
+                        "penjelasan": "Semua hak akses diatur berdasarkan jabatan/tugas, misal admin bisa semua, staff hanya sebagian"
                     }
                 }
             },
             {
-                nama: "Menerapkan manajemen remote",
-                maksPoinKUK: 27,
-                penjelasan: "Manajemen akses remote yang aman",
-                indikator: {
+                "nama": "Menerapkan manajemen remote",
+                "maksPoinKUK": 27,
+                "penjelasan": "Administrator dapat mengelola dan memelihara sistem dari jarak jauh",
+                "indikator": {
                     "Tingkat keberhasilan pemrosesan permintaan akses jarak jauh": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu kurang dari 98%": 3,
                             "Tidak selalu, kadang-kadang 98-100%": 6,
                             "Selalu 98-100%": 9
                         },
-                        contohDokumentasi: "Log akses remote dan laporan performa sistem",
-                        penjelasan: "Tingkat keberhasilan dalam memproses permintaan akses remote"
+                        "contohDokumentasi": "Remote access log; VPN connection report; access request workflow",
+                        "penjelasan": "Persentase berhasilnya permintaan akses sistem dari luar gedung diproses"
                     },
                     "Waktu rata-rata untuk menyelesaikan permintaan remote, mulai dari saat permintaan diajukan hingga akses diberikan atau ditolak": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 5 menit": 3,
                             "Tidak selalu, kadang-kadang 1-4 menit": 6,
                             "Selalu 1-4 menit": 9
                         },
-                        contohDokumentasi: "Log respons sistem dan laporan performa",
-                        penjelasan: "Waktu rata-rata yang dibutuhkan untuk menanggapi permintaan remote"
+                        "contohDokumentasi": "Service Level Agreement compliance; request processing timeline; helpdesk performance report",
+                        "penjelasan": "Rata-rata waktu dari pengajuan sampai disetujui/tolak akses remote"
                     },
                     "Jumlah upaya akses tidak sah yang diblokir": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak ada pemblokiran akses tidak sah": 0,
                             "Kurang dari 100% tidak sah diblokir": 3,
                             "100% akses tidak sah diblokir": 9
                         },
-                        contohDokumentasi: "Log keamanan dan laporan insiden",
-                        penjelasan: "Tingkat keberhasilan dalam memblokir akses tidak sah"
+                        "contohDokumentasi": "Intrusion attempt log; firewall block report; security incident record",
+                        "penjelasan": "Banyaknya percobaan masuk illegal yang berhasil dicegah sistem"
                     }
                 }
             },
             {
-                nama: "Sistem deteksi intrusi jaringan efektif dalam mendeteksi dan memberikan peringatan dini terhadap upaya akses yang tidak sah",
-                maksPoinKUK: 27,
-                penjelasan: "Sistem deteksi intrusi jaringan",
-                indikator: {
+                "nama": "Sistem deteksi intrusi jaringan efektif dalam mendeteksi dan memberikan peringatan dini terhadap upaya akses yang tidak sah",
+                "maksPoinKUK": 27,
+                "penjelasan": "Pemantauan lalu lintas jaringan secara real-time untuk deteksi aktivitas mencurigakan",
+                "indikator": {
                     "Waktu rata-rata untuk deteksi intrusi": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 1 menit": 3,
                             "Tidak selalu, kadang-kadang ≤ 1 menit": 6,
                             "Selalu ≤ 1 menit": 9
                         },
-                        contohDokumentasi: "Log sistem deteksi intrusi dan laporan respons",
-                        penjelasan: "Waktu rata-rata yang dibutuhkan untuk mendeteksi intrusi"
+                        "contohDokumentasi": "Detection time metrics; SIEM performance data; threat response timeline",
+                        "penjelasan": "Kecepatan sistem mendeteksi percobaan pembobolan sejak terjadi"
                     },
                     "Tingkat deteksi intrusi": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu kurang dari 99,5%": 3,
                             "Tidak selalu, kadang-kadang ≥ 99,5%": 6,
                             "Selalu ≥ 99,5%": 9
                         },
-                        contohDokumentasi: "Laporan efektivitas sistem deteksi intrusi",
-                        penjelasan: "Tingkat akurasi sistem dalam mendeteksi intrusi"
+                        "contohDokumentasi": "Detection accuracy report; false alarm rate; threat identification effectiveness",
+                        "penjelasan": "Akurasi sistem dalam menemukan serangan yang sebenarnya"
                     },
                     "Waktu rata-rata untuk respons intrusi": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 5 menit": 3,
                             "Tidak selalu, kadang-kadang ≤ 5 menit": 6,
                             "Selalu ≤ 5 menit": 9
                         },
-                        contohDokumentasi: "Log respons insiden dan prosedur penanganan",
-                        penjelasan: "Waktu rata-rata yang dibutuhkan untuk merespons intrusi"
+                        "contohDokumentasi": "Incident response time; SOC performance metrics; emergency procedure execution",
+                        "penjelasan": "Kecepatan tim security merespons setelah dapat alert serangan"
                     }
                 }
             },
             {
-                nama: "Sistem masuk tunggal (single sign-on) memungkinkan pengguna terautentikasi langsung ke dalam sistem akses setelah terautentikasi di sistem operasi komputer workstation",
-                maksPoinKUK: 24,
-                penjelasan: "Sistem single sign-on (SSO)",
-                indikator: {
+                "nama": "Sistem masuk tunggal (single sign-on) memungkinkan pengguna terautentikasi langsung ke dalam sistem akses setelah terautentikasi di sistem operasi komputer workstation",
+                "maksPoinKUK": 24,
+                "penjelasan": "Pengguna dapat mengakses multiple sistem setelah sekali login",
+                "indikator": {
                     "Waktu rata-rata respons sistem masuk tunggal": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 2 detik": 8,
                             "Kadang-kadang 2 detik atau kurang": 16,
                             "Selalu ≤ 2 detik": 24
                         },
-                        contohDokumentasi: "Log performa SSO dan laporan monitoring",
-                        penjelasan: "Waktu respons sistem single sign-on"
+                        "contohDokumentasi": "SSO performance metrics; authentication latency; user experience data",
+                        "penjelasan": "Kecepatan proses login sekali untuk semua sistem (single sign-on)"
                     }
                 }
             },
             {
-                nama: "Multi-Factor Authentication (MFA) telah diimplementasikan",
-                maksPoinKUK: 24,
-                penjelasan: "Implementasi autentikasi multi-faktor",
-                indikator: {
+                "nama": "Multi-Factor Authentication (MFA) telah diimplementasikan",
+                "maksPoinKUK": 24,
+                "penjelasan": "Verifikasi identitas menggunakan minimal dua faktor autentikasi",
+                "indikator": {
                     "Persentase pengguna yang mengaktifkan MFA": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak ada yang mengaktifkan MFA": 0,
                             "Kurang dari 100% pengguna dengan akses ke data sensitif": 4,
                             "100% pengguna dengan akses ke data sensitif": 12
                         },
-                        contohDokumentasi: "Laporan implementasi MFA dan statistik pengguna",
-                        penjelasan: "Tingkat adopsi MFA oleh pengguna"
+                        "contohDokumentasi": "MFA adoption rate; user enrollment report; security compliance metrics",
+                        "penjelasan": "Seberapa banyak user yang sudah menggunakan verifikasi 2 langkah (password + kode/hp)"
                     },
                     "Jumlah metode autentikasi yang didukung": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak ada metode autentikasi": 0,
                             "Terdapat 1 metode autentikasi": 4,
                             "≥ 2 metode autentikasi": 12
                         },
-                        contohDokumentasi: "Dokumentasi metode autentikasi yang didukung",
-                        penjelasan: "Jumlah metode autentikasi yang tersedia dalam sistem MFA"
+                        "contohDokumentasi": "Authentication method documentation; supported protocol list; security feature matrix",
+                        "penjelasan": "Banyaknya cara verifikasi identitas yang tersedia (password, fingerprint, OTP, dll)"
                     }
                 }
             },
             {
-                nama: "Sistem memungkinkan untuk multiakses",
-                maksPoinKUK: 24,
-                penjelasan: "Kemampuan sistem untuk mendukung multiakses",
-                indikator: {
+                "nama": "Sistem memungkinkan untuk multiakses",
+                "maksPoinKUK": 24,
+                "penjelasan": "Beberapa pengguna dapat mengakses sistem secara bersamaan tanpa gangguan",
+                "indikator": {
                     "Tingkat keberhasilan akses bersamaan": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak memungkinkan multiakses": 0,
                             "Kurang dari 99,9% keberhasilan": 4,
                             "≥ 99,9% keberhasilan": 12
                         },
-                        contohDokumentasi: "Laporan performa sistem dan testing multiakses",
-                        penjelasan: "Tingkat keberhasilan akses bersamaan ke sistem"
+                        "contohDokumentasi": "Concurrent user capacity test; load balancing performance; system scalability report",
+                        "penjelasan": "Kemampuan sistem melayani banyak user login bersamaan tanpa error"
                     },
                     "Kapasitas maksimal akses bersamaan": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu kurang dari 5 perangkat": 4,
                             "Tidak selalu, kadang-kadang 5 perangkat": 8,
                             "Selalu ≥ 5 perangkat": 12
                         },
-                        contohDokumentasi: "Spesifikasi sistem dan laporan load testing",
-                        penjelasan: "Kapasitas maksimal sistem dalam menangani akses bersamaan"
+                        "contohDokumentasi": "Load test results; system capacity planning; performance benchmark",
+                        "penjelasan": "Batas maksimal user yang bisa pakai sistem bersamaan tanpa turun performa"
                     }
                 }
             }
         ]
     },
     "B": {
-        nama: "Protokol dan Jaringan Komunikasi",
-        maksPoinParameter: 327,
-        kriteriaUnjukKerja: [
+        "nama": "Protokol dan Jaringan Komunikasi",
+        "maksPoinParameter": 327,
+        "kriteriaUnjukKerja": [
             {
-                nama: "100% menggunakan perangkat berbasis protokol komunikasi standar terbuka",
-                maksPoinKUK: 30,
-                penjelasan: "Seluruh perangkat menggunakan protokol komunikasi standar terbuka",
-                indikator: {
+                "nama": "100% menggunakan perangkat berbasis protokol komunikasi standar terbuka",
+                "maksPoinKUK": 30,
+                "penjelasan": "Penggunaan protokol yang tersedia untuk umum memastikan integrasi perangkat berbagai vendor",
+                "indikator": {
                     "Implementasi protokol standar terbuka": {
-                        tipe: "checkbox",
-                        poin: 30,
-                        contohDokumentasi: "a. Snapshot konfigurasi, integrasi atau protokol pada sistem atau software b. Manual perangkat atau software c. Report sampling",
-                        penjelasan: "Semua perangkat harus menggunakan protokol komunikasi standar terbuka"
+                        "tipe": "checkbox",
+                        "poin": 30,
+                        "contohDokumentasi": "Protocol implementation document; interoperability test report; standards compliance",
+                        "penjelasan": "Penggunaan bahasa komunikasi universal antar perangkat berbeda merk"
                     }
                 }
             },
             {
-                nama: "100% perangkat jaringan menggunakan protokol komunikasi yang kompatibel dengan TCP/IP, seperti BACnet/IP, Modbus TCP, dan lainnya",
-                maksPoinKUK: 30,
-                penjelasan: "Kompatibilitas perangkat jaringan dengan TCP/IP",
-                indikator: {
+                "nama": "100% perangkat jaringan menggunakan protokol komunikasi yang kompatibel dengan TCP/IP, seperti BACnet/IP, Modbus TCP, dan lainnya",
+                "maksPoinKUK": 30,
+                "penjelasan": "Seluruh perangkat jaringan menggunakan protokol standar yang mendukung interoperabilitas",
+                "indikator": {
                     "Tingkat kompatibilitas dengan TCP/IP": {
-                        tipe: "checkbox",
-                        poin: 30,
-                        contohDokumentasi: "a. Snapshot konfigurasi, integrasi atau protokol pada sistem atau software b. Manual perangkat atau software c. Report sampling",
-                        penjelasan: "Semua perangkat jaringan harus kompatibel dengan protokol TCP/IP"
+                        "tipe": "checkbox",
+                        "poin": 30,
+                        "contohDokumentasi": "TCP/IP compliance test; network device certification; protocol analysis report",
+                        "penjelasan": "Kemampuan perangkat menggunakan bahasa internet standar untuk saling terhubung"
                     }
                 }
             },
             {
-                nama: "Setiap lapisan OSI dipastikan sudah optimal",
-                maksPoinKUK: 21,
-                penjelasan: "Optimasi semua lapisan OSI (Fisik, Data Link, Jaringan, Transport, Sesi, Presentasi, dan Aplikasi)",
-                indikator: {
+                "nama": "Setiap lapisan OSI dipastikan sudah optimal",
+                "maksPoinKUK": 21,
+                "penjelasan": "Setiap tingkat model OSI dikonfigurasi untuk komunikasi data yang efektif",
+                "indikator": {
                     "Waktu respons pengiriman/permintaan data": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 1 detik": 1,
                             "Tidak selalu, kadang-kadang ≤ 1 detik": 2,
                             "Selalu ≤ 1 detik": 3
                         },
-                        contohDokumentasi: "Laporan performa jaringan dan testing latency",
-                        penjelasan: "Waktu respons untuk pengiriman dan permintaan data"
+                        "contohDokumentasi": "Network latency measurement; response time monitoring; QoS performance data",
+                        "penjelasan": "Kecepatan kirim-terima data antara perangkat dalam jaringan"
                     },
                     "Tingkat kesalahan pengiriman frame data": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 99% keberhasilan": 1,
                             "≥ 99% keberhasilan": 3
                         },
-                        contohDokumentasi: "Laporan error rate dan monitoring jaringan",
-                        penjelasan: "Tingkat kesalahan dalam pengiriman frame data"
+                        "contohDokumentasi": "Frame error rate measurement; network quality report; error correction log",
+                        "penjelasan": "Persentase error dalam pengiriman paket data dasar di jaringan lokal"
                     },
                     "Tingkat keberhasilan pengiriman paket": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 99% keberhasilan": 1,
                             "≥ 99% keberhasilan": 3
                         },
-                        contohDokumentasi: "Laporan performa jaringan dan packet loss",
-                        penjelasan: "Tingkat keberhasilan dalam pengiriman paket data"
+                        "contohDokumentasi": "Packet delivery ratio; network reliability metrics; data transmission quality",
+                        "penjelasan": "Persentase berhasilnya kirim data sampai tujuan tanpa hilang"
                     },
                     "Tingkat keberhasilan koneksi TCP/UDP": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 99% keberhasilan": 1,
                             "≥ 99% keberhasilan": 3
                         },
-                        contohDokumentasi: "Laporan konektivitas dan monitoring jaringan",
-                        penjelasan: "Tingkat keberhasilan dalam membangun koneksi TCP/UDP"
+                        "contohDokumentasi": "Connection success rate; protocol performance analysis; network health check",
+                        "penjelasan": "Keberhasilan membuat koneksi stabil (TCP) atau cepat (UDP) antar perangkat"
                     },
                     "Tingkat keberhasilan pembentukan sesi": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 99% keberhasilan": 1,
                             "≥ 99% keberhasilan": 3
                         },
-                        contohDokumentasi: "Laporan sesi koneksi dan monitoring",
-                        penjelasan: "Tingkat keberhasilan dalam pembentukan sesi komunikasi"
+                        "contohDokumentasi": "Session establishment log; connection persistence test; application performance data",
+                        "penjelasan": "Kemampuan sistem mempertahankan koneksi aktif selama komunikasi berlangsung"
                     },
                     "Tingkat keberhasilan enkripsi-dekripsi data": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 99% keberhasilan": 1,
                             "≥ 99% keberhasilan": 3
                         },
-                        contohDokumentasi: "Laporan keamanan dan testing enkripsi",
-                        penjelasan: "Tingkat keberhasilan dalam proses enkripsi dan dekripsi data"
+                        "contohDokumentasi": "Encryption/decryption success rate; cryptographic operation log; security processor performance",
+                        "penjelasan": "Akurasi proses mengunci-buka kode data tanpa error"
                     },
                     "Waktu respons aplikasi": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 1 detik": 1,
                             "Tidak selalu, kadang-kadang ≤ 1 detik": 2,
                             "Selalu ≤ 1 detik": 3
                         },
-                        contohDokumentasi: "Laporan performa aplikasi dan testing respons",
-                        penjelasan: "Waktu respons aplikasi dalam menangani permintaan"
+                        "contohDokumentasi": "Application response time measurement; user experience metrics; performance monitoring",
+                        "penjelasan": "Kecepatan aplikasi merespons perintah user setelah diklik/ditekan"
                     }
                 }
             },
             {
-                nama: "100% sudah melakukan implementasi standar tertentu untuk pengelolaan jaringan kabel",
-                maksPoinKUK: 30,
-                penjelasan: "Implementasi standar pengelolaan jaringan kabel (Standar Kabel, Desain dan Topologi Jaringan, Switch dan Router, Langkah Keamanan, Pemantauan dan Manajemen Perangkat, Kualitas Layanan/QoS, Kepatuhan Regulasi)",
-                indikator: {
+                "nama": "100% sudah melakukan implementasi standar tertentu untuk pengelolaan jaringan kabel",
+                "maksPoinKUK": 30,
+                "penjelasan": "Penerapan tata kelola kabel yang teratur dan terdokumentasi",
+                "indikator": {
                     "Implementasi standar pengelolaan jaringan kabel": {
-                        tipe: "checkbox",
-                        poin: 30,
-                        contohDokumentasi: "Dokumentasi standar jaringan kabel dan implementasi",
-                        penjelasan: "Tingkat implementasi standar pengelolaan jaringan kabel"
+                        "tipe": "checkbox",
+                        "poin": 30,
+                        "contohDokumentasi": "Cable management standard; rack layout diagram; installation compliance report",
+                        "penjelasan": "Penerapan aturan penataan kabel yang rapi dan terorganisir"
                     }
                 }
             },
             {
-                nama: "Sudah melakukan implementasi pelabelan infrastruktur kabel dan peralatan sesuai standar konvensi penamaan",
-                maksPoinKUK: 30,
-                penjelasan: "Pelabelan infrastruktur kabel dan peralatan (lokasi, jenis perangkat, nomor urut, fungsi) dengan warna berbeda untuk beberapa kategori",
-                indikator: {
+                "nama": "Sudah melakukan implementasi pelabelan infrastruktur kabel dan peralatan sesuai standar konvensi penamaan",
+                "maksPoinKUK": 30,
+                "penjelasan": "Pemberian label yang jelas dan terstruktur pada semua komponen jaringan",
+                "indikator": {
                     "Tingkat implementasi pelabelan": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak ada standar pelabelan dan warna yang diterapkan": 0,
                             "Kurang dari 100% infrastruktur diberi label dan warna sesuai standar": 10,
                             "100% infrastruktur diberi label dan warna sesuai standar": 30
                         },
-                        contohDokumentasi: "Dokumentasi standar pelabelan dan foto implementasi",
-                        penjelasan: "Tingkat implementasi sistem pelabelan infrastruktur"
+                        "contohDokumentasi": "Labeling compliance check; asset identification audit; maintenance documentation",
+                        "penjelasan": "Kelengkapan pemberian label pada kabel dan perangkat untuk memudahkan identifikasi"
                     }
                 }
             },
             {
-                nama: "100% sudah melakukan implementasi standar tertentu untuk pengelolaan jaringan nirkabel (jika ada)",
-                maksPoinKUK: 30,
-                penjelasan: "Implementasi standar pengelolaan jaringan nirkabel (Wi-Fi, WiMAX, Zigbee, Bluetooth, Jaringan Otomasi Rumah, Komunikasi RF, Langkah Keamanan, Desain dan Topologi Jaringan, Pemantauan dan Manajemen, QoS, Kepatuhan Regulasi)",
-                indikator: {
+                "nama": "100% sudah melakukan implementasi standar tertentu untuk pengelolaan jaringan nirkabel (jika ada)",
+                "maksPoinKUK": 30,
+                "penjelasan": "Pengaturan jaringan nirkabel yang optimal mencakup keamanan dan kinerja",
+                "indikator": {
                     "Implementasi standar pengelolaan jaringan nirkabel": {
-                        tipe: "checkbox",
-                        poin: 30,
-                        contohDokumentasi: "Dokumentasi standar jaringan nirkabel dan implementasi",
-                        penjelasan: "Tingkat implementasi standar pengelolaan jaringan nirkabel"
+                        "tipe": "checkbox",
+                        "poin": 30,
+                        "contohDokumentasi": "Wireless policy implementation; WLAN configuration; security compliance report",
+                        "penjelasan": "Penerapan aturan pengaturan WiFi yang aman dan optimal"
                     }
                 }
             },
             {
-                nama: "Sudah menerapkan pendekatan umum dalam pelabelan infrastruktur peralatan dan titik akses nirkabel",
-                maksPoinKUK: 27,
-                penjelasan: "Pelabelan frekuensi jaringan nirkabel, pelabelan perangkat jaringan nirkabel, penggunaan warna pada antarmuka pengguna jaringan",
-                indikator: {
+                "nama": "Sudah menerapkan pendekatan umum dalam pelabelan infrastruktur peralatan dan titik akses nirkabel",
+                "maksPoinKUK": 27,
+                "penjelasan": "Pemberian label pada perangkat nirkabel berdasarkan frekuensi lokasi dan fungsi",
+                "indikator": {
                     "Tingkat penerapan pendekatan pelabelan": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak ada pendekatan yang diterapkan": 0,
                             "Kurang dari 100% pendekatan umum diterapkan": 9,
                             "100% pendekatan umum diterapkan": 27
                         },
-                        contohDokumentasi: "Dokumentasi standar pelabelan nirkabel dan implementasi",
-                        penjelasan: "Tingkat penerapan pendekatan pelabelan infrastruktur nirkabel"
+                        "contohDokumentasi": "SSID naming convention; device labeling standard; network documentation",
+                        "penjelasan": "Konsistensi penamaan perangkat nirkabel dan jaringan WiFi"
                     }
                 }
             },
             {
-                nama: "Jika digunakan, teknologi 5G dapat menjalankan fitur utama yang ada pada standar 3GPP release 17 atau lebih baru",
-                maksPoinKUK: 24,
-                penjelasan: "Implementasi teknologi 5G dengan fitur Ultra-Reliable Low Latency Communications (URLLC) dan Radio Access Network (RAN) Slicing",
-                indikator: {
+                "nama": "Jika digunakan, teknologi 5G dapat menjalankan fitur utama yang ada pada standar 3GPP release 17 atau lebih baru",
+                "maksPoinKUK": 24,
+                "penjelasan": "Implementasi jaringan 5G dengan fitur canggih seperti latency rendah dan network slicing",
+                "indikator": {
                     "Latensi end-to-end": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 1 ms": 4,
                             "Tidak selalu, kadang-kadang ≤ 1 ms": 8,
                             "Selalu ≤ 1 ms": 12
                         },
-                        contohDokumentasi: "Laporan performa jaringan 5G dan testing latency",
-                        penjelasan: "Latensi end-to-end pada jaringan 5G"
+                        "contohDokumentasi": "End-to-end latency measurement; network performance test; application response analysis",
+                        "penjelasan": "Total waktu kirim data dari sumber sampai penerima termasuk semua proses di jalan"
                     },
                     "Network slice throughput": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu kurang dari 50 Mbps per user": 4,
                             "Tidak selalu, kadang-kadang ≥ 50 Mbps per user": 8,
                             "Selalu ≥ 50 Mbps per user": 12
                         },
-                        contohDokumentasi: "Laporan throughput jaringan 5G dan testing performa",
-                        penjelasan: "Throughput yang dicapai pada network slicing 5G"
+                        "contohDokumentasi": "Network slicing performance test; throughput measurement; QoS validation report",
+                        "penjelasan": "Kapasitas kirim data untuk jenis layanan tertentu (video, voice, data) di jaringan 5G"
                     }
                 }
             },
             {
-                nama: "Mengevaluasi penggunaan port dan layanan pada perangkat berbasis IP",
-                maksPoinKUK: 33,
-                penjelasan: "Evaluasi dan penonaktifan port dan layanan tidak aman pada perangkat IP",
-                indikator: {
+                "nama": "Mengevaluasi penggunaan port dan layanan pada perangkat berbasis IP",
+                "maksPoinKUK": 33,
+                "penjelasan": "Pemeriksaan berkala terhadap port jaringan dan layanan yang aktif",
+                "indikator": {
                     "Persentase port dan layanan tidak aman yang dinonaktifkan": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak ada penonaktifan port dan layanan tidak aman": 0,
                             "Kurang dari 100% port dan layanan tidak aman dinonaktifkan": 11,
                             "100% port dan layanan tidak aman dinonaktifkan": 33
                         },
-                        contohDokumentasi: "Laporan audit keamanan dan konfigurasi perangkat",
-                        penjelasan: "Tingkat penonaktifan port dan layanan yang tidak aman"
+                        "contohDokumentasi": "Port security audit; service hardening report; vulnerability assessment",
+                        "penjelasan": "Banyaknya celah keamanan yang ditutup dengan mematikan port/layanan tidak perlu"
                     }
                 }
             },
             {
-                nama: "Koneksi kabel di rak server telah menggunakan patch panel. Koneksi perangkat berbasis IP telah menggunakan modular jack female",
-                maksPoinKUK: 24,
-                penjelasan: "Penggunaan patch panel untuk koneksi kabel di rak server dan modular jack female untuk perangkat IP",
-                indikator: {
+                "nama": "Koneksi kabel di rak server telah menggunakan patch panel. Koneksi perangkat berbasis IP telah menggunakan modular jack female",
+                "maksPoinKUK": 24,
+                "penjelasan": "Penerapan sistem koneksi yang terorganisir untuk kabel jaringan",
+                "indikator": {
                     "Persentase penggunaan patch panel untuk koneksi kabel di rak server": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak ada penggunaan patch panel": 0,
                             "Kurang dari 100% penggunaan": 4,
                             "100% penggunaan": 12
                         },
-                        contohDokumentasi: "Dokumentasi infrastruktur dan foto implementasi",
-                        penjelasan: "Tingkat penggunaan patch panel untuk koneksi kabel server"
+                        "contohDokumentasi": "Rack layout documentation; patch panel installation; cable management photos",
+                        "penjelasan": "Seberapa rapi kabel di rak server diatur menggunakan panel khusus"
                     },
                     "Persentase penggunaan modular jack female untuk koneksi perangkat berbasis IP": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak ada penggunaan modular jack female": 0,
                             "Kurang dari 100% penggunaan": 4,
                             "100% penggunaan": 12
                         },
-                        contohDokumentasi: "Dokumentasi infrastruktur dan foto implementasi",
-                        penjelasan: "Tingkat penggunaan modular jack female untuk koneksi perangkat IP"
+                        "contohDokumentasi": "Jack installation report; connectivity standard compliance; network outlet documentation",
+                        "penjelasan": "Penggunaan stop kontak jaringan standar untuk kemudahan pemasangan"
                     }
                 }
             },
             {
-                nama: "Koneksi perangkat berbasis jaringan IP telah menggunakan kabel patch cord",
-                maksPoinKUK: 30,
-                penjelasan: "Penggunaan kabel patch cord untuk koneksi perangkat jaringan IP",
-                indikator: {
+                "nama": "Koneksi perangkat berbasis jaringan IP telah menggunakan kabel patch cord",
+                "maksPoinKUK": 30,
+                "penjelasan": "Pemanfaatan kabel jaringan standar untuk menghubungkan perangkat IP",
+                "indikator": {
                     "Persentase penggunaan kabel patch cord": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak ada penggunaan kabel patch cord": 0,
                             "Kurang dari 100% penggunaan": 10,
                             "100% penggunaan": 30
                         },
-                        contohDokumentasi: "Dokumentasi infrastruktur dan foto implementasi",
-                        penjelasan: "Tingkat penggunaan kabel patch cord untuk koneksi perangkat jaringan IP"
+                        "contohDokumentasi": "Patch cord inventory; cable specification compliance; installation documentation",
+                        "penjelasan": "Penggunaan kabel jaringan pendek standar untuk hubungkan perangkat"
                     }
                 }
             },
             {
-                nama: "Sistem dapat mengelola QoS dengan baik",
-                maksPoinKUK: 18,
-                penjelasan: "Manajemen Quality of Service (bandwidth utilization, latency, packet loss, jitter, prioritization, resource allocation)",
-                indikator: {
+                "nama": "Sistem dapat mengelola QoS dengan baik",
+                "maksPoinKUK": 18,
+                "penjelasan": "Pengaturan prioritas lalu lintas data untuk menjamin kinerja optimal aplikasi kritikal",
+                "indikator": {
                     "Tingkat penggunaan bandwidth": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 70-85% penggunaan bandwidth": 1,
                             "70-85% penggunaan bandwidth": 3
                         },
-                        contohDokumentasi: "Laporan utilisasi bandwidth dan monitoring jaringan",
-                        penjelasan: "Tingkat utilisasi bandwidth yang optimal"
+                        "contohDokumentasi": "Bandwidth utilization report; network capacity analysis; traffic monitoring data",
+                        "penjelasan": "Seberapa penuh kapasitas jaringan digunakan pada kondisi normal"
                     },
                     "Waktu respons pengiriman/permintaan paket data": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 100 ms": 1,
                             "Tidak selalu, kadang-kadang ≤ 100 ms latensi": 2,
                             "Selalu ≤ 100 ms latensi": 3
                         },
-                        contohDokumentasi: "Laporan latency jaringan dan testing performa",
-                        penjelasan: "Waktu respons untuk pengiriman paket data"
+                        "contohDokumentasi": "Packet round-trip time; network latency measurement; application performance",
+                        "penjelasan": "Kecepatan proses request-response antara client dan server"
                     },
                     "Tingkat kehilangan paket data": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari ≤ 1% kehilangan": 1,
                             "≤ 1% kehilangan": 3
                         },
-                        contohDokumentasi: "Laporan packet loss dan monitoring jaringan",
-                        penjelasan: "Tingkat kehilangan paket data dalam jaringan"
+                        "contohDokumentasi": "Packet loss measurement; network quality report; error rate analysis",
+                        "penjelasan": "Persentase data yang hilang di jalan saat dikirim melalui jaringan"
                     },
                     "Variasi waktu rata-rata pengiriman paket data": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 30 ms": 1,
                             "Tidak selalu, kadang-kadang ≤ 30 ms variasi": 2,
                             "Selalu ≤ 30 ms variasi": 3
                         },
-                        contohDokumentasi: "Laporan jitter jaringan dan testing performa",
-                        penjelasan: "Variasi waktu dalam pengiriman paket data (jitter)"
+                        "contohDokumentasi": "Jitter measurement report; network stability analysis; QoS performance",
+                        "penjelasan": "Ketidakstabilan waktu kirim data yang menyebabkan video/audio tersendat"
                     },
                     "Tingkat keberhasilan prioritasi data dengan prioritas tinggi": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 100% keberhasilan": 1,
                             "100% keberhasilan": 3
                         },
-                        contohDokumentasi: "Laporan QoS dan testing prioritasi data",
-                        penjelasan: "Tingkat keberhasilan dalam memprioritaskan data penting"
+                        "contohDokumentasi": "QoS policy effectiveness; traffic prioritization test; application performance under load",
+                        "penjelasan": "Keberhasilan sistem memberi prioritas data penting (video call) daripada data biasa (email)"
                     },
                     "Tingkat efisiensi alokasi sumber daya jaringan": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari ≥ 95% efisiensi": 1,
                             "≥ 95% efisiensi": 3
                         },
-                        contohDokumentasi: "Laporan utilisasi sumber daya dan efisiensi jaringan",
-                        penjelasan: "Tingkat efisiensi dalam mengalokasikan sumber daya jaringan"
+                        "contohDokumentasi": "Resource allocation report; network optimization analysis; capacity planning",
+                        "penjelasan": "Optimalisasi pembagian bandwidth dan resource jaringan ke berbagai kebutuhan"
                     }
                 }
             }
         ]
     },
     "C": {
-        nama: "Integrasi Data dan Sistem",
-        maksPoinParameter: 231,
-        kriteriaUnjukKerja: [
+        "nama": "Integrasi Data dan Sistem",
+        "maksPoinParameter": 231,
+        "kriteriaUnjukKerja": [
             {
-                nama: "Keberjalanan sistem cerdas harus dapat dimonitor di Building Management System (BMS) dan mendukung interoperabilitas data dengan BMS",
-                maksPoinKUK: 45,
-                penjelasan: "Pemantauan sistem melalui BMS dan interoperabilitas data",
-                indikator: {
+                "nama": "Keberjalanan sistem cerdas harus dapat dimonitor di Building Management System (BMS) dan mendukung interoperabilitas data dengan BMS",
+                "maksPoinKUK": 45,
+                "penjelasan": "Seluruh sistem cerdas dapat dipantau dan dikendalikan secara terpusat melalui BMS",
+                "indikator": {
                     "Frekuensi sinkronisasi data dengan BMS": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 60 detik": 5,
                             "Tidak selalu, kadang-kadang realtime atau setiap ≤ 60 detik": 10,
                             "Selalu realtime atau setiap ≤ 60 detik": 15
                         },
-                        contohDokumentasi: "Laporan sinkronisasi data dan konfigurasi BMS",
-                        penjelasan: "Frekuensi sinkronisasi data antara sistem dan BMS"
+                        "contohDokumentasi": "BMS sync schedule; data integration log; synchronization audit",
+                        "penjelasan": "Seberapa sering data dari sistem lain disamakan dengan sistem manajemen gedung pusat"
                     },
                     "100% kelengkapan monitoring data di BMS": {
-                        tipe: "checkbox",
-                        poin: 15,
-                        contohDokumentasi: "Dokumentasi antarmuka BMS dan laporan monitoring",
-                        penjelasan: "Kelengkapan data yang dimonitor melalui BMS"
+                        "tipe": "checkbox",
+                        "poin": 15,
+                        "contohDokumentasi": "BMS monitoring dashboard; sensor data completeness check; system integration report",
+                        "penjelasan": "Semua parameter gedung (suhu, energi, keamanan) bisa dipantau dari satu dashboard"
                     },
                     "100% kompatibilitas dengan standar dan format data yang diterima BMS": {
-                        tipe: "checkbox",
-                        poin: 15,
-                        contohDokumentasi: "Dokumentasi standar data dan format yang digunakan",
-                        penjelasan: "Tingkat kompatibilitas data dengan standar dan format BMS"
+                        "tipe": "checkbox",
+                        "poin": 15,
+                        "contohDokumentasi": "Data format compliance; protocol conversion documentation; integration interface spec",
+                        "penjelasan": "Kemampuan semua sistem menggunakan 'bahasa' yang dimengerti sistem pusat manajemen gedung"
                     }
                 }
             },
             {
-                nama: "Akuisisi data waktu nyata pada level fisik",
-                maksPoinKUK: 39,
-                penjelasan: "Akuisisi data real-time dari sensor atau perangkat fisik",
-                indikator: {
+                "nama": "Akuisisi data waktu nyata pada level fisik",
+                "maksPoinKUK": 39,
+                "penjelasan": "Pengumpulan data langsung dari sensor dan perangkat fisik untuk pemantauan real-time",
+                "indikator": {
                     "Waktu yang dibutuhkan untuk menangkap data dari sensor atau perangkat fisik": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 1 detik": 13,
                             "Tidak selalu, kadang-kadang ≤ 1 detik": 26,
                             "Selalu ≤ 1 detik": 39
                         },
-                        contohDokumentasi: "Laporan performa sistem dan testing akuisisi data",
-                        penjelasan: "Waktu respons sistem dalam mengakuisisi data dari perangkat fisik"
+                        "contohDokumentasi": "Sensor response time; data acquisition latency; real-time performance test",
+                        "penjelasan": "Kecepatan sensor membaca kondisi nyata (suhu, gerakan) dan mengirim ke sistem"
                     }
                 }
             },
             {
-                nama: "Data yang digunakan dan dihasilkan oleh berbagai komponen dalam sistem dapat dipastikan tetap utuh, akurat, dan tidak ada konflik ketika dipertukarkan atau diakses di seluruh sistem",
-                maksPoinKUK: 36,
-                penjelasan: "Integritas dan konsistensi data across systems",
-                indikator: {
+                "nama": "Data yang digunakan dan dihasilkan oleh berbagai komponen dalam sistem dapat dipastikan tetap utuh, akurat, dan tidak ada konflik ketika dipertukarkan atau diakses di seluruh sistem",
+                "maksPoinKUK": 36,
+                "penjelasan": "Data dari berbagai sistem tetap konsisten dan akurat saat dipertukarkan",
+                "indikator": {
                     "100% konsistensi data yang dipertukarkan atau diakses di seluruh sistem": {
-                        tipe: "checkbox",
-                        poin: 18,
-                        contohDokumentasi: "Laporan konsistensi data dan audit integritas",
-                        penjelasan: "Tingkat konsistensi data across systems"
+                        "tipe": "checkbox",
+                        "poin": 18,
+                        "contohDokumentasi": "Data consistency audit; synchronization validation; cross-system data verification",
+                        "penjelasan": "Kepastian data sama di semua sistem, tidak berbeda-beda versinya"
                     },
                     "100% kepatuhan terhadap standar data dan format yang disepakati": {
-                        tipe: "checkbox",
-                        poin: 18,
-                        contohDokumentasi: "Dokumentasi standar data dan format yang digunakan",
-                        penjelasan: "Tingkat kepatuhan terhadap standar data dan format"
+                        "tipe": "checkbox",
+                        "poin": 18,
+                        "contohDokumentasi": "Data standard compliance; format validation report; interoperability certification",
+                        "penjelasan": "Ketaatan semua sistem menggunakan format data yang sudah disepakati bersama"
                     }
                 }
             },
             {
-                nama: "Sistem secara cepat memproses dan merespons data yang diperoleh dari sensor, perangkat, atau pengguna dan melakukan tindakan tertentu secara otomatis",
-                maksPoinKUK: 39,
-                penjelasan: "Pemrosesan data cepat dan eksekusi otomatis",
-                indikator: {
+                "nama": "Sistem secara cepat memproses dan merespons data yang diperoleh dari sensor, perangkat, atau pengguna dan melakukan tindakan tertentu secara otomatis",
+                "maksPoinKUK": 39,
+                "penjelasan": "Sistem secara otomatis menganalisis data sensor dan mengambil tindakan diperlukan",
+                "indikator": {
                     "Waktu yang dibutuhkan untuk melakukan pemrosesan data dan eksekusi tindakan otomatis": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 10 detik": 13,
                             "Tidak selalu, kadang-kadang ≤ 10 detik": 26,
                             "Selalu ≤ 10 detik": 39
                         },
-                        contohDokumentasi: "Laporan performa sistem dan testing respons",
-                        penjelasan: "Waktu yang dibutuhkan untuk memproses data dan mengeksekusi tindakan otomatis"
+                        "contohDokumentasi": "Automation response time; decision latency measurement; control system performance",
+                        "penjelasan": "Kecepatan sistem menganalisa data sensor dan menjalankan perintah otomatis"
                     }
                 }
             },
             {
-                nama: "Memiliki katalog data terpusat yang memudahkan dalam pencarian dan penggunaan data",
-                maksPoinKUK: 39,
-                penjelasan: "Katalog data terpusat untuk kemudahan akses dan penggunaan",
-                indikator: {
+                "nama": "Memiliki katalog data terpusat yang memudahkan dalam pencarian dan penggunaan data",
+                "maksPoinKUK": 39,
+                "penjelasan": "Pusat penyimpanan metadata yang memudahkan pencarian dan penggunaan data",
+                "indikator": {
                     "Persentase data yang masuk ke dalam katalog data dari semua sumber data yang tersedia": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak ada data yang masuk katalog data": 0,
                             "Kurang dari 100% data terkatalogkan": 13,
                             "100% data terkatalogkan": 39
                         },
-                        contohDokumentasi: "Dokumentasi katalog data dan laporan cakupan",
-                        penjelasan: "Tingkat kelengkapan katalog data terhadap semua sumber data"
+                        "contohDokumentasi": "Data catalog coverage; metadata completeness; data governance report",
+                        "penjelasan": "Kelengkapan inventaris data yang tercatat di 'katalog pusat' untuk memudahkan pencarian"
                     }
                 }
             },
             {
-                nama: "Standar terbuka telah diadopsi untuk memastikan interoperabilitas data dengan sistem lain",
-                maksPoinKUK: 33,
-                penjelasan: "Adopsi standar terbuka untuk interoperabilitas data",
-                indikator: {
+                "nama": "Standar terbuka telah diadopsi untuk memastikan interoperabilitas data dengan sistem lain",
+                "maksPoinKUK": 33,
+                "penjelasan": "Penerapan standar teknis yang umum digunakan untuk interoperabilitas",
+                "indikator": {
                     "Tingkat kepatuhan terhadap standar terbuka": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak ada kepatuhan": 0,
                             "Kurang dari 100% kepatuhan": 11,
                             "100% kepatuhan": 33
                         },
-                        contohDokumentasi: "Dokumentasi standar data dan laporan compliance",
-                        penjelasan: "Tingkat kepatuhan terhadap standar terbuka untuk interoperabilitas"
+                        "contohDokumentasi": "Open standards compliance; interoperability test; vendor neutrality assessment",
+                        "penjelasan": "Ketaatan menggunakan teknologi yang bisa bekerja dengan sistem lain tanpa batasan vendor"
                     }
                 }
             }
         ]
     },
     "D": {
-        nama: "Manajemen Operasi",
-        maksPoinParameter: 114,
-        kriteriaUnjukKerja: [
+        "nama": "Manajemen Operasi",
+        "maksPoinParameter": 114,
+        "kriteriaUnjukKerja": [
             {
-                nama: "Perencanaan pengelolaan sistem cerdas telah dilakukan",
-                maksPoinKUK: 30,
-                penjelasan: "Perencanaan pengelolaan sistem cerdas",
-                indikator: {
+                "nama": "Perencanaan pengelolaan sistem cerdas telah dilakukan",
+                "maksPoinKUK": 30,
+                "penjelasan": "Penyusunan kebijakan prosedur dan pembagian tanggung jawab untuk pengelolaan sistem",
+                "indikator": {
                     "Tersedia kebijakan yang telah disusun sebagai landasan pengelolaan sistem cerdas": {
-                        tipe: "checkbox",
-                        poin: 12,
-                        contohDokumentasi: "a. Snapshot konfigurasi, integrasi atau protokol pada sistem atau software b. Manual perangkat atau software c. Report sampling",
-                        penjelasan: "Ketersediaan kebijakan pengelolaan sistem cerdas"
+                        "tipe": "checkbox",
+                        "poin": 12,
+                        "contohDokumentasi": "Smart building policy document; governance framework; management directive",
+                        "penjelasan": "Keberadaan dokumen aturan resmi untuk mengelola sistem cerdas gedung"
                     },
                     "Tersedia rincian tugas dan tanggung jawab spesifik yang telah disusun sebagai landasan pengelolaan sistem cerdas": {
-                        tipe: "checkbox",
-                        poin: 9,
-                        contohDokumentasi: "a. Snapshot konfigurasi, integrasi atau protokol pada sistem atau software b. Manual perangkat atau software c. Report sampling",
-                        penjelasan: "Ketersediaan rincian tugas dan tanggung jawab pengelolaan sistem"
+                        "tipe": "checkbox",
+                        "poin": 9,
+                        "contohDokumentasi": "RACI matrix; job description; responsibility assignment",
+                        "penjelasan": "Keberadaan dokumen pembagian tugas jelas untuk tim pengelola sistem"
                     },
                     "Tersedia prosedur yang telah disusun untuk operasional sistem cerdas": {
-                        tipe: "checkbox",
-                        poin: 9,
-                        contohDokumentasi: "a. Snapshot konfigurasi, integrasi atau protokol pada sistem atau software b. Manual perangkat atau software c. Report sampling",
-                        penjelasan: "Ketersediaan prosedur operasional sistem cerdas"
+                        "tipe": "checkbox",
+                        "poin": 9,
+                        "contohDokumentasi": "SOP documentation; operational procedure manual; work instruction",
+                        "penjelasan": "Keberadaan dokumen panduan langkah-demi-langkah operasi sistem"
                     }
                 }
             },
             {
-                nama: "Pengorganisasian pengelolaan sistem cerdas telah dilakukan",
-                maksPoinKUK: 30,
-                penjelasan: "Pengorganisasian pengelolaan sistem cerdas",
-                indikator: {
+                "nama": "Pengorganisasian pengelolaan sistem cerdas telah dilakukan",
+                "maksPoinKUK": 30,
+                "penjelasan": "Penempatan personel dengan kompetensi yang sesuai pada setiap peran",
+                "indikator": {
                     "Persentase pemenuhan posisi/roles yang diperlukan untuk pengelolaan sistem cerdas": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak terpenuhi": 0,
                             "Kurang dari 100% pemenuhan": 5,
                             "100% pemenuhan": 15
                         },
-                        contohDokumentasi: "Struktur organisasi dan dokumentasi roles & responsibilities",
-                        penjelasan: "Tingkat pemenuhan posisi yang diperlukan untuk pengelolaan sistem"
+                        "contohDokumentasi": "Staffing adequacy report; role fulfillment analysis; organizational structure",
+                        "penjelasan": "Kelengkapan staff pengelola sesuai kebutuhan (admin, operator, maintenance)"
                     },
                     "Persentase pengelola sistem cerdas dengan kompetensi yang memenuhi sertifikasi, kualifikasi, atau pengalaman kerja yang dibutuhkan": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak terpenuhi": 0,
                             "Kurang dari 100% pemenuhan": 5,
                             "100% pemenuhan": 15
                         },
-                        contohDokumentasi: "Dokumentasi kualifikasi dan sertifikasi staf",
-                        penjelasan: "Tingkat kompetensi pengelola sistem cerdas"
+                        "contohDokumentasi": "Competency matrix; certification record; training completion report",
+                        "penjelasan": "Kesesuaian keahlian staff dengan kebutuhan teknis sistem"
                     }
                 }
             },
             {
-                nama: "Keberjalanan pelatihan dan simulasi insiden terkait pengelolaan sistem cerdas",
-                maksPoinKUK: 27,
-                penjelasan: "Pelatihan dan simulasi insiden untuk pengelolaan sistem",
-                indikator: {
+                "nama": "Keberjalanan pelatihan dan simulasi insiden terkait pengelolaan sistem cerdas",
+                "maksPoinKUK": 27,
+                "penjelasan": "Penyelenggaraan pelatihan berkala dan simulasi penanganan insiden",
+                "indikator": {
                     "Frekuensi pelatihan dan simulasi insiden": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 6 bulan sekali": 9,
                             "Tidak selalu, kadang-kadang 6 bulan sekali": 18,
                             "Selalu 6 bulan sekali": 27
                         },
-                        contohDokumentasi: "Jadwal dan laporan pelatihan serta simulasi",
-                        penjelasan: "Frekuensi pelaksanaan pelatihan dan simulasi insiden"
+                        "contohDokumentasi": "Training schedule; drill frequency; emergency exercise log",
+                        "penjelasan": "Seberapa sering staff dilatih dan simulasi menghadapi masalah darurat"
                     }
                 }
             },
             {
-                nama: "Pengawasan pengelolaan sistem cerdas telah dilakukan untuk memastikan keberjalanan",
-                maksPoinKUK: 27,
-                penjelasan: "Pengawasan pengelolaan sistem (dokumentasi/laporan, audit kinerja dan kepatuhan, pemeliharaan sistem, pelaporan, respons, dan mitigasi insiden)",
-                indikator: {
+                "nama": "Pengawasan pengelolaan sistem cerdas telah dilakukan untuk memastikan keberjalanan",
+                "maksPoinKUK": 27,
+                "penjelasan": "Pemantauan berkelanjutan terhadap dokumentasi audit kinerja dan pemeliharaan",
+                "indikator": {
                     "Frekuensi audit kinerja dan kepatuhan": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu kurang dari 1 kali per 3 bulan": 9,
                             "Tidak selalu, kadang-kadang 1 kali per 3 bulan": 18,
                             "Sekurang-kurangnya 1 kali per 3 bulan": 27
                         },
-                        contohDokumentasi: "Jadwal dan laporan audit kinerja serta kepatuhan",
-                        penjelasan: "Frekuensi pelaksanaan audit kinerja dan kepatuhan"
+                        "contohDokumentasi": "Audit calendar; compliance check schedule; performance review frequency",
+                        "penjelasan": "Seberapa sering dilakukan pemeriksaan kinerja sistem dan ketaatan aturan"
                     }
                 }
             }
         ]
     },
     "E": {
-        nama: "Dampak",
-        maksPoinParameter: 96,
-        kriteriaUnjukKerja: [
+        "nama": "Dampak",
+        "maksPoinParameter": 96,
+        "kriteriaUnjukKerja": [
             {
-                nama: "Penurunan konsumsi energi yang dicapai melalui penggunaan sistem cerdas",
-                maksPoinKUK: 33,
-                penjelasan: "Penurunan konsumsi energi dibandingkan dengan baseline",
-                indikator: {
+                "nama": "Penurunan konsumsi energi yang dicapai melalui penggunaan sistem cerdas",
+                "maksPoinKUK": 33,
+                "penjelasan": "Pencapaian penghematan energi melalui optimisasi sistem terintegrasi",
+                "indikator": {
                     "Persentase penurunan konsumsi energi dalam satu tahun": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Kurang dari 10%": 11,
                             "10 - 25%": 22,
                             ">25%": 33
                         },
-                        contohDokumentasi: "a. Snapshot konfigurasi, integrasi atau protokol pada sistem atau software b. Manual perangkat atau software c. Report sampling",
-                        penjelasan: "Tingkat penurunan konsumsi energi setelah implementasi sistem cerdas"
+                        "contohDokumentasi": "Energy consumption report; savings calculation; utility bill comparison",
+                        "penjelasan": "Penghematan pemakaian listrik/tahun berkat sistem cerdas dibanding tahun sebelumnya"
                     }
                 }
             },
             {
-                nama: "Penurunan konsumsi air yang dicapai melalui penggunaan sistem cerdas",
-                maksPoinKUK: 33,
-                penjelasan: "Penurunan konsumsi air dibandingkan dengan baseline",
-                indikator: {
+                "nama": "Penurunan konsumsi air yang dicapai melalui penggunaan sistem cerdas",
+                "maksPoinKUK": 33,
+                "penjelasan": "Pengurangan penggunaan air melalui teknologi efisiensi dan pengelolaan yang lebih baik",
+                "indikator": {
                     "Persentase penurunan konsumsi air dalam satu tahun": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Kurang dari 5%": 11,
                             "5 - 10%": 22,
                             ">10%": 33
                         },
-                        contohDokumentasi: "a. Snapshot konfigurasi, integrasi atau protokol pada sistem atau software b. Manual perangkat atau software c. Report sampling",
-                        penjelasan: "Tingkat penurunan konsumsi air setelah implementasi sistem cerdas"
+                        "contohDokumentasi": "Water usage report; conservation metrics; consumption analysis",
+                        "penjelasan": "Penghematan pemakaian air/tahun berkat sistem pengelolaan air cerdas"
                     }
                 }
             },
             {
-                nama: "Kepuasan penghuni dengan adanya fitur otomatisasi sistem cerdas",
-                maksPoinKUK: 30,
-                penjelasan: "Tingkat kepuasan penghuni terhadap sistem cerdas (aman, sehat, nyaman, mudah)",
-                indikator: {
+                "nama": "Kepuasan penghuni dengan adanya fitur otomatisasi sistem cerdas",
+                "maksPoinKUK": 30,
+                "penjelasan": "Tingkat kepuasan pengguna terhadap fitur otomatisasi yang meningkatkan keamanan dan kenyamanan",
+                "indikator": {
                     "Persentase kepuasan penghuni berdasarkan hasil survei": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak ada survei kepuasan": 0,
                             "60 - 80% kepuasan": 10,
                             "> 80% kepuasan": 30
                         },
-                        contohDokumentasi: "a. Snapshot konfigurasi, integrasi atau protokol pada sistem atau software b. Manual perangkat atau software c. Report sampling",
-                        penjelasan: "Tingkat kepuasan penghuni terhadap sistem cerdas berdasarkan survei"
+                        "contohDokumentasi": "Occupant satisfaction survey; user feedback analysis; service quality report",
+                        "penjelasan": "Tingkat puas pengguna gedung terhadap fitur-fitur cerdas yang ada"
                     }
                 }
             }
         ]
     },
     "F": {
-        nama: "Kemampuan Sistem",
-        maksPoinParameter: 768,
-        kriteriaUnjukKerja: [
+        "nama": "Kemampuan Sistem",
+        "maksPoinParameter": 768,
+        "kriteriaUnjukKerja": [
             {
-                nama: "Sistem Alarm Kebencanaan dan Pemberitahuan Massal",
-                maksPoinKUK: 48,
-                penjelasan: "Sistem alarm untuk bencana dan pemberitahuan massal",
-                indikator: {
+                "nama": "Sistem Alarm Kebencanaan dan Pemberitahuan Massal",
+                "maksPoinKUK": 48,
+                "penjelasan": "Jaringan sensor dan notifikasi yang dapat mendeteksi bahaya secara dini",
+                "indikator": {
                     "Sensor mampu mendeteksi bencana secara cepat dan akurat sesuai kondisi lokasi bangunan": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 10 detik": 6,
                             "Tidak selalu, kadang-kadang ≤ 10 detik": 12,
                             "Selalu ≤ 10 detik": 18
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemeriksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu deteksi bencana oleh sensor"
+                        "contohDokumentasi": "Sensor calibration certificate; detection test report; emergency system validation",
+                        "penjelasan": "Kemampuan sensor mendeteksi bahaya (kebakaran, gempa) dengan tepat dan cepat"
                     },
                     "100% komponen utama sistem dapat dipantau status keberjalanannya secara jarak jauh": {
-                        tipe: "checkbox",
-                        poin: 15,
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemeriksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Pemantauan panel kontrol utama, sensor, alarm, pengeras suara, penyedia daya cadangan, tombol tekan manual"
+                        "tipe": "checkbox",
+                        "poin": 15,
+                        "contohDokumentasi": "Remote monitoring dashboard; system availability check; network connectivity test",
+                        "penjelasan": "Semua perangkat penting bisa dicek kondisi online dari mana saja"
                     },
                     "Akurasi denah lokasi deteksi alarm pada panel isyarat": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 99% akurasi": 5,
                             "≥ 99% akurasi": 15
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemeriksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Akurasi denah dan lokasi deteksi alarm pada panel isyarat canggih"
+                        "contohDokumentasi": "Alarm panel screenshot; location accuracy test; emergency response drill",
+                        "penjelasan": "Ketepatan penunjukan lokasi masalah di peta digital gedung"
                     }
                 }
             },
             {
-                nama: "Sistem Kamera Pengawas",
-                maksPoinKUK: 48,
-                penjelasan: "Sistem kamera pengawas dengan kemampuan perekaman dan monitoring",
-                indikator: {
+                "nama": "Sistem Kamera Pengawas",
+                "maksPoinKUK": 48,
+                "penjelasan": "Jaringan pengawasan dengan kemampuan rekaman terenkripsi dan deteksi objek",
+                "indikator": {
                     "Sistem kamera pengawas dapat melakukan perekaman menggunakan DVR/NVR dengan 100% data yang terenkripsi": {
-                        tipe: "checkbox",
-                        poin: 3,
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemeriksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Perekaman dengan DVR/NVR dan enkripsi data"
+                        "tipe": "checkbox",
+                        "poin": 3,
+                        "contohDokumentasi": "DVR/NVR configuration; encryption setup; recording verification",
+                        "penjelasan": "Kamera merekam dan menyimpan video dengan pengamanan data otomatis"
                     },
                     "Waktu rata-rata pengiriman paket video dari kamera ke pusat kontrol": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 5 detik": 1,
                             "Tidak selalu, kadang-kadang ≤ 5 detik": 2,
                             "Selalu ≤ 5 detik": 3
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemeriksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu pengiriman video untuk live streaming"
+                        "contohDokumentasi": "Video streaming latency; network performance; real-time monitoring test",
+                        "penjelasan": "Kecepatan kirim video live dari kamera ke ruang monitor"
                     },
                     "Resolusi dan kualitas video digital pada semua kamera pengawas": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Semua kurang dari 720p": 1,
                             "Tidak semua ≥ 720p": 2,
                             "Semua ≥ 720p": 3
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemeriksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Resolusi video semua kamera pengawas"
+                        "contohDokumentasi": "Video quality report; resolution verification; image clarity test",
+                        "penjelasan": "Tingkat kejernihan dan detail gambar semua kamera pengawas"
                     },
                     "Kecepatan respons interkom setelah pengguna menekan tombol atau memberikan perintah suara": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 2 detik": 1,
                             "Tidak selalu, kadang-kadang ≤ 2 detik": 2,
                             "Selalu ≤ 2 detik": 3
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemeriksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu respons sistem interkom"
+                        "contohDokumentasi": "Intercom response time test; voice communication quality; system performance",
+                        "penjelasan": "Waktu tunggu dari tekan tombol sampai ada respons suara"
                     },
                     "Persentase akurasi deteksi gerakan": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 50%": 1,
                             "≥ 50% akurasi": 3
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Akurasi deteksi gerakan oleh sistem"
+                        "contohDokumentasi": "Motion detection test report; accuracy measurement; false alarm analysis",
+                        "penjelasan": "Ketepatan sistem mendeteksi pergerakan orang/objek di area pantau"
                     },
                     "Persentase akurasi deteksi objek": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 50%": 1,
                             "≥ 50% akurasi": 3
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Akurasi deteksi objek oleh sistem"
+                        "contohDokumentasi": "Object detection validation; AI model accuracy; recognition performance",
+                        "penjelasan": "Ketepatan sistem mengenali jenis objek (orang, mobil, dll) dalam video"
                     },
                     "Persentase akurasi pelacakan": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 50%": 1,
                             "≥ 50% akurasi": 3
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Akurasi pelacakan objek oleh sistem"
+                        "contohDokumentasi": "Object tracking test; movement analysis; surveillance effectiveness",
+                        "penjelasan": "Ketepatan sistem mengikuti pergerakan objek bergerak dalam video"
                     },
                     "Persentase akurasi rekognisi": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 50%": 1,
                             "≥ 50% akurasi": 3
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Akurasi rekognisi oleh sistem"
+                        "contohDokumentasi": "Recognition accuracy report; biometric performance; identification test",
+                        "penjelasan": "Ketepatan sistem mengenali identitas spesifik (wajah, plat nomor)"
                     },
                     "Persentase akurasi masking": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 50%": 1,
                             "≥ 50% akurasi": 3
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Akurasi masking oleh sistem"
+                        "contohDokumentasi": "Privacy masking test; redaction accuracy; compliance with privacy policy",
+                        "penjelasan": "Ketepatan sistem menyensor area privat dalam video secara otomatis"
                     },
                     "Persentase akurasi perhitungan jumlah orang": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 50%": 1,
                             "≥ 50% akurasi": 3
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Akurasi perhitungan jumlah orang oleh sistem"
+                        "contohDokumentasi": "People counting validation; occupancy measurement; crowd analysis",
+                        "penjelasan": "Ketepatan sistem menghitung jumlah orang di area tertentu"
                     },
                     "Persentase perekaman otomatis berdasarkan pengaturan jadwal, event, atau rekaman berkesinambungan": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 99% terekam": 1,
                             "≥ 99% terekam": 3
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Tingkat keberhasilan perekaman otomatis"
+                        "contohDokumentasi": "Recording schedule configuration; event-based recording log; continuous recording audit",
+                        "penjelasan": "Kemampuan sistem merekam sesuai jadwal atau saat ada kejadian tertentu"
                     },
                     "Availabilitas sistem manajemen video terpusat": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 99% availability": 1,
                             "≥ 99% availability": 3
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Tingkat ketersediaan sistem manajemen video"
+                        "contohDokumentasi": "VMS availability report; uptime monitoring; system reliability",
+                        "penjelasan": "Persentase waktu sistem pusat pengelolaan video bisa diakses dan berfungsi"
                     },
                     "Persentase area publik yang terjangkau kamera": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 100% area": 1,
                             "100% area": 3
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Cakupan area yang terjangkau kamera"
+                        "contohDokumentasi": "Camera coverage map; blind spot analysis; surveillance area assessment",
+                        "penjelasan": "Cakupan wilayah umum yang bisa dipantau oleh kamera pengawas"
                     },
                     "Durasi penyimpanan video": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 30 hari": 1,
                             "≥ 30 hari": 3
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Lama waktu penyimpanan video"
+                        "contohDokumentasi": "Retention policy compliance; storage capacity planning; archive management",
+                        "penjelasan": "Lama waktu rekaman video disimpan sebelum dihapus otomatis"
                     },
                     "Persentase perangkat aktif jaringan yang mendukung PoE": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak ada perangkat yang mendukung PoE": 0,
                             "Kurang dari 90% perangkat": 1,
                             "≥ 90% perangkat": 3
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Tingkat dukungan Power over Ethernet pada perangkat aktif"
+                        "contohDokumentasi": "PoE-enabled AV equipment list; power requirement analysis; system design",
+                        "penjelasan": "Banyaknya perangkat AV (speaker, display) yang bisa powered via ethernet"
                     },
                     "Persentase perangkat pasif jaringan yang mendukung PoE": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak ada perangkat yang mendukung PoE": 0,
                             "Kurang dari 100% perangkat": 1,
                             "100% perangkat": 3
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Tingkat dukungan Power over Ethernet pada perangkat pasif termasuk kabel"
+                        "contohDokumentasi": "Network infrastructure for AV; PoE switch configuration; power delivery capacity",
+                        "penjelasan": "Banyaknya komponen pendukung AV network yang kompatibel PoE"
                     }
                 }
             },
             {
-                nama: "Sistem Kontrol Akses",
-                maksPoinKUK: 48,
-                penjelasan: "Sistem kontrol akses dengan berbagai fitur keamanan",
-                indikator: {
+                "nama": "Sistem Kontrol Akses",
+                "maksPoinKUK": 48,
+                "penjelasan": "Pengaturan akses masuk dengan fitur antipassback dan monitoring real-time",
+                "indikator": {
                     "Tingkat fluktuasi tegangan yang diterima perangkat periferal": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu melebihi ±5%": 2,
                             "Tidak selalu, kadang-kadang ±5%": 4,
                             "Selalu ±5%": 6
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemeriksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Stabilitas tegangan yang diterima perangkat periferal"
+                        "contohDokumentasi": "Power quality report; voltage stability measurement; electrical system check",
+                        "penjelasan": "Kestabilan daya listrik yang diterima perangkat tambahan"
                     },
                     "Persentase waktu aktif perangkat periferal": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 99,9%": 2,
                             "≥ 99,9%": 6
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Tingkat ketersediaan perangkat periferal"
+                        "contohDokumentasi": "Peripheral uptime report; device availability; maintenance record",
+                        "penjelasan": "Waktu operasional perangkat tambahan (printer, scanner) tanpa gangguan"
                     },
                     "Jumlah temuan pengguna yang melakukan passback/global passback": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Lebih dari 0 pengguna": 3,
                             "0 pengguna": 9
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Tingkat keberhasilan fitur antipassback"
+                        "contohDokumentasi": "Passback violation report; access control audit; security incident",
+                        "penjelasan": "Banyaknya pelanggaran aturan akses ganda tanpa keluar-masuk area"
                     },
                     "Jumlah kendala dalam pengaturan akses pengguna berdasarkan area, tanggal dan waktu": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Lebih dari 0 kendala": 3,
                             "0 kendala": 9
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Kemudahan pengaturan akses berdasarkan area, tanggal dan waktu"
+                        "contohDokumentasi": "Access configuration issue log; system troubleshooting; user management problem",
+                        "penjelasan": "Banyaknya masalah teknis dalam mengatur jadwal dan lokasi akses user"
                     },
                     "Tingkat ketersediaan fitur perhitungan penghuni di titik kumpul (mustering point) saat kondisi darurat": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 100% tersedia": 3,
                             "100% tersedia": 9
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Ketersediaan fitur perhitungan penghuni di titik kumpul darurat"
+                        "contohDokumentasi": "Mustering system test; emergency drill result; evacuation management",
+                        "penjelasan": "Kemampuan sistem menghitung orang di titik evakuasi saat darurat"
                     },
                     "Jumlah kendala dalam fitur penonaktifan kredensial akses secara otomatis saat akun tidak digunakan sama sekali": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Lebih dari 0 kendala": 3,
                             "0 kendala": 9
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Keandalan fitur penonaktifan kredensial otomatis"
+                        "contohDokumentasi": "Auto-disable feature test; credential management issue; system error log",
+                        "penjelasan": "Banyaknya masalah teknis dalam menonaktifkan kartu akses tidak aktif"
                     }
                 }
             },
             {
-                nama: "Sistem Digital Distribusi Video dan Papan Informasi",
-                maksPoinKUK: 48,
-                penjelasan: "Sistem distribusi video dan papan informasi digital",
-                indikator: {
+                "nama": "Sistem Digital Distribusi Video dan Papan Informasi",
+                "maksPoinKUK": 48,
+                "penjelasan": "Penyebaran konten multimedia dan informasi digital ke berbagai lokasi",
+                "indikator": {
                     "Kualitas visual video setelah kompresi berdasarkan skor PSNR atau SSIM": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 95% kesamaan": 2,
                             "≥ 95% kesamaan": 6
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemeriksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Kualitas video setelah proses kompresi"
+                        "contohDokumentasi": "Video compression analysis; quality metrics report; codec performance",
+                        "penjelasan": "Tingkat kejernihan video setelah diperkecil ukuran filenya"
                     },
                     "Kompatibilitas format file video": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 100% kompatibilitas": 2,
                             "100% kompatibilitas": 6
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Tingkat kompatibilitas format file video (MPA, MKV, AVI, dll)"
+                        "contohDokumentasi": "Supported format list; playback compatibility test; file format validation",
+                        "penjelasan": "Kemampuan sistem memutar berbagai jenis format video standar"
                     },
                     "Waktu latency pengiriman data multimedia dari sumber ke tujuan": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 0,1 detik": 2,
                             "Tidak selalu, kadang-kadang ≤ 0,1 detik": 4,
                             "Selalu ≤ 0,1 detik": 6
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu pengiriman data multimedia"
+                        "contohDokumentasi": "Streaming latency measurement; network delay; real-time performance",
+                        "penjelasan": "Keterlambatan kirim video/audio dari sumber ke pemirsa"
                     },
-                    // "Throughput pengiriman data multimedia": {
                     "Jumlah data yang berhasil dikirimkan dalam satuan waktu": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu kurang dari 5 Mbps": 2,
                             "Tidak selalu, kadang-kadang ≥ 5 Mbps": 4,
                             "Selalu ≥ 5 Mbps": 6
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Kecepatan pengiriman data multimedia"
+                        "contohDokumentasi": "Bandwidth measurement; data transfer rate; network capacity",
+                        "penjelasan": "Kapasitas kirim data multimedia per detik (throughput)"
                     },
                     "Tingkat keberhasilan event perekaman penjadwalan dan streaming on demand": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 100% keberhasilan": 4,
                             "100% keberhasilan": 12
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Keberhasilan penjadwalan dan streaming on demand"
+                        "contohDokumentasi": "Recording success rate; on-demand service reliability; event scheduling log",
+                        "penjelasan": "Keberhasilan sistem merekam dan menayangkan sesuai jadwal atau permintaan"
                     },
                     "Persentase perangkat aktif jaringan yang mendukung PoE": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak ada perangkat yang mendukung PoE": 0,
                             "Kurang dari 90% perangkat": 2,
                             "≥ 90% perangkat": 6
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Tingkat dukungan Power over Ethernet pada perangkat aktif"
+                        "contohDokumentasi": "PoE-enabled AV equipment list; power requirement analysis; system design",
+                        "penjelasan": "Banyaknya perangkat AV (speaker, display) yang bisa powered via ethernet"
                     },
                     "Persentase perangkat pasif jaringan yang mendukung PoE, termasuk kabel": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak ada perangkat yang mendukung PoE": 0,
                             "Kurang dari 100% perangkat": 2,
                             "100% perangkat": 6
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Tingkat dukungan Power over Ethernet pada perangkat pasif termasuk kabel"
+                        "contohDokumentasi": "PoE infrastructure audit; cable specification; connectivity standard",
+                        "penjelasan": "Banyaknya infrastruktur pendukung (kabel, port) yang mendukung daya lewat ethernet"
                     }
                 }
             },
             {
-                nama: "Sistem Audio Visual",
-                maksPoinKUK: 48,
-                penjelasan: "Sistem audio visual dengan kemampuan monitoring dan kontrol",
-                indikator: {
+                "nama": "Sistem Audio Visual",
+                "maksPoinKUK": 48,
+                "penjelasan": "Infrastruktur presentasi dan komunikasi yang dapat dikontrol terpusat",
+                "indikator": {
                     "Persentase komponen sistem audio visual yang dapat dipantau real-time dan dikontrol": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 100% komponen": 8,
                             "100% komponen": 24
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemeriksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Tingkat kemampuan pemantauan dan kontrol komponen audio visual"
+                        "contohDokumentasi": "AV system monitoring dashboard; device control interface; integration report",
+                        "penjelasan": "Kelengkapan pemantauan online perangkat sound system dan display"
                     },
                     "Persentase perangkat aktif jaringan yang mendukung PoE": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak ada perangkat yang mendukung PoE": 0,
                             "Kurang dari 90% perangkat": 4,
                             "≥ 90% perangkat": 12
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Tingkat dukungan Power over Ethernet pada perangkat aktif"
+                        "contohDokumentasi": "PoE-enabled AV equipment list; power requirement analysis; system design",
+                        "penjelasan": "Banyaknya perangkat AV (speaker, display) yang bisa powered via ethernet"
                     },
                     "Persentase perangkat pasif jaringan yang mendukung PoE": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak ada perangkat yang mendukung PoE": 0,
                             "Kurang dari 100% perangkat": 4,
                             "100% perangkat": 12
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Tingkat dukungan Power over Ethernet pada perangkat pasif termasuk kabel"
+                        "contohDokumentasi": "Network infrastructure for AV; PoE switch configuration; power delivery capacity",
+                        "penjelasan": "Banyaknya komponen pendukung AV network yang kompatibel PoE"
                     }
                 }
             },
             {
-                nama: "Sistem Jaringan Akses Kabel dan Antena Terdistribusi",
-                maksPoinKUK: 48,
-                penjelasan: "Sistem jaringan akses kabel dengan support triple play dan fitur tambahan",
-                indikator: {
+                "nama": "Sistem Jaringan Akses Kabel dan Antena Terdistribusi",
+                "maksPoinKUK": 48,
+                "penjelasan": "Infrastruktur komunikasi yang mendukung layanan data suara dan video terintegrasi",
+                "indikator": {
                     "100% status perangkat triple play termonitor dalam perangkat lunak manajemen": {
-                        tipe: "checkbox",
-                        poin: 24,
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemeriksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Pemantauan status perangkat triple play (data, suara, televisi)"
+                        "tipe": "checkbox",
+                        "poin": 24,
+                        "contohDokumentasi": "Triple play monitoring system; service status dashboard; network management",
+                        "penjelasan": "Semua perangkat layanan 3-in-1 (data, suara, video) bisa dipantau dari software pusat"
                     },
                     "Ketersediaan fitur tambahan waktu-nyata (panggilan video, konferensi, streaming multicast)": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak tersedia": 0,
                             "Kurang dari 100% tersedia": 8,
                             "100% tersedia": 24
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Ketersediaan fitur panggilan video, konferensi, dan streaming multicast"
+                        "contohDokumentasi": "Real-time feature validation; service capability test; performance benchmark",
+                        "penjelasan": "Kemampuan sistem mendukung layanan real-time seperti video call dan siaran langsung"
                     }
                 }
             },
             {
-                nama: "Sistem Kelistrikan",
-                maksPoinKUK: 48,
-                penjelasan: "Sistem monitoring dan kontrol kelistrikan bangunan",
-                indikator: {
+                "nama": "Sistem Kelistrikan",
+                "maksPoinKUK": 48,
+                "penjelasan": "Manajemen daya dengan pemantauan konsumsi real-time dan kontrol otomatis",
+                "indikator": {
                     "Akurasi pengukuran penggunaan energi pada setiap perangkat": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Kurang dari 99% akurasi": 4,
                             "≥ 99% akurasi": 12
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemeriksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Akurasi pengukuran penggunaan energi per perangkat"
+                        "contohDokumentasi": "Energy meter calibration; measurement accuracy test; consumption validation",
+                        "penjelasan": "Ketepatan alat ukur listrik dalam mencatat pemakaian energi tiap perangkat"
                     },
                     "Akurasi kontrol otomatis peralatan berdasarkan pola penggunaan energi atau jadwal tertentu 100%": {
-                        tipe: "checkbox",
-                        poin: 9,
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Akurasi kontrol otomatis berdasarkan pola energi"
+                        "tipe": "checkbox",
+                        "poin": 9,
+                        "contohDokumentasi": "Automation accuracy report; schedule compliance; control system validation",
+                        "penjelasan": "Ketepatan sistem menyalakan/mematikan perangkat sesuai jadwal atau kebiasaan pemakaian"
                     },
                     "Kelengkapan data tren, pola konsumsi energi  100% dan identifikasi peluang penghematan energi pada dashboard": {
-                        tipe: "checkbox",
-                        poin: 9,
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Kelengkapan data arus, konsumsi energi, tegangan, dan faktor daya pada dashboard"
+                        "tipe": "checkbox",
+                        "poin": 9,
+                        "contohDokumentasi": "Energy analytics dashboard; trend analysis report; conservation opportunity",
+                        "penjelasan": "Ketersediaan lengkap grafik analisis pemakaian energi dan saran penghematan"
                     },
                     "Persentase pengurangan konsumsi energi melalui demand response pada waktu beban puncak": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 10% pengurangan": 3,
                             "≥ 10% pengurangan": 9
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Tingkat pengurangan konsumsi energi selama beban puncak"
+                        "contohDokumentasi": "Demand response performance; peak shaving report; energy cost savings",
+                        "penjelasan": "Penghematan energi saat listrik mahal dengan mengurangi pemakaian tidak penting"
                     },
                     "Akurasi alarm otomatis untuk anomali daya listrik": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 99% akurasi": 3,
                             "≥ 99% akurasi": 9
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Akurasi sistem alarm untuk mendeteksi anomali daya"
+                        "contohDokumentasi": "Power anomaly detection; alarm accuracy test; emergency notification",
+                        "penjelasan": "Ketepatan sistem memberi peringatan saat ada masalah kelistrikan"
                     }
                 }
             },
             {
-                nama: "Sistem Pencahayaan",
-                maksPoinKUK: 48,
-                penjelasan: "Sistem kontrol pencahayaan untuk efisiensi energi dan kenyamanan",
-                indikator: {
+                "nama": "Sistem Pencahayaan",
+                "maksPoinKUK": 48,
+                "penjelasan": "Kontrol pencahayaan adaptif berdasarkan kondisi lingkungan",
+                "indikator": {
                     "Tingkat ketersediaan sistem kontrol pencahayaan": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 99,5% uptime": 16,
                             "≥ 99,5% uptime": 48
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemeriksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Tingkat ketersediaan sistem kontrol pencahayaan dengan fitur penjadwalan, sensor kehadiran, pemanfaatan pencahayaan alami, dan pengaturan kecerahannya"
+                        "contohDokumentasi": "Lighting control uptime; system reliability; maintenance record",
+                        "penjelasan": "Waktu operasional sistem lampu otomatis tanpa gangguan"
                     }
                 }
             },
             {
-                nama: "Sistem Pengondisian Udara",
-                maksPoinKUK: 48,
-                penjelasan: "Sistem monitoring parameter operasional pengondisian udara",
-                indikator: {
+                "nama": "Sistem Pengondisian Udara",
+                "maksPoinKUK": 48,
+                "penjelasan": "Regulasi iklim dalam ruangan dengan pemantauan parameter HVAC",
+                "indikator": {
                     "Persentase parameter operasional yang dapat dipantau oleh sistem": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 100% parameter": 16,
                             "100% parameter": 48
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemeriksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Kelengkapan pemantauan parameter (tekanan dan laju aliran refrigeran, suhu dan kelembapan ruangan, laju aliran udara, kecepatan kipas, status operasional peralatan)"
+                        "contohDokumentasi": "Operational parameter monitoring; sensor data completeness; system health check",
+                        "penjelasan": "Kelengkapan pemantauan kondisi kerja perangkat (suhu, tekanan, status)"
                     }
                 }
             },
             {
-                nama: "Sistem Ventilasi",
-                maksPoinKUK: 48,
-                penjelasan: "Sistem ventilasi dengan deteksi kualitas udara dan kontrol otomatis",
-                indikator: {
+                "nama": "Sistem Ventilasi",
+                "maksPoinKUK": 48,
+                "penjelasan": "Pengaturan pertukaran udara berdasarkan kualitas udara dalam dan luar ruangan",
+                "indikator": {
                     "Waktu respons sistem ventilasi terhadap perubahan parameter kualitas udara": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 30 detik": 4,
                             "Tidak selalu, kadang-kadang ≤ 30 detik": 8,
                             "Selalu ≤ 30 detik": 12
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemeriksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu respons dari deteksi perubahan kualitas udara seperti suhu, kelembapan, kadar karbon monoksida dan dioksida serta kontamina lainnya hingga penyesuaian ventilasi selesai"
+                        "contohDokumentasi": "Ventilation response time; air quality control performance; automation speed",
+                        "penjelasan": "Kecepatan sistem udara menyesuaikan saat kualitas udara berubah"
                     },
                     "Tingkat ketepatan deteksi kualitas udara luar": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 98% akurasi": 4,
                             "≥ 98% akurasi": 12
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Akurasi deteksi kualitas udara luar bangunan untuk mengendalikan jumlah udara luar yang perlu diambil, kinerja filter atau kebutuhan resrkulasi udara"
+                        "contohDokumentasi": "Outdoor air quality sensor calibration; detection accuracy; environmental monitoring",
+                        "penjelasan": "Akurasi sensor dalam membaca kondisi udara lingkungan luar gedung"
                     },
                     "Akurasi kontrol otomatis berdasarkan kondisi lingkungan atau pola keberadaan penghuni": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 95% akurasi": 4,
                             "≥ 95% akurasi": 12
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Akurasi kontrol otomatis berdasarkan kondisi lingkungan"
+                        "contohDokumentasi": "Environmental control validation; occupancy-based automation; comfort system performance",
+                        "penjelasan": "Ketepatan sistem mengatur suhu/ventilasi sesuai jumlah orang dan kondisi"
                     },
                     "Akurasi prediksi perubahan kualitas udara menggunakan kecerdasan buatan": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 90% akurasi": 4,
                             "≥ 90% akurasi": 12
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Akurasi prediksi AI untuk perubahan kualitas udara berdasarkan data historis sensor"
+                        "contohDokumentasi": "AI prediction accuracy; machine learning performance; forecast validation",
+                        "penjelasan": "Ketepatan sistem AI memperkirakan perubahan kualitas udara sebelum terjadi"
                     }
                 }
             },
             {
-                nama: "Sistem Penyediaan Air Minum",
-                maksPoinKUK: 48,
-                penjelasan: "Sistem penyediaan air minum dengan monitoring dan kontrol cerdas",
-                indikator: {
+                "nama": "Sistem Penyediaan Air Minum",
+                "maksPoinKUK": 48,
+                "penjelasan": "Pengelolaan air bersih dengan monitoring kualitas dan deteksi kebocoran",
+                "indikator": {
                     "Akurasi meter air cerdas dalam mengukur volume air secara waktu-nyata ≥ 95%": {
-                        tipe: "checkbox",
-                        poin: 9,
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemeriksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Akurasi ≥ 95% pada meter air cerdas"
+                        "tipe": "checkbox",
+                        "poin": 9,
+                        "contohDokumentasi": "Water meter calibration certificate; accuracy test report; measurement validation",
+                        "penjelasan": "Ketepatan alat ukur air digital dalam mencatat pemakaian real-time"
                     },
                     "Waktu deteksi indikasi kebocoran air dan menginformasikan ke pihak terkait": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 1 jam": 3,
                             "Tidak selalu, kadang-kadang ≤ 1 jam": 6,
                             "Selalu ≤ 1 jam": 9
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu dari deteksi kebocoran hingga pemberitahuan"
+                        "contohDokumentasi": "Leak detection response time; notification system performance; emergency alert",
+                        "penjelasan": "Kecepatan sistem menemukan tanda kebocoran dan memberi tahu maintenance"
                     },
                     "Waktu respons perubahan debit dan tekanan air oleh ADRS": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 5 detik": 2,
                             "Tidak selalu, kadang-kadang ≤ 5 detik": 4,
                             "Selalu ≤ 5 detik": 6
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu respons Automated Demand-Responsive System sesuai kebutuhan"
+                        "contohDokumentasi": "ADRS performance test; flow control response; pressure adjustment speed",
+                        "penjelasan": "Kecepatan sistem menyesuaikan aliran dan tekanan air sesuai kebutuhan"
                     },
                     "Tingkat kesesuaian waktu automated cleaning 100%": {
-                        tipe: "checkbox",
-                        poin: 6,
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "100% kesesuaian waktu automated cleaning sistem perpipaan dan perlatan plumbing tanpa intervensi manual"
+                        "tipe": "checkbox",
+                        "poin": 6,
+                        "contohDokumentasi": "Cleaning schedule compliance; automation timing accuracy; maintenance log",
+                        "penjelasan": "Ketepatan jadwal pembersihan otomatis sistem perpipaan sesuai rencana"
                     },
                     "Waktu respons katup cerdas sejak perintah dikirim": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 5 detik": 2,
                             "Tidak selalu, kadang-kadang ≤ 5 detik": 4,
                             "Selalu ≤ 5 detik": 6
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu respons katup cerdas terhadap perintah kontrol laju aliran dan tekanan air dalam sistem pipa"
+                        "contohDokumentasi": "Valve response time test; remote control performance; actuator speed",
+                        "penjelasan": "Kecepatan katup air menutup/membuka setelah dapat perintah remote"
                     },
                     "Persentase parameter kualitas air minum yang terpantau real-time": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Kurang dari 100%": 2,
                             "Tidak selalu 100%": 4,
                             "100% parameter selalu terpantau secara waktu-nyata": 6
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Kelengkapan pemantauan parameter kualitas air (kekeruhan, pH, disinfektan, total padatan terlarut)"
+                        "contohDokumentasi": "Water quality monitoring dashboard; parameter coverage; real-time sensor data",
+                        "penjelasan": "Kelengkapan pemantauan kondisi air minum (kejernihan, pH, bakteri)"
                     },
                     "Persentase keberhasilan deteksi dini kebocoran air": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 95% keberhasilan": 2,
                             "≥ 95% keberhasilan": 6
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Tingkat keberhasilan deteksi dini kebocoran menggunakan sensor, algoritma dan konektivitas"
+                        "contohDokumentasi": "Leak detection effectiveness; early warning success rate; prevention system",
+                        "penjelasan": "Akurasi sistem dalam menemukan kebocoran air sebelum jadi masalah besar"
                     }
                 }
             },
             {
-                nama: "Sistem Pengelolaan Air Limbah",
-                maksPoinKUK: 48,
-                penjelasan: "Sistem monitoring dan pengelolaan air limbah",
-                indikator: {
+                "nama": "Sistem Pengelolaan Air Limbah",
+                "maksPoinKUK": 48,
+                "penjelasan": "Pemantauan dan pengolahan air limbah termasuk parameter kualitas dan volume",
+                "indikator": {
                     "Waktu respons terhadap perubahan volume air limbah": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 3 detik": 2,
                             "Tidak selalu, kadang-kadang ≤ 3 detik": 4,
                             "Selalu ≤ 3 detik": 6
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemeriksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu respons sistem terhadap perubahan volume air limbah"
+                        "contohDokumentasi": "Wastewater response time; flow change reaction; treatment system performance",
+                        "penjelasan": "Kecepatan sistem menanggapi fluktuasi volume air buangan"
                     },
                     "Akurasi pengukuran ketinggian muka air limbah": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu melebihi ± 5%": 2,
                             "Tidak selalu, kadang-kadang ≤ 5%": 4,
                             "Selalu ≤ 5%": 6
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Akurasi pengukuran ketinggian muka air limbah"
+                        "contohDokumentasi": "Level sensor calibration; measurement accuracy; tank monitoring",
+                        "penjelasan": "Ketepatan alat ukur dalam membaca level air limbah di bak penampung"
                     },
                     "Waktu respons penggelontoran otomatis": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 5 menit": 4,
                             "Tidak selalu, kadang-kadang 5 menit": 8,
                             "Selalu ≤ 5 menit": 12
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu respons sistem untuk penggelontoran otomatis ketika mendeteksi kebutuhan pembersihan"
+                        "contohDokumentasi": "Flushing system response; automation timing; cleaning cycle",
+                        "penjelasan": "Kecepatan sistem melakukan flush otomatis saat diperlukan"
                     },
                     "Waktu respons deteksi kebocoran": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 3 detik": 4,
                             "Tidak selalu, kadang-kadang 3 detik": 8,
                             "Selalu ≤ 3 detik": 12
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu respons deteksi kebocoran sistem pengelolaan air limbah"
+                        "contohDokumentasi": "Leak detection speed; sewer monitoring performance; pipeline integrity",
+                        "penjelasan": "Kecepatan sistem menemukan kebocoran di jaringan air limbah"
                     },
                     "Waktu ketersediaan data monitoring kualitas air limbah secara waktu-nyata": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 30 detik": 4,
                             "Tidak selalu, kadang-kadang 30 detik": 8,
                             "Selalu ≤ 30 detik": 12
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu ketersediaan data monitoring kualitas air limbah real-time menggunakan sensor untuk parameter yang tepat(ion hidrogen, kekeruhan, spektofotometri, amonia dan debit)"
+                        "contohDokumentasi": "Wastewater monitoring uptime; data availability; system reliability",
+                        "penjelasan": "Kelancaran akses data kondisi air limbah secara real-time di dashboard"
                     }
                 }
             },
             {
-                nama: "Sistem Pengelolaan Sampah",
-                maksPoinKUK: 48,
-                penjelasan: "Sistem pengelolaan sampah dengan sensor dan konektivitas IoT",
-                indikator: {
+                "nama": "Sistem Pengelolaan Sampah",
+                "maksPoinKUK": 48,
+                "penjelasan": "Pengawasan tingkat pengisian tempat sampah dan optimalisasi pengumpulan",
+                "indikator": {
                     "Akurasi sensor tingkat pengisian wadah sampah": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 95% akurasi": 8,
                             "≥ 95% akurasi": 24
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemeriksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Akurasi sensor smart bin dalam mendeteksi tingkat pengisian"
+                        "contohDokumentasi": "Fill level sensor calibration; accuracy test; waste monitoring",
+                        "penjelasan": "Ketepatan sensor dalam mengukur seberapa penuh tempat sampah"
                     },
                     "Persentase penggunaan Wi-Fi atau LPWAN untuk perangkat IoT": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Kurang dari 100%": 8,
                             "Kadang-kadang 100%": 16,
                             "Selalu 100%": 24
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Tingkat penggunaan konektivitas nirkabel untuk perangkat IoT sampah"
+                        "contohDokumentasi": "IoT network architecture; connectivity report; wireless technology adoption",
+                        "penjelasan": "Banyaknya perangkat IoT yang menggunakan jaringan nirkabel khusus"
                     }
                 }
             },
             {
-                nama: "Sistem Transportasi dalam Gedung",
-                maksPoinKUK: 48,
-                penjelasan: "Sistem transportasi dalam gedung (lift) yang dilengkapi dengan Tele Assistant System (TAS) yang dapat memberikan bantuan darurat kepada penumpang dengan menampilkan informasi di layar, memonitor kondisi lift, mengirim file log, dan membantu teknisi dalam mengevakuasi penumpang yang terjebak secara cepat",
-                indikator: {
+                "nama": "Sistem Transportasi dalam Gedung",
+                "maksPoinKUK": 48,
+                "penjelasan": "Manajemen lift dan transportasi vertikal dengan monitoring kondisi",
+                "indikator": {
                     "Ketersediaan informasi pada layar lift": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 99,9% availability": 2,
                             "≥ 99,9% availability": 6
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemeriksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Tingkat ketersediaan informasi pada layar lift"
+                        "contohDokumentasi": "Lift display content; information availability; passenger communication",
+                        "penjelasan": "Kelengkapan info yang ditampilkan di monitor lift (lantai, status, pengumuman)"
                     },
                     "Waktu respons TAS terhadap permintaan bantuan darurat": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 30 detik": 2,
                             "Tidak selalu, kadang-kadang ≤ 30 detik": 4,
                             "Selalu ≤ 30 detik": 6
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu respons Tele Assistant System untuk bantuan darurat"
+                        "contohDokumentasi": "Emergency response time; TAS performance; passenger assistance",
+                        "penjelasan": "Kecepatan sistem bantuan darurat lift merespons panggilan distress"
                     },
                     "Waktu respons pengaturan parameter operasional lift": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 5 detik": 3,
                             "Tidak selalu, kadang-kadang ≤ 5 detik": 6,
                             "Selalu ≤ 5 detik": 9
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu respons pengaturan parameter operasional (kecepatan, prioritas lantai dan perilaku lift berdasarkan zona) lift"
+                        "contohDokumentasi": "Lift control response; parameter adjustment; operational tuning",
+                        "penjelasan": "Kecepatan sistem menyesuaikan pengaturan lift (kecepatan, prioritas)"
                     },
                     "Waktu akses informasi di antarmuka pengguna lift": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 3 detik": 3,
                             "Tidak selalu, kadang-kadang ≤ 3 detik": 6,
                             "Selalu ≤ 3 detik": 9
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu akses informasi di antarmuka pengguna lift yang intuitif (layar sentuh, sistem suara)"
+                        "contohDokumentasi": "User interface response; passenger experience; control panel performance",
+                        "penjelasan": "Kecepatan tampil informasi saat penumpang menekan tombol/touchscreen"
                     },
                     "Tingkat keberhasilan monitor keadaan darurat oleh kamera IoT": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 100% berhasil": 2,
                             "100% berhasil": 6
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Keberhasilan kamera IoT dalam memantau keadaan darurat di sekitar lift"
+                        "contohDokumentasi": "Emergency monitoring effectiveness; camera detection accuracy; safety system",
+                        "penjelasan": "Akurasi kamera lift dalam mendeteksi situasi darurat penumpang"
                     },
                     "Waktu respons pengendalian lift jarak jauh": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 2 detik": 2,
                             "Tidak selalu, kadang-kadang ≤ 2 detik": 4,
                             "Selalu ≤ 2 detik": 6
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu respons pengendalian lift melalui antarmuka web"
+                        "contohDokumentasi": "Remote control latency; off-site management; mobile app performance",
+                        "penjelasan": "Kecepatan kontrol lift dari ruang monitor/ponsel"
                     },
                     "Waktu pembaruan data pada aplikasi atau antarmuka web": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 5 detik": 2,
                             "Tidak selalu, kadang-kadang ≤ 5 detik": 4,
                             "Selalu ≤ 5 detik": 6
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu pembaruan data monitoring lift pada antarmuka web"
+                        "contohDokumentasi": "Data refresh rate; real-time update performance; system synchronization",
+                        "penjelasan": "Kecepatan update info status lift di software monitoring"
                     }
                 }
             },
             {
-                nama: "Sistem Parkir",
-                maksPoinKUK: 48,
-                penjelasan: "Sistem parkir cerdas mampu menampilkan data keluar, masuk, posisi dan ketersediaan parkir dengan sensor, IoT dan fitur cashless ",
-                indikator: {
+                "nama": "Sistem Parkir",
+                "maksPoinKUK": 48,
+                "penjelasan": "Pengelolaan area parkir dengan sensor panduan digital dan pembayaran non-tunai",
+                "indikator": {
                     "Uptime sistem sensor dan perangkat IoT parkir": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 99% uptime": 2,
                             "≥ 99% uptime": 6
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemeriksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Tingkat ketersediaan sistem sensor dan IoT parkir"
+                        "contohDokumentasi": "Parking system availability; IoT device uptime; maintenance record",
+                        "penjelasan": "Waktu operasional sistem sensor parkir tanpa downtime"
                     },
                     "Waktu akses kendaraan menggunakan RFID": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 3 detik": 3,
                             "Tidak selalu, kadang-kadang ≤ 3 detik": 6,
                             "Selalu ≤ 3 detik": 9
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu akses kendaraan dengan teknologi RFID"
+                        "contohDokumentasi": "RFID response time; gate access speed; vehicle processing",
+                        "penjelasan": "Kecepatan proses buka palang parkir dengan kartu/tag RFID"
                     },
                     "Akurasi informasi ketersediaan tempat parkir": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 95% akurasi": 3,
                             "≥ 95% akurasi": 9
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Akurasi informasi ketersediaan dan lokasi parkir real-time"
+                        "contohDokumentasi": "Parking availability accuracy; sensor detection reliability; guidance system",
+                        "penjelasan": "Ketepatan info slot parkir kosong di aplikasi/papan informasi"
                     },
                     "Persentase keberhasilan pembayaran parkir cashless": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari 98% keberhasilan": 3,
                             "≥ 98% keberhasilan": 9
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Tingkat keberhasilan pembayaran parkir cashless menggunakan aplikasi mobile atau uang elektronik"
+                        "contohDokumentasi": "Cashless payment success rate; transaction processing; payment gateway",
+                        "penjelasan": "Keberhasilan transaksi parkir non-tunai via app/e-wallet"
                     },
                     "Waktu pembaruan informasi ketersediaan parkir pada papan tampilan LED": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 5 detik": 3,
                             "Tidak selalu, kadang-kadang ≤ 5 detik": 6,
                             "Selalu ≤ 10 detik": 9
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu pembaruan informasi ketersediaan dan panduan lokasi parkir pada LED"
+                        "contohDokumentasi": "LED display refresh rate; information update speed; real-time data",
+                        "penjelasan": "Kecepatan update info parkir di papan digital"
                     },
                     "Waktu pengolahan dan penyajian laporan visual analisis data parkir": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 10 menit": 2,
                             "Tidak selalu, kadang-kadang 10 menit": 4,
                             "Selalu ≤ 10 menit": 6
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Waktu pengolahan data parkir (penggunaan, waktu kunjungan dan pola pergerakan kendaraan) menjadi laporan visual"
+                        "contohDokumentasi": "Data processing time; report generation speed; analytics performance",
+                        "penjelasan": "Kecepatan sistem menghasilkan grafik/laporan analisis parkir"
                     },
                     "Persentase perangkat aktif jaringan sistem parkir yang mendukung PoE": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak ada perangkat yang mendukung PoE": 0,
                             "Kurang dari 90% perangkat": 1,
                             "≥ 90% perangkat": 3
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Tingkat dukungan Power over Ethernet pada perangkat aktif"
+                        "contohDokumentasi": "PoE device inventory; power requirement analysis; network design",
+                        "penjelasan": "Banyaknya perangkat parkir (kamera, sensor) yang powered via ethernet"
                     },
                     "Persentase perangkat pasif jaringan sistem parkir yang mendukung PoE": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak ada perangkat yang mendukung PoE": 0,
                             "Kurang dari 100% perangkat": 1,
                             "100% perangkat": 3
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Tingkat dukungan Power over Ethernet pada perangkat pasif termasuk kabel"
+                        "contohDokumentasi": "Network infrastructure audit; connectivity standard; power delivery",
+                        "penjelasan": "Banyaknya infrastruktur pendukung parkir system yang kompatibel PoE"
                     }
                 }
             },
             {
-                nama: "Sistem Pengelolaan Utilitas",
-                maksPoinKUK: 48,
-                penjelasan: "Aplikasi perangkat lunak pengelolaan utilitas bekerja secara efisien untuk administrasi pengelolaan utilitas, termasuk analisis perintah kerja dan pelacakan tenaga kerja, material, dan biaya.",
-                indikator: {
+                "nama": "Sistem Pengelolaan Utilitas",
+                "maksPoinKUK": 48,
+                "penjelasan": "Aplikasi terpadu untuk monitoring dan administrasi seluruh utilitas gedung",
+                "indikator": {
                     "Tingkat kesalahan dalam penjadwalan atau eksekusi perintah kerja": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Tidak dapat diukur": 0,
                             "Kurang dari ≤ 2% kesalahan": 8,
                             "≤ 2% kesalahan": 24
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemeriksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Tingkat kesalahan dalam penjadwalan atau eksekusi perintah kerja utilitas"
+                        "contohDokumentasi": "Work order error rate; scheduling accuracy; execution quality",
+                        "penjelasan": "Banyaknya error dalam perencanaan dan pelaksanaan tugas maintenance"
                     },
                     "Waktu yang dibutuhkan untuk menemukan dokumen tertentu": {
-                        tipe: "radio",
-                        poin: {
+                        "tipe": "radio",
+                        "poin": {
                             "Selalu lebih dari 3 menit": 8,
                             "Tidak selalu, kadang-kadang ≤ 3 menit": 16,
                             "Selalu ≤ 3 menit": 24
                         },
-                        contohDokumentasi: "a. Inspeksi fisik perangkat b. Uji fungsi perangkat c. Pemericksaan integrasi sistem d. Laporan audit/hasil uji lapangan",
-                        penjelasan: "Sistem telah menerapkan manajemen dokumen yang efektif, konvensi penamaan, dan standar basis data untuk memudahkan pengelolaan dan koordinasi dengan grup dan aplikasi lain yang relevan."
+                        "contohDokumentasi": "Document retrieval time; search performance; information management",
+                        "penjelasan": "Kecepatan pencarian dokumen di sistem manajemen dokumen"
                     }
                 }
             }
         ]
     }
-};
+} 
+;
 
 // Ekspos matriks ke window agar dapat diakses eksplisit (beberapa browser tidak menaruh const global ke window)
 try { if (typeof window !== 'undefined') { window.matriks = window.matriks || matriks; } } catch (_) { }
