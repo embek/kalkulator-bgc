@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kalkulator-kinerja-bgc.netlify.app/sitemap.xml

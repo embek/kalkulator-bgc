@@ -52,8 +52,8 @@
 *, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { margin:0; padding:0; overflow-x:hidden; }
 body {
-  font-family: 'Inter', system-ui, Arial, sans-serif; font-size:16px; color:var(--warna-teks);
-  line-height: var(--lh-c); background: var(--warna-latar); min-height:100vh; display:flex; flex-direction:column;
+	font-family: 'Inter', system-ui, Arial, sans-serif; font-size:16px; color:var(--warna-teks);
+	line-height: var(--lh-c); background: var(--warna-latar); display:flex; flex-direction:column;
 }
 [hidden] { display:none !important; }
 
@@ -65,7 +65,7 @@ body {
 }
 .app-bar h1 { margin:0; font-weight:800; letter-spacing:.2px; font-size: var(--fs-md); white-space:normal; }
 .app-bar #btn-tema,#btn-menu { width:2.25rem; height:2.25rem; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--warna-border); background:#fff; color:var(--warna-teks); cursor:pointer; }
-.app-bar .btn { min-height:2.25rem; padding:.35rem .6rem; font-size:.8rem; }
+.app-bar .btn { padding:.35rem .6rem; font-size:.8rem; }
 [data-tema='gelap'] .app-bar { background:#0b1220; box-shadow: 0 1px 0 rgba(255,255,255,.08); }
 
 /* ============== Konten ============== */
@@ -76,7 +76,7 @@ body {
 
 /* ============== Komponen umum ============== */
 .card { background: var(--warna-kartu); border:1px solid var(--warna-border); border-radius: var(--radius); box-shadow: var(--shadow); }
-.btn { border:none; padding:.75rem .9rem; font-size: var(--fs-sm); font-weight:700; letter-spacing:.3px; border-radius:12px; cursor:pointer; transition: .2s; display:inline-flex; align-items:center; justify-content:center; gap:.4rem; min-height:2.75rem; }
+.btn { border:none; padding:.75rem .9rem; font-size: var(--fs-sm); font-weight:700; letter-spacing:.3px; border-radius:12px; cursor:pointer; transition: .2s; display:inline-flex; align-items:center; justify-content:center; gap:.4rem; }
 .btn.primer { background: linear-gradient(135deg,#1565c0,#0d47a1); color:#fff; }
 .btn.sekunder { background:#fff; color:#0d47a1; border:1px solid #0d47a1; }
 .btn.bahaya { background: linear-gradient(135deg,#e53935,#c62828); color:#fff; }
@@ -155,7 +155,7 @@ progress::-webkit-progress-value { background: linear-gradient(90deg,#1976d2,#42
 progress::-moz-progress-bar { background: linear-gradient(90deg,#1976d2,#42a5f5); }
 
 .hasil-grid { display:flex; flex-wrap:wrap; gap: var(--sp-3); justify-content:center; }
-.hasil-item { background:#fff; border:1px solid var(--warna-border); box-shadow: var(--shadow); padding:.55rem .65rem; display:flex; flex-direction:column; gap:.2rem; justify-content:center; align-items:center; text-align:center; min-height:4.25rem; flex:1 1 10rem; }
+.hasil-item { background:#fff; border:1px solid var(--warna-border); box-shadow: var(--shadow); padding:.55rem .65rem; display:flex; flex-direction:column; gap:.2rem; justify-content:center; align-items:center; text-align:center; flex:1 1 10rem; }
 .hasil-item span { font-size:.7rem; font-weight:700; letter-spacing:.4px; color:#516171; text-transform:uppercase; }
 .hasil-item strong { font-size:1.05rem; font-weight:800; color:#1f2a37; }
 
@@ -232,10 +232,10 @@ summary, label, select, input, button { touch-action: manipulation; }
 /* --- CLS mitigation: reserve stable space and avoid big reflows --- */
 /* Pastikan tinggi header tidak dipaksa terlalu besar; gunakan tinggi alami + kalkulasi JS */
 /* Hilangkan min-height besar yang membuat banner tampak terlalu tinggi */
-.app-bar { min-height: unset; }
+
 
 /* Reserve space for dynamic checklist content so first paint layout is stable */
-#parameter-checklist { min-height: clamp(480px, 65vh, 960px); }
+
 
 /* Defer rendering of offscreen parameter blocks while reserving intrinsic size to prevent jumps */
 .pc-parameter { content-visibility: auto; contain-intrinsic-size: 720px; }
@@ -245,11 +245,10 @@ summary, label, select, input, button { touch-action: manipulation; }
 }
 
 /* Ensure radio groups area has some initial height before JS populates */
-#jenis-bangunan-group, #klasifikasi-bangunan-group { min-height: 3rem; }
+
 
 /* Stabilize ringkasan and action blocks to avoid shifting when data appears */
-.ringkasan .card-total { min-height: 9.5rem; }
-.aksi { min-height: 3.25rem; }
+.aksi { display:flex; gap:.75rem; margin:1.25rem 0 .25rem; flex-direction: column; align-items: stretch; }
 
 /* Font fallback alignment to reduce swap-induced shifts */
 body { font-size-adjust: 0.52; }
@@ -297,7 +296,6 @@ body {
 	color: #1f2933;
 	line-height: 1.45;
 	-webkit-font-smoothing: antialiased;
-	min-height: 100vh;
 	display:flex;
 	flex-direction:column;
 	-webkit-text-size-adjust: 100%;
@@ -318,7 +316,7 @@ body {
 }
 @media (min-width: 620px) {
 	/* Flex-wrap sudah aktif; atur basis kartu agar menyerupai kolom grid */
-	.kartu-parameter { min-height: clamp(9rem, 24vh, 10.75rem); flex: 1 1 clamp(14rem, 40vw, 20rem); }
+	.kartu-parameter { flex: 1 1 clamp(14rem, 40vw, 20rem); }
 }
 /* Responsive tinggi progress pada 480-599px dikelompokkan dekat komponen */
 @media (min-width: 480px) and (max-width: 599px) {
@@ -358,10 +356,10 @@ body {
 .app-bar #btn-tema:focus-visible,
 .app-bar #btn-menu:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(37,99,235,.35); border-color: var(--warna-aksen); }
 /* Compact button inside app bar to keep header short */
-.app-bar .btn { min-height: 2.25rem; padding: .35rem .6rem; font-size: .8rem; flex:0 0 auto; }
+.app-bar .btn { padding: .35rem .6rem; font-size: .8rem; flex:0 0 auto; }
 @media (min-width: 768px) {
 	.app-bar h1 { font-size: 1.05rem; }
-	.app-bar .btn { min-height: 2.375rem; }
+	/* no min-height override needed */
 	.app-bar #btn-tema { width:2.375rem; height:2.375rem; }
 	#btn-menu { width:2.375rem; height:2.375rem; }
 }
@@ -431,7 +429,7 @@ form { width:100%; }
 
 .nilai-maks { background:#eef5ff; color:#0d47a1; font-size:.6rem; padding:.2rem .45rem; border-radius:20px; font-weight:600; letter-spacing:.5px; }
 
-.ringkasan { margin-top: .5rem; min-height: clamp(260px, 32vh, 520px); }
+.ringkasan { margin-top: .5rem; }
 .ringkasan h2 { font-size:1rem; margin:0 0 .65rem; }
 
 .card-total { background: var(--warna-kartu); padding: .9rem 1rem 1rem; border:1px solid var(--warna-border); border-radius: var(--radius); box-shadow: var(--bayangan-kartu); display:flex; flex-direction:column; gap:.4rem; }
@@ -452,7 +450,7 @@ progress::-moz-progress-bar { background: linear-gradient(90deg,#1976d2,#42a5f5)
 }
 .btn { flex:1; border:none; padding:.75rem .9rem; font-size:.8rem; font-weight:600; letter-spacing:.5px; text-transform:uppercase; border-radius:12px; cursor:pointer; transition:var(--transisi); display:inline-flex; justify-content:center; align-items:center; gap:.4rem; position:relative; }
 .btn.besar { padding:1rem 1.1rem; letter-spacing:.8px; }
-.btn { min-height:2.75rem; line-height:1.2; }
+.btn { line-height:1.2; }
 .btn:active { transform:translateY(2px); }
 .btn.sentuh-aktif { filter:brightness(1.08); transform:translateY(1px); }
 .btn.ripple { position:relative; overflow:hidden; }
@@ -588,7 +586,7 @@ progress::-moz-progress-bar { background: linear-gradient(90deg,#1976d2,#42a5f5)
 
 /* Data Bangunan */
 .data-bangunan { background: var(--warna-kartu); border:1px solid var(--warna-border); border-radius: var(--radius); padding: 1rem 1rem 1.1rem; box-shadow: var(--bayangan-kartu); margin-bottom:1.1rem; }
-.data-bangunan h2 { margin:0 0; font-size: var(--fs-lg); line-height: 1.2; display:flex; align-items:center; min-height: 2.75rem; }
+.data-bangunan h2 { margin:0 0; font-size: var(--fs-lg); line-height: 1.2; display:flex; align-items:center; }
 	.grid-form { display:flex; flex-wrap:wrap; gap:.85rem; }
 @media (min-width:560px){
 	.grid-form > .grup-form { flex:1 1 min(20rem, 48%); }
@@ -601,11 +599,10 @@ progress::-moz-progress-bar { background: linear-gradient(90deg,#1976d2,#42a5f5)
 .grup-form select:focus { outline:none; border-color: var(--warna-aksen); box-shadow:0 0 0 2px rgba(25,118,210,.25); }
 
 /* Section Parameter Expandable (details + summary) */
-.parameter { margin-bottom:1rem; min-height: clamp(420px, 55vh, 840px); }
+.parameter { margin-bottom:1rem; }
 
 @media (min-width: 1024px) {
-	#parameter-checklist { min-height: 0; }
-	.parameter { min-height: 0; }
+	/* removed min-height constraints for desktop as well */
 }
 .parameter h2 { font-size:1rem; margin:0 0 .75rem; }
 .kartu-parameter { padding-top:.75rem; }
@@ -624,7 +621,7 @@ details[open] .ikon-expand { background:#0d47a1; }
 
 /* Hasil & Ringkasan */
 .hasil-grid { display:flex; flex-wrap:wrap; gap:.75rem; margin-bottom:.4rem; justify-content:center; }
-.hasil-item { background:#ffffff; border:1px solid var(--warna-border); box-shadow: var(--bayangan-kartu); padding:.55rem .65rem .6rem; display:flex; flex-direction:column; gap:.2rem; justify-content:center; align-items:center; text-align:center; min-height:4.375rem; flex:1 1 10rem; }
+.hasil-item { background:#ffffff; border:1px solid var(--warna-border); box-shadow: var(--bayangan-kartu); padding:.55rem .65rem .6rem; display:flex; flex-direction:column; gap:.2rem; justify-content:center; align-items:center; text-align:center; flex:1 1 10rem; }
 .hasil-item span { font-size:.6rem; font-weight:600; letter-spacing:.6px; text-transform:uppercase; color:#516171; }
 .hasil-item strong { font-size:1rem; font-weight:700; color:#1f2a37; }
 .hasil-item.besar strong { font-size:1.25rem; }
@@ -899,7 +896,7 @@ summary, label, select, input, button { touch-action: manipulation; }
 /* Reserve space per kriteria and indikator item */
 .pc-kriteria { contain-intrinsic-size: 220px; content-visibility: auto; }
 .pc-indikator .indikator-item { contain-intrinsic-size: 96px; content-visibility: auto; }
-.pc-parameter summary.pc-parameter-summary { cursor:pointer; list-style:none; display:flex; align-items:center; gap:.75rem; padding:.6rem .2rem; min-height: 2.75rem; margin: 0; }
+.pc-parameter summary.pc-parameter-summary { cursor:pointer; list-style:none; display:flex; align-items:center; gap:.75rem; padding:.6rem .2rem; margin: 0; }
 .pc-parameter details:not([open]) { display:flex; align-items:center; }
 /* Remove any bottom space under summary when closed */
 .pc-parameter details:not([open]) > summary.pc-parameter-summary { padding-bottom: 0; }

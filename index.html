@@ -12,9 +12,13 @@
 	<!-- SEO basics -->
 	<title>Kalkulator Penilaian Kinerja Bangunan Gedung Cerdas (BGC) – Tahap Pemanfaatan</title>
 	<meta name="description"
-		content="Kalkulator Penilaian Kinerja Bangunan Gedung Cerdas (BGC) untuk tahap pemanfaatan. Hitung skor, persentase, dan peringkat BGC secara cepat berdasarkan kriteria yang relevan." />
+		content="Kalkulator Penilaian Kinerja Bangunan Gedung Cerdas (BGC) – tahap pemanfaatan. Hitung poin, persentase, dan peringkat (Pratama, Madya, Utama) berdasarkan KUK resmi." />
 	<meta name="keywords"
-		content="penilaian kinerja bangunan gedung cerdas, bgc, kalkulator bgc, penilaian kinerja bangunan gedung negara cerdas, smart building assessment, kinerja bgc" />
+		content="penilaian kinerja bangunan gedung cerdas, bgc, kalkulator bgc, penilaian kinerja, bgc negara cerdas, smart building assessment, keamanan siber, BMS, QoS, RBAC, SSO, MFA" />
+	<meta name="robots" content="index, follow" />
+	<meta name="author" content="Adzka Muhammad Mumtaz" />
+	<link rel="alternate" href="https://embek.github.io/kalkulator-bgc/" hreflang="id" />
+	<link rel="alternate" href="https://embek.github.io/kalkulator-bgc/" hreflang="x-default" />
 	<link rel="canonical" href="https://embek.github.io/kalkulator-bgc/" />
 	<link rel="manifest" href="manifest.webmanifest">
 	<meta name="mobile-web-app-capable" content="yes">
@@ -29,11 +33,13 @@
 		content="Hitung poin, persentase, dan peringkat Penilaian Bangunan Gedung Cerdas (BGC) secara cepat." />
 	<meta property="og:url" content="https://embek.github.io/kalkulator-bgc/" />
 	<meta property="og:image" content="icons/icon-512.png" />
+    <meta property="og:image:alt" content="Logo aplikasi Kalkulator Penilaian Kinerja BGC" />
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content="Kalkulator Penilaian Bangunan Gedung Cerdas (BGC) – Tahap Pemanfaatan" />
 	<meta name="twitter:description"
 		content="Hitung poin, persentase, dan peringkat Penilaian Bangunan Gedung Cerdas (BGC) secara cepat." />
 	<meta name="twitter:image" content="icons/icon-512.png" />
+    <meta name="twitter:image:alt" content="Logo aplikasi Kalkulator Penilaian Kinerja BGC" />
 	<!-- JSON-LD: WebApplication -->
 	<script type="application/ld+json">
 		{
@@ -53,7 +59,6 @@
 			}
 		}
 		</script>
-	<title>Kalkulator Penilaian Kinerja BGC Tahap Pemanfaatan</title>
 	<link rel="stylesheet" href="style.css" />
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -171,6 +176,213 @@
 				<button type="reset" id="btn-reset" class="btn bahaya">Reset</button>
 			</div>
 		</form>
+
+			<!-- FAQ: Visible content to support structured data and long-tail SEO -->
+			<section class="panel-bantuan" id="faq" aria-labelledby="faq-title">
+				<h2 id="faq-title">FAQ Penilaian Kinerja BGC</h2>
+				<details>
+					<summary>Apa dasar hukum penilaian ini?</summary>
+					<p>Penilaian merujuk pada dokumen resmi berikut:
+						<br>1) <a href="https://jdih.pu.go.id/detail-dokumen/SEMenteriPU-nomor-22SEM2024-tahun-2024-Pedoman-Penilaian-Kinerja-Bangunan-Gedung-Cerdas-Tahap-Pemanfaatan-Dan-Pemeriksaan-Kinerja-Bangunan-Gedung-Cerdas-Tahap-Pembongkaran" target="_blank" rel="noopener noreferrer"><strong>SE Menteri PU No. 22/SE/M/2024</strong></a> tentang Pedoman Penilaian Kinerja Bangunan Gedung Cerdas Tahap Pemanfaatan dan Pemeriksaan Kinerja Bangunan Gedung Cerdas Tahap Pembongkaran;
+						<br>2) <a href="https://jdih.pu.go.id/detail-dokumen/PermenPUPR-nomor-10--tahun-2023-Bangunan-Gedung-Cerdas" target="_blank" rel="noopener noreferrer"><strong>Permen PUPR Nomor 10 Tahun 2023</strong></a>.
+						<br>Istilah dan parameter di aplikasi mengikuti ketentuan pada dokumen tersebut.</p>
+				</details>
+				<details>
+					<summary>Apa itu Penilaian Kinerja BGC tahap pemanfaatan?</summary>
+					<p>Penilaian untuk mengukur penerapan prinsip dan parameter BGC pada gedung saat beroperasi, mencakup Keamanan Siber, Protokol & Jaringan, Integrasi Data, Manajemen Operasi, Dampak, dan Kemampuan Sistem.</p>
+				</details>
+				<details>
+					<summary>Bagaimana cara menghitung peringkat (Pratama, Madya, Utama)?</summary>
+					<p>Berdasarkan persentase capaian: Pratama 40–60%, Madya ≥60–80%, Utama ≥80%. Elemen Wajib yang tidak terpenuhi menahan peringkat di “Belum”.</p>
+				</details>
+				<details>
+					<summary>Contoh dokumen pembuktian apa yang diperlukan?</summary>
+					<p>Untuk parameter A–E: snapshot konfigurasi/integrasi/protokol, manual perangkat/software, report sampling. Untuk parameter F: inspeksi fisik, uji fungsi perangkat, pemeriksaan integrasi sistem, dan audit dokumentasi lapangan.</p>
+				</details>
+				<details>
+					<summary>Apa contoh Kriteria Unjuk Kerja (KUK) yang dinilai?</summary>
+					<p>Contoh: Integritas data di pusat data (A.1), Redundansi perangkat keras (A.2), Analisis event log (A.3), Kontrol akses OSI (A.4), Segmentasi jaringan (A.5), Enkripsi end-to-end (A.6), SSO (A.13), MFA (A.14), QoS (B.12), BMS (C.1), dan lain-lain.</p>
+				</details>
+
+				<!-- Istilah umum yang sering ditanyakan -->
+				<details>
+					<summary>Apa itu KUK?</summary>
+					<p>KUK (Kriteria Unjuk Kerja) adalah butir penilaian terukur pada setiap parameter. Tiap KUK punya target/ketentuan yang harus dipenuhi beserta bukti pendukung.</p>
+				</details>
+				<details>
+					<summary>Apa bedanya Wajib, Disarankan, dan Sukarela?</summary>
+					<p>Wajib harus terpenuhi seluruhnya untuk lolos peringkat. Disarankan menambah nilai tetapi tidak mengunci peringkat. Sukarela bersifat tambahan.</p>
+				</details>
+				<details>
+					<summary>Apa itu RBAC?</summary>
+					<p>Role-Based Access Control: hak akses ditentukan oleh peran pengguna. Hanya fitur/data sesuai peran yang bisa diakses.</p>
+				</details>
+				<details>
+					<summary>Apa itu SSO?</summary>
+					<p>Single Sign-On: pengguna cukup login sekali di sistem utama, lalu otomatis terautentikasi di aplikasi terkait tanpa ulang memasukkan kredensial.</p>
+				</details>
+				<details>
+					<summary>Apa itu MFA?</summary>
+					<p>Multi-Factor Authentication: verifikasi ganda (misalnya password + kode OTP atau biometrik) untuk memperkuat keamanan login.</p>
+				</details>
+				<details>
+					<summary>Apa itu IDS?</summary>
+					<p>Intrusion Detection System: sistem yang memantau trafik jaringan untuk mendeteksi aktivitas berbahaya dan memberi peringatan dini.</p>
+				</details>
+				<details>
+					<summary>Apa itu TLS dan enkripsi end-to-end?</summary>
+					<p>TLS adalah protokol pengaman komunikasi. Enkripsi end-to-end memastikan hanya pengirim dan penerima yang bisa membaca data selama transmisi.</p>
+				</details>
+				<details>
+					<summary>Apa itu VLAN dan Segmentasi Jaringan?</summary>
+					<p>VLAN membagi jaringan logis dalam satu infrastruktur fisik. Segmentasi jaringan memisahkan jaringan menjadi beberapa zona untuk membatasi dampak serangan.</p>
+				</details>
+				<details>
+					<summary>Apa itu VPN dan NAC?</summary>
+					<p>VPN mengenkripsi koneksi jarak jauh ke jaringan internal. NAC (Network Access Control) mengatur siapa/perangkat apa yang boleh masuk jaringan.</p>
+				</details>
+				<details>
+					<summary>Apa itu QoS?</summary>
+					<p>Quality of Service: pengelolaan prioritas trafik (latensi, jitter, packet loss) agar layanan penting seperti VoIP/video tetap lancar.</p>
+				</details>
+				<details>
+					<summary>Apa itu BMS?</summary>
+					<p>Building Management System: platform untuk memonitor dan mengendalikan sistem gedung (HVAC, pencahayaan, keamanan, energi) secara terpadu.</p>
+				</details>
+				<details>
+					<summary>Apa itu model OSI?</summary>
+					<p>Kerangka 7 lapisan komunikasi jaringan (fisik hingga aplikasi) untuk memahami fungsi dan pengamanan tiap lapisan.</p>
+				</details>
+				<details>
+					<summary>Apa itu event log dan analisis log?</summary>
+					<p>Event log adalah catatan aktivitas sistem. Analisis log mencari pola/kejanggalan untuk pemecahan masalah dan keamanan.</p>
+				</details>
+				<details>
+					<summary>Apa itu checksum dan hashing?</summary>
+					<p>Metode verifikasi integritas data. Checksum/hash membantu memastikan data tidak berubah tanpa izin saat disimpan/dikirim.</p>
+				</details>
+				<details>
+					<summary>Apa itu redundansi perangkat keras?</summary>
+					<p>Penggandaan komponen penting (server, storage, jaringan) agar layanan tetap berjalan saat terjadi kegagalan.</p>
+				</details>
+				<details>
+					<summary>Apa itu patch panel, modular jack, dan patch cord?</summary>
+					<p>Patch panel merapikan koneksi di rak. Modular jack adalah soket di perangkat. Patch cord adalah kabel pendek penghubung antar perangkat/port.</p>
+				</details>
+				<details>
+					<summary>Apa itu PoE?</summary>
+					<p>Power over Ethernet: kabel jaringan yang sekaligus menyalurkan data dan daya ke perangkat (mis. kamera IP, access point).</p>
+				</details>
+				<details>
+					<summary>Apa itu RTSP dan RTP?</summary>
+					<p>RTSP mengatur kontrol streaming (play/pause), sedangkan RTP mengangkut data audio/video real-time dengan latensi rendah.</p>
+				</details>
+				<details>
+					<summary>Apa itu 5G URLLC dan RAN slicing?</summary>
+					<p>URLLC: komunikasi sangat andal dengan latensi rendah. RAN slicing: membagi jaringan 5G menjadi beberapa slice sesuai kebutuhan layanan.</p>
+				</details>
+				<details>
+					<summary>Apa itu baseline pada perhitungan dampak?</summary>
+					<p>Patokan pembanding konsumsi energi/air sebelum penerapan BGC atau sesuai standar, untuk mengukur penurunan yang dicapai.</p>
+				</details>
+				<details>
+					<summary>Apa itu mustering?</summary>
+					<p>Prosedur penghitungan dan pengumpulan pengguna di titik aman saat evakuasi darurat, dibantu sistem kontrol akses.</p>
+				</details>
+				<details>
+					<summary>Apa itu ADRS?</summary>
+					<p>Automated Demand-Responsive System: penyesuaian debit/tekanan air secara otomatis sesuai kebutuhan real-time.</p>
+				</details>
+				<details>
+					<summary>Apa itu TSS, COD, NH3-N pada air limbah?</summary>
+					<p>Parameter kualitas air limbah: TSS (kekeruhan/partikulat), COD (beban oksidan), NH3-N (amonia). Dipantau sensor/alat khusus.</p>
+				</details>
+				<details>
+					<summary>Apa itu LPWAN dan RFID pada sistem IoT?</summary>
+					<p>LPWAN: jaringan area luas berdaya rendah untuk sensor jarak jauh. RFID: identifikasi otomatis menggunakan gelombang radio (mis. akses parkir).</p>
+				</details>
+				<details>
+					<summary>Apa itu TAS pada lift?</summary>
+					<p>Tele Assistant System: bantuan jarak jauh saat insiden pada lift, memantau kondisi dan mendukung evakuasi.</p>
+				</details>
+
+				<!-- Tambahan istilah dari indikator/kriteria -->
+				<details>
+					<summary>Apa itu BACnet/IP dan Modbus TCP?</summary>
+					<p>Itu “bahasa” komunikasi standar antar perangkat gedung. BACnet/IP dan Modbus TCP memudahkan perangkat dari berbagai merek untuk saling terhubung di jaringan berbasis internet (TCP/IP).</p>
+				</details>
+				<details>
+					<summary>Apa itu TCP/IP dan UDP?</summary>
+					<p>Protokol dasar internet. TCP fokus pada keandalan (data lengkap, berurutan), sedangkan UDP fokus pada kecepatan (cocok untuk video/voice real-time).</p>
+				</details>
+				<details>
+					<summary>Apa itu SSID dan WLAN?</summary>
+					<p>SSID adalah nama jaringan Wi-Fi yang terlihat di perangkat. WLAN adalah jaringan Wi‑Fi-nya sendiri (Wireless LAN).</p>
+				</details>
+				<details>
+					<summary>Apa itu NetFlow?</summary>
+					<p>Metode merekam ringkasan arus data jaringan (siapa kirim ke siapa, berapa besar) untuk analisis dan pemantauan.</p>
+				</details>
+				<details>
+					<summary>Apa itu SIEM?</summary>
+					<p>Security Information and Event Management: alat untuk mengumpulkan dan menganalisis log dari banyak sistem guna mendeteksi ancaman lebih cepat.</p>
+				</details>
+				<details>
+					<summary>Apa itu PSNR dan SSIM?</summary>
+					<p>Angka untuk menilai kualitas video setelah dikompresi. Semakin tinggi, semakin mirip dengan aslinya (gambar tidak buram/pecah).</p>
+				</details>
+				<details>
+					<summary>Apa itu DVR, NVR, dan VMS?</summary>
+					<p>DVR/NVR adalah alat perekam kamera (analog/digital). VMS adalah perangkat lunak pusat untuk mengelola banyak kamera dan rekaman sekaligus.</p>
+				</details>
+				<details>
+					<summary>Apa itu 3GPP Release 17 (5G)?</summary>
+					<p>Rilis standar 5G yang membawa fitur lanjutan seperti latensi sangat rendah dan pembagian jaringan (network slicing) untuk layanan berbeda.</p>
+				</details>
+				<details>
+					<summary>Apa itu micro‑segmentation?</summary>
+					<p>Pembagian jaringan menjadi bagian-bagian kecil yang sangat terkontrol agar sebuah insiden tidak mudah menyebar ke bagian lain.</p>
+				</details>
+				<details>
+					<summary>Bedanya paket dan frame data itu apa?</summary>
+					<p>Frame adalah “bungkus” data di jaringan lokal; paket adalah “bungkus” data di jaringan yang lebih luas (internet). Keduanya membawa informasi pengiriman.</p>
+				</details>
+				<details>
+					<summary>Apa itu latensi, jitter, packet loss, dan throughput?</summary>
+					<p>Latensi: waktu tunda; jitter: ketidakstabilan latensi; packet loss: data yang hilang; throughput: jumlah data yang bisa dikirim per detik. Empat istilah ini memengaruhi kelancaran video/voice.</p>
+				</details>
+				<details>
+					<summary>Apa itu uptime/availability?</summary>
+					<p>Persentase waktu sistem berjalan normal dan bisa diakses. Makin tinggi, makin jarang down.</p>
+				</details>
+				<details>
+					<summary>Apa itu demand response (energi)?</summary>
+					<p>Strategi mengurangi pemakaian listrik saat beban puncak agar biaya lebih hemat dan sistem listrik stabil.</p>
+				</details>
+				<details>
+					<summary>Apa itu antipassback dan passback?</summary>
+					<p>Aturan di kontrol akses agar kartu tidak bisa dipakai masuk lagi tanpa keluar dulu (mencegah “pinjam” kartu).</p>
+				</details>
+				<details>
+					<summary>Apa itu layanan triple play?</summary>
+					<p>Layanan gabungan data, suara, dan video lewat satu infrastruktur jaringan yang sama.</p>
+				</details>
+			</section>
+
+			<!-- Dasar Hukum: memperkuat otoritas topik -->
+			<section class="panel-bantuan" id="dasar-hukum" aria-labelledby="dasar-hukum-title">
+				<h2 id="dasar-hukum-title">Dasar Hukum</h2>
+				<p class="deskripsi">Aplikasi ini mengacu pada ketentuan resmi berikut:</p>
+				<ul class="deskripsi kecil" style="padding-left:1.2rem;">
+					<li>
+						<a href="https://jdih.pu.go.id/detail-dokumen/SEMenteriPU-nomor-22SEM2024-tahun-2024-Pedoman-Penilaian-Kinerja-Bangunan-Gedung-Cerdas-Tahap-Pemanfaatan-Dan-Pemeriksaan-Kinerja-Bangunan-Gedung-Cerdas-Tahap-Pembongkaran" rel="noopener noreferrer" target="_blank">SE Menteri PU No. 22/SE/M/2024</a>
+						tentang Pedoman Penilaian Kinerja Bangunan Gedung Cerdas Tahap Pemanfaatan dan Pemeriksaan Kinerja Bangunan Gedung Cerdas Tahap Pembongkaran.
+					</li>
+					<li>
+						<a href="https://peraturan.bpk.go.id/Details/271011/permen-pupr-no-10-tahun-2023" rel="noopener noreferrer" target="_blank">Permen PUPR Nomor 10 Tahun 2023</a> tentang Bangunan Gedung Cerdas.
+					</li>
+				</ul>
+			</section>
 	</main>
 
 	<nav id="param-nav" class="param-nav side" aria-label="Navigasi Parameter"><!-- diisi dinamis --></nav>
@@ -199,6 +411,89 @@
 			CPNS Kementerian PU tahun 2025.
 		</p>
 	</footer>
+
+		<!-- Structured data: FAQPage to improve discovery and rich results -->
+		<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "FAQPage",
+			"mainEntity": [
+				{ "@type": "Question", "name": "Apa dasar hukum penilaian ini?", "acceptedAnswer": {"@type": "Answer", "text": "Penilaian merujuk pada: 1) SE Menteri PU No. 22/SE/M/2024 tentang Pedoman Penilaian Kinerja Bangunan Gedung Cerdas Tahap Pemanfaatan dan Pemeriksaan Kinerja Bangunan Gedung Cerdas Tahap Pembongkaran; 2) Permen PUPR Nomor 10 Tahun 2023. Istilah dan parameter mengikuti kedua dokumen tersebut."}},
+				{
+					"@type": "Question",
+					"name": "Apa itu Penilaian Kinerja BGC tahap pemanfaatan?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "Penilaian untuk mengukur penerapan prinsip dan parameter BGC pada gedung saat beroperasi, mencakup Keamanan Siber, Protokol & Jaringan, Integrasi Data, Manajemen Operasi, Dampak, dan Kemampuan Sistem."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "Bagaimana cara menghitung peringkat (Pratama, Madya, Utama)?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "Berdasarkan persentase capaian: Pratama 40–60%, Madya ≥60–80%, Utama ≥80%. Elemen Wajib yang tidak terpenuhi menahan peringkat di ‘Belum’."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "Contoh dokumen pembuktian apa yang diperlukan?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "Parameter A–E: snapshot konfigurasi/integrasi/protokol, manual perangkat/software, report sampling. Parameter F: inspeksi fisik, uji fungsi perangkat, pemeriksaan integrasi sistem, audit dokumentasi lapangan."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "Apa contoh Kriteria Unjuk Kerja (KUK) yang dinilai?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "Contoh: Integritas data (A.1), Redundansi (A.2), Analisis event log (A.3), Kontrol akses OSI (A.4), Segmentasi jaringan (A.5), Enkripsi end-to-end (A.6), SSO (A.13), MFA (A.14), QoS (B.12), BMS (C.1), dan lainnya."
+					}
+				},
+				{ "@type": "Question", "name": "Apa itu KUK?", "acceptedAnswer": {"@type": "Answer", "text": "KUK (Kriteria Unjuk Kerja) adalah butir penilaian terukur pada setiap parameter. Tiap KUK punya target/ketentuan yang harus dipenuhi beserta bukti pendukung."}},
+				{ "@type": "Question", "name": "Apa bedanya Wajib, Disarankan, dan Sukarela?", "acceptedAnswer": {"@type": "Answer", "text": "Wajib harus terpenuhi seluruhnya untuk lolos peringkat. Disarankan menambah nilai tetapi tidak mengunci peringkat. Sukarela bersifat tambahan."}},
+				{ "@type": "Question", "name": "Apa itu RBAC?", "acceptedAnswer": {"@type": "Answer", "text": "Role-Based Access Control: hak akses ditentukan oleh peran pengguna. Hanya fitur/data sesuai peran yang bisa diakses."}},
+				{ "@type": "Question", "name": "Apa itu SSO?", "acceptedAnswer": {"@type": "Answer", "text": "Single Sign-On: pengguna cukup login sekali di sistem utama, lalu otomatis terautentikasi di aplikasi terkait tanpa ulang memasukkan kredensial."}},
+				{ "@type": "Question", "name": "Apa itu MFA?", "acceptedAnswer": {"@type": "Answer", "text": "Multi-Factor Authentication: verifikasi ganda (misalnya password + kode OTP atau biometrik) untuk memperkuat keamanan login."}},
+				{ "@type": "Question", "name": "Apa itu IDS?", "acceptedAnswer": {"@type": "Answer", "text": "Intrusion Detection System: sistem yang memantau trafik jaringan untuk mendeteksi aktivitas berbahaya dan memberi peringatan dini."}},
+				{ "@type": "Question", "name": "Apa itu TLS dan enkripsi end-to-end?", "acceptedAnswer": {"@type": "Answer", "text": "TLS adalah protokol pengaman komunikasi. Enkripsi end-to-end memastikan hanya pengirim dan penerima yang bisa membaca data selama transmisi."}},
+				{ "@type": "Question", "name": "Apa itu VLAN dan Segmentasi Jaringan?", "acceptedAnswer": {"@type": "Answer", "text": "VLAN membagi jaringan logis dalam satu infrastruktur fisik. Segmentasi jaringan memisahkan jaringan menjadi beberapa zona untuk membatasi dampak serangan."}},
+				{ "@type": "Question", "name": "Apa itu VPN dan NAC?", "acceptedAnswer": {"@type": "Answer", "text": "VPN mengenkripsi koneksi jarak jauh ke jaringan internal. NAC (Network Access Control) mengatur siapa/perangkat apa yang boleh masuk jaringan."}},
+				{ "@type": "Question", "name": "Apa itu QoS?", "acceptedAnswer": {"@type": "Answer", "text": "Quality of Service: pengelolaan prioritas trafik (latensi, jitter, packet loss) agar layanan penting seperti VoIP/video tetap lancar."}},
+				{ "@type": "Question", "name": "Apa itu BMS?", "acceptedAnswer": {"@type": "Answer", "text": "Building Management System: platform untuk memonitor dan mengendalikan sistem gedung (HVAC, pencahayaan, keamanan, energi) secara terpadu."}},
+				{ "@type": "Question", "name": "Apa itu model OSI?", "acceptedAnswer": {"@type": "Answer", "text": "Kerangka 7 lapisan komunikasi jaringan (fisik hingga aplikasi) untuk memahami fungsi dan pengamanan tiap lapisan."}},
+				{ "@type": "Question", "name": "Apa itu event log dan analisis log?", "acceptedAnswer": {"@type": "Answer", "text": "Event log adalah catatan aktivitas sistem. Analisis log mencari pola/kejanggalan untuk pemecahan masalah dan keamanan."}},
+				{ "@type": "Question", "name": "Apa itu checksum dan hashing?", "acceptedAnswer": {"@type": "Answer", "text": "Metode verifikasi integritas data. Checksum/hash membantu memastikan data tidak berubah tanpa izin saat disimpan/dikirim."}},
+				{ "@type": "Question", "name": "Apa itu redundansi perangkat keras?", "acceptedAnswer": {"@type": "Answer", "text": "Penggandaan komponen penting (server, storage, jaringan) agar layanan tetap berjalan saat terjadi kegagalan."}},
+				{ "@type": "Question", "name": "Apa itu patch panel, modular jack, dan patch cord?", "acceptedAnswer": {"@type": "Answer", "text": "Patch panel merapikan koneksi di rak. Modular jack adalah soket di perangkat. Patch cord adalah kabel pendek penghubung antar perangkat/port."}},
+				{ "@type": "Question", "name": "Apa itu PoE?", "acceptedAnswer": {"@type": "Answer", "text": "Power over Ethernet: kabel jaringan yang sekaligus menyalurkan data dan daya ke perangkat (mis. kamera IP, access point)."}},
+				{ "@type": "Question", "name": "Apa itu RTSP dan RTP?", "acceptedAnswer": {"@type": "Answer", "text": "RTSP mengatur kontrol streaming (play/pause), sedangkan RTP mengangkut data audio/video real-time dengan latensi rendah."}},
+				{ "@type": "Question", "name": "Apa itu 5G URLLC dan RAN slicing?", "acceptedAnswer": {"@type": "Answer", "text": "URLLC: komunikasi sangat andal dengan latensi rendah. RAN slicing: membagi jaringan 5G menjadi beberapa slice sesuai kebutuhan layanan."}},
+				{ "@type": "Question", "name": "Apa itu baseline pada perhitungan dampak?", "acceptedAnswer": {"@type": "Answer", "text": "Patokan pembanding konsumsi energi/air sebelum penerapan BGC atau sesuai standar, untuk mengukur penurunan yang dicapai."}},
+				{ "@type": "Question", "name": "Apa itu mustering?", "acceptedAnswer": {"@type": "Answer", "text": "Prosedur penghitungan dan pengumpulan pengguna di titik aman saat evakuasi darurat, dibantu sistem kontrol akses."}},
+				{ "@type": "Question", "name": "Apa itu ADRS?", "acceptedAnswer": {"@type": "Answer", "text": "Automated Demand-Responsive System: penyesuaian debit/tekanan air secara otomatis sesuai kebutuhan real-time."}},
+				{ "@type": "Question", "name": "Apa itu TSS, COD, NH3-N pada air limbah?", "acceptedAnswer": {"@type": "Answer", "text": "Parameter kualitas air limbah: TSS (kekeruhan/partikulat), COD (beban oksidan), NH3-N (amonia). Dipantau sensor/alat khusus."}},
+				{ "@type": "Question", "name": "Apa itu LPWAN dan RFID pada sistem IoT?", "acceptedAnswer": {"@type": "Answer", "text": "LPWAN: jaringan area luas berdaya rendah untuk sensor jarak jauh. RFID: identifikasi otomatis menggunakan gelombang radio (mis. akses parkir)."}},
+				{ "@type": "Question", "name": "Apa itu TAS pada lift?", "acceptedAnswer": {"@type": "Answer", "text": "Tele Assistant System: bantuan jarak jauh saat insiden pada lift, memantau kondisi dan mendukung evakuasi."}},
+				{ "@type": "Question", "name": "Apa itu BACnet/IP dan Modbus TCP?", "acceptedAnswer": {"@type": "Answer", "text": "Itu “bahasa” komunikasi standar antar perangkat gedung. BACnet/IP dan Modbus TCP memudahkan perangkat dari berbagai merek untuk saling terhubung di jaringan berbasis internet (TCP/IP)."}},
+				{ "@type": "Question", "name": "Apa itu TCP/IP dan UDP?", "acceptedAnswer": {"@type": "Answer", "text": "Protokol dasar internet. TCP fokus pada keandalan (data lengkap, berurutan), sedangkan UDP fokus pada kecepatan (cocok untuk video/voice real-time)."}},
+				{ "@type": "Question", "name": "Apa itu SSID dan WLAN?", "acceptedAnswer": {"@type": "Answer", "text": "SSID adalah nama jaringan Wi-Fi yang terlihat di perangkat. WLAN adalah jaringan Wi‑Fi-nya sendiri (Wireless LAN)."}},
+				{ "@type": "Question", "name": "Apa itu NetFlow?", "acceptedAnswer": {"@type": "Answer", "text": "Metode merekam ringkasan arus data jaringan (siapa kirim ke siapa, berapa besar) untuk analisis dan pemantauan."}},
+				{ "@type": "Question", "name": "Apa itu SIEM?", "acceptedAnswer": {"@type": "Answer", "text": "Security Information and Event Management: alat untuk mengumpulkan dan menganalisis log dari banyak sistem guna mendeteksi ancaman lebih cepat."}},
+				{ "@type": "Question", "name": "Apa itu PSNR dan SSIM?", "acceptedAnswer": {"@type": "Answer", "text": "Angka untuk menilai kualitas video setelah dikompresi. Semakin tinggi, semakin mirip dengan aslinya (gambar tidak buram/pecah)."}},
+				{ "@type": "Question", "name": "Apa itu DVR, NVR, dan VMS?", "acceptedAnswer": {"@type": "Answer", "text": "DVR/NVR adalah alat perekam kamera (analog/digital). VMS adalah perangkat lunak pusat untuk mengelola banyak kamera dan rekaman sekaligus."}},
+				{ "@type": "Question", "name": "Apa itu 3GPP Release 17 (5G)?", "acceptedAnswer": {"@type": "Answer", "text": "Rilis standar 5G yang membawa fitur lanjutan seperti latensi sangat rendah dan pembagian jaringan (network slicing) untuk layanan berbeda."}},
+				{ "@type": "Question", "name": "Apa itu micro‑segmentation?", "acceptedAnswer": {"@type": "Answer", "text": "Pembagian jaringan menjadi bagian-bagian kecil yang sangat terkontrol agar sebuah insiden tidak mudah menyebar ke bagian lain."}},
+				{ "@type": "Question", "name": "Bedanya paket dan frame data itu apa?", "acceptedAnswer": {"@type": "Answer", "text": "Frame adalah “bungkus” data di jaringan lokal; paket adalah “bungkus” data di jaringan yang lebih luas (internet). Keduanya membawa informasi pengiriman."}},
+				{ "@type": "Question", "name": "Apa itu latensi, jitter, packet loss, dan throughput?", "acceptedAnswer": {"@type": "Answer", "text": "Latensi: waktu tunda; jitter: ketidakstabilan latensi; packet loss: data yang hilang; throughput: jumlah data yang bisa dikirim per detik. Empat istilah ini memengaruhi kelancaran video/voice."}},
+				{ "@type": "Question", "name": "Apa itu uptime/availability?", "acceptedAnswer": {"@type": "Answer", "text": "Persentase waktu sistem berjalan normal dan bisa diakses. Makin tinggi, makin jarang down."}},
+				{ "@type": "Question", "name": "Apa itu demand response (energi)?", "acceptedAnswer": {"@type": "Answer", "text": "Strategi mengurangi pemakaian listrik saat beban puncak agar biaya lebih hemat dan sistem listrik stabil."}},
+				{ "@type": "Question", "name": "Apa itu antipassback dan passback?", "acceptedAnswer": {"@type": "Answer", "text": "Aturan di kontrol akses agar kartu tidak bisa dipakai masuk lagi tanpa keluar dulu (mencegah “pinjam” kartu)."}},
+				{ "@type": "Question", "name": "Apa itu layanan triple play?", "acceptedAnswer": {"@type": "Answer", "text": "Layanan gabungan data, suara, dan video lewat satu infrastruktur jaringan yang sama."}}
+			]
+		}
+		</script>
 
 	<!-- Dataset besar penilaian -->
 	<script src="tabel.js" defer></script>

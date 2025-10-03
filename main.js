@@ -533,6 +533,8 @@ function tutupModalInfo() {
 }
 function formatKontenInfo(isiHTML) {
 	const s = String(isiHTML || '');
+	// Jika konten sudah terdiri dari satu atau lebih .blok (multi-card), jangan bungkus ulang
+	if (/class\s*=\s*"blok"/i.test(s)) return s;
 	return `<div class="blok">${s}</div>`;
 }
 
@@ -760,6 +762,19 @@ function renderIsiParameter(section) {
 	if (!kont || kont.dataset.hydrated === '1') return;
 	const data = penilaian[kode];
 	if (!data) return;
+
+	// Hilangkan bagian "Bukti" dan "Keselarasan" pada penjelasan kriteria (permintaan pengguna)
+	function sanitizePenjelasanKriteria(txt) {
+		if (!txt) return '';
+		let s = String(txt);
+		// Hapus segmen yang diawali "Keselarasan:" hingga akhir
+		s = s.replace(/\bKeselarasan\s*:[\s\S]*$/g, '').trim();
+		// Hapus segmen "Bukti:" atau "Bukti yang umum:" hingga sebelum "Keselarasan:" atau akhir
+		s = s.replace(/\b(Bukti yang umum|Bukti)\s*:[\s\S]*?(?=(\bKeselarasan\s*:)|$)/g, '').trim();
+		// Rapikan spasi berlebih dan tanda baca ganda
+		s = s.replace(/\s{2,}/g, ' ').replace(/\s*([.,;:])\s*/g, '$1 ').replace(/\s+$/,'').replace(/^\s+/, '');
+		return s;
+	}
 	(data.kriteriaUnjukKerja || []).forEach((kriteria, idxK) => {
 		const wrapK = document.createElement('div');
 		wrapK.className = 'pc-kriteria';
@@ -773,8 +788,49 @@ function renderIsiParameter(section) {
 			try {
 				const judulWrap = wrapK.querySelector('h4 .kjudul');
 				if (judulWrap) {
-					const info = buatInfoBtn(kriteria.nama || 'Penjelasan', `<div>${kriteria.penjelasan}</div>`);
-					judulWrap.appendChild(info);
+					const full = sanitizePenjelasanKriteria(kriteria.penjelasan);
+					if (full) {
+						const text = full.trim();
+						const splitSections = (src) => {
+							const labelRe = /(Penjelasan|Tujuan|Cakupan)\s*:/ig;
+							const marks = [];
+							let m;
+							while ((m = labelRe.exec(src)) !== null) {
+								marks.push({ label: m[1].toLowerCase(), start: m.index });
+							}
+							if (!marks.length) {
+								return { penjelasan: src.trim(), tujuan: '', cakupan: '' };
+							}
+							// Tentukan rentang setiap label
+							for (let i = 0; i < marks.length; i++) {
+								marks[i].end = (i + 1 < marks.length) ? marks[i + 1].start : src.length;
+							}
+							const get = (label) => {
+								const entry = marks.find(x => x.label === label);
+								if (!entry) return '';
+								const colonPos = src.indexOf(':', entry.start);
+								const start = (colonPos !== -1 ? colonPos + 1 : entry.start);
+								return src.slice(start, entry.end).trim();
+							};
+							let penjelasan = get('penjelasan');
+							const tujuan = get('tujuan');
+							const cakupan = get('cakupan');
+							if (!penjelasan) {
+								// Jika tidak ada label Penjelasan, gunakan teks sebelum label pertama sebagai penjelasan
+								penjelasan = src.slice(0, marks[0].start).trim();
+							}
+							return { penjelasan, tujuan, cakupan };
+						};
+
+						const { penjelasan, tujuan, cakupan } = splitSections(text);
+						let multi = '';
+						if (penjelasan) multi += `<div class=\"blok\"><h4>Penjelasan</h4><div>${penjelasan}</div></div>`;
+						if (tujuan) multi += `<div class=\"blok\"><h4>Tujuan</h4><div>${tujuan}</div></div>`;
+						if (cakupan) multi += `<div class=\"blok\"><h4>Cakupan</h4><div>${cakupan}</div></div>`;
+
+						const info = buatInfoBtn(kriteria.nama || 'Penjelasan', multi || `<div class=\"blok\">${text}</div>`);
+						judulWrap.appendChild(info);
+					}
 				}
 			} catch (_) { }
 		}
@@ -806,10 +862,14 @@ function renderIsiParameter(section) {
 					if (judulNode) {
 						const penjelasan = (detailInd && detailInd.penjelasan) ? String(detailInd.penjelasan) : '';
 						const contoh = (detailInd && detailInd.contohDokumentasi) ? String(detailInd.contohDokumentasi) : '';
+						// Normalisasi pemisah contoh dokumentasi: gunakan koma, bukan titik koma
+						const contohT = contoh && contoh.indexOf(';') !== -1
+							? contoh.split(';').map(s => s.trim()).filter(Boolean).join(', ')
+							: contoh;
 							let isi = '';
 							// Gabungkan ke dalam satu card (satu .blok via formatKontenInfo)
 							if (penjelasan) isi += `<h4>Penjelasan</h4><div>${penjelasan}</div>`;
-							if (contoh) isi += `<h4>Contoh Dokumentasi</h4><div>${contoh}</div>`;
+							if (contohT) isi += `<h4>Contoh Dokumentasi</h4><div>${contohT}</div>`;
 							if (isi) {
 								const info = buatInfoBtn(judulInd, isi);
 							judulNode.appendChild(info);
