@@ -89,8 +89,10 @@ body {
 }
 .app-bar h1 { margin:0; font-weight:var(--fw-xbold); letter-spacing:.2px; font-size: var(--fs-lg); white-space:normal; line-height:var(--lh-tight); }
 .app-bar #btn-menu { width:2.25rem; height:2.25rem; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--warna-border); background:#fff; color:var(--warna-teks); cursor:pointer; }
+.app-bar #btn-ringkas { width:2.25rem; height:2.25rem; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--warna-border); background:#fff; color:var(--warna-teks); cursor:pointer; margin-left:auto; }
 .app-bar .btn { padding:.35rem .6rem; font-size:.8rem; }
 [data-tema='gelap'] .app-bar { background:#0b1220; box-shadow: 0 1px 0 rgba(255,255,255,.08); }
+[data-tema='gelap'] .app-bar #btn-ringkas { background:#223040; color:#9ecbff; border-color:#2d3a46; }
 
 /* ============== Konten ============== */
 .konten { flex:1; width:100%; max-width: min(92vw, 55rem); margin:0 auto; padding: var(--sp-4) var(--sp-4) var(--sp-6); padding-top: calc(var(--sp-4) + var(--appbar-h)); }
@@ -265,8 +267,8 @@ progress::-moz-progress-bar { background: linear-gradient(90deg,#1976d2,#42a5f5)
 .menu-ekspor .menu-item { background:#ffffff; border:1px solid var(--warna-border); border-radius:8px; padding:.45rem .6rem; font-size:var(--fs-xs); font-weight:var(--fw-semi); text-align:left; cursor:pointer; }
 .menu-ekspor .menu-item:hover, .menu-ekspor .menu-item:focus { background:#f1f5f9; }
 /* Spasi ikon pada tombol & menu */
-.btn i, .menu-ekspor .menu-item i { margin-right:.4rem; font-size: .95em; }
-.btn i:last-child, .menu-ekspor .menu-item i:last-child { margin-right:.4rem; }
+/* .btn i, .menu-ekspor .menu-item i { margin-right:.4rem; font-size: .95em; } */
+/* .btn i:last-child, .menu-ekspor .menu-item i:last-child { margin-right:.4rem; } */
 /* Pastikan teks tetap inline */
 .btn i { pointer-events:none; }
 [data-tema='gelap'] .menu-ekspor { background:#1b242f; border-color:#2a3644; }
@@ -448,8 +450,11 @@ body {
 	margin: 0;
 }
 .app-bar #btn-menu:hover { background:#f8fafc; }
+.app-bar #btn-ringkas:hover { background:#f8fafc; }
 .app-bar #btn-menu:active { transform: translateY(1px); }
+.app-bar #btn-ringkas:active { transform: translateY(1px); }
 .app-bar #btn-menu:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(37,99,235,.35); border-color: var(--warna-aksen); }
+.app-bar #btn-ringkas:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(37,99,235,.35); border-color: var(--warna-aksen); }
 /* Compact button inside app bar to keep header short */
 .app-bar .btn { padding: .35rem .6rem; font-size: .8rem; flex:0 0 auto; }
 @media (min-width: 768px) {
@@ -599,7 +604,9 @@ progress::-moz-progress-bar { background: linear-gradient(90deg,#1976d2,#42a5f5)
 [data-tema='gelap'] .app-bar .btn.sekunder:hover { background:#1a2835; }
 /* Dark mode: match icon button visuals */
 [data-tema='gelap'] .app-bar #btn-menu { background:#223040; color:#9ecbff; border-color:#2d3a46; }
+[data-tema='gelap'] .app-bar #btn-ringkas { background:#223040; color:#9ecbff; border-color:#2d3a46; }
 [data-tema='gelap'] .app-bar #btn-menu:hover { background:#1a2835; }
+[data-tema='gelap'] .app-bar #btn-ringkas:hover { background:#1a2835; }
 
 .param-nav { background:transparent; border:none; }
 .param-nav.floating { box-shadow: 0 12px 34px rgba(16,24,40,.18), 0 6px 12px rgba(16,24,40,.10); max-width: min(55rem, 96vw); }
@@ -930,6 +937,9 @@ summary, label, select, input, button { touch-action: manipulation; }
 .param-nav.side .chip[aria-current="true"], .param-nav.side .chip.aktif { background: var(--chip-active-bg); color: var(--chip-active-color); border-color: var(--chip-active-bg); box-shadow: 0 4px 10px -3px rgba(30,136,229,.35); }
 /* Pressed state for toggle chips (e.g., Mode Ringkas) */
 .param-nav.side .chip[aria-pressed="true"] { background: var(--chip-active-bg); color: var(--chip-active-color); border-color: var(--chip-active-bg); box-shadow: 0 4px 10px -3px rgba(30,136,229,.35); }
+/* Pressed state for header ringkas button */
+#btn-ringkas[aria-pressed="true"] { background: #e8eefc; border-color: #bfd0f7; color:#0d47a1; }
+[data-tema='gelap'] #btn-ringkas[aria-pressed="true"] { background:#15344b; border-color:#1976d2; color:#9ecbff; }
 @supports (padding: max(0px)) {
 	.param-nav.side { padding-left: max(.35rem, env(safe-area-inset-left)); }
 }
@@ -1132,4 +1142,29 @@ summary, label, select, input, button { touch-action: manipulation; }
 [data-lite='true'] .pc-parameter,
 [data-lite='true'] .pc-indikator .indikator-item { content-visibility: auto; contain-intrinsic-size: 600px 200px; }
 [data-lite='true'] .param-nav { content-visibility: auto; contain-intrinsic-size: 80px 320px; }
+
+/* Rekap cepat sticky di bawah layar */
+.rekap-sticky { position: fixed; left: 50%; transform: translateX(-50%); bottom: max(.5rem, env(safe-area-inset-bottom)); z-index: 55; width: calc(100% - 2rem); max-width: min(55rem, 92vw); background: var(--nav-bg); color: var(--chip-color); border: 1px solid var(--nav-border); border-radius: 14px; box-shadow: 0 10px 28px rgba(16,24,40,.18), 0 6px 12px rgba(16,24,40,.10); backdrop-filter: blur(6px); padding: .6rem .8rem; }
+.rekap-sticky .rekap-row { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+.rekap-sticky .rekap-left { display:flex; align-items: baseline; gap:.5rem; font-weight: 700; color: var(--chip-color); }
+.rekap-sticky .rekap-label { font-size: .8rem; opacity: .85; font-weight: 800; letter-spacing: .3px; }
+.rekap-sticky .rekap-nilai strong { font-size: 1rem; color: var(--chip-active-color); }
+.rekap-sticky .rekap-right { display:flex; align-items:center; gap:.65rem; }
+.rekap-sticky .rekap-persentase { display:inline-flex; align-items:center; justify-content:center; background:#eef5ff; color:#0d47a1; padding:.45rem .6rem; border-radius:12px; font-weight:800; letter-spacing:.3px; min-width:3.8rem; text-align:right; line-height:1; }
+.rekap-sticky progress { height: 10px; width: clamp(120px, 30vw, 260px); border-radius: 999px; overflow: hidden; }
+.rekap-sticky progress::-webkit-progress-bar { background: rgba(13,71,161,.15); border-radius: 999px; }
+.rekap-sticky progress::-webkit-progress-value { background: var(--chip-active-bg); border-radius: 999px; }
+[data-tema='gelap'] .rekap-sticky { background: rgba(9,28,48,.88); border-color: rgba(255,255,255,.12); color:#9ecbff; }
+[data-tema='gelap'] .rekap-sticky .rekap-persentase { background:#15344b; color:#8bc4ff; }
+[data-tema='gelap'] .rekap-sticky .rekap-nilai strong,
+[data-tema='gelap'] .rekap-sticky .rekap-nilai span { background:#15344b; color:#8bc4ff; }
+[data-tema='gelap'] .rekap-sticky .rekap-nilai strong { color: #e3f2fd; }
+
+/* Hindari bertabrakan dengan nav floating jika aktif */
+.param-nav.floating + .rekap-sticky, .rekap-sticky + .param-nav.floating { margin-bottom: 3.5rem; }
+
+/* Rekap nilai pill mirip claimed */
+.rekap-sticky .rekap-nilai { display:flex; gap:.35rem; align-items:center; }
+.rekap-sticky .rekap-nilai strong,
+.rekap-sticky .rekap-nilai span { display:inline-flex; align-items:center; justify-content:center; background:#eef5ff; color:#0d47a1; padding:.45rem .6rem; border-radius:12px; font-weight:800; font-size: var(--fs-lg); min-width:3.4rem; line-height:1; }
 

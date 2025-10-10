@@ -309,10 +309,17 @@ const totalSkorEl = document.getElementById('total-skor');
 const totalMaksEl = document.getElementById('total-maks');
 const persentaseEl = document.getElementById('persentase');
 const progressEl = document.getElementById('progress-total');
+// Sticky rekap elements
+const rekapSticky = document.getElementById('rekap-sticky');
+const rekapTotalSkorEl = document.getElementById('rekap-total-skor');
+const rekapTotalMaksEl = document.getElementById('rekap-total-maks');
+const rekapPersenEl = document.getElementById('rekap-persentase');
+const rekapProgressEl = document.getElementById('rekap-progress');
 const peringkatEl = document.getElementById('klasifikasi-level');
 const form = document.getElementById('form-penilaian');
 const btnHitung = document.getElementById('btn-hitung');
-const btnRingkas = document.getElementById('chip-ringkas');
+// Mode Ringkas control: prefer header button, fallback to legacy sidebar chip
+let btnRingkas = document.getElementById('btn-ringkas') || document.getElementById('chip-ringkas');
 // Tombol & menu ekspor dibuat let supaya bisa dire-assign setelah cloning
 let btnEkspor = document.getElementById('btn-ekspor');
 let menuEkspor = document.getElementById('menu-ekspor');
@@ -893,9 +900,10 @@ function renderChecklist() {
 	const frag = document.createDocumentFragment();
 	const nav = document.getElementById('param-nav');
 	const navFrag = document.createDocumentFragment();
+	const navHardcoded = !!(nav && nav.hasAttribute('data-hardcoded'));
 
 	let chipHasil = null;
-	if (nav) {
+	if (nav && !navHardcoded) {
 		const chipData = document.createElement('button');
 		chipData.type = 'button';
 		chipData.className = 'chip';
@@ -923,7 +931,7 @@ function renderChecklist() {
 		summary.innerHTML = `<span class="kode">${kode}</span><h3>${data.nama}</h3><span class="maks">Maks ${data.maksPoinParameter || 0}</span>`;
 		section.appendChild(summary);
 
-		if (nav) {
+		if (nav && !navHardcoded) {
 			const chip = document.createElement('button');
 			chip.type = 'button';
 			chip.className = 'chip';
@@ -943,9 +951,15 @@ function renderChecklist() {
 	root.innerHTML = '';
 	root.appendChild(frag);
 
-	if (nav && chipHasil) navFrag.appendChild(chipHasil);
+	if (nav && !navHardcoded && chipHasil) navFrag.appendChild(chipHasil);
 
-	if (nav) { nav.innerHTML = ''; nav.appendChild(navFrag); pasangNavParameter(); }
+	if (nav) {
+		if (!navHardcoded) {
+			nav.innerHTML = '';
+			nav.appendChild(navFrag);
+		}
+		pasangNavParameter();
+	}
 
 	pasangLazyHydration();
 	// Terapkan kembali state terbuka/tertutup dari localStorage
@@ -1210,6 +1224,11 @@ function pasangNavParameter() {
 	const chips = Array.from(nav.querySelectorAll('.chip'));
 	const sections = Array.from(document.querySelectorAll('.pc-parameter'));
 
+	// Header chips (Data & Ringkasan)
+	const chipData = nav.querySelector('.chip[data-scroll-target="#judul-data-bangunan"]');
+	const chipRingkasan = nav.querySelector('.chip[data-scroll-target="#judul-ringkasan"]');
+	let headerAktif = false; // jika true, abaikan penandaan aktif di chip parameter
+
 	chips.forEach(c => {
 		const t = c.getAttribute('data-scroll-target');
 		if (t) {
@@ -1231,7 +1250,25 @@ function pasangNavParameter() {
 
 	const keSection = (kode) => sections.find(s => s.dataset.param === kode);
 	const setAktif = (kode) => {
-		chips.forEach(c => c.setAttribute('aria-current', c.dataset.targetParam === kode ? 'true' : 'false'));
+		chips.forEach(c => {
+			if (c.dataset.targetParam) {
+				c.setAttribute('aria-current', c.dataset.targetParam === kode ? 'true' : 'false');
+			} else {
+				// Pastikan chip header tidak aktif saat param aktif
+				c.setAttribute('aria-current', 'false');
+			}
+		});
+	};
+
+	const setAktifHeader = (jenis) => {
+		chips.forEach(c => {
+			const t = c.getAttribute('data-scroll-target');
+			if (!t) { c.setAttribute('aria-current', 'false'); return; }
+			const isData = (t === '#judul-data-bangunan');
+			const isRingkasan = (t === '#judul-ringkasan');
+			const aktif = (jenis === 'data' && isData) || (jenis === 'ringkasan' && isRingkasan);
+			c.setAttribute('aria-current', aktif ? 'true' : 'false');
+		});
 	};
 	const tampilkanNama = (kode) => {
 		chips.forEach(c => {
@@ -1240,19 +1277,32 @@ function pasangNavParameter() {
 	};
 
 	chips.forEach(c => c.addEventListener('click', () => {
-		const sec = keSection(c.dataset.targetParam);
-		if (sec) {
+		const kode = c.dataset.targetParam;
+		if (!kode) return;
+		const sec = keSection(kode);
+		if (!sec) return;
 
-			if (sec.tagName === 'DETAILS' && !sec.open) sec.open = true;
-			const appBar = document.querySelector('.app-bar');
-			const headerH = appBar ? appBar.getBoundingClientRect().height : 78;
-			const extraGap = 12;
-			const offset = headerH + extraGap;
-			const y = sec.getBoundingClientRect().top + window.scrollY - offset;
-			window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+		// Buka section jika tertutup dan pastikan isi ter-hydrate sebelum menghitung posisi scroll
+		if (sec.tagName === 'DETAILS' && !sec.open) sec.open = true;
+		try {
+			const kont = sec.querySelector('.daftar-kriteria[data-lazy="true"]');
+			if (kont) renderIsiParameter(sec);
+		} catch (_) {}
+
+		// Gunakan dua kali rAF agar layout update selesai sebelum menghitung posisi
+		const doScroll = () => {
+			try {
+				const appBar = document.querySelector('.app-bar');
+				const headerH = appBar ? appBar.getBoundingClientRect().height : 78;
+				const extraGap = 12;
+				const offset = headerH + extraGap;
+				const y = sec.getBoundingClientRect().top + window.scrollY - offset;
+				window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+			} catch(_) {}
 			setAktif(sec.dataset.param);
 			tampilkanNama(sec.dataset.param);
-		}
+		};
+		try { requestAnimationFrame(() => requestAnimationFrame(doScroll)); } catch(_) { doScroll(); }
 	}, { passive: true }));
 
 	const obs = new IntersectionObserver(entries => {
@@ -1260,15 +1310,50 @@ function pasangNavParameter() {
 		const terlihat = entries
 			.filter(e => e.isIntersecting)
 			.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-		if (terlihat[0]) {
+		if (!headerAktif && terlihat[0]) {
 			const k = terlihat[0].target.dataset.param;
 			setAktif(k);
 
 			const adaTampil = chips.some(c => c.classList.contains('tampil-nama'));
 			if (adaTampil) tampilkanNama(k);
 		}
+		// Toggle sticky rekap: tampil hanya saat parameter A–F terlihat.
+		try {
+			const judulData = document.getElementById('judul-data-bangunan');
+			const judulRingkasan = document.getElementById('judul-ringkasan');
+			const dataInView = !!(judulData && rectIsInViewport(judulData));
+			const ringkasanInView = !!(judulRingkasan && rectIsInViewport(judulRingkasan));
+			const show = !dataInView && !ringkasanInView;
+			if (rekapSticky) rekapSticky.hidden = !show;
+		} catch (_) {}
 	}, { rootMargin: '-40% 0px -55% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] });
 	sections.forEach(s => obs.observe(s));
+
+	// Observer untuk judul Data & Ringkasan agar chip header bisa aktif saat terlihat
+	const hdrTargets = [];
+	const judulData = document.getElementById('judul-data-bangunan');
+	const judulRingkasan = document.getElementById('judul-ringkasan');
+	if (judulData) hdrTargets.push(judulData);
+	if (judulRingkasan) hdrTargets.push(judulRingkasan);
+	const hdrObs = new IntersectionObserver(() => {
+		const dataInView = !!(judulData && rectIsInViewport(judulData));
+		const ringkasanInView = !!(judulRingkasan && rectIsInViewport(judulRingkasan));
+		headerAktif = dataInView || ringkasanInView;
+		if (ringkasanInView) setAktifHeader('ringkasan');
+		else if (dataInView) setAktifHeader('data');
+		else setAktifHeader(null);
+	}, { rootMargin: '-40% 0px -55% 0px', threshold: [0, 0.1, 0.25, 0.5] });
+	judulData && hdrObs.observe(judulData);
+	judulRingkasan && hdrObs.observe(judulRingkasan);
+
+	// Inisialisasi state aktif di awal
+	try {
+		const dataInView0 = !!(judulData && rectIsInViewport(judulData));
+		const ringkasanInView0 = !!(judulRingkasan && rectIsInViewport(judulRingkasan));
+		headerAktif = dataInView0 || ringkasanInView0;
+		if (ringkasanInView0) setAktifHeader('ringkasan');
+		else if (dataInView0) setAktifHeader('data');
+	} catch (_) {}
 
 	// A11y: Roving tabindex + keyboard navigation (Arrow/Home/End) on chips
 	try {
@@ -1307,14 +1392,24 @@ function pasangNavParameter() {
 	} catch (_) { }
 }
 
+// Helper: cek apakah elemen berada di viewport (sebagian terlihat)
+function rectIsInViewport(el) {
+	try {
+		const rect = el.getBoundingClientRect();
+		const vh = window.innerHeight || document.documentElement.clientHeight;
+		const vw = window.innerWidth || document.documentElement.clientWidth;
+		return rect.bottom > 0 && rect.right > 0 && rect.top < vh && rect.left < vw;
+	} catch (_) { return false; }
+}
+
 // Mode Ringkas: tampilkan hanya indikator yang belum terisi
 (function setupModeRingkas() {
 	if (!btnRingkas) return;
 	const applyPressed = (aktif) => {
 		btnRingkas.setAttribute('aria-pressed', aktif ? 'true' : 'false');
 		btnRingkas.classList.toggle('aktif', !!aktif);
-		// ikon saja pada chip; gunakan title untuk status
 		btnRingkas.title = aktif ? 'Mode Ringkas aktif: hanya indikator belum terisi' : 'Mode Ringkas: tampilkan hanya indikator yang belum terisi';
+		// Jika tombol di header, pertahankan ikon filter, tidak perlu teks
 	};
 	// Inisialisasi dari state
 	try { applyPressed(App && App.state ? !!App.state.modeRingkas : false); } catch(_){}
@@ -1327,10 +1422,8 @@ function pasangNavParameter() {
 		try {
 			const root = document.getElementById('parameter-checklist');
 			if (root) { root.removeAttribute('data-rendered'); root.dataset.rendered = ''; }
-			// Bersihkan konten untuk render ulang ringkas
 			if (root) root.innerHTML = '';
 			renderChecklist();
-			// Buka semua parameter untuk memudahkan review indikator belum terisi
 			Array.from(document.querySelectorAll('.pc-parameter')).forEach(sec => { try { sec.open = true; } catch(_){} });
 		} catch (_) {}
 	});
@@ -1660,6 +1753,18 @@ function perbaruiRingkasan() {
 			peringkatEl.dataset.level = level;
 			peringkatEl.className = `badge-klasifikasi ${kelasBadge(level)}`;
 		}
+
+		// Update sticky rekap values (mirror main summary)
+		try {
+			if (rekapTotalSkorEl) rekapTotalSkorEl.textContent = Number.isFinite(total) ? total.toFixed(1) : '0.0';
+			if (rekapTotalMaksEl) rekapTotalMaksEl.textContent = maks;
+			if (rekapPersenEl) rekapPersenEl.textContent = formatPersentase(persen);
+			if (rekapProgressEl) {
+				const val = clamp(persen, 0, 100);
+				rekapProgressEl.value = val;
+				rekapProgressEl.setAttribute('aria-valuenow', String(val));
+			}
+		} catch (_) {}
 	}
 }
 

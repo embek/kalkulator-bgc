@@ -88,6 +88,11 @@
 			<span class="judul-bgc-singkat">BGC </span>
 			<span class="judul-tahap">– Tahap Pemanfaatan</span>
 		</h1>
+		<!-- Tombol Mode Ringkas di kanan header -->
+		<button id="btn-ringkas" type="button" class="btn sekunder kecil" aria-pressed="false"
+			aria-label="Mode Ringkas: tampilkan hanya indikator yang belum terisi" title="Mode Ringkas">
+			<i class="fa-solid fa-filter" aria-hidden="true"></i>
+		</button>
 	</header>
 
 	<main id="utama" class="konten" role="main">
@@ -471,13 +476,54 @@
 		<button id="chip-tema" type="button" class="chip" aria-pressed="false" aria-label="Ganti tema: gelap/terang" title="Ganti Tema">
 			<i class="fa-solid fa-moon" aria-hidden="true"></i>
 		</button>
-		<button id="chip-ringkas" type="button" class="chip" aria-pressed="false" aria-label="Mode Ringkas: tampilkan hanya indikator yang belum terisi" title="Mode Ringkas">
-			<i class="fa-solid fa-filter" aria-hidden="true"></i>
+	</nav>
+
+	<!-- Side nav utama: Navigasi Parameter (hardcoded chips) -->
+	<nav id="param-nav" class="param-nav side" aria-label="Navigasi Parameter" role="navigation" data-hardcoded="1">
+		<!-- Chip ke Data Bangunan -->
+		<button type="button" class="chip" data-scroll-target="#judul-data-bangunan" aria-label="Ke bagian Data Bangunan" title="Data Bangunan">
+			<i class="fa-solid fa-building" aria-hidden="true"></i>
+			<span class="nama" aria-hidden="true">Data</span>
+		</button>
+		<!-- Chip Parameter A–F -->
+		<button type="button" class="chip" data-target-param="A" aria-label="Ke parameter A - Keamanan Siber" title="A • Keamanan Siber">
+			<span class="kode">A</span><span class="nama" aria-hidden="true">Keamanan Siber</span>
+		</button>
+		<button type="button" class="chip" data-target-param="B" aria-label="Ke parameter B - Protokol & Jaringan" title="B • Protokol & Jaringan">
+			<span class="kode">B</span><span class="nama" aria-hidden="true">Protokol &amp; Jaringan</span>
+		</button>
+		<button type="button" class="chip" data-target-param="C" aria-label="Ke parameter C - Integrasi Data" title="C • Integrasi Data">
+			<span class="kode">C</span><span class="nama" aria-hidden="true">Integrasi Data</span>
+		</button>
+		<button type="button" class="chip" data-target-param="D" aria-label="Ke parameter D - Manajemen Operasi" title="D • Manajemen Operasi">
+			<span class="kode">D</span><span class="nama" aria-hidden="true">Manajemen Operasi</span>
+		</button>
+		<button type="button" class="chip" data-target-param="E" aria-label="Ke parameter E - Dampak" title="E • Dampak">
+			<span class="kode">E</span><span class="nama" aria-hidden="true">Dampak</span>
+		</button>
+		<button type="button" class="chip" data-target-param="F" aria-label="Ke parameter F - Kemampuan Sistem" title="F • Kemampuan Sistem">
+			<span class="kode">F</span><span class="nama" aria-hidden="true">Kemampuan Sistem</span>
+		</button>
+		<!-- Chip ke Ringkasan/Hasil -->
+		<button type="button" class="chip" data-scroll-target="#judul-ringkasan" aria-label="Ke bagian Rekapitulasi Hasil Penilaian" title="Ringkasan">
+			<i class="fa-solid fa-chart-column" aria-hidden="true"></i>
+			<span class="nama" aria-hidden="true">Ringkasan</span>
 		</button>
 	</nav>
 
-	<!-- Side nav utama: Navigasi Parameter -->
-	<nav id="param-nav" class="param-nav side" aria-label="Navigasi Parameter" role="navigation"><!-- diisi dinamis --></nav>
+	<!-- Rekap cepat sticky (muncul saat melihat Parameter A–F) -->
+	<div id="rekap-sticky" class="rekap-sticky" hidden role="region" aria-label="Rekap cepat">
+		<div class="rekap-row">
+			<div class="rekap-left">
+				<span class="rekap-label">Total</span>
+				<span class="rekap-nilai"><strong id="rekap-total-skor">0.0</strong> / <span id="rekap-total-maks">0</span></span>
+			</div>
+			<div class="rekap-right">
+				<span id="rekap-persentase" class="rekap-persentase">0.0%</span>
+				<progress id="rekap-progress" max="100" value="0" aria-label="Progres total"></progress>
+			</div>
+		</div>
+	</div>
 
 	<!-- Modal Info (untuk penjelasan & dokumentasi indikator) -->
 	<div id="modal-info" class="modal-info" aria-hidden="true">
