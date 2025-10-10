@@ -12,17 +12,24 @@ Aplikasi ini membantu penilaian mandiri (self‑assessment) untuk Penilaian Kine
 - Subtotal per parameter (dibatasi Maks Poin Parameter)
 - Total poin, Persentase, dan Peringkat (Utama/Madya/Pratama/Belum) dengan pengunci (gating) untuk elemen Wajib
 
-Data tersimpan lokal (localStorage). Ekspor/impor tersedia; UI menampilkan ekspor CSV, sedangkan ekspor/impor JSON disembunyikan secara default namun tetap ada di kode.
+Data tersimpan lokal (localStorage), termasuk status terbuka/tertutup setiap parameter. Ekspor JSON/CSV tersedia dari menu Simpan (dropdown); impor dilakukan lewat tombol “Muat Data” yang membuka modal unggah.
 
 ## Fitur Utama
 
 - Checklist parameter A–F dengan perhitungan otomatis pada setiap perubahan
 - Pengunci peringkat (gating) untuk elemen F kategori Wajib
-- Ekspor CSV (tombol terlihat). Ekspor/Impor JSON tersedia namun tombolnya disembunyikan default
+- Ekspor CSV, Ekspor JSON (melalui menu dropdown “Simpan Data”)
+- Impor JSON melalui tombol “Muat Data” (modal unggah dengan drag & drop)
 - Autosave (input/change/toggle/visibility/unload) dengan penyimpanan chunk untuk objek besar
 - PWA-ready (Service Worker + manifest; pendaftaran pada https/localhost)
-- Responsif mobile‑first dengan skala spacing konsisten; tema Terang/Gelap tersimpan per pengguna
+- Responsif mobile‑first dengan skala spacing konsisten; tema Terang/Gelap tersimpan per pengguna (tombol tema berupa chip di sidebar)
 - Aksesibilitas: ARIA dasar, radiobutton dapat di‑uncheck dengan Space/Enter, serta modal info dengan focus‑trap, inert background, dan pengembalian fokus ke pemicu
+ - Mode Ringkas: tampilkan hanya indikator yang belum diisi (chip filter pada sidebar)
+ - Navigasi Parameter di sidebar (burger) dengan dua tumpukan nav dan chip:
+   - Chip Tema (gelap/terang) di paling atas
+   - Chip Mode Ringkas di bawah chip tema
+   - Diikuti daftar chip parameter (A–F)
+   Penempatan ini mencegah overlap dan memudahkan akses cepat.
 
 ## Cara Pakai
 
@@ -31,11 +38,9 @@ Data tersimpan lokal (localStorage). Ekspor/impor tersedia; UI menampilkan ekspo
 3) Isi Daftar Simak indikator untuk tiap parameter. Gunakan checkbox/radio sesuai deskripsi masing-masing indikator.
 4) Ringkasan Hasil (Total, Maks, Persentase, Peringkat) otomatis ter-update.
 5) Gunakan tombol:
-  - Ekspor CSV: menyimpan daftar indikator terpilih beserta poinnya
+  - Simpan Data ▾: pilih Simpan JSON atau Simpan CSV dari menu dropdown
+  - Muat Data: membuka modal untuk memilih/drag & drop berkas JSON hasil ekspor
   - Reset: menghapus data tersimpan lokal dan mengosongkan input
-
-Catatan:
-- Ekspor/Impor JSON ada di kode namun tombol disembunyikan (atribut `hidden` pada `#btn-ekspor` dan `#btn-impor`). Aktifkan dengan menghapus `hidden` di `index.html` bila diperlukan.
 
 Catatan: Tombol “Hitung Total” bersifat opsional; semua perhitungan berjalan otomatis pada setiap perubahan.
 
@@ -107,38 +112,39 @@ Catatan: Nilai kontribusi F ditampilkan dengan satu angka desimal saat relevan.
 
 ## Ekspor / Impor
 
-### Ekspor CSV (tombol terlihat)
+### Ekspor CSV
 
 - Kolom: `Parameter, Kriteria Index (elemenIndex), Indikator, Tipe, Pilihan/Checked, Poin Dasar, Multiplier(F), Poin Akhir`
 - Disertakan baris ringkasan Total Poin, Poin Maks, dan Persentase.
 
-### Ekspor/Impor JSON (opsional, tombol disembunyikan)
+### Ekspor/Impor JSON
 
 - Snapshot JSON (versi 2):
   - tipe: `bgc-penilaian`, versi: `2`, diperbarui: ISO timestamp
   - bangunan `{ jenis, klasifikasi }`, implementasi `{ catatanGlobal: hanya relevan }`, checklist seluruh pilihan
   - poin terhitung: rincian parameter/kriteria/indikator dan ringkasan `{ total, maks, persentase }`
 - Impor JSON: menerapkan `{ bangunan, implementasi.catatanGlobal, checklist }` lalu menghitung ulang.
-- Untuk menampilkan tombolnya, hapus atribut `hidden` pada `#btn-ekspor` dan `#btn-impor` di `index.html`.
 
 ## UI & Interaksi
 
 - Mode tampilan: Checklist (default; grid alternatif belum digunakan)
-- Navigasi Parameter (param‑nav): floating chips di bawah (dengan tema terang/gelap). Posisi disesuaikan oleh JS.
+- Navigasi Parameter: sidebar (burger) dengan roving tabindex dan keyboard navigation (Arrow/Home/End/Enter/Space), serta floating chips pada layout tertentu.
 - Daftar Simak Parameter (A–F): struktur expandable per parameter dan kriteria
 - Catatan Implementasi: panel dinamis (tampil bila relevan)
 - Ringkasan Hasil: Total, Maks, Persentase, Peringkat, dan progress bar
 - Tombol Aksi (`.aksi`): responsif (menurun di mobile, berjajar di layar lebar)
-- Tema: tombol toggle tema, disimpan ke localStorage; meta theme-color ikut disesuaikan
+- Tema: tombol toggle tema berupa chip di sidebar (di atas Mode Ringkas). Status tersimpan ke localStorage, beserta penyesuaian meta theme-color.
+- Aksesibilitas tambahan: roving tabindex pada chip navigasi parameter; dukungan keyboard (Arrow, Home/End, Enter/Space) untuk berpindah dan memilih chip.
 - Aksesibilitas: ARIA dasar; radio dapat di-untick dengan Space/Enter saat sudah terpilih (untuk memudahkan koreksi)
 
 Detail UI terbaru:
-- CSS mobile‑first ringkas (~500 baris) dengan breakpoint: 600px, 768px, 1024px
+ - CSS mobile‑first ringkas (~500+ baris) dengan breakpoint: 600px, 768px, 1024px
 - Skala spacing konsisten (variabel `--sp-*`) untuk margin/gap/padding
 - Offset header akurat via `--appbar-h` (disetel dinamis oleh JS); toast diposisikan tepat di bawah app bar agar tidak menutupi banner
 - Panel bantuan memiliki `scroll-margin-top` dan margin adaptif (termasuk di rentang 600–680 px) agar kartu tidak tertutup banner
 - Radio pill “Jenis Bangunan”: lebar diselaraskan secara kondisional via JavaScript hanya ketika salah satu opsi membungkus baris terlebih dahulu (umumnya Non‑BGN). Bila Non‑BGN wrap dan BGN tidak, BGN diberi `min-width` mengikuti Non‑BGN; jika tidak ada wrap, tampilan dibiarkan alami (tidak memaksakan grid lebar sama)
-- Modal Info: focus trap aktif, latar belakang dibuat inert selama modal terbuka, dan fokus kembali ke tombol pemicu setelah modal ditutup
+- Modal Info: focus trap aktif, latar belakang inert, fokus kembali ke pemicu; konten disanitasi dengan DOMPurify (SRI diperbarui)
+- Modal Muat Data: drag & drop JSON + pre-validasi struktur; tombol aksi menyesuaikan (Pilih/Muat)
 
 ## PWA & Offline
 
@@ -177,7 +183,7 @@ Detail UI terbaru:
 
 ## Struktur Proyek Singkat
 
-- `index.html` — markup utama, termasuk panel bantuan, form penilaian, nav chips, dan modal info
+- `index.html` — markup utama; termasuk chip Tema & Mode Ringkas di sidebar, panel bantuan, form penilaian, nav parameter, modal info, dan modal muat data
 - `style.css` — stylesheet ringkas mobile‑first (~500 baris) dengan spacing konsisten dan sedikit breakpoint
 - `main.js` — logika state, render checklist, kalkulasi poin, autosave, tema, dan interaksi UI
 - `tabel.js` — dataset penilaian (matriks, catatan, pengali, penilaian A–F)
@@ -201,9 +207,12 @@ Lalu buka `http://localhost:8080/`.
 ## Versi & Perubahan Ringkas
 
 - 1.2.1
-  - Modal Info: perbaikan aksesibilitas (focus trap, inert background, kembalikan fokus ke pemicu)
+  - Pindah tombol Tema ke sidebar sebagai chip di atas chip Mode Ringkas; ikon dan ARIA diperbarui, fokus awal nav diarahkan ke chip Tema
+  - Mode Ringkas (chip) memfilter indikator yang belum terisi; saat aktif, seluruh parameter otomatis dibuka untuk peninjauan cepat
+  - Menu Simpan menjadi dropdown (JSON/CSV); tombol Muat Data membuka modal unggah dengan drag & drop dan pre‑validasi JSON
+  - Modal Info: perbaikan aksesibilitas (focus trap, inert background, kembalikan fokus ke pemicu); konten disanitasi dengan DOMPurify (SRI diperbarui)
   - Radio pill Jenis Bangunan: penyeragaman lebar kondisional via JS saat terjadi wrapping; tanpa memaksakan tampilan dua kolom tetap
-  - Perbaikan overlap: toast tidak menutupi banner; konten memiliki padding‑top mengikuti tinggi header; panel bantuan aman di berbagai ukuran layar (termasuk 600–680 px)
+  - Perbaikan overlap/nav: dua nav sidebar (chip Tema/Mode Ringkas dan daftar parameter) ditata vertikal tanpa tumpang tindih; toast dan panel memiliki offset yang akurat
   - Pembaruan dokumentasi agar sejalan dengan kode
 
 - 1.2.0

@@ -32,14 +32,17 @@
 	<meta property="og:description"
 		content="Hitung poin, persentase, dan peringkat Penilaian Bangunan Gedung Cerdas (BGC) secara cepat." />
 	<meta property="og:url" content="https://embek.github.io/kalkulator-bgc/" />
-	<meta property="og:image" content="icons/icon-512.png" />
-    <meta property="og:image:alt" content="Logo aplikasi Kalkulator Penilaian Kinerja BGC" />
+	<meta property="og:image" content="https://embek.github.io/kalkulator-bgc/icons/icon-512.png" />
+	<meta property="og:image:secure_url" content="https://embek.github.io/kalkulator-bgc/icons/icon-512.png" />
+	<meta property="og:image:width" content="512" />
+	<meta property="og:image:height" content="512" />
+	<meta property="og:image:alt" content="Logo aplikasi Kalkulator Penilaian Kinerja BGC" />
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content="Kalkulator Penilaian Bangunan Gedung Cerdas (BGC) – Tahap Pemanfaatan" />
 	<meta name="twitter:description"
 		content="Hitung poin, persentase, dan peringkat Penilaian Bangunan Gedung Cerdas (BGC) secara cepat." />
-	<meta name="twitter:image" content="icons/icon-512.png" />
-    <meta name="twitter:image:alt" content="Logo aplikasi Kalkulator Penilaian Kinerja BGC" />
+	<meta name="twitter:image" content="https://embek.github.io/kalkulator-bgc/icons/icon-512.png" />
+	<meta name="twitter:image:alt" content="Logo aplikasi Kalkulator Penilaian Kinerja BGC" />
 	<!-- JSON-LD: WebApplication -->
 	<script type="application/ld+json">
 		{
@@ -66,11 +69,18 @@
 		rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 		crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- DOMPurify for sanitizing dynamic HTML -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.9/purify.min.js" integrity="sha512-9+ilAOeXY8qy2bw/h51MmliNNHvdyhTpLIlqDmVpD26z8VjVJsUJtk5rhbDIUvYiD+EpGoAu0xTa7MhZohFQjA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body>
+	<noscript>
+		<div style="background:#fff3cd;color:#664d03;padding:.75rem 1rem;margin:0;text-align:center;border-bottom:1px solid #ffe69c;">
+			Aplikasi ini memerlukan JavaScript agar kalkulator bekerja. Namun konten ringkasan dan penjelasan tetap tersedia pada halaman ini untuk mesin pencari.
+		</div>
+	</noscript>
 	<header class="app-bar" role="banner">
-		<button id="btn-menu" type="button" class="btn sekunder kecil" aria-controls="param-nav" aria-expanded="false"
+		<button id="btn-menu" type="button" class="btn sekunder kecil" aria-controls="param-nav-ringkas param-nav" aria-expanded="false"
 			aria-label="Buka navigasi" title="Menu">☰</button>
 		<h1 aria-label="Kalkulator Penilaian Kinerja Bangunan Gedung Cerdas (BGC) – Tahap Pemanfaatan">
 			<span class="judul-awal">Kalkulator Penilaian Kinerja </span>
@@ -78,30 +88,59 @@
 			<span class="judul-bgc-singkat">BGC </span>
 			<span class="judul-tahap">– Tahap Pemanfaatan</span>
 		</h1>
-		<button id="btn-tema" type="button" class="btn sekunder kecil" aria-pressed="false" aria-label="Toggle tema"
-			title="Ganti Tema">🌙</button>
 	</header>
 
 	<main id="utama" class="konten" role="main">
 
 		<form id="form-penilaian" novalidate autocomplete="off">
-			<details class="panel-bantuan">
-				<summary>Panduan & Alur (Ringkas)</summary>
-				<p class="deskripsi">Kalkulator ini memfasilitasi penilaian mandiri (self-assessment) Penilaian Kinerja Bangunan Gedung Cerdas (Tahap Pemanfaatan). Data hanya tersimpan lokal (autosave) dan <strong>tidak</strong> dikirim ke server.</p>
+			<details class="panel-bantuan" id="panduan-awal">
+				<summary class="label-blok">Panduan</summary>
+				<p class="deskripsi">Kalkulator ini memfasilitasi penilaian mandiri (self-assessment) Penilaian Kinerja
+					Bangunan Gedung Cerdas (Tahap Pemanfaatan). Data hanya tersimpan lokal (autosave) dan
+					<strong>tidak</strong> dikirim ke server.</p>
+				<p class="label-blok">Alur Ringkas</p>
 				<ol>
 					<li><strong>Persiapan</strong>: Tentukan Jenis (BGN / Non-BGN) & Klasifikasi bangunan.</li>
-					<li><strong>Pengumpulan Data</strong>: Identifikasi catatan implementasi (jika terpenuhi, centang).</li>
-					<li><strong>Daftar Simak</strong>: Isi seluruh indikator yang terpenuhi pada "Daftar Simak Penilaian Kinerja BGC Tahap Pemanfaatan".</li>
-					<li><strong>Perhitungan</strong>: Sistem menghitung poin, persentase, dan peringkat (Utama / Madya / Pratama / Belum).</li>
-					<li><strong>Pengajuan Resmi</strong>: Untuk sertifikasi, lakukan proses sesuai ketentuan melalui sistem/TPA terkait (di luar aplikasi ini).</li>
+					<li><strong>Pengumpulan Data</strong>: Identifikasi catatan implementasi (jika terpenuhi, centang).
+					</li>
+					<li><strong>Daftar Simak</strong>: Isi seluruh indikator yang terpenuhi pada "Daftar Simak Penilaian
+						Kinerja BGC Tahap Pemanfaatan".</li>
+					<li><strong>Perhitungan</strong>: Sistem menghitung poin, persentase, dan peringkat (Utama / Madya /
+						Pratama / Belum).</li>
+					<li><strong>Pengajuan Resmi</strong>: Untuk sertifikasi, lakukan proses sesuai ketentuan melalui
+						sistem/TPA terkait (di luar aplikasi ini).</li>
 				</ol>
-				<p class="deskripsi kecil">Kategori elemen: <strong>Wajib (W)</strong>, <strong>Disarankan (D)</strong>, <strong>Sukarela (S)</strong>. Faktor pengali mengikuti klasifikasi bangunan (lihat tooltip pada label elemen). Jika elemen Wajib belum terpenuhi lengkap, peringkat ditahan di "Belum" meskipun persentase memenuhi batas pemeringkatan.</p>
+				<p class="deskripsi kecil">Kategori elemen: <strong>Wajib (W)</strong>, <strong>Disarankan (D)</strong>,
+					<strong>Sukarela (S)</strong>. Faktor pengali mengikuti klasifikasi bangunan (lihat tooltip pada
+					label elemen). Jika elemen Wajib belum terpenuhi lengkap, peringkat ditahan di "Belum" meskipun
+					persentase memenuhi batas pemeringkatan.</p>
+				<hr class="pemisah-kecil" aria-hidden="true" />
+				<p class="label-blok">Disclaimer</p>
+				<p class="deskripsi kecil">Hasil di sini bersifat <strong>penilaian mandiri awal</strong> dan
+					<em>bukan</em> penetapan resmi. Verifikasi dan penetapan peringkat akhir dilakukan oleh pihak
+					berwenang/Tim Profesi Ahli sesuai ketentuan peraturan perundang‑undangan.</p>
+				<hr class="pemisah-kecil" aria-hidden="true" />
+				<p class="label-blok">Dasar Hukum</p>
+				<ul class="deskripsi kecil" style="padding-left:1.2rem; margin-top:.4rem;">
+					<li>
+						<a href="https://peraturan.bpk.go.id/Details/271011/permen-pupr-no-10-tahun-2023"
+							rel="noopener noreferrer" target="_blank">Permen PUPR Nomor 10 Tahun 2023</a> — Bangunan
+						Gedung Cerdas.
+					</li>
+					<li>
+						<a href="https://jdih.pu.go.id/detail-dokumen/SEMenteriPU-nomor-22SEM2024-tahun-2024-Pedoman-Penilaian-Kinerja-Bangunan-Gedung-Cerdas-Tahap-Pemanfaatan-Dan-Pemeriksaan-Kinerja-Bangunan-Gedung-Cerdas-Tahap-Pembongkaran"
+							rel="noopener noreferrer" target="_blank">SE Menteri PU No. 22/SE/M/2024</a>
+						— Pedoman Penilaian Kinerja Bangunan Gedung Cerdas Tahap Pemanfaatan & Pemeriksaan Kinerja Tahap
+						Pembongkaran.
+					</li>
+				</ul>
 			</details>
-
-			<details class="panel-bantuan">
-				<summary>Disclaimer</summary>
-				<p class="deskripsi kecil">Hasil di sini bersifat <strong>penilaian mandiri awal</strong> dan <em>bukan</em> penetapan resmi. Verifikasi dan penetapan peringkat akhir dilakukan oleh pihak berwenang/Tim Profesi Ahli sesuai ketentuan peraturan perundang‑undangan.</p>
-			</details>
+			<div class="impor-awal">
+				<button type="button" id="btn-impor" class="btn sekunder btn-kecil"
+					aria-label="Muat data penilaian dari berkas JSON" title="Muat Data"><i
+						class="fa-solid fa-folder-open" aria-hidden="true"></i><span>Muat Data</span></button>
+				<input type="file" id="file-impor" accept="application/json" hidden />
+			</div>
 			<section class="data-bangunan" aria-labelledby="judul-data-bangunan">
 				<h2 id="judul-data-bangunan">Data Bangunan</h2>
 				<div class="grid-form">
@@ -136,8 +175,8 @@
 			</section>
 
 			<div class="blok-tombol-hitung">
-				<button type="button" id="btn-hitung" class="btn besar primer" aria-describedby="info-hitung">Hitung
-					Total</button>
+				<button type="button" id="btn-hitung" class="btn besar primer" aria-describedby="info-hitung"><i
+						class="fa-solid fa-calculator" aria-hidden="true"></i><span>Hitung Total</span></button>
 				<p id="info-hitung" class="keterangan-tombol">Gunakan tombol ini untuk memastikan ringkasan diperbarui
 					(juga otomatis saat input berubah).</p>
 			</div>
@@ -163,229 +202,282 @@
 						</div>
 					</div>
 					<div class="progress-wrapper" aria-label="Persentase total">
-						<progress id="progress-total" value="0" max="100">0%</progress>
+						<progress id="progress-total" value="0" max="100" aria-valuemin="0" aria-valuemax="100">0%</progress>
 					</div>
 				</div>
 			</section>
 
 			<div class="aksi">
-				<button type="button" id="btn-ekspor" class="btn sekunder" aria-label="Ekspor data ke berkas JSON" hidden>Ekspor JSON</button>
-				<button type="button" id="btn-ekspor-csv" class="btn sekunder" aria-label="Ekspor data ke berkas CSV">Ekspor CSV</button>
-				<button type="button" id="btn-impor" class="btn sekunder" aria-label="Impor data dari berkas JSON" hidden>Impor JSON</button>
-				<input type="file" id="file-impor" accept="application/json" hidden />
-				<button type="reset" id="btn-reset" class="btn bahaya">Reset</button>
+				<button type="button" id="btn-ekspor" class="btn sekunder" aria-haspopup="menu" aria-expanded="false" aria-controls="menu-ekspor"
+					aria-label="Simpan data" title="Simpan Data"><i class="fa-solid fa-floppy-disk"
+						aria-hidden="true"></i><span>Simpan Data ▾</span></button>
+				<div id="menu-ekspor" class="menu-ekspor" role="menu" aria-labelledby="btn-ekspor" hidden>
+					<button type="button" role="menuitem" data-format="json" class="menu-item" tabindex="-1"><i
+							class="fa-solid fa-file-code" aria-hidden="true"></i><span>Simpan JSON</span></button>
+					<button type="button" role="menuitem" data-format="csv" class="menu-item" tabindex="-1"><i
+							class="fa-solid fa-file-csv" aria-hidden="true"></i><span>Simpan CSV</span></button>
+				</div>
+				<button type="reset" id="btn-reset" class="btn bahaya" aria-label="Reset seluruh data"><i
+						class="fa-solid fa-rotate-left" aria-hidden="true"></i><span>Reset</span></button>
 			</div>
 		</form>
 
-			<!-- FAQ: Visible content to support structured data and long-tail SEO -->
-			<section class="panel-bantuan" id="faq" aria-labelledby="faq-title">
-				<h2 id="faq-title">FAQ Penilaian Kinerja BGC</h2>
-				<details>
-					<summary>Apa dasar hukum penilaian ini?</summary>
-					<p>Penilaian merujuk pada dokumen resmi berikut:
-						<br>1) <a href="https://jdih.pu.go.id/detail-dokumen/SEMenteriPU-nomor-22SEM2024-tahun-2024-Pedoman-Penilaian-Kinerja-Bangunan-Gedung-Cerdas-Tahap-Pemanfaatan-Dan-Pemeriksaan-Kinerja-Bangunan-Gedung-Cerdas-Tahap-Pembongkaran" target="_blank" rel="noopener noreferrer"><strong>SE Menteri PU No. 22/SE/M/2024</strong></a> tentang Pedoman Penilaian Kinerja Bangunan Gedung Cerdas Tahap Pemanfaatan dan Pemeriksaan Kinerja Bangunan Gedung Cerdas Tahap Pembongkaran;
-						<br>2) <a href="https://jdih.pu.go.id/detail-dokumen/PermenPUPR-nomor-10--tahun-2023-Bangunan-Gedung-Cerdas" target="_blank" rel="noopener noreferrer"><strong>Permen PUPR Nomor 10 Tahun 2023</strong></a>.
-						<br>Istilah dan parameter di aplikasi mengikuti ketentuan pada dokumen tersebut.</p>
-				</details>
-				<details>
-					<summary>Apa itu Penilaian Kinerja BGC tahap pemanfaatan?</summary>
-					<p>Penilaian untuk mengukur penerapan prinsip dan parameter BGC pada gedung saat beroperasi, mencakup Keamanan Siber, Protokol & Jaringan, Integrasi Data, Manajemen Operasi, Dampak, dan Kemampuan Sistem.</p>
-				</details>
-				<details>
-					<summary>Bagaimana cara menghitung peringkat (Pratama, Madya, Utama)?</summary>
-					<p>Berdasarkan persentase capaian: Pratama 40–60%, Madya ≥60–80%, Utama ≥80%. Elemen Wajib yang tidak terpenuhi menahan peringkat di “Belum”.</p>
-				</details>
-				<details>
-					<summary>Contoh dokumen pembuktian apa yang diperlukan?</summary>
-					<p>Untuk parameter A–E: snapshot konfigurasi/integrasi/protokol, manual perangkat/software, report sampling. Untuk parameter F: inspeksi fisik, uji fungsi perangkat, pemeriksaan integrasi sistem, dan audit dokumentasi lapangan.</p>
-				</details>
-				<details>
-					<summary>Apa contoh Kriteria Unjuk Kerja (KUK) yang dinilai?</summary>
-					<p>Contoh: Integritas data di pusat data (A.1), Redundansi perangkat keras (A.2), Analisis event log (A.3), Kontrol akses OSI (A.4), Segmentasi jaringan (A.5), Enkripsi end-to-end (A.6), SSO (A.13), MFA (A.14), QoS (B.12), BMS (C.1), dan lain-lain.</p>
-				</details>
+		<!-- FAQ: Visible content to support structured data and long-tail SEO -->
+		<section class="panel-bantuan" id="faq" aria-labelledby="faq-title">
+			<h2 id="faq-title">FAQ Penilaian Kinerja BGC</h2>
+			<details>
+				<summary>Apa dasar hukum penilaian ini?</summary>
+				<p>Penilaian merujuk pada dokumen resmi berikut:
+					<br>1) <a
+						href="https://jdih.pu.go.id/detail-dokumen/SEMenteriPU-nomor-22SEM2024-tahun-2024-Pedoman-Penilaian-Kinerja-Bangunan-Gedung-Cerdas-Tahap-Pemanfaatan-Dan-Pemeriksaan-Kinerja-Bangunan-Gedung-Cerdas-Tahap-Pembongkaran"
+						target="_blank" rel="noopener noreferrer"><strong>SE Menteri PU No. 22/SE/M/2024</strong></a>
+					tentang Pedoman Penilaian Kinerja Bangunan Gedung Cerdas Tahap Pemanfaatan dan Pemeriksaan Kinerja
+					Bangunan Gedung Cerdas Tahap Pembongkaran;
+					<br>2) <a
+						href="https://jdih.pu.go.id/detail-dokumen/PermenPUPR-nomor-10--tahun-2023-Bangunan-Gedung-Cerdas"
+						target="_blank" rel="noopener noreferrer"><strong>Permen PUPR Nomor 10 Tahun 2023</strong></a>.
+					<br>Istilah dan parameter di aplikasi mengikuti ketentuan pada dokumen tersebut.
+				</p>
+			</details>
+			<details>
+				<summary>Apa itu Penilaian Kinerja BGC tahap pemanfaatan?</summary>
+				<p>Penilaian untuk mengukur penerapan prinsip dan parameter BGC pada gedung saat beroperasi, mencakup
+					Keamanan Siber, Protokol & Jaringan, Integrasi Data, Manajemen Operasi, Dampak, dan Kemampuan
+					Sistem.</p>
+			</details>
+			<details>
+				<summary>Bagaimana cara menghitung peringkat (Pratama, Madya, Utama)?</summary>
+				<p>Berdasarkan persentase capaian: Pratama 40–60%, Madya ≥60–80%, Utama ≥80%. Elemen Wajib yang tidak
+					terpenuhi menahan peringkat di “Belum”.</p>
+			</details>
+			<details>
+				<summary>Contoh dokumen pembuktian apa yang diperlukan?</summary>
+				<p>Untuk parameter A–E: snapshot konfigurasi/integrasi/protokol, manual perangkat/software, report
+					sampling. Untuk parameter F: inspeksi fisik, uji fungsi perangkat, pemeriksaan integrasi sistem, dan
+					audit dokumentasi lapangan.</p>
+			</details>
+			<details>
+				<summary>Apa contoh Kriteria Unjuk Kerja (KUK) yang dinilai?</summary>
+				<p>Contoh: Integritas data di pusat data (A.1), Redundansi perangkat keras (A.2), Analisis event log
+					(A.3), Kontrol akses OSI (A.4), Segmentasi jaringan (A.5), Enkripsi end-to-end (A.6), SSO (A.13),
+					MFA (A.14), QoS (B.12), BMS (C.1), dan lain-lain.</p>
+			</details>
 
-				<!-- Istilah umum yang sering ditanyakan -->
-				<details>
-					<summary>Apa itu KUK?</summary>
-					<p>KUK (Kriteria Unjuk Kerja) adalah butir penilaian terukur pada setiap parameter. Tiap KUK punya target/ketentuan yang harus dipenuhi beserta bukti pendukung.</p>
-				</details>
-				<details>
-					<summary>Apa bedanya Wajib, Disarankan, dan Sukarela?</summary>
-					<p>Wajib harus terpenuhi seluruhnya untuk lolos peringkat. Disarankan menambah nilai tetapi tidak mengunci peringkat. Sukarela bersifat tambahan.</p>
-				</details>
-				<details>
-					<summary>Apa itu RBAC?</summary>
-					<p>Role-Based Access Control: hak akses ditentukan oleh peran pengguna. Hanya fitur/data sesuai peran yang bisa diakses.</p>
-				</details>
-				<details>
-					<summary>Apa itu SSO?</summary>
-					<p>Single Sign-On: pengguna cukup login sekali di sistem utama, lalu otomatis terautentikasi di aplikasi terkait tanpa ulang memasukkan kredensial.</p>
-				</details>
-				<details>
-					<summary>Apa itu MFA?</summary>
-					<p>Multi-Factor Authentication: verifikasi ganda (misalnya password + kode OTP atau biometrik) untuk memperkuat keamanan login.</p>
-				</details>
-				<details>
-					<summary>Apa itu IDS?</summary>
-					<p>Intrusion Detection System: sistem yang memantau trafik jaringan untuk mendeteksi aktivitas berbahaya dan memberi peringatan dini.</p>
-				</details>
-				<details>
-					<summary>Apa itu TLS dan enkripsi end-to-end?</summary>
-					<p>TLS adalah protokol pengaman komunikasi. Enkripsi end-to-end memastikan hanya pengirim dan penerima yang bisa membaca data selama transmisi.</p>
-				</details>
-				<details>
-					<summary>Apa itu VLAN dan Segmentasi Jaringan?</summary>
-					<p>VLAN membagi jaringan logis dalam satu infrastruktur fisik. Segmentasi jaringan memisahkan jaringan menjadi beberapa zona untuk membatasi dampak serangan.</p>
-				</details>
-				<details>
-					<summary>Apa itu VPN dan NAC?</summary>
-					<p>VPN mengenkripsi koneksi jarak jauh ke jaringan internal. NAC (Network Access Control) mengatur siapa/perangkat apa yang boleh masuk jaringan.</p>
-				</details>
-				<details>
-					<summary>Apa itu QoS?</summary>
-					<p>Quality of Service: pengelolaan prioritas trafik (latensi, jitter, packet loss) agar layanan penting seperti VoIP/video tetap lancar.</p>
-				</details>
-				<details>
-					<summary>Apa itu BMS?</summary>
-					<p>Building Management System: platform untuk memonitor dan mengendalikan sistem gedung (HVAC, pencahayaan, keamanan, energi) secara terpadu.</p>
-				</details>
-				<details>
-					<summary>Apa itu model OSI?</summary>
-					<p>Kerangka 7 lapisan komunikasi jaringan (fisik hingga aplikasi) untuk memahami fungsi dan pengamanan tiap lapisan.</p>
-				</details>
-				<details>
-					<summary>Apa itu event log dan analisis log?</summary>
-					<p>Event log adalah catatan aktivitas sistem. Analisis log mencari pola/kejanggalan untuk pemecahan masalah dan keamanan.</p>
-				</details>
-				<details>
-					<summary>Apa itu checksum dan hashing?</summary>
-					<p>Metode verifikasi integritas data. Checksum/hash membantu memastikan data tidak berubah tanpa izin saat disimpan/dikirim.</p>
-				</details>
-				<details>
-					<summary>Apa itu redundansi perangkat keras?</summary>
-					<p>Penggandaan komponen penting (server, storage, jaringan) agar layanan tetap berjalan saat terjadi kegagalan.</p>
-				</details>
-				<details>
-					<summary>Apa itu patch panel, modular jack, dan patch cord?</summary>
-					<p>Patch panel merapikan koneksi di rak. Modular jack adalah soket di perangkat. Patch cord adalah kabel pendek penghubung antar perangkat/port.</p>
-				</details>
-				<details>
-					<summary>Apa itu PoE?</summary>
-					<p>Power over Ethernet: kabel jaringan yang sekaligus menyalurkan data dan daya ke perangkat (mis. kamera IP, access point).</p>
-				</details>
-				<details>
-					<summary>Apa itu RTSP dan RTP?</summary>
-					<p>RTSP mengatur kontrol streaming (play/pause), sedangkan RTP mengangkut data audio/video real-time dengan latensi rendah.</p>
-				</details>
-				<details>
-					<summary>Apa itu 5G URLLC dan RAN slicing?</summary>
-					<p>URLLC: komunikasi sangat andal dengan latensi rendah. RAN slicing: membagi jaringan 5G menjadi beberapa slice sesuai kebutuhan layanan.</p>
-				</details>
-				<details>
-					<summary>Apa itu baseline pada perhitungan dampak?</summary>
-					<p>Patokan pembanding konsumsi energi/air sebelum penerapan BGC atau sesuai standar, untuk mengukur penurunan yang dicapai.</p>
-				</details>
-				<details>
-					<summary>Apa itu mustering?</summary>
-					<p>Prosedur penghitungan dan pengumpulan pengguna di titik aman saat evakuasi darurat, dibantu sistem kontrol akses.</p>
-				</details>
-				<details>
-					<summary>Apa itu ADRS?</summary>
-					<p>Automated Demand-Responsive System: penyesuaian debit/tekanan air secara otomatis sesuai kebutuhan real-time.</p>
-				</details>
-				<details>
-					<summary>Apa itu TSS, COD, NH3-N pada air limbah?</summary>
-					<p>Parameter kualitas air limbah: TSS (kekeruhan/partikulat), COD (beban oksidan), NH3-N (amonia). Dipantau sensor/alat khusus.</p>
-				</details>
-				<details>
-					<summary>Apa itu LPWAN dan RFID pada sistem IoT?</summary>
-					<p>LPWAN: jaringan area luas berdaya rendah untuk sensor jarak jauh. RFID: identifikasi otomatis menggunakan gelombang radio (mis. akses parkir).</p>
-				</details>
-				<details>
-					<summary>Apa itu TAS pada lift?</summary>
-					<p>Tele Assistant System: bantuan jarak jauh saat insiden pada lift, memantau kondisi dan mendukung evakuasi.</p>
-				</details>
+			<!-- Istilah umum yang sering ditanyakan -->
+			<details>
+				<summary>Apa itu KUK?</summary>
+				<p>KUK (Kriteria Unjuk Kerja) adalah butir penilaian terukur pada setiap parameter. Tiap KUK punya
+					target/ketentuan yang harus dipenuhi beserta bukti pendukung.</p>
+			</details>
+			<details>
+				<summary>Apa bedanya Wajib, Disarankan, dan Sukarela?</summary>
+				<p>Wajib harus terpenuhi seluruhnya untuk lolos peringkat. Disarankan menambah nilai tetapi tidak
+					mengunci peringkat. Sukarela bersifat tambahan.</p>
+			</details>
+			<details>
+				<summary>Apa itu RBAC?</summary>
+				<p>Role-Based Access Control: hak akses ditentukan oleh peran pengguna. Hanya fitur/data sesuai peran
+					yang bisa diakses.</p>
+			</details>
+			<details>
+				<summary>Apa itu SSO?</summary>
+				<p>Single Sign-On: pengguna cukup login sekali di sistem utama, lalu otomatis terautentikasi di aplikasi
+					terkait tanpa ulang memasukkan kredensial.</p>
+			</details>
+			<details>
+				<summary>Apa itu MFA?</summary>
+				<p>Multi-Factor Authentication: verifikasi ganda (misalnya password + kode OTP atau biometrik) untuk
+					memperkuat keamanan login.</p>
+			</details>
+			<details>
+				<summary>Apa itu IDS?</summary>
+				<p>Intrusion Detection System: sistem yang memantau trafik jaringan untuk mendeteksi aktivitas berbahaya
+					dan memberi peringatan dini.</p>
+			</details>
+			<details>
+				<summary>Apa itu TLS dan enkripsi end-to-end?</summary>
+				<p>TLS adalah protokol pengaman komunikasi. Enkripsi end-to-end memastikan hanya pengirim dan penerima
+					yang bisa membaca data selama transmisi.</p>
+			</details>
+			<details>
+				<summary>Apa itu VLAN dan Segmentasi Jaringan?</summary>
+				<p>VLAN membagi jaringan logis dalam satu infrastruktur fisik. Segmentasi jaringan memisahkan jaringan
+					menjadi beberapa zona untuk membatasi dampak serangan.</p>
+			</details>
+			<details>
+				<summary>Apa itu VPN dan NAC?</summary>
+				<p>VPN mengenkripsi koneksi jarak jauh ke jaringan internal. NAC (Network Access Control) mengatur
+					siapa/perangkat apa yang boleh masuk jaringan.</p>
+			</details>
+			<details>
+				<summary>Apa itu QoS?</summary>
+				<p>Quality of Service: pengelolaan prioritas trafik (latensi, jitter, packet loss) agar layanan penting
+					seperti VoIP/video tetap lancar.</p>
+			</details>
+			<details>
+				<summary>Apa itu BMS?</summary>
+				<p>Building Management System: platform untuk memonitor dan mengendalikan sistem gedung (HVAC,
+					pencahayaan, keamanan, energi) secara terpadu.</p>
+			</details>
+			<details>
+				<summary>Apa itu model OSI?</summary>
+				<p>Kerangka 7 lapisan komunikasi jaringan (fisik hingga aplikasi) untuk memahami fungsi dan pengamanan
+					tiap lapisan.</p>
+			</details>
+			<details>
+				<summary>Apa itu event log dan analisis log?</summary>
+				<p>Event log adalah catatan aktivitas sistem. Analisis log mencari pola/kejanggalan untuk pemecahan
+					masalah dan keamanan.</p>
+			</details>
+			<details>
+				<summary>Apa itu checksum dan hashing?</summary>
+				<p>Metode verifikasi integritas data. Checksum/hash membantu memastikan data tidak berubah tanpa izin
+					saat disimpan/dikirim.</p>
+			</details>
+			<details>
+				<summary>Apa itu redundansi perangkat keras?</summary>
+				<p>Penggandaan komponen penting (server, storage, jaringan) agar layanan tetap berjalan saat terjadi
+					kegagalan.</p>
+			</details>
+			<details>
+				<summary>Apa itu patch panel, modular jack, dan patch cord?</summary>
+				<p>Patch panel merapikan koneksi di rak. Modular jack adalah soket di perangkat. Patch cord adalah kabel
+					pendek penghubung antar perangkat/port.</p>
+			</details>
+			<details>
+				<summary>Apa itu PoE?</summary>
+				<p>Power over Ethernet: kabel jaringan yang sekaligus menyalurkan data dan daya ke perangkat (mis.
+					kamera IP, access point).</p>
+			</details>
+			<details>
+				<summary>Apa itu RTSP dan RTP?</summary>
+				<p>RTSP mengatur kontrol streaming (play/pause), sedangkan RTP mengangkut data audio/video real-time
+					dengan latensi rendah.</p>
+			</details>
+			<details>
+				<summary>Apa itu 5G URLLC dan RAN slicing?</summary>
+				<p>URLLC: komunikasi sangat andal dengan latensi rendah. RAN slicing: membagi jaringan 5G menjadi
+					beberapa slice sesuai kebutuhan layanan.</p>
+			</details>
+			<details>
+				<summary>Apa itu baseline pada perhitungan dampak?</summary>
+				<p>Patokan pembanding konsumsi energi/air sebelum penerapan BGC atau sesuai standar, untuk mengukur
+					penurunan yang dicapai.</p>
+			</details>
+			<details>
+				<summary>Apa itu mustering?</summary>
+				<p>Prosedur penghitungan dan pengumpulan pengguna di titik aman saat evakuasi darurat, dibantu sistem
+					kontrol akses.</p>
+			</details>
+			<details>
+				<summary>Apa itu ADRS?</summary>
+				<p>Automated Demand-Responsive System: penyesuaian debit/tekanan air secara otomatis sesuai kebutuhan
+					real-time.</p>
+			</details>
+			<details>
+				<summary>Apa itu TSS, COD, NH3-N pada air limbah?</summary>
+				<p>Parameter kualitas air limbah: TSS (kekeruhan/partikulat), COD (beban oksidan), NH3-N (amonia).
+					Dipantau sensor/alat khusus.</p>
+			</details>
+			<details>
+				<summary>Apa itu LPWAN dan RFID pada sistem IoT?</summary>
+				<p>LPWAN: jaringan area luas berdaya rendah untuk sensor jarak jauh. RFID: identifikasi otomatis
+					menggunakan gelombang radio (mis. akses parkir).</p>
+			</details>
+			<details>
+				<summary>Apa itu TAS pada lift?</summary>
+				<p>Tele Assistant System: bantuan jarak jauh saat insiden pada lift, memantau kondisi dan mendukung
+					evakuasi.</p>
+			</details>
+			<details>
+				<summary>Apa itu BACnet/IP dan Modbus TCP?</summary>
+				<p>Itu “bahasa” komunikasi standar antar perangkat gedung. BACnet/IP dan Modbus TCP memudahkan perangkat
+					dari berbagai merek untuk saling terhubung di jaringan berbasis internet (TCP/IP).</p>
+			</details>
+			<details>
+				<summary>Apa itu TCP/IP dan UDP?</summary>
+				<p>Protokol dasar internet. TCP fokus pada keandalan (data lengkap, berurutan), sedangkan UDP fokus pada
+					kecepatan (cocok untuk video/voice real-time).</p>
+			</details>
+			<details>
+				<summary>Apa itu SSID dan WLAN?</summary>
+				<p>SSID adalah nama jaringan Wi-Fi yang terlihat di perangkat. WLAN adalah jaringan Wi‑Fi-nya sendiri
+					(Wireless LAN).</p>
+			</details>
+			<details>
+				<summary>Apa itu NetFlow?</summary>
+				<p>Metode merekam ringkasan arus data jaringan (siapa kirim ke siapa, berapa besar) untuk analisis dan
+					pemantauan.</p>
+			</details>
+			<details>
+				<summary>Apa itu SIEM?</summary>
+				<p>Security Information and Event Management: alat untuk mengumpulkan dan menganalisis log dari banyak
+					sistem guna mendeteksi ancaman lebih cepat.</p>
+			</details>
+			<details>
+				<summary>Apa itu PSNR dan SSIM?</summary>
+				<p>Angka untuk menilai kualitas video setelah dikompresi. Semakin tinggi, semakin mirip dengan aslinya
+					(gambar tidak buram/pecah).</p>
+			</details>
+			<details>
+				<summary>Apa itu DVR, NVR, dan VMS?</summary>
+				<p>DVR/NVR adalah alat perekam kamera (analog/digital). VMS adalah perangkat lunak pusat untuk mengelola
+					banyak kamera dan rekaman sekaligus.</p>
+			</details>
+			<details>
+				<summary>Apa itu 3GPP Release 17 (5G)?</summary>
+				<p>Rilis standar 5G yang membawa fitur lanjutan seperti latensi sangat rendah dan pembagian jaringan
+					(network slicing) untuk layanan berbeda.</p>
+			</details>
+			<details>
+				<summary>Apa itu micro‑segmentation?</summary>
+				<p>Pembagian jaringan menjadi bagian-bagian kecil yang sangat terkontrol agar sebuah insiden tidak mudah
+					menyebar ke bagian lain.</p>
+			</details>
+			<details>
+				<summary>Bedanya paket dan frame data itu apa?</summary>
+				<p>Frame adalah “bungkus” data di jaringan lokal; paket adalah “bungkus” data di jaringan yang lebih
+					luas (internet). Keduanya membawa informasi pengiriman.</p>
+			</details>
+			<details>
+				<summary>Apa itu latensi, jitter, packet loss, dan throughput?</summary>
+				<p>Latensi: waktu tunda; jitter: ketidakstabilan latensi; packet loss: data yang hilang; throughput:
+					jumlah data yang bisa dikirim per detik. Empat istilah ini memengaruhi kelancaran video/voice.</p>
+			</details>
+			<details>
+				<summary>Apa itu uptime/availability?</summary>
+				<p>Persentase waktu sistem berjalan normal dan bisa diakses. Makin tinggi, makin jarang down.</p>
+			</details>
+			<details>
+				<summary>Apa itu demand response (energi)?</summary>
+				<p>Strategi mengurangi pemakaian listrik saat beban puncak agar biaya lebih hemat dan sistem listrik
+					stabil.</p>
+			</details>
+			<details>
+				<summary>Apa itu antipassback dan passback?</summary>
+				<p>Aturan di kontrol akses agar kartu tidak bisa dipakai masuk lagi tanpa keluar dulu (mencegah “pinjam”
+					kartu).</p>
+			</details>
+			<details>
+				<summary>Apa itu layanan triple play?</summary>
+				<p>Layanan gabungan data, suara, dan video lewat satu infrastruktur jaringan yang sama.</p>
+			</details>
+		</section>
 
-				<!-- Tambahan istilah dari indikator/kriteria -->
-				<details>
-					<summary>Apa itu BACnet/IP dan Modbus TCP?</summary>
-					<p>Itu “bahasa” komunikasi standar antar perangkat gedung. BACnet/IP dan Modbus TCP memudahkan perangkat dari berbagai merek untuk saling terhubung di jaringan berbasis internet (TCP/IP).</p>
-				</details>
-				<details>
-					<summary>Apa itu TCP/IP dan UDP?</summary>
-					<p>Protokol dasar internet. TCP fokus pada keandalan (data lengkap, berurutan), sedangkan UDP fokus pada kecepatan (cocok untuk video/voice real-time).</p>
-				</details>
-				<details>
-					<summary>Apa itu SSID dan WLAN?</summary>
-					<p>SSID adalah nama jaringan Wi-Fi yang terlihat di perangkat. WLAN adalah jaringan Wi‑Fi-nya sendiri (Wireless LAN).</p>
-				</details>
-				<details>
-					<summary>Apa itu NetFlow?</summary>
-					<p>Metode merekam ringkasan arus data jaringan (siapa kirim ke siapa, berapa besar) untuk analisis dan pemantauan.</p>
-				</details>
-				<details>
-					<summary>Apa itu SIEM?</summary>
-					<p>Security Information and Event Management: alat untuk mengumpulkan dan menganalisis log dari banyak sistem guna mendeteksi ancaman lebih cepat.</p>
-				</details>
-				<details>
-					<summary>Apa itu PSNR dan SSIM?</summary>
-					<p>Angka untuk menilai kualitas video setelah dikompresi. Semakin tinggi, semakin mirip dengan aslinya (gambar tidak buram/pecah).</p>
-				</details>
-				<details>
-					<summary>Apa itu DVR, NVR, dan VMS?</summary>
-					<p>DVR/NVR adalah alat perekam kamera (analog/digital). VMS adalah perangkat lunak pusat untuk mengelola banyak kamera dan rekaman sekaligus.</p>
-				</details>
-				<details>
-					<summary>Apa itu 3GPP Release 17 (5G)?</summary>
-					<p>Rilis standar 5G yang membawa fitur lanjutan seperti latensi sangat rendah dan pembagian jaringan (network slicing) untuk layanan berbeda.</p>
-				</details>
-				<details>
-					<summary>Apa itu micro‑segmentation?</summary>
-					<p>Pembagian jaringan menjadi bagian-bagian kecil yang sangat terkontrol agar sebuah insiden tidak mudah menyebar ke bagian lain.</p>
-				</details>
-				<details>
-					<summary>Bedanya paket dan frame data itu apa?</summary>
-					<p>Frame adalah “bungkus” data di jaringan lokal; paket adalah “bungkus” data di jaringan yang lebih luas (internet). Keduanya membawa informasi pengiriman.</p>
-				</details>
-				<details>
-					<summary>Apa itu latensi, jitter, packet loss, dan throughput?</summary>
-					<p>Latensi: waktu tunda; jitter: ketidakstabilan latensi; packet loss: data yang hilang; throughput: jumlah data yang bisa dikirim per detik. Empat istilah ini memengaruhi kelancaran video/voice.</p>
-				</details>
-				<details>
-					<summary>Apa itu uptime/availability?</summary>
-					<p>Persentase waktu sistem berjalan normal dan bisa diakses. Makin tinggi, makin jarang down.</p>
-				</details>
-				<details>
-					<summary>Apa itu demand response (energi)?</summary>
-					<p>Strategi mengurangi pemakaian listrik saat beban puncak agar biaya lebih hemat dan sistem listrik stabil.</p>
-				</details>
-				<details>
-					<summary>Apa itu antipassback dan passback?</summary>
-					<p>Aturan di kontrol akses agar kartu tidak bisa dipakai masuk lagi tanpa keluar dulu (mencegah “pinjam” kartu).</p>
-				</details>
-				<details>
-					<summary>Apa itu layanan triple play?</summary>
-					<p>Layanan gabungan data, suara, dan video lewat satu infrastruktur jaringan yang sama.</p>
-				</details>
-			</section>
-
-			<!-- Dasar Hukum: memperkuat otoritas topik -->
-			<section class="panel-bantuan" id="dasar-hukum" aria-labelledby="dasar-hukum-title">
-				<h2 id="dasar-hukum-title">Dasar Hukum</h2>
-				<p class="deskripsi">Aplikasi ini mengacu pada ketentuan resmi berikut:</p>
-				<ul class="deskripsi kecil" style="padding-left:1.2rem;">
-					<li>
-						<a href="https://jdih.pu.go.id/detail-dokumen/SEMenteriPU-nomor-22SEM2024-tahun-2024-Pedoman-Penilaian-Kinerja-Bangunan-Gedung-Cerdas-Tahap-Pemanfaatan-Dan-Pemeriksaan-Kinerja-Bangunan-Gedung-Cerdas-Tahap-Pembongkaran" rel="noopener noreferrer" target="_blank">SE Menteri PU No. 22/SE/M/2024</a>
-						tentang Pedoman Penilaian Kinerja Bangunan Gedung Cerdas Tahap Pemanfaatan dan Pemeriksaan Kinerja Bangunan Gedung Cerdas Tahap Pembongkaran.
-					</li>
-					<li>
-						<a href="https://peraturan.bpk.go.id/Details/271011/permen-pupr-no-10-tahun-2023" rel="noopener noreferrer" target="_blank">Permen PUPR Nomor 10 Tahun 2023</a> tentang Bangunan Gedung Cerdas.
-					</li>
-				</ul>
-			</section>
 	</main>
 
-	<nav id="param-nav" class="param-nav side" aria-label="Navigasi Parameter"><!-- diisi dinamis --></nav>
+	<!-- Side nav khusus: Mode Ringkas (chip) -->
+	<nav id="param-nav-ringkas" class="param-nav side" aria-label="Mode Ringkas" role="navigation">
+		<button id="chip-tema" type="button" class="chip" aria-pressed="false" aria-label="Ganti tema: gelap/terang" title="Ganti Tema">
+			<i class="fa-solid fa-moon" aria-hidden="true"></i>
+		</button>
+		<button id="chip-ringkas" type="button" class="chip" aria-pressed="false" aria-label="Mode Ringkas: tampilkan hanya indikator yang belum terisi" title="Mode Ringkas">
+			<i class="fa-solid fa-filter" aria-hidden="true"></i>
+		</button>
+	</nav>
+
+	<!-- Side nav utama: Navigasi Parameter -->
+	<nav id="param-nav" class="param-nav side" aria-label="Navigasi Parameter" role="navigation"><!-- diisi dinamis --></nav>
 
 	<!-- Modal Info (untuk penjelasan & dokumentasi indikator) -->
 	<div id="modal-info" class="modal-info" aria-hidden="true">
@@ -406,14 +498,38 @@
 		</small>
 		<p class="keterangan-pengembang" style="margin:.5rem auto 0; max-width: 60rem; line-height:1.35;">
 			Dikembangkan oleh Adzka Muhammad Mumtaz, CPNS di Balai Penataan Bangunan, Prasarana dan Kawasan Jawa Timur,
-			Kementerian Pekerjaan Umum, dengan jabatan Penata Kelola Bangunan Gedung dan Kawasan Permukiman Ahli Pertama.
-			Aplikasi ini dikembangkan selama periode 8 September sampai dengan 24 Oktober 2025 sebagai output Aktualisasi Latsar
+			Kementerian Pekerjaan Umum, dengan jabatan Penata Kelola Bangunan Gedung dan Kawasan Permukiman Ahli
+			Pertama.
+			Aplikasi ini dikembangkan selama periode 8 September sampai dengan 24 Oktober 2025 sebagai output
+			Aktualisasi Latsar
 			CPNS Kementerian PU tahun 2025.
 		</p>
 	</footer>
 
-		<!-- Structured data: FAQPage to improve discovery and rich results -->
-		<script type="application/ld+json">
+<!-- Modal Upload JSON (drag & drop) DIPINDAH ke luar <main> agar tidak inert -->
+<div id="modal-upload" class="modal-upload" aria-hidden="true">
+	<div class="modal-backdrop" data-close="modal-upload"></div>
+	<div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-upload-title" aria-describedby="modal-upload-desc">
+		<button type="button" class="modal-close" aria-label="Tutup" data-close="modal-upload">×</button>
+		<h3 id="modal-upload-title" class="modal-title">Muat Data Penilaian</h3>
+		<p id="modal-upload-desc" class="modal-keterangan">Seret & jatuhkan berkas <strong>.json</strong> hasil ekspor sebelumnya ke area di bawah atau pilih secara manual.</p>
+		<div id="upload-dropzone" class="upload-dropzone" role="group" aria-label="Area unggah" tabindex="0">
+			<div class="ikon" aria-hidden="true"><i class="fa-solid fa-file-arrow-up"></i></div>
+			<p class="dz-teks">Seret berkas JSON ke sini, atau klik untuk memilih</p>
+			<p class="dz-hint">Hanya 1 berkas, format JSON hasil ekspor aplikasi ini.</p>
+			<div class="dz-loading" hidden>
+				<div class="spinner" aria-hidden="true"></div>
+				<span class="loading-teks">Memproses...</span>
+			</div>
+		</div>
+		<div class="upload-aksi">
+			<button type="button" id="upload-pilih-btn" class="btn sekunder btn-kecil"><i class="fa-solid fa-folder-open" aria-hidden="true"></i><span>Pilih Berkas JSON</span></button>
+		</div>
+	</div>
+</div>
+
+	<!-- Structured data: FAQPage to improve discovery and rich results -->
+	<script type="application/ld+json">
 		{
 			"@context": "https://schema.org",
 			"@type": "FAQPage",

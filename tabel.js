@@ -260,6 +260,113 @@ const pengali = {
     }
 }
 
+// ==============================================================
+// Glossary/Istilah – diletakkan di tabel.js agar data tampil bersumber dari satu tempat
+// ==============================================================
+const glossaryTerms = {
+    // Keamanan siber dan akses
+    'checksum': 'Mekanisme pemeriksaan sederhana yang menghasilkan nilai ringkas untuk mendeteksi perubahan tidak sah pada data.',
+    'hashing': 'Proses menghasilkan “sidik jari” digital tetap (fixed length) dari suatu data dengan fungsi hash kriptografis.',
+    'audit trail': 'Rangkaian catatan yang melacak siapa melakukan apa dan kapan dalam suatu sistem.',
+    'redundansi': 'Pencadangan komponen penting agar layanan tetap berjalan saat terjadi kegagalan.',
+    'failover': 'Peralihan otomatis ke komponen cadangan ketika komponen utama gagal.',
+    'siem': 'Security Information and Event Management – platform terpusat analisis dan korelasi log keamanan.',
+    'rbac': 'Role-Based Access Control – kontrol akses berbasis peran.',
+    'vpn': 'Virtual Private Network – terowongan terenkripsi antara klien dan jaringan internal.',
+    'sso': 'Single Sign-On – satu autentikasi untuk mengakses banyak sistem.',
+    'mfa': 'Multi-Factor Authentication – autentikasi menggunakan ≥2 faktor (mis. password + OTP).',
+    'ids': 'Intrusion Detection System – sistem deteksi aktivitas berbahaya.',
+    'ips': 'Intrusion Prevention System – sistem yang juga dapat memblokir serangan secara aktif.',
+    'nac': 'Network Access Control – pengaturan siapa/perangkat apa yang boleh masuk jaringan.',
+    'password policy': 'Kebijakan kompleksitas dan penggantian kata sandi untuk memperkuat keamanan akun.',
+
+    // Jaringan & protokol
+    'osi': 'Model referensi 7 lapis (Open Systems Interconnection) untuk komunikasi jaringan.',
+    'vlan': 'Virtual LAN – segmentasi logis jaringan untuk memisahkan domain broadcast.',
+    'micro-segmentation': 'Segmentasi halus per aplikasi/perangkat untuk membatasi lintasan serangan lateral.',
+    'tls': 'Transport Layer Security – protokol enkripsi komunikasi jaringan.',
+    'qos': 'Quality of Service – mekanisme prioritisasi dan pengaturan trafik jaringan.',
+    'dscp': 'Differentiated Services Code Point – penandaan bit pada header IP untuk kelas layanan QoS.',
+    'tcp/ip': 'Protokol dasar internet (IP untuk addressing/routing; TCP untuk keandalan).',
+    'udp': 'User Datagram Protocol – ringan/cepat tanpa jaminan urutan/keutuhan seperti TCP.',
+    'ipv4': 'Internet Protocol versi 4 – skema alamat 32-bit (contoh: 192.168.1.10).',
+    'ipv6': 'Internet Protocol versi 6 – skema alamat 128-bit (contoh: 2001:db8::1).',
+    'ssh': 'Secure Shell – protokol aman untuk akses jarak jauh/administrasi perangkat.',
+    'snmp': 'Simple Network Management Protocol – pemantauan dan manajemen perangkat jaringan.',
+    'packet loss': 'Persentase paket data yang hilang dalam transmisi.',
+    'packet delivery ratio': 'Persentase paket yang berhasil tiba dibanding yang dikirim.',
+    'latensi': 'Jeda waktu pengiriman data dari sumber ke tujuan.',
+    'jitter': 'Variasi (ketidakstabilan) latensi antar paket berurutan.',
+    'throughput': 'Laju data efektif yang diproses/dikirim per satuan waktu.',
+    'availability': 'Ketersediaan layanan; dekat dengan uptime, biasanya dinyatakan dalam SLA.',
+    'uptime': 'Persentase waktu layanan berjalan normal/dapat diakses.',
+    'triple play': 'Layanan gabungan data, suara, dan video lewat satu infrastruktur.',
+
+    // Protokol/standar otomasi & integrasi
+    'bacnet': 'Protokol otomasi gedung terbuka untuk interoperabilitas perangkat.',
+    'bacnet/ip': 'Varian BACnet berbasis IP untuk interoperabilitas perangkat gedung.',
+    'modbus': 'Protokol komunikasi industri sederhana.',
+    'modbus tcp': 'Varian Modbus berbasis TCP/IP untuk perangkat industri.',
+    'opc ua': 'Open Platform Communications Unified Architecture – standar interoperabilitas industri.',
+    'mqtt': 'Message Queuing Telemetry Transport – protokol pub/sub ringan.',
+    'rest api': 'Antarmuka berbasis HTTP dengan prinsip representational state transfer.',
+    'json': 'JavaScript Object Notation – format pertukaran data ringan berbasis teks.',
+    'csv': 'Comma-Separated Values – format tabular sederhana dipisah koma.',
+    'xml': 'eXtensible Markup Language – format data ber-tag hierarkis.',
+    'openapi': 'Spesifikasi terstruktur untuk mendokumentasikan REST API.',
+    'data catalog': 'Repositori terpusat metadata untuk menemukan dan mengelola aset data.',
+    'lineage': 'Jejak aliran transformasi dan asal-usul data.',
+    'idempotensi': 'Sifat operasi menghasilkan efek akhir sama meski dieksekusi berulang.',
+    'event-driven': 'Arsitektur yang bereaksi terhadap kejadian (event) daripada polling terus menerus.',
+
+    // Waktu & sinkronisasi
+    'ntp': 'Network Time Protocol – sinkronisasi waktu standar.',
+    'ptp': 'Precision Time Protocol – sinkronisasi waktu presisi tinggi.',
+
+    // Video/AV & nirkabel
+    'dvr': 'Digital Video Recorder – perangkat perekam video (biasanya analog -> digital).',
+    'nvr': 'Network Video Recorder – perekam video berbasis jaringan IP.',
+    'vms': 'Video Management System – perangkat lunak pengelolaan kamera & rekaman.',
+    'psnr': 'Peak Signal-to-Noise Ratio – metrik kualitas gambar/video.',
+    'ssim': 'Structural Similarity Index – metrik kesamaan struktural gambar/video.',
+    'rtsp': 'Real Time Streaming Protocol – kontrol sesi streaming (play/pause/seek).',
+    'rtp': 'Real-time Transport Protocol – pengangkut data audio/video waktu nyata.',
+    'poe': 'Power over Ethernet – suplai daya listrik melalui kabel jaringan.',
+    'wifi': 'Wi‑Fi – teknologi jaringan nirkabel berbasis standar IEEE 802.11.',
+    'wi-fi': 'Wi‑Fi – teknologi jaringan nirkabel berbasis standar IEEE 802.11.',
+    'wlan': 'Wireless LAN – jaringan area lokal nirkabel (Wi‑Fi).',
+    'ssid': 'Service Set Identifier – nama jaringan Wi‑Fi yang terlihat di perangkat.',
+
+    // 5G & akses seluler
+    'urllc': 'URLLC (Ultra-Reliable Low-Latency Communication) – profil 5G untuk latensi sangat rendah & keandalan tinggi.',
+    'embb': 'eMBB (enhanced Mobile Broadband) – profil 5G untuk kapasitas throughput tinggi.',
+    'network slicing': 'Pembagian logis jaringan menjadi beberapa slice terisolasi dengan SLA berbeda.',
+    'ran slicing': 'Pembagian jaringan akses radio 5G menjadi beberapa slice sesuai kebutuhan layanan.',
+    'lpwan': 'Low-Power Wide-Area Network – jaringan jarak jauh daya rendah untuk IoT.',
+
+    // BMS & utilitas
+    'bms': 'Building Management System – platform terpadu memonitor & mengendalikan sistem gedung.',
+    'adrs': 'Automatic Demand/Distribution Regulation System – sistem penyesuaian otomatis debit/tekanan.',
+
+    // Air & lingkungan
+    'tss': 'Total Suspended Solids – indikator kekeruhan/partikulat pada air limbah.',
+    'cod': 'Chemical Oxygen Demand – kebutuhan oksigen kimia; indikator beban polutan air limbah.',
+    'nh3-n': 'Amonia (NH3-N) – parameter kualitas air limbah terkait kandungan amonia.',
+
+    // Operasional & administrasi
+    'rfid': 'Radio-Frequency Identification – identifikasi otomatis via gelombang radio.',
+    'sop': 'Standard Operating Procedure – prosedur operasi baku yang terdokumentasi.',
+    'berita acara': 'Dokumen resmi yang mencatat hasil rapat, serah terima, atau kejadian tertentu.',
+    'bast': 'Berita Acara Serah Terima – dokumen formal serah terima pekerjaan/perangkat.',
+    'as-built drawing': 'Gambar akhir yang mencerminkan kondisi aktual instalasi setelah terpasang.',
+    'raci': 'Responsible, Accountable, Consulted, Informed – matriks pembagian peran/tanggung jawab.',
+    'ipmvp': 'International Performance Measurement and Verification Protocol – metodologi verifikasi penghematan energi.',
+    'baseline': 'Patokan awal/pembanding untuk mengukur perubahan kinerja (mis. konsumsi energi/air).',
+    'mustering': 'Prosedur penghitungan dan pengumpulan penghuni di titik aman saat evakuasi.'
+};
+
+try { window.glossaryTerms = glossaryTerms; } catch (_) {}
+
 const penilaian = {
     "A": {
         "nama": "Keamanan Siber",
