@@ -1893,6 +1893,20 @@ function perbaruiRingkasan() {
 	const warn = document.getElementById('peringkat-warning');
 	const target = tentukanPeringkat(persen);
 	const showWarning = wajibKurang && persen >= 40;
+
+	// Selalu sinkronkan sticky rekap dengan ringkasan utama
+	try {
+		if (rekapTotalSkorEl) rekapTotalSkorEl.textContent = Number.isFinite(total) ? total.toFixed(1) : '0.0';
+		if (rekapTotalMaksEl) rekapTotalMaksEl.textContent = maks;
+		if (rekapPersenEl) rekapPersenEl.textContent = formatPersentase(persen);
+		if (rekapProgressEl) {
+			const val = clamp(persen, 0, 100);
+			rekapProgressEl.value = val;
+			rekapProgressEl.setAttribute('aria-valuenow', String(val));
+		}
+		try { updateStickyVisibility && updateStickyVisibility(); } catch(_) {}
+	} catch (_) {}
+
 	if (showWarning) {
 		if (warn) warn.hidden = false;
 		if (peringkatEl) {
@@ -1910,19 +1924,6 @@ function perbaruiRingkasan() {
 			peringkatEl.dataset.level = level;
 			peringkatEl.className = `badge-klasifikasi ${kelasBadge(level)}`;
 		}
-
-		// Update sticky rekap values (mirror main summary)
-		try {
-			if (rekapTotalSkorEl) rekapTotalSkorEl.textContent = Number.isFinite(total) ? total.toFixed(1) : '0.0';
-			if (rekapTotalMaksEl) rekapTotalMaksEl.textContent = maks;
-			if (rekapPersenEl) rekapPersenEl.textContent = formatPersentase(persen);
-			if (rekapProgressEl) {
-				const val = clamp(persen, 0, 100);
-				rekapProgressEl.value = val;
-				rekapProgressEl.setAttribute('aria-valuenow', String(val));
-			}
-			try { updateStickyVisibility && updateStickyVisibility(); } catch(_) {}
-		} catch (_) {}
 	}
 }
 
@@ -1933,26 +1934,37 @@ function hitungTotalSepertiCSV() {
 		const faktorKategori = kalkulator.getFaktorPengali(jenisNow, klasNow) || { w: 1, d: 1, s: 1 };
 		let total = 0;
 		Object.entries(penilaian).forEach(([kode, dataParam]) => {
+			let subtotalParam = 0;
 			(dataParam.kriteriaUnjukKerja || []).forEach((kriteria, idxK) => {
 				const elemenIndex = idxK + 1;
 				const kat = (kode === 'F') ? ((stateImplementasi.kategoriElemen && stateImplementasi.kategoriElemen[elemenIndex]) || 's') : null;
 				const mult = (kode === 'F') ? (parseFloat(faktorKategori[kat]) || 1) : 1;
 				const stateK = stateChecklist[kode] && stateChecklist[kode][idxK];
-				if (!stateK) return;
-				Object.entries(stateK).forEach(([indikatorKey, val]) => {
-					const detail = kriteria.indikator[indikatorKey];
-					if (!detail) return;
-					let base = 0; let akhir = 0;
-					if (detail.tipe === 'checkbox') {
-						base = detail.poin || 0; akhir = (kode === 'F') ? base * mult : base;
-					} else if (detail.tipe === 'radio') {
-						const label = val;
-						base = (detail.poin && (label in detail.poin)) ? (detail.poin[label] || 0) : 0;
-						akhir = (kode === 'F') ? base * mult : base;
-					}
-					total += akhir;
-				});
+				let subtotalK = 0;
+				if (stateK) {
+					Object.entries(stateK).forEach(([indikatorKey, val]) => {
+						const detail = kriteria.indikator[indikatorKey];
+						if (!detail) return;
+						let base = 0; let akhir = 0;
+						if (detail.tipe === 'checkbox') {
+							base = detail.poin || 0; akhir = (kode === 'F') ? base * mult : base;
+						} else if (detail.tipe === 'radio') {
+							const label = val;
+							base = (detail.poin && (label in detail.poin)) ? (detail.poin[label] || 0) : 0;
+							akhir = (kode === 'F') ? base * mult : base;
+						}
+						subtotalK += akhir;
+					});
+				}
+				// Cap by Maks Poin KUK
+				const maksK = kriteria.maksPoinKUK || 0;
+				if (subtotalK > maksK) subtotalK = maksK;
+				subtotalParam += subtotalK;
 			});
+			// Cap by Maks Poin Parameter
+			const maksParam = dataParam.maksPoinParameter || 0;
+			if (subtotalParam > maksParam) subtotalParam = maksParam;
+			total += subtotalParam;
 		});
 		return Number.isFinite(total) ? Math.round(total * 10) / 10 : 0;
 	} catch (_) { return 0; }
