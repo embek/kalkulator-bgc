@@ -1144,14 +1144,15 @@ summary, label, select, input, button { touch-action: manipulation; }
 [data-lite='true'] .param-nav { content-visibility: auto; contain-intrinsic-size: 80px 320px; }
 
 /* Rekap cepat sticky di bawah layar */
-.rekap-sticky { position: fixed; left: 50%; transform: translateX(-50%); bottom: max(.5rem, env(safe-area-inset-bottom)); z-index: 55; width: calc(100% - 2rem); max-width: min(55rem, 92vw); background: var(--nav-bg); color: var(--chip-color); border: 1px solid var(--nav-border); border-radius: 14px; box-shadow: 0 10px 28px rgba(16,24,40,.18), 0 6px 12px rgba(16,24,40,.10); backdrop-filter: blur(6px); padding: .6rem .8rem; }
-.rekap-sticky .rekap-row { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
-.rekap-sticky .rekap-left { display:flex; align-items: baseline; gap:.5rem; font-weight: 700; color: var(--chip-color); }
+.rekap-sticky { position: fixed; left: 50%; transform: translate(-50%, 8px); bottom: max(.5rem, env(safe-area-inset-bottom)); z-index: 55; width: calc(100% - 2rem); max-width: min(55rem, 92vw); background: var(--nav-bg); color: var(--chip-color); border: 1px solid var(--nav-border); border-radius: 14px; box-shadow: 0 10px 28px rgba(16,24,40,.18), 0 6px 12px rgba(16,24,40,.10); backdrop-filter: blur(6px); padding: .6rem .8rem; opacity: 0; transition: transform 220ms var(--transisi), opacity 220ms var(--transisi); }
+.rekap-sticky.tampak { transform: translate(-50%, 0); opacity: 1; }
+.rekap-sticky .rekap-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .65rem .75rem; }
+.rekap-sticky .rekap-left { display:flex; align-items: center; gap:.5rem; font-weight: 700; color: var(--chip-color); justify-content: flex-start; flex: 1 1 100%; flex-wrap: nowrap; }
 .rekap-sticky .rekap-label { font-size: .8rem; opacity: .85; font-weight: 800; letter-spacing: .3px; }
 .rekap-sticky .rekap-nilai strong { font-size: 1rem; color: var(--chip-active-color); }
-.rekap-sticky .rekap-right { display:flex; align-items:center; gap:.65rem; }
-.rekap-sticky .rekap-persentase { display:inline-flex; align-items:center; justify-content:center; background:#eef5ff; color:#0d47a1; padding:.45rem .6rem; border-radius:12px; font-weight:800; letter-spacing:.3px; min-width:3.8rem; text-align:right; line-height:1; }
-.rekap-sticky progress { height: 10px; width: clamp(120px, 30vw, 260px); border-radius: 999px; overflow: hidden; }
+.rekap-sticky .rekap-right { display:flex; align-items:center; gap:.65rem; justify-content: center; flex: 1 1 100%; }
+.rekap-sticky .rekap-persentase { display:inline-flex; align-items:center; justify-content:center; background:#eef5ff; color:#0d47a1; padding:.45rem .6rem; border-radius:12px; font-weight:800; letter-spacing:.3px; min-width:3.8rem; text-align:right; line-height:1; margin-left:auto; }
+.rekap-sticky progress { height: 10px; width: 100%; border-radius: 999px; overflow: hidden; }
 .rekap-sticky progress::-webkit-progress-bar { background: rgba(13,71,161,.15); border-radius: 999px; }
 .rekap-sticky progress::-webkit-progress-value { background: var(--chip-active-bg); border-radius: 999px; }
 [data-tema='gelap'] .rekap-sticky { background: rgba(9,28,48,.88); border-color: rgba(255,255,255,.12); color:#9ecbff; }
@@ -1167,4 +1168,22 @@ summary, label, select, input, button { touch-action: manipulation; }
 .rekap-sticky .rekap-nilai { display:flex; gap:.35rem; align-items:center; }
 .rekap-sticky .rekap-nilai strong,
 .rekap-sticky .rekap-nilai span { display:inline-flex; align-items:center; justify-content:center; background:#eef5ff; color:#0d47a1; padding:.45rem .6rem; border-radius:12px; font-weight:800; font-size: var(--fs-lg); min-width:3.4rem; line-height:1; }
+
+/* Animasi konten details (pc-parameter) */
+.pc-parameter .daftar-kriteria { will-change: height, opacity; }
+.pc-parameter .daftar-kriteria.animating { overflow: hidden; transition: height 250ms cubic-bezier(.4,0,.2,1), opacity 200ms ease; }
+
+/* Mode Ringkas: animasi sembunyikan indikator yang terisi */
+.indikator-item { transition: height 220ms cubic-bezier(.4,0,.2,1), margin 220ms cubic-bezier(.4,0,.2,1), padding 220ms cubic-bezier(.4,0,.2,1), opacity 180ms ease; }
+.ringkas-aktif .indikator-item.sembunyi-ringkas { height: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; opacity: 0; overflow: hidden; pointer-events: none; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+.indikator-item.muncul-ringkas { animation: fadeInUp .22s ease both; }
+
+/* Layout kembali berjajar pada layar lebar */
+@media (min-width: 560px) {
+	.rekap-sticky .rekap-row { flex-wrap: nowrap; justify-content: space-between; }
+	.rekap-sticky .rekap-left { justify-content: flex-start; flex: 1 1 auto; }
+	.rekap-sticky .rekap-right { justify-content: flex-end; flex: 0 0 auto; }
+	.rekap-sticky progress { width: clamp(120px, 30vw, 260px); }
+}
 

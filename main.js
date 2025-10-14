@@ -101,6 +101,45 @@ let stateChecklist = {};
 		try { perbaruiPoinIndikator(); } catch (_) { }
 		try { perbaruiRingkasan(); } catch (_) { }
 		try { perbaruiJudulHalaman(); } catch (_) { }
+
+		// Jika Mode Ringkas aktif saat render, terapkan filter tanpa membuka section tertutup
+		try {
+			if (next && next.modeRingkas) {
+				const root = document.getElementById('parameter-checklist');
+				if (root) {
+					root.classList.add('ringkas-aktif');
+					// Hydrate semua section tanpa mengubah open
+					const terbukaMap = new Map();
+					Array.from(document.querySelectorAll('.pc-parameter')).forEach(sec => {
+						terbukaMap.set(sec, !!sec.open);
+						renderIsiParameter(sec);
+					});
+					terbukaMap.forEach((wasOpen, sec) => { try { sec.open = wasOpen; } catch(_){} });
+					// Terapkan kelas pada indikator
+					Array.from(root.querySelectorAll('.pc-parameter')).forEach(sec => {
+						const kode = sec.getAttribute('data-param');
+						const data = penilaian[kode];
+						if (!data) return;
+						sec.querySelectorAll('.pc-kriteria').forEach((wrapK, idxK) => {
+							const kriteria = (data.kriteriaUnjukKerja || [])[idxK];
+							if (!kriteria) return;
+							wrapK.querySelectorAll('.indikator-item').forEach(item => {
+								const key = item.dataset.indikatorKey;
+								const detail = kriteria.indikator[key];
+								let terisi = false;
+								if (detail && detail.tipe === 'checkbox') {
+									const inp = item.querySelector('input[type=checkbox]');
+									terisi = !!(inp && inp.checked);
+								} else if (detail && detail.tipe === 'radio') {
+									terisi = !!item.querySelector('input[type=radio]:checked');
+								}
+								if (terisi) item.classList.add('sembunyi-ringkas'); else item.classList.remove('sembunyi-ringkas');
+							});
+						});
+					});
+				}
+			}
+		} catch (_) {}
 	}
 
 	function setState(update, immediate = false) {
@@ -117,7 +156,7 @@ let stateChecklist = {};
 	App = { get state() { return state; }, setState, save: (s, imm) => save(s ?? state, imm), render: (s) => render(s ?? state) };
 })();
 
-function parseImplementasiString(str) {
+function parseImplementasiString(str, jenis) {
 	if (!str || typeof str !== 'string') return [];
 	const hasil = [];
 	let i = 0; let elemen = 1;
@@ -127,7 +166,11 @@ function parseImplementasiString(str) {
 		i++;
 		let digits = '';
 		while (i < str.length && /[0-9]/.test(str[i])) { digits += str[i]; i++; }
-		const catatan = digits.split('').filter(Boolean).map(n => parseInt(n, 10));
+		let catatan = digits.split('').filter(Boolean).map(n => parseInt(n, 10));
+		// Khusus BGN: abaikan catatan implementasi nomor 3 (tidak digunakan)
+		if ((jenis || selectJenis?.value) === 'BGN') {
+			catatan = catatan.filter(no => no !== 3);
+		}
 		hasil.push({ index: elemen, kategori: huruf.toLowerCase(), catatan });
 		elemen++;
 	}
@@ -161,7 +204,7 @@ function renderCatatanGlobal() {
 	if (!wrap || !list) return;
 	const entry = getEntryImplementasi();
 	if (!entry || !entry.implementasi) { wrap.hidden = true; list.innerHTML = ''; return; }
-	const parsed = parseImplementasiString(entry.implementasi);
+	const parsed = parseImplementasiString(entry.implementasi, selectJenis ? selectJenis.value : undefined);
 
 	parsed.forEach(p => { stateImplementasi.kategoriElemen[p.index] = p.kategori; });
 	const daftarCatatan = buildCatatanGlobalList(parsed);
@@ -192,7 +235,7 @@ function resetDanIsiCatatanGlobalRelevant() {
 		return;
 	}
 
-	const parsed = parseImplementasiString(entry.implementasi);
+	const parsed = parseImplementasiString(entry.implementasi, selectJenis ? selectJenis.value : undefined);
 	const daftarRelevant = buildCatatanGlobalList(parsed);
 
 	const catatanBaru = {};
@@ -218,7 +261,7 @@ function renderImplementasi() {
 			let tampil = false;
 			if (entry && entry.implementasi) {
 				try {
-					const parsed = parseImplementasiString(entry.implementasi);
+					const parsed = parseImplementasiString(entry.implementasi, selectJenis ? selectJenis.value : undefined);
 					const daftarCatatan = buildCatatanGlobalList(parsed);
 					tampil = Array.isArray(daftarCatatan) && daftarCatatan.length > 0;
 				} catch (_) { tampil = false; }
@@ -236,7 +279,7 @@ function perbaruiBadgeElemenF() {
 		paramF.querySelectorAll('.pc-kriteria [data-elemen]').forEach(b => { b.classList.remove('f-elemen-w', 'f-elemen-d'); b.classList.add('f-elemen-s'); b.textContent = 'Sukarela (faktor pengali: 1.0)'; b.setAttribute('title', 'Elemen – Sukarela, faktor pengali: 1.0'); });
 		return;
 	}
-	const parsed = parseImplementasiString(entry.implementasi);
+	const parsed = parseImplementasiString(entry.implementasi, selectJenis ? selectJenis.value : undefined);
 
 	const jenisNow = selectJenis ? selectJenis.value : '';
 	const klasNow = selectKlasifikasi ? selectKlasifikasi.value : '';
@@ -1105,27 +1148,16 @@ function renderIsiParameter(section) {
 						// Helper: format contoh jadi <ul><li>...</li></ul> dengan jumlah fleksibel sesuai kebutuhan
 						const formatContohList = (s) => {
 							if (isEmpty(s)) return '';
-							// pisah pada ; atau , dan baris baru
-							const parts = String(s).split(/[,;\n]/).map(v => v.trim()).filter(Boolean);
+							// Pisahkan hanya pada tanda titik koma (;)
+							const parts = String(s).split(';').map(v => v.trim()).filter(Boolean);
 							// buang placeholder umum yang tak berguna
 							const blacklist = new Set(['-', 'tidak ada', 'n/a', 'na']);
 							const uniq = Array.from(new Set(parts)).filter(v => !blacklist.has(v.toLowerCase()));
 							if (!uniq.length) return '';
 							return '<ul>' + uniq.map(v => `<li>${v}</li>`).join('') + '</ul>';
 						};
-						// Gabungkan contoh awal dengan saran berbasis regulasi lalu deduplikasi
-						const tambahanReg = __saranDokumenRegulasi(kriteria.nama || '', judulInd);
-						let gabungContoh = [];
-						if (contohRaw && String(contohRaw).trim()) {
-							gabungContoh = gabungContoh.concat(String(contohRaw).split(/[,;\n]/).map(v => v.trim()).filter(Boolean));
-						}
-						if (Array.isArray(tambahanReg) && tambahanReg.length) gabungContoh = gabungContoh.concat(tambahanReg);
-						// dedup case-insensitive
-						const seen = new Set();
-						const contohGabung = gabungContoh.filter(x => {
-							const k = x.toLowerCase(); if (seen.has(k)) return false; seen.add(k); return true;
-						}).join('; ');
-						const contohListHTML = formatContohList(contohGabung);
+						// Tampilkan hanya contoh dari dataset (tabel.js), tanpa saran otomatis
+						const contohListHTML = formatContohList(contohRaw);
 
 						const penjelasan = isEmpty(penjelasanRaw) ? '' : penjelasanRaw;
 						let isi = '';
@@ -1198,7 +1230,40 @@ function pasangLazyHydration() {
 	sections.forEach(sec => {
 		const sum = sec.querySelector('summary');
 		if (!sum) return;
+		// Hydrate on first interaction
 		sum.addEventListener('click', () => { renderIsiParameter(sec); }, { passive: true });
+		// Animate open/close instead of abrupt toggle
+		sum.addEventListener('click', (e) => {
+			e.preventDefault();
+			const details = sec; // <details>
+			const kont = details.querySelector('.daftar-kriteria');
+			if (!kont) { details.open = !details.open; return; }
+			const akanBuka = !details.open;
+			try { renderIsiParameter(details); } catch(_){}
+			requestAnimationFrame(() => {
+				const startH = akanBuka ? 0 : kont.scrollHeight;
+				if (akanBuka) details.open = true;
+				// Measure target height
+				kont.style.height = 'auto';
+				const targetH = akanBuka ? kont.scrollHeight : 0;
+				// Prepare and animate
+				kont.classList.add('animating');
+				kont.style.height = startH + 'px';
+				kont.style.opacity = akanBuka ? '0' : '1';
+				requestAnimationFrame(() => {
+					kont.style.height = targetH + 'px';
+					kont.style.opacity = akanBuka ? '1' : '0';
+				});
+				const selesai = () => {
+					kont.classList.remove('animating');
+					kont.style.height = '';
+					kont.style.opacity = '';
+					if (!akanBuka) details.open = false;
+					kont.removeEventListener('transitionend', selesai);
+				};
+				kont.addEventListener('transitionend', selesai);
+			});
+		});
 	});
 }
 
@@ -1229,23 +1294,28 @@ function pasangNavParameter() {
 	const chipRingkasan = nav.querySelector('.chip[data-scroll-target="#judul-ringkasan"]');
 	let headerAktif = false; // jika true, abaikan penandaan aktif di chip parameter
 
+	// Scroll handler for header chips with data-scroll-target
 	chips.forEach(c => {
 		const t = c.getAttribute('data-scroll-target');
-		if (t) {
-			c.addEventListener('click', () => {
-				const el = document.querySelector(t);
-				if (!el) return;
-				try {
-					el.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
-				} catch (_) {
-					const appBar = document.querySelector('.app-bar');
-					const headerH = appBar ? appBar.getBoundingClientRect().height : 60;
-					const extra = 20;
-					const y = el.getBoundingClientRect().top + window.scrollY - (headerH + extra);
-					window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
-				}
-			}, { passive: true });
-		}
+		if (!t) return;
+		c.addEventListener('click', () => {
+			const el = document.querySelector(t);
+			if (!el) return;
+			// Immediately reflect active state for header chips
+			if (t === '#judul-data-bangunan') { setAktifHeader('data'); headerAktif = true; }
+			else if (t === '#judul-ringkasan') { setAktifHeader('ringkasan'); headerAktif = true; }
+			try {
+				// Prefer precise scroll with header offset
+				const appBar = document.querySelector('.app-bar');
+				const headerH = appBar ? appBar.getBoundingClientRect().height : 78;
+				const extraGap = 12;
+				const y = el.getBoundingClientRect().top + window.scrollY - (headerH + extraGap);
+				window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+			} catch(_) {
+				try { el.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' }); } catch(_) {}
+			}
+			try { updateStickyVisibility && updateStickyVisibility(); } catch(_) {}
+		}, { passive: true });
 	});
 
 	const keSection = (kode) => sections.find(s => s.dataset.param === kode);
@@ -1318,14 +1388,7 @@ function pasangNavParameter() {
 			if (adaTampil) tampilkanNama(k);
 		}
 		// Toggle sticky rekap: tampil hanya saat parameter A–F terlihat.
-		try {
-			const judulData = document.getElementById('judul-data-bangunan');
-			const judulRingkasan = document.getElementById('judul-ringkasan');
-			const dataInView = !!(judulData && rectIsInViewport(judulData));
-			const ringkasanInView = !!(judulRingkasan && rectIsInViewport(judulRingkasan));
-			const show = !dataInView && !ringkasanInView;
-			if (rekapSticky) rekapSticky.hidden = !show;
-		} catch (_) {}
+		try { if (typeof updateStickyVisibility === 'function') updateStickyVisibility(); } catch (_) {}
 	}, { rootMargin: '-40% 0px -55% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] });
 	sections.forEach(s => obs.observe(s));
 
@@ -1402,6 +1465,62 @@ function rectIsInViewport(el) {
 	} catch (_) { return false; }
 }
 
+// ==== Sticky rekap visibility based on viewport edge intersection ====
+function _isParamAtPoint(x, y) {
+	try {
+		const arr = (document.elementsFromPoint ? document.elementsFromPoint(x, y) : [document.elementFromPoint(x, y)].filter(Boolean)) || [];
+		for (const el of arr) {
+			if (!el) continue;
+			// Skip overlays and own sticky
+			if (el.id === 'rekap-sticky' || (el.closest && el.closest('#rekap-sticky'))) continue;
+			if (el.closest && el.closest('.param-nav')) continue;
+			if (el.closest && el.closest('header.app-bar')) continue;
+			if (el.closest && el.closest('.modal-info, .modal-upload')) continue;
+			if (el.closest && el.closest('.pc-parameter')) return true;
+			// Stop early if we hit main sections explicitly non-parameter
+			if (el.closest && (el.closest('.data-bangunan') || el.closest('#judul-ringkasan'))) return false;
+		}
+	} catch (_) { }
+	return false;
+}
+
+function shouldShowStickyRekap() {
+	try {
+		const appBar = document.querySelector('.app-bar');
+		const headerH = appBar ? Math.ceil(appBar.getBoundingClientRect().height) : 0;
+		const w = window.innerWidth || document.documentElement.clientWidth || 800;
+		const vh = window.innerHeight || document.documentElement.clientHeight || 600;
+		const x = Math.max(10, Math.min(w - 10, Math.floor(w / 2)));
+		// Offsets: sample slightly below header and slightly above sticky area to be more permissive
+		const topOffset = Math.max(8, Math.floor(headerH + 12));
+		const stickyH = (rekapSticky && !rekapSticky.hidden) ? Math.ceil(rekapSticky.getBoundingClientRect().height) : 0;
+		const bottomOffset = Math.max(10, stickyH + 14);
+		const topY = Math.min(vh - 2, Math.max(1, topOffset));
+		const bottomY = Math.max(1, vh - 1 - bottomOffset);
+		const topIsParam = _isParamAtPoint(x, topY);
+		const bottomIsParam = _isParamAtPoint(x, bottomY);
+		return topIsParam && bottomIsParam;
+	} catch (_) { return false; }
+}
+
+const updateStickyVisibility = buatThrottle(() => {
+	try {
+		if (!rekapSticky) return;
+		const should = shouldShowStickyRekap();
+		if (should) {
+			rekapSticky.hidden = false;
+			rekapSticky.classList.add('tampak');
+		} else {
+			rekapSticky.classList.remove('tampak');
+			clearTimeout(rekapSticky.__hideTid);
+			rekapSticky.__hideTid = setTimeout(() => { rekapSticky.hidden = true; }, 260);
+		}
+	} catch (_) {}
+}, 120);
+
+window.addEventListener('scroll', () => { try { updateStickyVisibility(); } catch(_) {} }, { passive: true });
+window.addEventListener('resize', () => { try { updateStickyVisibility(); } catch(_) {} });
+
 // Mode Ringkas: tampilkan hanya indikator yang belum terisi
 (function setupModeRingkas() {
 	if (!btnRingkas) return;
@@ -1418,13 +1537,51 @@ function rectIsInViewport(el) {
 		const nextVal = !(App && App.state && App.state.modeRingkas);
 		App.setState({ modeRingkas: nextVal }, true);
 		applyPressed(nextVal);
-		// Re-render checklist agar filter diterapkan
+		// Terapkan filter animasi tanpa membuka section tertutup
 		try {
 			const root = document.getElementById('parameter-checklist');
-			if (root) { root.removeAttribute('data-rendered'); root.dataset.rendered = ''; }
-			if (root) root.innerHTML = '';
-			renderChecklist();
-			Array.from(document.querySelectorAll('.pc-parameter')).forEach(sec => { try { sec.open = true; } catch(_){} });
+			if (!root) return;
+			root.classList.toggle('ringkas-aktif', nextVal);
+			// Pastikan isi ter-hydrate agar status indikator bisa dievaluasi, tapi jangan ubah open state
+			const terbukaMap = new Map();
+			Array.from(document.querySelectorAll('.pc-parameter')).forEach(sec => {
+				terbukaMap.set(sec, !!sec.open);
+				renderIsiParameter(sec);
+			});
+			// Kembalikan state open sesuai sebelumnya
+			terbukaMap.forEach((wasOpen, sec) => { try { sec.open = wasOpen; } catch(_){} });
+
+			// Terapkan kelas sembunyi/muncul
+			Array.from(root.querySelectorAll('.pc-parameter')).forEach(sec => {
+				const kode = sec.getAttribute('data-param');
+				const data = penilaian[kode];
+				if (!data) return;
+				const klistas = sec.querySelectorAll('.pc-kriteria');
+				klistas.forEach((wrapK, idxK) => {
+					const kriteria = (data.kriteriaUnjukKerja || [])[idxK];
+					if (!kriteria) return;
+					wrapK.querySelectorAll('.indikator-item').forEach(item => {
+						const key = item.dataset.indikatorKey;
+						const detail = kriteria.indikator[key];
+						let terisi = false;
+						if (detail && detail.tipe === 'checkbox') {
+							const inp = item.querySelector('input[type=checkbox]');
+							terisi = !!(inp && inp.checked);
+						} else if (detail && detail.tipe === 'radio') {
+							terisi = !!item.querySelector('input[type=radio]:checked');
+						}
+						if (nextVal && terisi) {
+							item.classList.add('sembunyi-ringkas');
+							item.classList.remove('muncul-ringkas');
+						} else {
+							const wasHidden = item.classList.contains('sembunyi-ringkas');
+							item.classList.remove('sembunyi-ringkas');
+							if (wasHidden) item.classList.add('muncul-ringkas');
+							setTimeout(() => item.classList.remove('muncul-ringkas'), 260);
+						}
+					});
+				});
+			});
 		} catch (_) {}
 	});
 })();
@@ -1764,6 +1921,7 @@ function perbaruiRingkasan() {
 				rekapProgressEl.value = val;
 				rekapProgressEl.setAttribute('aria-valuenow', String(val));
 			}
+			try { updateStickyVisibility && updateStickyVisibility(); } catch(_) {}
 		} catch (_) {}
 	}
 }
@@ -1899,7 +2057,7 @@ function snapshotState() {
 				if (!jenisNow || !klasNow) return {};
 				const entry = getEntryImplementasi();
 				if (!entry || !entry.implementasi) return {};
-				const parsed = parseImplementasiString(entry.implementasi);
+				const parsed = parseImplementasiString(entry.implementasi, jenisNow);
 				const daftarRelevant = buildCatatanGlobalList(parsed);
 				const nomorRelevant = new Set(daftarRelevant.map(c => c.no.toString()));
 				const hasil = {};
@@ -2635,11 +2793,29 @@ function resetSemua() {
 	try { perbaruiRingkasan(); } catch (_) {}
 	try { perbaruiJudulHalaman(); } catch (_) {}
 
+	// Matikan Mode Ringkas sepenuhnya (state + UI)
+	try {
+		// Update tombol (header chip)
+		if (btnRingkas) {
+			btnRingkas.setAttribute('aria-pressed', 'false');
+			btnRingkas.classList.remove('aktif');
+			btnRingkas.title = 'Mode Ringkas: tampilkan hanya indikator yang belum terisi';
+		}
+		// Hapus kelas filter pada konten
+		const root = document.getElementById('parameter-checklist');
+		if (root) {
+			root.classList.remove('ringkas-aktif');
+			root.querySelectorAll('.sembunyi-ringkas').forEach(el => el.classList.remove('sembunyi-ringkas'));
+			root.querySelectorAll('.muncul-ringkas').forEach(el => el.classList.remove('muncul-ringkas'));
+		}
+	} catch (_) {}
+
 	try {
 		App.setState({
 			bangunan: { jenis: '', klasifikasi: '' },
 			checklist: {},
-			implementasi: { catatanGlobal: {}, kategoriElemen: {} }
+			implementasi: { catatanGlobal: {}, kategoriElemen: {} },
+			modeRingkas: false
 		}, true);
 	} catch (_) {}
 }
