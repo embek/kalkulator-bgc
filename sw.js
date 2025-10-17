@@ -1,7 +1,7 @@
 // Simple offline-first service worker for Kalkulator BGC
 // Cache core assets and serve same-origin requests from cache first.
 
-const VERSION = 'v3';
+const VERSION = 'v4';
 const CACHE_STATIC = `bgc-static-${VERSION}`;
 const CACHE_RUNTIME = `bgc-runtime-${VERSION}`;
 const CACHE_FONTS = `bgc-fonts-${VERSION}`;

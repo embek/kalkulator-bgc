@@ -72,9 +72,7 @@ let stateChecklist = {};
 	function save(next, immediate = false) {
 		const data = buildPersistable(next);
 		autosave(data, immediate);
-		try { storageSet(KUNCI_WAKTU, Date.now().toString()); } catch (_) { }
 	}
-
 	function render(next) {
 		stateChecklist = next.checklist || {};
 		stateImplementasi = next.implementasi || { catatanGlobal: {}, kategoriElemen: {} };
@@ -306,7 +304,7 @@ document.addEventListener('change', (e) => {
 		...(App.state.implementasi || {}),
 		catatanGlobal: { ...(App.state.implementasi?.catatanGlobal || {}), [no]: !!t.checked }
 	};
-	App.setState({ implementasi: nextImpl });
+	App.setState({ implementasi: nextImpl }, true);
 }, { passive: true });
 function hapusChunked(kunciDasar) {
 	try {
@@ -369,10 +367,10 @@ let menuEkspor = document.getElementById('menu-ekspor');
 const btnImpor = document.getElementById('btn-impor');
 const fileImpor = document.getElementById('file-impor');
 const btnReset = document.getElementById('btn-reset');
+// Elemen global
 const selectJenis = document.getElementById('jenis-bangunan');
 const selectKlasifikasi = document.getElementById('klasifikasi-bangunan');
 const versiEl = document.getElementById('versi-aplikasi');
-// Ganti: tombol tema berada di sidebar sebagai chip dengan id #chip-tema
 const tombolTema = document.getElementById('chip-tema');
 const KUNCI_TEMA = 'bgc_tema';
 
@@ -401,8 +399,6 @@ class KalkulatorBGC {
 
 	static clamp(angka, min, max) { return Math.min(Math.max(angka, min), max); }
 
-	formatPersentase(nilai) { return (Math.round(nilai * 10) / 10).toFixed(1) + '%'; }
-
 	getMaksParameter(kode) {
 		const p = this.dataPenilaian[kode];
 		return p ? (p.maksPoinParameter || 0) : 0;
@@ -423,8 +419,6 @@ class KalkulatorBGC {
 	getNilai(kode) { return this.nilaiParameter[kode] || 0; }
 
 	getSemuaNilai() { return { ...this.nilaiParameter }; }
-
-	hitungTotal() { return Object.values(this.nilaiParameter).reduce((a, b) => a + b, 0); }
 
 	getFaktorPengali(jenis, klasifikasi) {
 		if (!jenis || !klasifikasi || typeof pengali !== 'object') return null;
@@ -455,16 +449,6 @@ class KalkulatorBGC {
 				if (fallback.katergori) return fallback.katergori;
 			}
 			return null;
-	}
-
-	hitungTotalDenganPengali(jenis, klasifikasi) {
-		const faktor = this.getFaktorPengali(jenis, klasifikasi);
-		const total = this.hitungTotal();
-		if (!faktor) return { total, faktor: null, totalTerapkan: total };
-
-		const arr = ['w', 'd', 's'].map(k => parseFloat(faktor[k]) || 0);
-		const faktorRata = arr.reduce((a, b) => a + b, 0) / arr.length;
-		return { total, faktor, faktorRata, totalTerapkan: Math.round((total * faktorRata) * 100) / 100 };
 	}
 
 	validasiInput(kode, nilai) {
@@ -848,14 +832,14 @@ function pasangHandlerBangunan() {
 		hiddenJenis.value = rb.value;
 		hiddenKlas.value = '';
 		isiKlasifikasi(rb.value);
-		App.setState({ bangunan: { jenis: rb.value, klasifikasi: '' } });
+		App.setState({ bangunan: { jenis: rb.value, klasifikasi: '' } }, true);
 		try { perbaruiJudulHalaman(); } catch (_) {}
 	});
 	if (klasGroup) klasGroup.addEventListener('change', () => {
 		const rb = klasGroup.querySelector('input[type=radio][name="__klas_rb"]:checked');
 		const hiddenKlas2 = document.getElementById('klasifikasi-bangunan');
 		if (rb && hiddenKlas2) hiddenKlas2.value = rb.value;
-		App.setState({ bangunan: { jenis: hiddenJenis.value || App.state.bangunan.jenis, klasifikasi: rb ? rb.value : '' } });
+		App.setState({ bangunan: { jenis: hiddenJenis.value || App.state.bangunan.jenis, klasifikasi: rb ? rb.value : '' } }, true);
 		try { perbaruiJudulHalaman(); } catch (_) {}
 	});
 
@@ -863,7 +847,7 @@ function pasangHandlerBangunan() {
 		['input', 'change'].forEach(ev => {
 			hiddenJenis.addEventListener(ev, () => {
 				try { isiKlasifikasi(hiddenJenis.value); } catch (_) { }
-				App.setState({ bangunan: { jenis: hiddenJenis.value, klasifikasi: '' } });
+				App.setState({ bangunan: { jenis: hiddenJenis.value, klasifikasi: '' } }, true);
 				try { perbaruiJudulHalaman(); } catch (_) {}
 			}, { passive: true });
 		});
@@ -872,7 +856,7 @@ function pasangHandlerBangunan() {
 	if (hiddenKlas && !hiddenKlas.dataset.listener) {
 		['input', 'change'].forEach(ev => {
 			hiddenKlas.addEventListener(ev, () => {
-				App.setState({ bangunan: { jenis: hiddenJenis.value || App.state.bangunan.jenis, klasifikasi: hiddenKlas.value } });
+				App.setState({ bangunan: { jenis: hiddenJenis.value || App.state.bangunan.jenis, klasifikasi: hiddenKlas.value } }, true);
 				try { perbaruiJudulHalaman(); } catch (_) {}
 			}, { passive: true });
 		});
@@ -1663,8 +1647,8 @@ function handleChecklistInput(e) {
 
 	Object.keys(stateChecklist[kode][idxK]).length === 0 && delete stateChecklist[kode][idxK];
 	if (Object.keys(stateChecklist[kode]).length === 0) delete stateChecklist[kode];
-	hitungDariChecklist();
-	simpanLocal(false);
+	// Persist first (immediate) so storage is updated before UI re-render
+	try { App.setState({ checklist: { ...stateChecklist } }, true); } catch (_) { }
 }
 
 function pasangChecklistListeners() {
@@ -2188,7 +2172,6 @@ function eksporCSV() {
 		const klasNow = selectKlasifikasi ? selectKlasifikasi.value : '';
 		const header = ['Parameter', 'Kriteria Index', 'Indikator', 'Tipe', 'Pilihan/Checked', 'Poin Dasar', 'Multiplier(F)', 'Poin Akhir'];
 		const rows = [toCSVRow(['Jenis', jenisNow]), toCSVRow(['Klasifikasi', klasNow]), '', toCSVRow(header)];
-		let total = 0;
 		const faktorKategori = kalkulator.getFaktorPengali(jenisNow, klasNow) || { w: 1, d: 1, s: 1 };
 		Object.entries(penilaian).forEach(([kode, dataParam]) => {
 			(dataParam.kriteriaUnjukKerja || []).forEach((kriteria, idxK) => {
@@ -2206,11 +2189,12 @@ function eksporCSV() {
 					} else if (detail.tipe === 'radio') {
 						pilihan = val; base = (detail.poin && (val in detail.poin)) ? (detail.poin[val] || 0) : 0; akhir = (kode === 'F') ? base * mult : base;
 					}
-					total += akhir;
 					rows.push(toCSVRow([kode, elemenIndex, indikatorKey, detail.tipe, pilihan, base, (kode === 'F') ? mult : '', akhir]));
 				});
 			});
 		});
+		// Gunakan perhitungan total yang sama dengan UI (sudah termasuk pembatasan per KUK & Parameter)
+		const total = hitungTotalSepertiCSV();
 		const maks = kalkulator.getTotalMaks();
 		const persen = maks > 0 ? (total / maks * 100) : 0;
 		rows.push('', toCSVRow(['Total Poin', total.toFixed(1)]), toCSVRow(['Poin Maks', maks]), toCSVRow(['Persentase', (Math.round(persen * 10) / 10).toFixed(1) + '%']));
